@@ -3,19 +3,24 @@ from rest_framework.response import Response
 from rest_framework.exceptions import AuthenticationFailed
 from .serializers import UserSerializer
 from django.contrib.auth import get_user_model
-from datetime import datetime, timedelta
-import jwt
+
+from .utils import encode_jwt, decode_jwt
 
 user_model = get_user_model()
 
 
+# TODO: Пересмотреть авторизацию по токенам!!!!
 class SignUpApiView(APIView):
 
     def post(self, request):
         serializer = UserSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         serializer.save()
-        return Response(serializer.data)
+
+        response = Response(serializer.data)
+        encode_jwt(user_id=serializer.data['id'], response=response)
+
+        return response
 
 
 class SignInApiView(APIView):
@@ -25,22 +30,16 @@ class SignInApiView(APIView):
         password = request.data['password']
 
         user = user_model.objects.filter(email=email).first()
+        serializer = UserSerializer(user)
 
         if user is None:
-            raise AuthenticationFailed('User not found. Please, Signup')
+            raise AuthenticationFailed('Пользователь не найден, пожалуйста зарегистрируйтесь')
 
         if not user.check_password(password):
-            raise AuthenticationFailed('Email or password is incorrect')
+            raise AuthenticationFailed('Email или пароль указаны неверно. Повторите попытку.')
 
-        payload = {
-            'id': user.id,
-            'exp': datetime.now() + timedelta(minutes=60),
-            'iat': datetime.now()
-        }
-        token = jwt.encode(payload, 'secret', algorithm='HS256')
-
-        response = Response()
-        response.set_cookie(key='jwt', value=token, httponly=True)
+        response = Response(serializer.data)
+        encode_jwt(user_id=user.id, response=response)
 
         return response
 
@@ -51,12 +50,11 @@ class UserApiView(APIView):
         if not token:
             raise AuthenticationFailed('Unauthenticated')
 
-        try:
-            payload = jwt.decode(token, 'secret', algorithms=['HS256'])
-        except jwt.ExpiredSignatureError:
-            raise AuthenticationFailed('Problem')
+        payload = decode_jwt(token)
 
         user = user_model.objects.filter(id=payload['id']).first()
+        if not user:
+            raise AuthenticationFailed('Что-то пошло не так. Перевойдите в систему.')
         serializer = UserSerializer(user)
 
         return Response(serializer.data)
