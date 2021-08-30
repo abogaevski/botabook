@@ -1,6 +1,7 @@
-from rest_framework import generics
+from rest_framework import generics, status
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
+from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework_simplejwt.views import TokenObtainPairView
 from django.contrib.auth import get_user_model
 
@@ -22,7 +23,7 @@ class SignUpApiView(generics.GenericAPIView):
         response = Response({
             'access': token['access'],
             'refresh': token['refresh'],
-            'user': serializer.data,
+            'data': serializer.data,
         })
 
         return response
@@ -33,17 +34,8 @@ class UserApiView(generics.GenericAPIView):
 
     def get(self, request):
         serializer = UserSerializer(request.user)
-        return Response({'user': serializer.data})
+        return Response({'data': serializer.data})
 
 
 class SigninTokenObtainPairView(TokenObtainPairView):
     serializer_class = SigninTokenObtainPairSerializer
-#
-# class SignOutApiView(APIView):
-#     def post(self, request):
-#         response = Response()
-#         response.delete_cookie('jwt')
-#         response.data = {
-#             'message': 'success'
-#         }
-#         return response

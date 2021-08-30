@@ -23,11 +23,15 @@ class UserSerializer(serializers.ModelSerializer):
 
 class SigninTokenObtainPairSerializer(TokenObtainPairSerializer):
 
+    default_error_messages = {
+        'no_active_account': 'Неправильное имя пользователя или пароль'
+    }
+
     def validate(self, attrs):
         data = super().validate(attrs)
         refresh = self.get_token(self.user)
         data['refresh'] = str(refresh)
         data['access'] = str(refresh.access_token)
 
-        data['user'] = UserSerializer(self.user).data
+        data['data'] = UserSerializer(self.user).data
         return data

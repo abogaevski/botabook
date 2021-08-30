@@ -6,6 +6,5 @@ urlpatterns = [
     path('signup', SignUpApiView.as_view(), name='signup_view_url'),
     path('signin', SigninTokenObtainPairView.as_view(), name='signin_token_obtain_pair_url'),
     path('token/refresh', jwt_views.TokenRefreshView.as_view(), name='token_refresh'),
-    # path('signout', SignOutApiView.as_view())
     path('user', UserApiView.as_view()),
 ]
