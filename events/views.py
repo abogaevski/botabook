@@ -1,25 +1,35 @@
-# from rest_framework.views import APIView
-from rest_framework.response import Response
+from rest_framework import generics
+from rest_framework.generics import get_object_or_404
+from rest_framework.permissions import IsAuthenticated
+
+from core.permissions import IsOwnerOrSuperuser
 from .models import Event
 from .serializers import EventSerializer
-from rest_framework import mixins
-from rest_framework import generics
 
 
-class RetrieveEventApiView(mixins.ListModelMixin,
-                           mixins.CreateModelMixin,
-                           generics.GenericAPIView):
+class EventListApiView(generics.ListAPIView):
+    serializer_class = EventSerializer
+    permission_classes = [IsAuthenticated]
 
-    queryset = Event.objects.all()
+    def get_queryset(self):
+        user = self.request.user
+        return Event.objects.filter(user=user)
+
+
+class EventCreateApiView(generics.CreateAPIView):
+    serializer_class = EventSerializer
+    permission_classes = [IsAuthenticated]
+
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
+
+
+class EventRetrieveApiView(generics.RetrieveUpdateDestroyAPIView):
+    permission_classes = [IsAuthenticated]
     serializer_class = EventSerializer
 
-    def get(self, request, *args, **kwargs):
-        return self.list(request, *args, **kwargs)
+    def get_queryset(self):
+        user = self.request.user
+        return Event.objects.filter(user=user)
 
-    def post(self, request, *args, **kwargs):
-        return self.create(request, *args, **kwargs)
 
-    # def get(self, request):
-    #     events = Event.objects.all()
-    #     serializer = EventSerializer(events, many=True)
-    #     return Response(serializer.data)
