@@ -9,8 +9,10 @@ class User(AbstractUser):
         unique=True
     )
     username = None
+    first_name = models.CharField(_('first name'), max_length=150)
+    last_name = models.CharField(_('last name'), max_length=150)
 
-    REQUIRED_FIELDS = []
+    REQUIRED_FIELDS = ['first_name', 'last_name']
     USERNAME_FIELD = 'email'
 
     class Meta:

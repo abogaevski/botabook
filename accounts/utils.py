@@ -1,23 +1,9 @@
-from datetime import datetime, timedelta
-import jwt
-from rest_framework.exceptions import AuthenticationFailed
+from rest_framework_simplejwt.tokens import RefreshToken
 
 
-def encode_jwt(user_id, response):
-    payload = {
-        'id': user_id,
-        'exp': datetime.now() + timedelta(minutes=60),
-        'iat': datetime.now()
+def get_tokens_for_user(user):
+    refresh = RefreshToken.for_user(user)
+    return {
+        'refresh': str(refresh),
+        'access': str(refresh.access_token),
     }
-    token = jwt.encode(payload, 'secret', algorithm='HS256')
-    response.set_cookie(key='jwt', value=token, httponly=True)
-    return response
-
-
-def decode_jwt(token):
-    try:
-        payload = jwt.decode(token, 'secret', algorithms=['HS256'])
-    except jwt.ExpiredSignatureError:
-        raise AuthenticationFailed('Problem')
-
-    return payload
