@@ -1,3 +1,4 @@
+from django.contrib.auth import get_user_model
 from django.db import models
 
 
@@ -7,13 +8,17 @@ class Event(models.Model):
         verbose_name_plural = 'Встречи'
         db_table = 'events'
 
-    title = models.CharField(
-        max_length=255,
+    user = models.ForeignKey(
+        get_user_model(),
+        on_delete=models.CASCADE,
+        related_name='events',
+        blank=True,
+        null=True
     )
-    start = models.DateTimeField()
-    end = models.DateTimeField()
-    all_day = models.BooleanField(default=False)
-
+    title = models.CharField('Тема встречи', max_length=255)
+    start = models.DateTimeField('Начинается', )
+    end = models.DateTimeField('Заканчивается')
+    all_day = models.BooleanField('Весь день', default=False)
     created_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):

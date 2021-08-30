@@ -18,5 +18,5 @@ class User(AbstractUser):
     class Meta:
         verbose_name = _('user')
         verbose_name_plural = _('users')
-        db_table = 'accounts_user'
+        db_table = 'users'
         swappable = 'AUTH_USER_MODEL'
