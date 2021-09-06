@@ -4,7 +4,7 @@
 
       <div class="d-flex align-items-stretch justify-content-between flex-lg-grow-1">
         <div class="d-flex align-items-center">
-          <PageTitle></PageTitle>
+<!--          <PageTitle></PageTitle>-->
         </div>
       </div>
       <div class="d-flex align-items-stretch flex-shrink-0">
@@ -18,12 +18,12 @@
 
 <script>
 import TopBar from '@/layout/header/Topbar.vue';
-import PageTitle from '../page-title/PageTitle.vue';
+// import PageTitle from '../page-title/PageTitle.vue';
 
 export default {
   components: {
     TopBar,
-    PageTitle
+    // PageTitle
   }
 }
 </script>

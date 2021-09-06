@@ -42,6 +42,11 @@ export default {
           to: 'calendar',
           title: 'Календарь',
           iconUrl: 'media/icons/duotone/Design/PenAndRuller.svg'
+        },
+        {
+          to: 'profile',
+          title: 'Профиль',
+          iconUrl: 'media/icons/duotone/General/User.svg'
         }
       ]
     }
