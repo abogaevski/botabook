@@ -5,7 +5,7 @@
       <div class="card-toolbar">
         <button class="btn btn-flex btn-primary">
           <span class="svg-icon svg-icon-2">
-            <inline-svg src="media/icons/duotone/Navigation/Plus.svg"></inline-svg>
+            <inline-svg src="/media/icons/duotone/Navigation/Plus.svg"></inline-svg>
           </span>
           Добавить событие
         </button>

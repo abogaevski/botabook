@@ -1,7 +1,7 @@
 <template>
   <div class="aside aside-hoverable aside-light">
     <div class="aside-logo flex-column-auto">
-      <img src="media/logos/logo-full.svg" class="h-45px logo" alt="">
+      <img src="/media/logos/logo-full.svg" class="h-45px logo" alt="">
     </div>
 
     <div class="aside-menu flex-column-fluid">

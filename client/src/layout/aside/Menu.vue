@@ -34,19 +34,19 @@ export default {
     return {
       menuItems: [
         {
-          to: 'dashboard',
+          to: '/dashboard',
           title: 'Дашборд',
-          iconUrl: 'media/icons/duotone/Interface/Calendar.svg'
+          iconUrl: '/media/icons/duotone/Interface/Calendar.svg'
         },
         {
-          to: 'calendar',
+          to: '/calendar',
           title: 'Календарь',
-          iconUrl: 'media/icons/duotone/Design/PenAndRuller.svg'
+          iconUrl: '/media/icons/duotone/Design/PenAndRuller.svg'
         },
         {
-          to: 'profile',
+          to: '/profile',
           title: 'Профиль',
-          iconUrl: 'media/icons/duotone/General/User.svg'
+          iconUrl: '/media/icons/duotone/General/User.svg'
         }
       ]
     }

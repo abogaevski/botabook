@@ -7,7 +7,7 @@
         <bt-button
           @click:btn="onAddEventButtonClick"
           btn-class="btn-primary btn-flex"
-          icon-url="media/icons/duotone/Navigation/Plus.svg"
+          icon-url="/media/icons/duotone/Navigation/Plus.svg"
           icon-class="svg-icon-2"
         >
           Добавить событие

@@ -3,6 +3,7 @@
 </template>
 
 <style lang="scss">
+@import "~bootstrap-icons/font/bootstrap-icons.css";
 @import "~element-plus/lib/theme-chalk/index.css";
 @import '~flatpickr/dist/flatpickr.css';
 @import "~sweetalert2/dist/sweetalert2.css";

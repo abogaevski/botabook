@@ -6,7 +6,7 @@
     <div class="menu-item px-3">
       <div class="menu-content d-flex align-items-center px-3">
         <div class="symbol symbol-50px me-5">
-          <img alt="Logo" src="media/avatars/blank.png" />
+          <img alt="Logo" src="/media/avatars/blank.png" />
         </div>
         <div class="d-flex flex-column">
           <div class="fw-bolder d-flex align-items-center fs-5">

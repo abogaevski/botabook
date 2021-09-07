@@ -1,11 +1,11 @@
 <template>
   <div
     class="d-flex flex-column flex-column-fluid bgi-position-y-bottom position-x-center bgi-no-repeat bgi-size-contain bgi-attachment-fixed"
-    style="background-image: url('media/illustrations/progress-hd.png')"
+    style="background-image: url('/media/illustrations/progress-hd.png')"
   >
     <div class="d-flex flex-center flex-column flex-column-fluid p-10 pb-lg-20">
       <div class="mb-12">
-        <img alt="Logo" src="media/logos/logo-full.svg" class="h-75px"/>
+        <img alt="Logo" src="/media/logos/logo-full.svg" class="h-75px"/>
       </div>
       <div class="bg-white rounded shadow-sm p-10 p-lg-15 mx-auto">
         <Form

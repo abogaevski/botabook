@@ -6,26 +6,26 @@
             btn-class="btn-icon btn-sm btn-active-icon-primary"
             @click:btn="editEvent"
             icon-class="svg-icon-2"
-            icon-url="media/icons/duotone/General/Edit.svg"
+            icon-url="/media/icons/duotone/General/Edit.svg"
           ></bt-button>
           <bt-button
             btn-class="btn-icon btn-sm btn-active-icon-primary"
             @click:btn="deleteEventHandler"
             icon-class="svg-icon-1"
-            icon-url="media/icons/duotone/General/Trash.svg"
+            icon-url="/media/icons/duotone/General/Trash.svg"
           ></bt-button>
           <bt-button
             btn-class="btn-icon btn-sm btn-active-icon-primary"
             @click:btn="close"
             icon-class="svg-icon-1"
-            icon-url="media/icons/duotone/Navigation/Close.svg"
+            icon-url="/media/icons/duotone/Navigation/Close.svg"
           ></bt-button>
         </div>
 
         <div class="modal-body pt-0 pb-20 px-lg-17">
             <div class="d-flex">
               <span class="svg-icon svg-icon-1 svg-icon-muted me-5">
-                <inline-svg src="media/icons/duotone/Interface/Calendar.svg"></inline-svg>
+                <inline-svg src="/media/icons/duotone/Interface/Calendar.svg"></inline-svg>
               </span>
               <div class="mb-9">
                 <div class="d-flex align-items-center mb-2">
@@ -38,7 +38,7 @@
             </div>
             <div class="d-flex align-items-center mb-2">
               <span class="svg-icon svg-icon-1 svg-icon-success me-5">
-                <inline-svg src="media/icons/duotone/Design/Circle.svg"></inline-svg>
+                <inline-svg src="/media/icons/duotone/Design/Circle.svg"></inline-svg>
               </span>
               <div class="fs-6">
                 <span class="fw-bolder">Начинается:</span>
@@ -48,7 +48,7 @@
 
             <div class="d-flex align-items-center mb-9">
               <span class="svg-icon svg-icon-1 svg-icon-danger me-5">
-                <inline-svg src="media/icons/duotone/Design/Circle.svg"></inline-svg>
+                <inline-svg src="/media/icons/duotone/Design/Circle.svg"></inline-svg>
               </span>
               <div class="fs-6">
                 <span class="fw-bolder">Заканчивается:</span>

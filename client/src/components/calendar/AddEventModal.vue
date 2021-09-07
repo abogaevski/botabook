@@ -14,7 +14,7 @@
             btn-class="btn-icon btn-sm btn-active-icon-primary"
             @click:btn="close"
             icon-class="svg-icon-1"
-            icon-url="media/icons/duotone/Navigation/Close.svg"
+            icon-url="/media/icons/duotone/Navigation/Close.svg"
           ></bt-button>
         </div>
 
