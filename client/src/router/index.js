@@ -9,7 +9,6 @@ const routes = [
       {
         path: '/calendar',
         name: 'calendar',
-        meta: { requiresAuth: true },
         component: () => import('@/views/calendar/Calendar.vue')
       },
       {
@@ -20,7 +19,19 @@ const routes = [
       {
         path: '/profile',
         name: 'profile',
-        component: () => import('@/views/profile/ViewProfile.vue')
+        component: () => import('@/views/profile/Profile.vue'),
+        children: [
+          {
+            path: 'overview',
+            name: 'profile-overview',
+            component: () => import('@/views/profile/ProfileOverview.vue')
+          },
+          {
+            path: 'settings',
+            name: 'profile-settings',
+            component: () => import('@/views/profile/ProfileSettings.vue')
+          }
+        ]
       }
     ]
   },
