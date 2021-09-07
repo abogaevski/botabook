@@ -32,6 +32,11 @@ const routes = [
             component: () => import('@/views/profile/ProfileSettings.vue')
           }
         ]
+      },
+      {
+        path: '/customer/list',
+        name: 'customers-table',
+        component: () => import('@/views/customer/CustomerListTable.vue')
       }
     ]
   },

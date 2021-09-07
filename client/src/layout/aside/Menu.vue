@@ -47,6 +47,11 @@ export default {
           to: '/profile',
           title: 'Профиль',
           iconUrl: '/media/icons/duotone/General/User.svg'
+        },
+        {
+          to: '/customer/list',
+          title: 'Клиенты',
+          iconUrl: '/media/icons/duotone/Communication/Group.svg'
         }
       ]
     }
