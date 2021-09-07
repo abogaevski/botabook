@@ -12,7 +12,7 @@
 	}
 
 	// Page title
-	.container .page-title[data-kt-swapper='true'] {
+	.container .page-title[data-bb-swapper='true'] {
 		display: none !important;
 	}
 
@@ -27,7 +27,7 @@
 		}
 
 		// Aside default enabled, aside fixed and aside minimize modes
-		.aside-enabled.aside-fixed[data-kt-aside-minimize="on"] & {
+		.aside-enabled.aside-fixed[data-bb-aside-minimize="on"] & {
 			transition: padding-left get($aside-config, transition-speed) ease;
 			padding-left: get($aside-config, minimized-width);
 		}
@@ -39,7 +39,7 @@
 
 		// Fixed header & fixed toolbar modes
 		.header-fixed.toolbar-fixed & {
-			padding-top: calc(#{get($header-config, fixed, height, desktop)} + var(--kt-toolbar-height));
+			padding-top: calc(#{get($header-config, fixed, height, desktop)} + var(--bb-toolbar-height));
 		}
 	}
 }
@@ -54,7 +54,7 @@
 	}
 
 	// Page title
-	.container .page-title[data-kt-swapper='true'] {
+	.container .page-title[data-bb-swapper='true'] {
 		display: flex !important;
 	}
 
@@ -67,7 +67,7 @@
 
 		// Fixed header & fixed toolbar modes
 		.header-tablet-and-mobile-fixed.toolbar-tablet-and-mobile-fixed & {
-			padding-top: calc(#{get($header-config, fixed, height, tablet-and-mobile)} + var(--kt-toolbar-height-tablet-and-mobile));
+			padding-top: calc(#{get($header-config, fixed, height, tablet-and-mobile)} + var(--bb-toolbar-height-tablet-and-mobile));
 		}
 	}
 }

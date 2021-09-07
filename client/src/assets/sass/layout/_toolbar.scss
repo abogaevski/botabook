@@ -7,15 +7,15 @@
     .toolbar {
         display: flex;
         align-items: center;
-        
+
         // Fixed toolbar
         .toolbar-fixed & {
-			height: var(--kt-toolbar-height);
+			height: var(--bb-toolbar-height);
       	    position: fixed;
 			top: 0;
 			right: 0;
 			left: 0;
-			z-index: get($toolbar-config, fixed, z-index);			
+			z-index: get($toolbar-config, fixed, z-index);
 			background-color: get($toolbar-config, fixed, bg-color);
             box-shadow: get($toolbar-config, fixed, box-shadow);
         }
@@ -38,7 +38,7 @@
 		}
 
 		// Aside default enabled, aside fixed, header sticky & aside minimize modes
-		.aside-enabled.aside-fixed.toolbar-fixed[data-kt-aside-minimize="on"] & {
+		.aside-enabled.aside-fixed.toolbar-fixed[data-bb-aside-minimize="on"] & {
 			left: get($aside-config, minimized-width);
 			transition: left get($aside-config, transition-speed) ease;
 		}
@@ -50,10 +50,10 @@
     .toolbar {
         display: flex;
         align-items: center;
-        
+
         // Fixed toolbar mode
         .toolbar-tablet-and-mobile-fixed & {
-			height: var(--kt-toolbar-height-tablet-and-mobile);
+			height: var(--bb-toolbar-height-tablet-and-mobile);
             position: fixed;
             top: 0;
             right: 0;

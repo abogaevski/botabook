@@ -26,6 +26,7 @@ module.exports = {
     'class-methods-use-this': 'off',
     'no-param-reassign': ['error', { 'props': false }],
     'object-curly-newline': 'off',
-    'no-underscore-dangle': 'off'
+    'no-underscore-dangle': 'off',
+    'consistent-return': 'off'
   },
 };

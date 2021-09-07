@@ -5,8 +5,8 @@
 // Base
 .stepper {
 	// Content
-	[data-kt-stepper-element="info"],
-	[data-kt-stepper-element="content"] {
+	[data-bb-stepper-element="info"],
+	[data-bb-stepper-element="content"] {
 		display: none;
 
 		&.current {
@@ -15,63 +15,63 @@
 	}
 
 	// Enable cursor pointer on clickable steppers
-	.stepper-item[data-kt-stepper-action="step"] {
+	.stepper-item[data-bb-stepper-action="step"] {
 		cursor: pointer;
 	}
 
 	// States
 	& {
-		[data-kt-stepper-action="previous"] {
+		[data-bb-stepper-action="previous"] {
 			display: none;
 		}
 
-		[data-kt-stepper-action="next"] {
+		[data-bb-stepper-action="next"] {
 			display: inline-block;
 		}
 
-		[data-kt-stepper-action="submit"] {
+		[data-bb-stepper-action="submit"] {
 			display: none;
 		}
 	}
 
 	&.first {
-		[data-kt-stepper-action="previous"] {
+		[data-bb-stepper-action="previous"] {
 			display: none;
 		}
 
-		[data-kt-stepper-action="next"] {
+		[data-bb-stepper-action="next"] {
 			display: inline-block;
 		}
 
-		[data-kt-stepper-action="submit"] {
+		[data-bb-stepper-action="submit"] {
 			display: none;
 		}
 	}
 
 	&.between {
-		[data-kt-stepper-action="previous"] {
+		[data-bb-stepper-action="previous"] {
 			display: inline-block;
 		}
 
-		[data-kt-stepper-action="next"] {
+		[data-bb-stepper-action="next"] {
 			display: inline-block;
 		}
 
-		[data-kt-stepper-action="submit"] {
+		[data-bb-stepper-action="submit"] {
 			display: none;
 		}
 	}
 
 	&.last {
-		[data-kt-stepper-action="previous"] {
+		[data-bb-stepper-action="previous"] {
 			display: inline-block;
 		}
 
-		[data-kt-stepper-action="next"] {
+		[data-bb-stepper-action="next"] {
 			display: none;
 		}
 
-		[data-kt-stepper-action="submit"] {
+		[data-bb-stepper-action="submit"] {
 			display: inline-block;
 		}
 	}

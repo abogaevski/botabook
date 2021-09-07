@@ -27,7 +27,7 @@
                 ></div>
                 <label
                   class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-white shadow"
-                  data-kt-image-input-action="change"
+                  data-bb-image-input-action="change"
                   data-bs-toggle="tooltip"
                   title="Change avatar"
                 >
@@ -38,7 +38,7 @@
                 </label>
                 <span
                   class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-white shadow"
-                  data-kt-image-input-action="remove"
+                  data-bb-image-input-action="remove"
                   data-bs-toggle="tooltip"
                   @click="removeImage()"
                   title="Remove avatar"

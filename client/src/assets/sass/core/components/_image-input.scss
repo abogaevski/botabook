@@ -26,7 +26,7 @@
 	}
 
 	// Change Button
-	[data-kt-image-input-action="change"] {
+	[data-bb-image-input-action="change"] {
 		cursor: pointer;
 		position: absolute;
 		right: -10px;
@@ -41,32 +41,32 @@
 	}
 
 	// Cancel & Remove Buttons
-	[data-kt-image-input-action="cancel"],
-	[data-kt-image-input-action="remove"] {
+	[data-bb-image-input-action="cancel"],
+	[data-bb-image-input-action="remove"] {
 		position: absolute;
 		right: -10px;
 		bottom: -5px;
 	}
 
-	[data-kt-image-input-action="cancel"] {
+	[data-bb-image-input-action="cancel"] {
 		display: none;
 	}
 
 	// Input Changed State
 	&.image-input-changed {
-		[data-kt-image-input-action="cancel"] {
+		[data-bb-image-input-action="cancel"] {
 			display: flex;
 		}
 
-		[data-kt-image-input-action="remove"] {
+		[data-bb-image-input-action="remove"] {
 			display: none;
 		}
 	}
 
 	// Input Empty State
 	&.image-input-empty {
-		[data-kt-image-input-action="remove"],
-		[data-kt-image-input-action="cancel"] {
+		[data-bb-image-input-action="remove"],
+		[data-bb-image-input-action="cancel"] {
 			display: none;
 		}
 	}
