@@ -34,8 +34,6 @@ class ToggleComponent {
     const elementToggleAttr = this.element.getAttribute('data-bb-toggle-state')
     this.state = elementToggleAttr || ''
     this.attribute = `data-bb-${this.element.getAttribute('data-bb-toggle-name')}`
-    console.log(this.attribute)
-
     // Event Handlers
     this._handlers()
 

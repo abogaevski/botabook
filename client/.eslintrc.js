@@ -27,6 +27,9 @@ module.exports = {
     'no-param-reassign': ['error', { 'props': false }],
     'object-curly-newline': 'off',
     'no-underscore-dangle': 'off',
-    'consistent-return': 'off'
+    'consistent-return': 'off',
+    'no-plusplus': 'off',
+    'no-unused-expressions': 'off',
+    'import/extensions': 'off'
   },
 };

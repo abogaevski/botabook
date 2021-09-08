@@ -1,5 +1,7 @@
-import { ToggleComponent } from '@/core/components/_ToggleComponent';
+import { ToggleComponent } from '@/core/components/_ToggleComponent'
+import { MenuComponent } from '@/core/components/MenuComponent'
 
 setTimeout(() => {
   ToggleComponent.bootstrap()
-}, 100)
+  MenuComponent.bootstrap()
+}, 1)

@@ -1,5 +1,6 @@
 <template>
   <!--  Loader -->
+  <loader></loader>
   <div class="page d-flex flex-row flex-column flex-column-fluid">
     <Aside></Aside>
     <div class="d-flex flex-column flex-row-fluid wrapper">
@@ -17,12 +18,25 @@
 </template>
 
 <script>
+import { MenuComponent } from '@/core/components/MenuComponent'
+
+import Loader from '@/components/Loader.vue'
 import Aside from './aside/Aside.vue'
-import Header from './header/Header.vue';
+import Header from './header/Header.vue'
 
 export default {
   components: {
-    Aside, Header
+    Aside, Header, Loader
+  },
+  mounted() {
+    setTimeout(() => {
+      // Remove page loader after some time
+      // store.dispatch(Actions.REMOVE_BODY_CLASSNAME, "page-loading");
+      // TODO: Loader with store (just change the page-loading class in the body)
+      document.body.classList.remove('page-loading')
+    }, 500)
+    MenuComponent.hideDropdowns(undefined)
+    MenuComponent.reinitialization()
   }
 }
 </script>

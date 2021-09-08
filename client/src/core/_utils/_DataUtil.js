@@ -3,55 +3,54 @@ export class DataUtil {
 
   static set(instance, key = '', data = null) {
     if (!instance) {
-      return;
+      return
     }
-
-    const instanceData = DataUtil.store.get(instance);
+    const instanceData = DataUtil.store.get(instance)
     if (!instanceData) {
-      const newMap = new Map().set(key, data);
-      DataUtil.store.set(instance, newMap);
-      return;
+      const newMap = new Map().set(key, data)
+      DataUtil.store.set(instance, newMap)
+      return
     }
 
-    instanceData.set(key, data);
+    instanceData.set(key, data)
   }
 
   static get(instance, key = '') {
-    const instanceData = DataUtil.store.get(instance);
+    const instanceData = DataUtil.store.get(instance)
     if (!instanceData) {
-      return;
+      return
     }
 
-    instanceData.get(key);
+    return instanceData.get(key)
   }
 
   static remove(instance, key = '') {
-    const instanceData = DataUtil.store.get(instance);
+    const instanceData = DataUtil.store.get(instance)
     if (!instanceData) {
-      return;
+      return
     }
 
-    instanceData.delete(key);
+    instanceData.delete(key)
   }
 
   static has(instance, key = '') {
-    const instanceData = DataUtil.store.get(instance);
+    const instanceData = DataUtil.store.get(instance)
     if (instanceData) {
-      return instanceData.has(key);
+      return instanceData.has(key)
     }
 
-    return false;
+    return false
   }
 
   static getAllInstancesByKey(key = '') {
-    const result = [];
+    const result = []
     DataUtil.store.forEach((val) => {
       val.forEach((v, k) => {
         if (k === key) {
-          result.push(v);
+          result.push(v)
         }
-      });
+      })
     })
-    return result;
+    return result
   }
 }
