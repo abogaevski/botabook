@@ -7,10 +7,10 @@ from django.utils.translation import gettext_lazy as _
 class User(AbstractUser):
     email = models.EmailField('Email', unique=True)
     username = None
-    first_name = models.CharField(_('first name'), max_length=150)
-    last_name = models.CharField(_('last name'), max_length=150)
+    first_name = None
+    last_name = None
 
-    REQUIRED_FIELDS = ['first_name', 'last_name']
+    REQUIRED_FIELDS = []
     USERNAME_FIELD = 'email'
 
     class Meta:
@@ -22,6 +22,9 @@ class User(AbstractUser):
 
 class Profile(models.Model):
     user = models.OneToOneField(User, related_name="profile", on_delete=models.CASCADE)
+
+    first_name = models.CharField(_('first name'), max_length=150, blank=True)
+    last_name = models.CharField(_('last name'), max_length=150, blank=True)
     avatar = models.ImageField(upload_to="users/profiles/avatars/", null=True, blank=True)
     title = models.CharField(max_length=255, null=True, blank=True)
     phone = models.CharField(max_length=32, null=True, blank=True)
