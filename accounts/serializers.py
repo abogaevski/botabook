@@ -2,10 +2,13 @@ from rest_framework import serializers
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from django.contrib.auth import get_user_model
 
+from accounts.models import Profile
 
-class UserSerializer(serializers.ModelSerializer):
+
+class SignupUserSerializer(serializers.ModelSerializer):
     first_name = serializers.CharField(required=True)
     last_name = serializers.CharField(required=True)
+
     class Meta:
         model = get_user_model()
         fields = ['id', 'email', 'password', 'first_name', 'last_name']
@@ -27,8 +30,33 @@ class UserSerializer(serializers.ModelSerializer):
         return instance
 
 
-class SigninTokenObtainPairSerializer(TokenObtainPairSerializer):
+class ProfileSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Profile
+        fields = [
+            'first_name',
+            'last_name',
+            'avatar',
+            'title',
+            'phone',
+            'company',
+            'website',
+            'city',
+            'country',
+            'created_at',
+            'updated_at'
+        ]
 
+
+class UserRetrieveSerializer(serializers.ModelSerializer):
+    profile = ProfileSerializer()
+
+    class Meta:
+        model = get_user_model()
+        fields = ['id', 'email', 'profile']
+
+
+class SigninTokenObtainPairSerializer(TokenObtainPairSerializer):
     default_error_messages = {
         'no_active_account': 'Неправильное имя пользователя или пароль'
     }
@@ -39,5 +67,4 @@ class SigninTokenObtainPairSerializer(TokenObtainPairSerializer):
         data['refresh'] = str(refresh)
         data['access'] = str(refresh.access_token)
 
-        data['data'] = UserSerializer(self.user).data
         return data
