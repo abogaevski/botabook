@@ -8,17 +8,21 @@
         data-bb-menu-placement="bottom-end"
         data-bb-menu-flip="bottom"
       >
-        <img src="/media/avatars/blank.png" alt="metronic"/>
+        <img :src="user.profile.avatar" :alt="user.profile.firstName"/>
       </div>
       <UserMenu></UserMenu>
     </div>
   </div>
 </template>
 <script>
+import { mapGetters } from 'vuex'
 import UserMenu from './partials/UserMenu.vue'
 
 export default {
-  name: 'Topbar',
+  name: 'TopBar',
   components: { UserMenu },
+  computed: {
+    ...mapGetters('userProfile', ['user'])
+  },
 }
 </script>

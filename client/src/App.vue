@@ -14,9 +14,12 @@
 </style>
 <script>
 import EventBus from '@/core/EventBus'
+import { mapActions } from 'vuex'
 
 export default {
   methods: {
+    ...mapActions('userProfile', ['getUserProfile']),
+
     signout() {
       this.$store.dispatch('auth/signout')
       this.$router.push('/signin')
@@ -26,6 +29,11 @@ export default {
     EventBus.on('signout', () => {
       this.signout();
     });
+  },
+  created() {
+    this.getUserProfile()
+      .then(() => {})
+      .catch(() => EventBus.dispatch('signout'))
   },
   beforeUnmount() {
     EventBus.remove('signout');

@@ -4,7 +4,7 @@ import TokenService from './token.service'
 class AuthService {
   signin(user) {
     return api
-      .post('/account/signin', { ...user })
+      .post('/account/signin/', { ...user })
       .then((response) => {
         if (response.data.access) {
           TokenService.setUser(response.data)
@@ -20,7 +20,7 @@ class AuthService {
   }
 
   signup(user) {
-    return api.post('/account/signup', { ...user })
+    return api.post('/account/signup/', { ...user })
       .then((response) => {
         if (response.data.access) {
           TokenService.setUser(response.data);

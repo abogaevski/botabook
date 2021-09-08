@@ -1,8 +1,10 @@
 import api from './api'
 
 class UserService {
-  getUserInfo() {
-    return api.get('/account/user');
+  getUserProfile() {
+    return api
+      .get('/account/user')
+      .then((response) => response.data)
   }
 }
 

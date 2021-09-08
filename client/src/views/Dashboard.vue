@@ -18,25 +18,6 @@
 </template>
 
 <script>
-import UserService from '@/core/services/user.service'
-import EventBus from '@/core/EventBus';
-
-export default {
-  computed: {
-  },
-  // For tests only
-  mounted() {
-    UserService.getUserInfo().then(
-      // If all is ok
-      () => {},
-      // If have an error
-      () => {
-        EventBus.dispatch('signout')
-      }
-    )
-  }
-}
-
 </script>
 
 <style scoped>

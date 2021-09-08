@@ -1,5 +1,6 @@
 import { createStore } from 'vuex'
 import { auth } from '@/store/modules/auth.module';
+import { userProfile } from '@/store/modules/userProfile.module';
 import { calendar } from '@/store/modules/calendar.module';
 import * as Mutation from './mutation-types'
 
@@ -22,6 +23,7 @@ export default createStore({
   },
   modules: {
     auth,
+    userProfile,
     calendar
   },
 });

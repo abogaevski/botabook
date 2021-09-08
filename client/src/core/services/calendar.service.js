@@ -3,26 +3,26 @@ import api from './api'
 class CalendarService {
   getEvents() {
     return api
-      .get('/events')
+      .get('/events/')
       .then((response) => response.data)
   }
 
   createEvent(event) {
     return api
-      .post('/events/create', { ...event })
+      .post('/events/create/', { ...event })
       .then((response) => response.data)
   }
 
   updateEvent(event) {
     const { id } = event
     return api
-      .put(`/events/${id}`, { ...event })
+      .put(`/events/${id}/`, { ...event })
       .then((response) => response.data)
   }
 
   deleteEvent(eventId) {
     return api
-      .delete(`/events/${eventId}`)
+      .delete(`/events/${eventId}/`)
       .then((response) => response)
   }
 
