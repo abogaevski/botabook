@@ -15,3 +15,4 @@ export const CLEAR_ERROR = 'CLEAR_ERROR'
 
 // UserProfile
 export const SET_USERPROFILE = 'SET_USERPROFILE'
+export const UPDATE_USERPROFILE = 'UPDATE_USERPROFILE'

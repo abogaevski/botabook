@@ -22,7 +22,7 @@
     <div class="separator my-2"></div>
 
     <div class="menu-item px-5">
-      <router-link to="/profile" class="menu-link px-5">
+      <router-link to="/profile/overview" class="menu-link px-5">
         Мой профиль
       </router-link>
     </div>

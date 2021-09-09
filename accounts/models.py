@@ -25,15 +25,15 @@ class Profile(models.Model):
 
     first_name = models.CharField(_('first name'), max_length=150, blank=True)
     last_name = models.CharField(_('last name'), max_length=150, blank=True)
-    _avatar = models.ImageField(upload_to="users/profiles/avatars/", null=True, blank=True)
-    title = models.CharField(max_length=255, null=True, blank=True)
-    phone = models.CharField(max_length=32, null=True, blank=True)
+    _avatar = models.ImageField(upload_to='users/profiles/avatars/', blank=True, default='')
+    title = models.CharField(max_length=255, blank=True, default='')
+    phone = models.CharField(max_length=32, blank=True, default='')
 
-    company = models.CharField(max_length=255, null=True, blank=True)
-    website = models.CharField(max_length=32, null=True, blank=True)
+    company = models.CharField(max_length=255, blank=True, default='')
+    website = models.CharField(max_length=32, blank=True, default='')
 
-    city = models.CharField(max_length=32, null=True, blank=True)
-    country = models.CharField(max_length=32, null=True, blank=True)
+    city = models.CharField(max_length=32, blank=True, default='')
+    country = models.CharField(max_length=32, blank=True, default='')
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -41,7 +41,7 @@ class Profile(models.Model):
     @property
     def avatar(self):
         # TODO: Static here static(avatar_url)
-        return self._avatar.url if self._avatar else '/media/avatars/blank.png'
+        return self._avatar.url if self._avatar else ''
 
     class Meta:
         verbose_name = _('profile')

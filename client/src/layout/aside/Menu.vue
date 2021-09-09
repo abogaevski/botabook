@@ -44,7 +44,7 @@ export default {
           iconUrl: '/media/icons/duotone/Design/PenAndRuller.svg'
         },
         {
-          to: '/profile',
+          to: '/profile/overview',
           title: 'Профиль',
           iconUrl: '/media/icons/duotone/General/User.svg'
         },

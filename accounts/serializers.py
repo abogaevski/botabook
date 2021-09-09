@@ -43,8 +43,6 @@ class ProfileSerializer(serializers.ModelSerializer):
             'website',
             'city',
             'country',
-            'created_at',
-            'updated_at'
         ]
 
 
