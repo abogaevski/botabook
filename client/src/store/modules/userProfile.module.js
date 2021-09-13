@@ -6,7 +6,7 @@ const initialProfile = {
   id: '',
   email: '',
   profile: {
-    avatar: '',
+    avatar: '/media/avatars/blank.png',
     city: '',
     company: '',
     country: '',
@@ -54,12 +54,19 @@ export const userProfile = {
         .then((response) => {
           commit(Mutation.UPDATE_USERPROFILE_AVATAR, response.avatar)
         })
+    },
+
+    removeUserProfileAvatar({ commit }, id) {
+      return UserService.removeProfileAvatar(id)
+        .then(() => {
+          commit(Mutation.REMOVE_USERPROFILE_AVATAR)
+        })
     }
   },
   mutations: {
     [Mutation.SET_USERPROFILE](state, user) {
-      if (user.profile.avatar === '') {
-        user.profile.avatar = '/media/avatars/blank.png'
+      if (user.profile.avatar === null) {
+        user.profile.avatar = initialProfile.profile.avatar
       }
       return state.userProfile = { ...user }
     },
@@ -68,6 +75,9 @@ export const userProfile = {
     },
     [Mutation.UPDATE_USERPROFILE_AVATAR](state, avatar) {
       return state.userProfile.profile.avatar = avatar
+    },
+    [Mutation.REMOVE_USERPROFILE_AVATAR](state) {
+      return state.userProfile.profile.avatar = initialProfile.profile.avatar
     }
 
   },

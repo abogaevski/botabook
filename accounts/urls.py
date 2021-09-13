@@ -8,5 +8,6 @@ urlpatterns = [
     path('token/refresh', jwt_views.TokenRefreshView.as_view(), name='token_refresh'),
     path('user', UserApiView.as_view()),
     path('user/<int:pk>/update', ProfileUpdateApiView.as_view()),
-    path('user/<int:pk>/upload-avatar', ProfileAvatarUploadApiView.as_view())
+    path('user/<int:pk>/upload-avatar', ProfileAvatarUploadApiView.as_view()),
+    path('user/<int:pk>/remove-avatar', ProfileAvatarRemoveApiView.as_view())
 ]

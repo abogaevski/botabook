@@ -25,7 +25,7 @@ class Profile(models.Model):
 
     first_name = models.CharField(_('first name'), max_length=150, blank=True)
     last_name = models.CharField(_('last name'), max_length=150, blank=True)
-    avatar = models.ImageField(upload_to='users/profiles/avatars/', blank=True, default='')
+    avatar = models.ImageField(upload_to='users/profiles/avatars/', null=True, blank=True)
     title = models.CharField(max_length=255, blank=True, default='')
     phone = models.CharField(max_length=32, blank=True, default='')
 
@@ -42,6 +42,15 @@ class Profile(models.Model):
     # def avatar_url(self):
     #     # TODO: Static here static(avatar_url)
     #     return self.avatar.url if self.avatar else ''
+
+    def save(self, *args, **kwargs):
+        try:
+            this = Profile.objects.get(id=self.id)
+            if this.avatar != self.avatar:
+                this.avatar.delete(save=False)
+        except:
+            pass
+        super(Profile, self).save(*args, **kwargs)
 
     class Meta:
         verbose_name = _('profile')

@@ -1,4 +1,4 @@
-from django.db.models.signals import post_save
+from django.db.models.signals import post_save, post_delete, pre_save
 from django.dispatch import receiver
 
 from .models import User, Profile
@@ -13,3 +13,4 @@ def save_profile(sender, instance, created, **kwargs):
             last_name=instance.last_name
         )
         profile.save()
+

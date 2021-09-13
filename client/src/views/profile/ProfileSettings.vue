@@ -13,22 +13,9 @@
         @submit="profileSubmit"
       >
         <div class="card-body border-top p-9">
-          <div class="row mb-6">
-            <label class="col-lg-4 col-form-label fw-bold fs-6">Аватар</label>
-            <div class="col-lg-8">
-              <el-upload
-                class="image-input image-input-outline"
-                :show-file-list="false"
-                action=""
-                :http-request="uploadProfileAvatar"
-                :on-remove="removeProfileAvatar"
-                :auto-upload="true"
-              >
-                <img v-if="user.profile.avatar" :src="user.profile.avatar" class="avatar" />
-                <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-              </el-upload>
-            </div>
-          </div>
+
+          <profile-avatar :id="user.id" :avatar="user.profile.avatar"></profile-avatar>
+
           <div class="row mb-6">
             <label class="col-lg-4 col-form-label required fw-bold fs-6">
               Полное имя
@@ -238,9 +225,9 @@
 <script>
 import { Form, Field, ErrorMessage } from 'vee-validate'
 import * as Yup from 'yup'
-// import { ImageInputComponent } from '@/core/components/_ImageInputComponent'
 import { mapActions, mapGetters } from 'vuex'
 import Swal from 'sweetalert2'
+import ProfileAvatar from '@/components/profile/ProfileAvatar'
 
 export default {
   name: 'ProfileSettings',
@@ -275,10 +262,8 @@ export default {
       return this.$store.getters.error
     }
   },
-  components: { Form, Field, ErrorMessage },
-  mounted() {
-    // ImageInputComponent.reinitialization()
-  },
+  components: { Form, Field, ErrorMessage, ProfileAvatar },
+
   methods: {
     ...mapActions('userProfile', ['updateUserProfile', 'updateUserProfileAvatar']),
 
@@ -294,6 +279,8 @@ export default {
             customClass: {
               confirmButton: 'btn btn-primary'
             }
+          }).then(() => {
+            this.$router.push({ name: 'profile-overview' })
           })
         })
         .catch(() => {

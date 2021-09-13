@@ -24,6 +24,12 @@ class UserService {
       .patch(`/account/user/${id}/upload-avatar`, form, fileUploadConfig)
       .then((response) => response.data)
   }
+
+  removeProfileAvatar(id) {
+    return api
+      .patch(`/account/user/${id}/remove-avatar`)
+      .then((response) => response.data)
+  }
 }
 
 export default new UserService();

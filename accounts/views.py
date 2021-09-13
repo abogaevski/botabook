@@ -1,3 +1,5 @@
+import uuid
+
 from rest_framework import generics
 from rest_framework.generics import get_object_or_404
 from rest_framework.response import Response
@@ -58,3 +60,26 @@ class ProfileAvatarUploadApiView(generics.UpdateAPIView):
     def get_object(self):
         user = self.request.user
         return get_object_or_404(Profile, user=user)
+
+    def perform_update(self, serializer):
+        instance = self.get_object()
+        file = self.request.FILES['avatar']
+
+        ext = file.name.split('.')[-1]
+        file_name = '{}.{}.{}'.format(instance.user.id, uuid.uuid4(), ext)
+        serializer.validated_data['avatar'].name = file_name
+        serializer.save()
+
+
+class ProfileAvatarRemoveApiView(generics.UpdateAPIView):
+    serializer_class = ProfileUpdateAvatarSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_object(self):
+        user = self.request.user
+        return get_object_or_404(Profile, user=user)
+
+    def perform_update(self, serializer):
+        instance = self.get_object()
+        instance.avatar.delete(save=False)
+        instance.save()
