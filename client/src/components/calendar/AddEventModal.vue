@@ -66,6 +66,7 @@
                 <div class="fv-row mb-9 fv-plugins-icon-container">
                   <label class="fs-6 fw-bold required mb-2">Дата начала</label>
                   <el-date-picker
+                    class="form-control form-control-solid"
                     :model-value="value"
                     @update:model-value="handleChange"
                     type="date"

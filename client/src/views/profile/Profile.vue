@@ -3,14 +3,8 @@
     <div class="card-body pt-9 pb-0">
       <div class="d-flex flex-wrap flex-sm-nowrap mb-3">
         <div class="me-7 mb-4">
-          <div
-            class="symbol symbol-100px symbol-lg-160px symbol-fixed position-relative"
-          >
-            <img src="/media/avatars/blank.png" alt="image" />
-<!--            <div-->
-<!--              class="position-absolute translate-middle bottom-0 start-100 mb-6 bg-success rounded-circle border border-4 border-white h-20px w-20px"-->
-<!--            >-->
-<!--            </div>-->
+          <div class="symbol symbol-100px symbol-lg-160px symbol-fixed position-relative">
+            <img :src="user.profile.avatar" :alt="fullName" />
           </div>
         </div>
         <div class="flex-grow-1">
@@ -22,7 +16,7 @@
                 <a
                   href="#"
                   class="text-gray-800 text-hover-primary fs-2 fw-bolder me-1"
-                >Антон Богаевский</a
+                >{{ fullName }}</a
                 >
                 <a href="#">
                   <span class="svg-icon svg-icon-1 svg-icon-primary">
@@ -32,22 +26,24 @@
               </div>
               <div class="d-flex flex-wrap fw-bold fs-6 mb-4 pe-2">
                 <a
+                  v-if="user.profile.title"
                   href="#"
                   class="d-flex align-items-center text-gray-400 text-hover-primary me-5 mb-2"
                 >
                   <span class="svg-icon svg-icon-4 me-1">
                     <inline-svg src="/media/icons/duotone/General/User.svg" />
                   </span>
-                  Разработчик
+                  {{ user.profile.title }}
                 </a>
                 <a
+                  v-if="place"
                   href="#"
                   class="d-flex align-items-center text-gray-400 text-hover-primary me-5 mb-2"
                 >
                   <span class="svg-icon svg-icon-4 me-1">
                     <inline-svg src="/media/icons/duotone/Map/Marker1.svg" />
                   </span>
-                  Batumi, Georgia
+                  {{ place }}
                 </a>
                 <a
                   href="#"
@@ -58,7 +54,7 @@
                       src="/media/icons/duotone/Communication/Mail-at.svg"
                     />
                   </span>
-                  anton.bahayeuski@botabook.com
+                  {{ user.email }}
                 </a>
               </div>
             </div>
@@ -102,3 +98,22 @@
   </div>
   <router-view></router-view>
 </template>
+<script>
+
+import { mapGetters } from 'vuex'
+
+export default {
+  name: 'Profile',
+  computed: {
+    ...mapGetters('userProfile', ['user']),
+    fullName() {
+      return `${this.user.profile.firstName} ${this.user.profile.lastName}`
+    },
+    place() {
+      return this.user.profile.city && this.user.profile.country
+        ? `${this.user.profile.city}, ${this.user.profile.country}`
+        : ''
+    }
+  }
+}
+</script>

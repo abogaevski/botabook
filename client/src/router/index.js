@@ -1,4 +1,4 @@
-import { createRouter, createWebHistory } from 'vue-router';
+import { createRouter, createWebHistory } from 'vue-router'
 
 const routes = [
   {
@@ -50,23 +50,23 @@ const routes = [
     name: 'signup',
     component: () => import('@/views/auth/SignUp.vue')
   }
-];
+]
 
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
-  routes,
-});
+  routes
+})
 
 router.beforeEach((to, from, next) => {
-  const publicPages = ['/signin', '/signup'];
-  const authRequired = !publicPages.includes(to.path);
-  const loggedIn = localStorage.getItem('user');
+  const publicPages = ['/signin', '/signup']
+  const authRequired = !publicPages.includes(to.path)
+  const loggedIn = localStorage.getItem('token')
 
   if (authRequired && !loggedIn) {
-    next('/signin');
+    next('/signin')
   } else {
-    next();
+    next()
   }
-});
+})
 
-export default router;
+export default router

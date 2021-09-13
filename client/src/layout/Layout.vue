@@ -18,8 +18,10 @@
 </template>
 
 <script>
-import { MenuComponent } from '@/core/components/MenuComponent'
+import { mapActions } from 'vuex'
+import EventBus from '@/core/EventBus'
 
+import { MenuComponent } from '@/core/components/MenuComponent'
 import Loader from '@/components/Loader.vue'
 import Aside from './aside/Aside.vue'
 import Header from './header/Header.vue'
@@ -37,8 +39,33 @@ export default {
     }, 500)
     MenuComponent.hideDropdowns(undefined)
     MenuComponent.reinitialization()
+
+    EventBus.on('signout', () => {
+      this.signout()
+    })
+  },
+
+  created() {
+    this.getUserProfile()
+      .then(() => {
+      })
+      .catch(() => EventBus.dispatch('signout'))
+  },
+
+  methods: {
+    ...mapActions('userProfile', ['getUserProfile']),
+
+    signout() {
+      this.$store.dispatch('auth/signout')
+      this.$router.push('/signin')
+    },
+  },
+
+  beforeUnmount() {
+    EventBus.remove('signout')
   }
 }
+
 </script>
 
 <style>

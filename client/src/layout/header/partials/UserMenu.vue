@@ -6,14 +6,15 @@
     <div class="menu-item px-3">
       <div class="menu-content d-flex align-items-center px-3">
         <div class="symbol symbol-50px me-5">
-          <img alt="Logo" src="/media/avatars/blank.png"/>
+          <img :alt="fullName" :src="avatar"/>
         </div>
         <div class="d-flex flex-column">
           <div class="fw-bolder d-flex align-items-center fs-5">
             {{ fullName }}
           </div>
-          <a href="#" class="fw-bold text-muted text-hover-primary fs-7"
-          >{{ email }}</a>
+          <div class="fw-bold text-muted fs-7">
+            {{ email }}
+          </div>
         </div>
       </div>
     </div>
@@ -21,7 +22,7 @@
     <div class="separator my-2"></div>
 
     <div class="menu-item px-5">
-      <router-link to="/" class="menu-link px-5">
+      <router-link to="/profile/overview" class="menu-link px-5">
         Мой профиль
       </router-link>
     </div>
@@ -33,33 +34,27 @@
   </div>
 </template>
 <script>
-
 import { mapGetters } from 'vuex'
 
 export default {
   name: 'UserMenu',
-  computed: {
-    ...mapGetters('auth', ['user']),
-    fullName() {
-      return `${this.user.firstName} ${this.user.lastName}`
-    },
-    email() {
-      return this.user.email
-    }
-  },
   methods: {
     signOut() {
       this.$store.dispatch('auth/signout')
+    }
+  },
+  computed: {
+    ...mapGetters('userProfile', ['user']),
+    fullName() {
+      return `${this.user.profile.firstName} ${this.user.profile.lastName}`
+    },
+    email() {
+      return this.user.email
+    },
+    avatar() {
+      return this.user.profile.avatar
     }
   }
 
 }
 </script>
-
-<style scoped>
-.menu {
-  position: fixed;
-  top: 60px;
-  right: 20px;
-}
-</style>

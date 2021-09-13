@@ -1,18 +1,21 @@
-from rest_framework import generics, status
+import uuid
+
+from rest_framework import generics
+from rest_framework.generics import get_object_or_404
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
-from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework_simplejwt.views import TokenObtainPairView
-from django.contrib.auth import get_user_model
 
-from .serializers import UserSerializer, SigninTokenObtainPairSerializer
+from rest_framework.parsers import FileUploadParser, MultiPartParser, FormParser
+
+from .serializers import *
 from .utils import get_tokens_for_user
 
 user_model = get_user_model()
 
 
 class SignUpApiView(generics.GenericAPIView):
-    serializer_class = UserSerializer
+    serializer_class = SignupUserSerializer
 
     def post(self, request):
         serializer = self.get_serializer(data=request.data)
@@ -22,20 +25,61 @@ class SignUpApiView(generics.GenericAPIView):
 
         response = Response({
             'access': token['access'],
-            'refresh': token['refresh'],
-            'data': serializer.data,
+            'refresh': token['refresh']
         })
 
         return response
+
+
+class SigninTokenObtainPairView(TokenObtainPairView):
+    serializer_class = SigninTokenObtainPairSerializer
 
 
 class UserApiView(generics.GenericAPIView):
     permission_classes = [IsAuthenticated]
 
     def get(self, request):
-        serializer = UserSerializer(request.user)
-        return Response({'data': serializer.data})
+        serializer = UserRetrieveSerializer(request.user, context={'request': request})
+        return Response(serializer.data)
 
 
-class SigninTokenObtainPairView(TokenObtainPairView):
-    serializer_class = SigninTokenObtainPairSerializer
+class ProfileUpdateApiView(generics.UpdateAPIView):
+    serializer_class = ProfileSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_object(self):
+        user = self.request.user
+        return get_object_or_404(Profile, user=user)
+
+
+class ProfileAvatarUploadApiView(generics.UpdateAPIView):
+    serializer_class = ProfileUpdateAvatarSerializer
+    permission_classes = [IsAuthenticated]
+    parser_classes = (MultiPartParser, FormParser)
+
+    def get_object(self):
+        user = self.request.user
+        return get_object_or_404(Profile, user=user)
+
+    def perform_update(self, serializer):
+        instance = self.get_object()
+        file = self.request.FILES['avatar']
+
+        ext = file.name.split('.')[-1]
+        file_name = '{}.{}.{}'.format(instance.user.id, uuid.uuid4(), ext)
+        serializer.validated_data['avatar'].name = file_name
+        serializer.save()
+
+
+class ProfileAvatarRemoveApiView(generics.UpdateAPIView):
+    serializer_class = ProfileUpdateAvatarSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_object(self):
+        user = self.request.user
+        return get_object_or_404(Profile, user=user)
+
+    def perform_update(self, serializer):
+        instance = self.get_object()
+        instance.avatar.delete(save=False)
+        instance.save()

@@ -10,45 +10,11 @@
         class="form"
         novalidate
         :validation-schema="profileSchema"
+        @submit="profileSubmit"
       >
         <div class="card-body border-top p-9">
-          <div class="row mb-6">
-            <label class="col-lg-4 col-form-label fw-bold fs-6">Аватар</label>
 
-            <div class="col-lg-8">
-              <div
-                class="image-input image-input-outline"
-                data-kt-image-input="true"
-                style="background-image: url('/media/avatars/blank.png')"
-              >
-                <div
-                  class="image-input-wrapper w-125px h-125px"
-                  :style="`background-image: url(${profile.avatar})`"
-                ></div>
-                <label
-                  class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-white shadow"
-                  data-bb-image-input-action="change"
-                  data-bs-toggle="tooltip"
-                  title="Change avatar"
-                >
-                  <i class="bi bi-pencil-fill fs-7"></i>
-
-                  <input type="file" name="avatar" accept=".png, .jpg, .jpeg" />
-                  <input type="hidden" name="avatar_remove" />
-                </label>
-                <span
-                  class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-white shadow"
-                  data-bb-image-input-action="remove"
-                  data-bs-toggle="tooltip"
-                  @click="removeImage()"
-                  title="Remove avatar"
-                >
-                  <i class="bi bi-x fs-2"></i>
-                </span>
-              </div>
-              <div class="form-text">Allowed file types: png, jpg, jpeg.</div>
-            </div>
-          </div>
+          <profile-avatar :id="user.id" :avatar="user.profile.avatar"></profile-avatar>
 
           <div class="row mb-6">
             <label class="col-lg-4 col-form-label required fw-bold fs-6">
@@ -61,8 +27,8 @@
                     type="text"
                     name="firstName"
                     class="form-control form-control-lg form-control-solid mb-3 mb-lg-0"
-                    placeholder="Имя"
-                    v-model.lazy="profile.firstName"
+                    placeholder="Федор"
+                    v-model.lazy="user.profile.firstName"
                   />
                   <div class="fv-plugins-message-container">
                     <div class="fv-help-block">
@@ -75,8 +41,8 @@
                     type="text"
                     name="lastName"
                     class="form-control form-control-lg form-control-solid"
-                    placeholder="Last name"
-                    v-model.lazy="profile.lastName"
+                    placeholder="Федоров"
+                    v-model.lazy="user.profile.lastName"
                   />
                   <div class="fv-plugins-message-container">
                     <div class="fv-help-block">
@@ -89,7 +55,7 @@
           </div>
 
           <div class="row mb-6">
-            <label class="col-lg-4 col-form-label required fw-bold fs-6">
+            <label class="col-lg-4 col-form-label fw-bold fs-6">
               Должность / специализация
             </label>
             <div class="col-lg-8 fv-row">
@@ -98,7 +64,7 @@
                 name="title"
                 class="form-control form-control-lg form-control-solid"
                 placeholder="Например, психолог"
-                v-model.lazy="profile.title"
+                v-model.lazy="user.profile.title"
               />
               <div class="fv-plugins-message-container">
                 <div class="fv-help-block">
@@ -109,7 +75,7 @@
           </div>
 
           <div class="row mb-6">
-            <label class="col-lg-4 col-form-label required fw-bold fs-6">
+            <label class="col-lg-4 col-form-label fw-bold fs-6">
               Компания
             </label>
             <div class="col-lg-8 fv-row">
@@ -117,8 +83,8 @@
                 type="text"
                 name="company"
                 class="form-control form-control-lg form-control-solid"
-                placeholder="Company name"
-                v-model.lazy="profile.company"
+                placeholder="ООО &quot;Рога и копыта&quot;"
+                v-model.lazy="user.profile.company"
               />
               <div class="fv-plugins-message-container">
                 <div class="fv-help-block">
@@ -130,8 +96,7 @@
 
           <div class="row mb-6">
             <label class="col-lg-4 col-form-label fw-bold fs-6">
-              <span class="required">Телефон</span>
-
+              <span>Телефон</span>
               <i
                 class="fas fa-exclamation-circle ms-1 fs-7"
                 data-bs-toggle="tooltip"
@@ -144,8 +109,8 @@
                 type="tel"
                 name="phone"
                 class="form-control form-control-lg form-control-solid"
-                placeholder="Phone number"
-                v-model.lazy="profile.contactPhone"
+                placeholder="+7 12345678"
+                v-model.lazy="user.profile.phone"
               />
               <div class="fv-plugins-message-container">
                 <div class="fv-help-block">
@@ -165,8 +130,8 @@
                 type="text"
                 name="website"
                 class="form-control form-control-lg form-control-solid"
-                placeholder="Company website"
-                v-model.lazy="profile.companySite"
+                placeholder="https://botabook.com"
+                v-model.lazy="user.profile.website"
               />
               <div class="fv-plugins-message-container">
                 <div class="fv-help-block">
@@ -178,7 +143,7 @@
 
           <div class="row mb-6">
             <label class="col-lg-4 col-form-label fw-bold fs-6">
-              <span class="required">Страна</span>
+              <span>Страна</span>
 
               <i
                 class="fas fa-exclamation-circle ms-1 fs-7"
@@ -190,12 +155,39 @@
               <Field
                 name="country"
                 class="form-control form-control-solid fw-bold"
-                v-model.lazy="profile.country"
+                placeholder="Беларусь"
+                v-model.lazy="user.profile.country"
               >
               </Field>
               <div class="fv-plugins-message-container">
                 <div class="fv-help-block">
                   <ErrorMessage name="country" />
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row mb-6">
+            <label class="col-lg-4 col-form-label fw-bold fs-6">
+              <span>Город</span>
+
+              <i
+                class="fas fa-exclamation-circle ms-1 fs-7"
+                data-bs-toggle="tooltip"
+                title="Country of origination"
+              ></i>
+            </label>
+            <div class="col-lg-8 fv-row">
+              <Field
+                name="city"
+                class="form-control form-control-solid fw-bold"
+                placeholder="Брест"
+                v-model.lazy="user.profile.city"
+              >
+              </Field>
+              <div class="fv-plugins-message-container">
+                <div class="fv-help-block">
+                  <ErrorMessage name="city" />
                 </div>
               </div>
             </div>
@@ -233,6 +225,9 @@
 <script>
 import { Form, Field, ErrorMessage } from 'vee-validate'
 import * as Yup from 'yup'
+import { mapActions, mapGetters } from 'vuex'
+import Swal from 'sweetalert2'
+import ProfileAvatar from '@/components/profile/ProfileAvatar'
 
 export default {
   name: 'ProfileSettings',
@@ -245,37 +240,92 @@ export default {
         .required()
         .label('Фамилия'),
       title: Yup.string()
-        .required()
         .label('Должность'),
       company: Yup.string()
-        .required()
         .label('Компания'),
       phone: Yup.string()
-        .required()
         .label('Телефон'),
-      website: Yup.string().label('Вебсайт'),
+      website: Yup.string()
+        .label('Вебсайт'),
       country: Yup.string()
-        .required()
         .label('Страна'),
+      city: Yup.string()
+        .label('Город'),
     })
     return {
       profileSchema
     }
   },
   computed: {
-    profile() {
-      return {
-        avatar: '/media/avatars/150-2.jpg',
-        firstName: 'Антон',
-        lastName: 'Bahayeuski',
-        title: 'Разработчик',
-        contactPhone: '+995 587 042 792',
-        company: 'BotaBook',
-        companySite: 'botabook.com',
-        country: 'Belarus'
-      }
+    ...mapGetters('userProfile', ['user']),
+    error() {
+      return this.$store.getters.error
     }
   },
-  components: { Form, Field, ErrorMessage }
+  components: { Form, Field, ErrorMessage, ProfileAvatar },
+
+  methods: {
+    ...mapActions('userProfile', ['updateUserProfile', 'updateUserProfileAvatar']),
+
+    profileSubmit(profile) {
+      const { id } = this.user
+      this.updateUserProfile({ profile, id })
+        .then(() => {
+          Swal.fire({
+            title: 'Ваш профиль успешно обновлен!',
+            icon: 'success',
+            buttonsStyling: false,
+            confirmButtonText: 'Отлично',
+            customClass: {
+              confirmButton: 'btn btn-primary'
+            }
+          }).then(() => {
+            this.$router.push({ name: 'profile-overview' })
+          })
+        })
+        .catch(() => {
+          const title = this.error.status
+            ? `Ошибка: ${this.error.status}. Не удалось обновить профиль`
+            : 'Что-то пошло не так'
+          const html = this.error.statusText
+            ? this.error.statusText
+            : 'Произошла неизвестная ошибка'
+
+          Swal.fire({
+            title,
+            html: `${html}.<br>Пожалуйста обратитесь в поддержку
+              <a href="mailto:antnbog@gmail.com">сюда</a>`,
+            icon: 'error',
+            buttonsStyling: false,
+            confirmButtonText: 'Попробуйте еще раз!',
+            customClass: {
+              confirmButton: 'btn fw-bold btn-light-danger'
+            }
+          })
+        })
+    },
+
+    uploadProfileAvatar(props) {
+      const avatar = props.file
+      const { id } = this.user
+      const form = new FormData()
+      form.append('avatar', avatar)
+      this.updateUserProfileAvatar({ form, id })
+        .then(() => {
+          Swal.fire({
+            title: 'Ваш профиль успешно обновлен!',
+            icon: 'success',
+            buttonsStyling: false,
+            confirmButtonText: 'Отлично',
+            customClass: {
+              confirmButton: 'btn btn-primary'
+            }
+          })
+        })
+    },
+    removeProfileAvatar(props) {
+      console.log(props)
+    }
+  }
 }
 </script>
