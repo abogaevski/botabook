@@ -9,7 +9,7 @@ class CalendarService {
 
   createEvent(event) {
     return api
-      .post('/events/create/', { ...event })
+      .post('/events/create', { ...event })
       .then((response) => response.data)
   }
 

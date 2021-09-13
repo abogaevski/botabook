@@ -4,7 +4,7 @@ from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 from rest_framework_simplejwt.views import TokenObtainPairView
 
-from rest_framework.parsers import FileUploadParser
+from rest_framework.parsers import FileUploadParser, MultiPartParser, FormParser
 
 from .serializers import *
 from .utils import get_tokens_for_user
@@ -29,27 +29,32 @@ class SignUpApiView(generics.GenericAPIView):
         return response
 
 
+class SigninTokenObtainPairView(TokenObtainPairView):
+    serializer_class = SigninTokenObtainPairSerializer
+
+
 class UserApiView(generics.GenericAPIView):
     permission_classes = [IsAuthenticated]
 
     def get(self, request):
-        serializer = UserRetrieveSerializer(request.user)
+        serializer = UserRetrieveSerializer(request.user, context={'request': request})
         return Response(serializer.data)
 
 
 class ProfileUpdateApiView(generics.UpdateAPIView):
     serializer_class = ProfileSerializer
     permission_classes = [IsAuthenticated]
-    parser_class = (FileUploadParser,)
-
-    def perform_update(self, serializer):
-        avatar = self.request.data['avatar']
-        serializer.save(avatar=avatar)
 
     def get_object(self):
         user = self.request.user
         return get_object_or_404(Profile, user=user)
 
 
-class SigninTokenObtainPairView(TokenObtainPairView):
-    serializer_class = SigninTokenObtainPairSerializer
+class ProfileAvatarUploadApiView(generics.UpdateAPIView):
+    serializer_class = ProfileUpdateAvatarSerializer
+    permission_classes = [IsAuthenticated]
+    parser_classes = (MultiPartParser, FormParser)
+
+    def get_object(self):
+        user = self.request.user
+        return get_object_or_404(Profile, user=user)

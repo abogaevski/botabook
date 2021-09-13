@@ -25,7 +25,7 @@ class Profile(models.Model):
 
     first_name = models.CharField(_('first name'), max_length=150, blank=True)
     last_name = models.CharField(_('last name'), max_length=150, blank=True)
-    _avatar = models.ImageField(upload_to='users/profiles/avatars/', blank=True, default='')
+    avatar = models.ImageField(upload_to='users/profiles/avatars/', blank=True, default='')
     title = models.CharField(max_length=255, blank=True, default='')
     phone = models.CharField(max_length=32, blank=True, default='')
 
@@ -37,11 +37,11 @@ class Profile(models.Model):
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-
-    @property
-    def avatar(self):
-        # TODO: Static here static(avatar_url)
-        return self._avatar.url if self._avatar else ''
+    #
+    # @property
+    # def avatar_url(self):
+    #     # TODO: Static here static(avatar_url)
+    #     return self.avatar.url if self.avatar else ''
 
     class Meta:
         verbose_name = _('profile')

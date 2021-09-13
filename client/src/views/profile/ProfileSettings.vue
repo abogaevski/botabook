@@ -15,49 +15,20 @@
         <div class="card-body border-top p-9">
           <div class="row mb-6">
             <label class="col-lg-4 col-form-label fw-bold fs-6">Аватар</label>
-
             <div class="col-lg-8">
-              <div
+              <el-upload
                 class="image-input image-input-outline"
-                data-bb-image-input="true"
-                style="background-image: url('/media/avatars/blank.png')"
+                :show-file-list="false"
+                action=""
+                :http-request="uploadProfileAvatar"
+                :on-remove="removeProfileAvatar"
+                :auto-upload="true"
               >
-                <div
-                  class="image-input-wrapper w-125px h-125px"
-                  :style="`background-image: url(${user.profile.avatar})`"
-                ></div>
-                <label
-                  class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-white shadow"
-                  data-bb-image-input-action="change"
-                  data-bs-toggle="tooltip"
-                  title="Change avatar"
-                >
-                  <i class="bi bi-pencil-fill fs-7"></i>
-
-                  <Field type="file" name="avatar" ref="avatar" accept=".png, .jpg, .jpeg" />
-                  <input type="hidden" name="avatar_remove" />
-                </label>
-                <span
-                  class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-white shadow"
-                  data-bb-image-input-action="remove"
-                  data-bs-toggle="tooltip"
-                  title="Remove avatar"
-                >
-                  <i class="bi bi-x fs-2"></i>
-                </span>
-                <span
-                  class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow"
-                  data-bb-image-input-action="cancel"
-                  data-bs-toggle="tooltip" title=""
-                  data-bs-original-title="Cancel avatar"
-                >
-                  <i class="bi bi-x fs-2"></i>
-                </span>
-              </div>
-              <div class="form-text">Расширения файлов: png, jpg, jpeg.</div>
+                <img v-if="user.profile.avatar" :src="user.profile.avatar" class="avatar" />
+                <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+              </el-upload>
             </div>
           </div>
-
           <div class="row mb-6">
             <label class="col-lg-4 col-form-label required fw-bold fs-6">
               Полное имя
@@ -267,7 +238,7 @@
 <script>
 import { Form, Field, ErrorMessage } from 'vee-validate'
 import * as Yup from 'yup'
-import { ImageInputComponent } from '@/core/components/_ImageInputComponent'
+// import { ImageInputComponent } from '@/core/components/_ImageInputComponent'
 import { mapActions, mapGetters } from 'vuex'
 import Swal from 'sweetalert2'
 
@@ -275,7 +246,6 @@ export default {
   name: 'ProfileSettings',
   data() {
     const profileSchema = Yup.object({
-      avatar: Yup.mixed(),
       firstName: Yup.string()
         .required()
         .label('Имя'),
@@ -307,16 +277,13 @@ export default {
   },
   components: { Form, Field, ErrorMessage },
   mounted() {
-    ImageInputComponent.reinitialization()
+    // ImageInputComponent.reinitialization()
   },
   methods: {
-    ...mapActions('userProfile', ['updateUserProfile']),
+    ...mapActions('userProfile', ['updateUserProfile', 'updateUserProfileAvatar']),
 
     profileSubmit(profile) {
       const { id } = this.user
-      // const avatar = this.$refs.avatar.files[0]
-      // profile.avatar = avatar
-      console.log(profile.avatar[0])
       this.updateUserProfile({ profile, id })
         .then(() => {
           Swal.fire({
@@ -349,6 +316,28 @@ export default {
             }
           })
         })
+    },
+
+    uploadProfileAvatar(props) {
+      const avatar = props.file
+      const { id } = this.user
+      const form = new FormData()
+      form.append('avatar', avatar)
+      this.updateUserProfileAvatar({ form, id })
+        .then(() => {
+          Swal.fire({
+            title: 'Ваш профиль успешно обновлен!',
+            icon: 'success',
+            buttonsStyling: false,
+            confirmButtonText: 'Отлично',
+            customClass: {
+              confirmButton: 'btn btn-primary'
+            }
+          })
+        })
+    },
+    removeProfileAvatar(props) {
+      console.log(props)
     }
   }
 }

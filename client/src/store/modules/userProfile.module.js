@@ -38,7 +38,6 @@ export const userProfile = {
     },
 
     updateUserProfile({ commit }, { profile, id }) {
-      console.log(profile, id)
       return UserService.updateUserProfile(profile, id)
         .then((newProfile) => {
           commit(Mutation.UPDATE_USERPROFILE, newProfile)
@@ -48,6 +47,13 @@ export const userProfile = {
           commit(Mutation.SET_ERROR, error.response, { root: true })
           return Promise.reject(error)
         })
+    },
+
+    updateUserProfileAvatar({ commit }, { form, id }) {
+      return UserService.uploadProfileAvatar(form, id)
+        .then((response) => {
+          commit(Mutation.UPDATE_USERPROFILE_AVATAR, response.avatar)
+        })
     }
   },
   mutations: {
@@ -55,16 +61,18 @@ export const userProfile = {
       if (user.profile.avatar === '') {
         user.profile.avatar = '/media/avatars/blank.png'
       }
-      console.log(user)
       return state.userProfile = { ...user }
     },
     [Mutation.UPDATE_USERPROFILE](state, profile) {
       return state.userProfile.profile = { ...profile }
+    },
+    [Mutation.UPDATE_USERPROFILE_AVATAR](state, avatar) {
+      return state.userProfile.profile.avatar = avatar
     }
 
   },
   getters: {
     user: (state) => state.userProfile,
-    // avatar: (state) => state.userProfile.profile.avatar
+    avatar: (state) => state.userProfile.profile.avatar
   }
 }

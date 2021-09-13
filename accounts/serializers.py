@@ -30,30 +30,6 @@ class SignupUserSerializer(serializers.ModelSerializer):
         return instance
 
 
-class ProfileSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Profile
-        fields = [
-            'first_name',
-            'last_name',
-            'avatar',
-            'title',
-            'phone',
-            'company',
-            'website',
-            'city',
-            'country',
-        ]
-
-
-class UserRetrieveSerializer(serializers.ModelSerializer):
-    profile = ProfileSerializer()
-
-    class Meta:
-        model = get_user_model()
-        fields = ['id', 'email', 'profile']
-
-
 class SigninTokenObtainPairSerializer(TokenObtainPairSerializer):
     default_error_messages = {
         'no_active_account': 'Неправильное имя пользователя или пароль'
@@ -66,3 +42,42 @@ class SigninTokenObtainPairSerializer(TokenObtainPairSerializer):
         data['access'] = str(refresh.access_token)
 
         return data
+
+
+class ProfileSerializer(serializers.ModelSerializer):
+    avatar = serializers.SerializerMethodField()
+
+    class Meta:
+        model = Profile
+        fields = [
+            'avatar',
+            'first_name',
+            'last_name',
+            'title',
+            'phone',
+            'company',
+            'website',
+            'city',
+            'country',
+        ]
+
+    def get_avatar(self, profile):
+        request = self.context['request']
+        avatar_url = profile.avatar.url
+        return request.build_absolute_uri(avatar_url)
+
+
+class ProfileUpdateAvatarSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Profile
+        fields = [
+            'avatar'
+        ]
+
+
+class UserRetrieveSerializer(serializers.ModelSerializer):
+    profile = ProfileSerializer()
+
+    class Meta:
+        model = get_user_model()
+        fields = ['id', 'email', 'profile']
