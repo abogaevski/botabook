@@ -30,6 +30,11 @@ const routes = [
             path: 'settings',
             name: 'profile-settings',
             component: () => import('@/views/profile/ProfileSettings.vue')
+          },
+          {
+            path: 'projects',
+            name: 'profile-projects',
+            component: () => import('@/views/profile/ProfileProjectList.vue')
           }
         ]
       },

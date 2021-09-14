@@ -26,15 +26,14 @@ export const AsideMenuConfig = [
             route: '/profile/overview'
           },
           {
-            heading: 'Настроки',
+            heading: 'Услуги',
+            route: '/profile/projects'
+          },
+          {
+            heading: 'Настройки',
             route: '/profile/settings'
-          }
+          },
         ]
-      },
-      {
-        heading: 'Услуги',
-        route: '/services',
-        svgIcon: '/media/icons/duotone/Design/PenAndRuller.svg'
       }
     ]
   },
@@ -43,14 +42,14 @@ export const AsideMenuConfig = [
     pages: [
       {
         heading: 'Список',
-        route: '/services/list',
+        route: '/customer/list',
         svgIcon: '/media/icons/duotone/Communication/Group.svg'
       },
-      {
-        heading: 'Kanban',
-        route: '/services/board',
-        svgIcon: '/media/icons/duotone/Communication/Group.svg'
-      }
+      // {
+      //   heading: 'Kanban',
+      //   route: '/customer/board',
+      //   svgIcon: '/media/icons/duotone/Communication/Group.svg'
+      // }
     ]
   }
 ]
