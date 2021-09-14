@@ -2,63 +2,135 @@
   <div class="hover-scroll-overlay-y my-5 my-lg-5">
     <div
       class="menu menu-column menu-title-gray-800 menu-state-title-primary menu-state-icon-primary menu-state-bullet-primary menu-arrow-gray-500"
+      data-bb-menu="true"
     >
-      <div class="menu-item" v-for="item in menuItems" :key="item">
-        <router-link
-          v-slot="{ href, navigate, isActive, isExactActive }"
-          :to="item.to"
-        >
-          <a
-            :class="[isActive && 'active', isExactActive && 'active']"
-            :href="href"
-            class="menu-link"
-            @click="navigate"
-          >
-            <span class="menu-icon">
-              <span class="svg-icon svg-icon-2">
-                <inline-svg :src="item.iconUrl"/>
+      <template v-for="(item, i) in menuItems" :key="i">
+        <div v-if="item.heading" class="menu-item">
+          <div class="menu-content pt-8 pb-2">
+              <span class="menu-section text-muted text-uppercase fs-8 ls-1">
+                {{ item.heading }}
               </span>
+          </div>
+        </div>
+        <template v-for="(menuItem, j) in item.pages" :key="j">
+          <template v-if="menuItem.heading">
+            <div class="menu-item">
+              <router-link
+                v-slot="{ href, navigate, isActive, isExactActive }"
+                :to="menuItem.route"
+              >
+                <a
+                  :class="[isActive && 'active', isExactActive && 'active']"
+                  :href="href"
+                  class="menu-link"
+                  @click="navigate"
+                >
+                    <span v-if="menuItem.svgIcon" class="menu-icon">
+                      <span class="svg-icon svg-icon-2">
+                        <inline-svg :src="menuItem.svgIcon"/>
+                      </span>
+                    </span>
+                  <span class="menu-title">
+                    {{ menuItem.heading }}
+                  </span>
+                </a>
+              </router-link>
+            </div>
+          </template>
+          <div
+            v-if="menuItem.sectionTitle"
+            :class="{ show: hasActiveChildren(menuItem.route) }"
+            class="menu-item menu-accordion"
+            data-bb-menu-sub="accordion"
+            data-bb-menu-trigger="click"
+          >
+            <span class="menu-link">
+              <span
+                v-if="menuItem.svgIcon"
+                class="menu-icon"
+              >
+                <span class="svg-icon svg-icon-2">
+                  <inline-svg :src="menuItem.svgIcon"/>
+                </span>
+              </span>
+              <span class="menu-title">
+                {{ menuItem.sectionTitle }}
+              </span>
+              <span class="menu-arrow"></span>
             </span>
-            <span class="menu-title">{{ item.title }}</span>
-          </a>
-        </router-link>
-      </div>
+            <div
+              :class="{ show: hasActiveChildren(menuItem.route) }"
+              class="menu-sub menu-sub-accordion"
+            >
+              <template v-for="(subItem, k) in menuItem.sub" :key="k">
+                <div v-if="subItem.heading" class="menu-item">
+                <router-link
+                  v-slot="{ href, navigate, isActive, isExactActive }"
+                  :to="subItem.route"
+                >
+                  <a
+                    :class="[
+                      isActive && 'active',
+                      isExactActive && 'active'
+                    ]"
+                    :href="href"
+                    class="menu-link"
+                    @click="navigate"
+                  >
+                    <span class="menu-bullet">
+                      <span class="bullet bullet-dot"></span>
+                    </span>
+                    <span class="menu-title">
+                      {{ subItem.heading }}
+                    </span>
+                  </a>
+                </router-link>
+            </div>
+              </template>
+            </div>
+          </div>
+        </template>
+      </template>
     </div>
   </div>
 </template>
 
 <script>
+import { AsideMenuConfig } from '@/core/config/AsideMenu.config'
+
 export default {
   name: 'AsideMenu',
   data() {
     return {
-      menuItems: [
-        {
-          to: '/dashboard',
-          title: 'Дашборд',
-          iconUrl: '/media/icons/duotone/Interface/Calendar.svg'
-        },
-        {
-          to: '/calendar',
-          title: 'Календарь',
-          iconUrl: '/media/icons/duotone/Design/PenAndRuller.svg'
-        },
-        {
-          to: '/profile',
-          title: 'Профиль',
-          iconUrl: '/media/icons/duotone/General/User.svg'
-        },
-        {
-          to: '/customer/list',
-          title: 'Клиенты',
-          iconUrl: '/media/icons/duotone/Communication/Group.svg'
-        }
-      ]
+      menuItems: [...AsideMenuConfig]
+    }
+  },
+  methods: {
+    hasActiveChildren(match) {
+      return this.$route.path.indexOf(match) !== -1;
     }
   }
 }
 </script>
 
 <style>
+.aside-menu .menu .menu-sub .menu-item a a.menu-link {
+  padding-left: calc(0.75rem + 25px);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  flex: 0 0 100%;
+  transition: none;
+  outline: none !important;
+}
 
+.aside-menu .menu .menu-sub .menu-sub .menu-item a a.menu-link {
+  padding-left: calc(1.5rem + 25px);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  flex: 0 0 100%;
+  transition: none;
+  outline: none !important;
+}
 </style>
