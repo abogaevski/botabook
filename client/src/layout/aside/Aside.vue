@@ -24,8 +24,8 @@
 </template>
 
 <script>
-import { ToggleComponent } from '@/core/components/_ToggleComponent'
 import { onMounted, onUpdated } from 'vue'
+import { ToggleComponent } from '@/core/components/_ToggleComponent'
 import Menu from './Menu.vue'
 
 export default {

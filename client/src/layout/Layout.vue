@@ -61,9 +61,9 @@ export default {
     },
   },
 
-  beforeUnmount() {
-    EventBus.remove('signout')
-  }
+  // beforeUnmount() {
+  //   EventBus.remove('signout')
+  // }
 }
 
 </script>

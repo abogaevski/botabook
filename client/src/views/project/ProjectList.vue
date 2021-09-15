@@ -35,10 +35,10 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 import ProjectListHeading from '@/components/project/ProjectListHeading'
 import ProjectCard from '@/components/project/ProjectCard'
 import BtButton from '@/components/_core/buttons/BtButton'
-import { mapGetters } from 'vuex'
 
 export default {
   name: 'ProjectList',

@@ -9,7 +9,7 @@
           <div class="fs-4 fw-bold text-gray-400 mb-7">Всего услуг</div>
           <div class="d-flex flex-wrap">
             <div class="d-flex flex-center h-100px w-100px me-5 mb-5">
-              canvas
+<!--              <project-count-chart :dataset="dataset"></project-count-chart>-->
             </div>
             <div class="d-flex flex-column justify-content-center flex-row-fluid pe-11 mb-5">
               <div class="d-flex fs-6 fw-bold align-items-center mb-3">
@@ -76,37 +76,48 @@
           <!--end::Heading-->
           <!--begin::Users group-->
           <div class="symbol-group symbol-hover mb-9">
-            <div class="symbol symbol-35px symbol-circle" data-bs-toggle="tooltip" title="" data-bs-original-title="Alan Warden">
+            <div class="symbol symbol-35px symbol-circle" data-bs-toggle="tooltip" title=""
+                 data-bs-original-title="Alan Warden">
               <span class="symbol-label bg-warning text-inverse-warning fw-bolder">A</span>
             </div>
-            <div class="symbol symbol-35px symbol-circle" data-bs-toggle="tooltip" title="" data-bs-original-title="Michael Eberon">
+            <div class="symbol symbol-35px symbol-circle" data-bs-toggle="tooltip" title=""
+                 data-bs-original-title="Michael Eberon">
               <img alt="Pic" src="/media/avatars/150-12.jpg">
             </div>
-            <div class="symbol symbol-35px symbol-circle" data-bs-toggle="tooltip" title="" data-bs-original-title="Michelle Swanston">
+            <div class="symbol symbol-35px symbol-circle" data-bs-toggle="tooltip" title=""
+                 data-bs-original-title="Michelle Swanston">
               <img alt="Pic" src="/media/avatars/150-13.jpg">
             </div>
-            <div class="symbol symbol-35px symbol-circle" data-bs-toggle="tooltip" title="" data-bs-original-title="Francis Mitcham">
+            <div class="symbol symbol-35px symbol-circle" data-bs-toggle="tooltip" title=""
+                 data-bs-original-title="Francis Mitcham">
               <img alt="Pic" src="/media/avatars/150-5.jpg">
             </div>
-            <div class="symbol symbol-35px symbol-circle" data-bs-toggle="tooltip" title="" data-bs-original-title="Susan Redwood">
+            <div class="symbol symbol-35px symbol-circle" data-bs-toggle="tooltip" title=""
+                 data-bs-original-title="Susan Redwood">
               <span class="symbol-label bg-primary text-inverse-primary fw-bolder">S</span>
             </div>
-            <div class="symbol symbol-35px symbol-circle" data-bs-toggle="tooltip" title="" data-bs-original-title="Melody Macy">
+            <div class="symbol symbol-35px symbol-circle" data-bs-toggle="tooltip" title=""
+                 data-bs-original-title="Melody Macy">
               <img alt="Pic" src="/media/avatars/150-3.jpg">
             </div>
-            <div class="symbol symbol-35px symbol-circle" data-bs-toggle="tooltip" title="" data-bs-original-title="Perry Matthew">
+            <div class="symbol symbol-35px symbol-circle" data-bs-toggle="tooltip" title=""
+                 data-bs-original-title="Perry Matthew">
               <span class="symbol-label bg-info text-inverse-info fw-bolder">P</span>
             </div>
-            <div class="symbol symbol-35px symbol-circle" data-bs-toggle="tooltip" title="" data-bs-original-title="Barry Walter">
+            <div class="symbol symbol-35px symbol-circle" data-bs-toggle="tooltip" title=""
+                 data-bs-original-title="Barry Walter">
               <img alt="Pic" src="/media/avatars/150-7.jpg">
             </div>
-            <a href="#" class="symbol symbol-35px symbol-circle" data-bs-toggle="modal" data-bs-target="#kt_modal_view_users">
+            <a href="#" class="symbol symbol-35px symbol-circle" data-bs-toggle="modal"
+               data-bs-target="#kt_modal_view_users">
               <span class="symbol-label bg-dark text-gray-300 fs-8 fw-bolder">+42</span>
             </a>
           </div>
           <div class="d-flex">
-            <a href="#" class="btn btn-primary btn-sm me-3" data-bs-toggle="modal" data-bs-target="#kt_modal_view_users">All Clients</a>
-            <a href="#" class="btn btn-light btn-sm" data-bs-toggle="modal" data-bs-target="#kt_modal_users_search">Invite New</a>
+            <a href="#" class="btn btn-primary btn-sm me-3" data-bs-toggle="modal"
+               data-bs-target="#kt_modal_view_users">All Clients</a>
+            <a href="#" class="btn btn-light btn-sm" data-bs-toggle="modal" data-bs-target="#kt_modal_users_search">Invite
+              New</a>
           </div>
         </div>
       </div>
@@ -114,7 +125,6 @@
   </div>
 </template>
 <script>
-
 import { mapGetters } from 'vuex'
 
 export default {
@@ -130,7 +140,7 @@ export default {
     },
     priceSum() {
       const sum = this.getPriceArray().reduce((acc, current) => acc + current, 0)
-      return sum.toFixed(2);
+      return sum.toFixed(2)
     },
     priceAvg() {
       const sum = this.getPriceArray().reduce((acc, current) => acc + current, 0)
@@ -143,6 +153,17 @@ export default {
       return Math.max(...this.getPriceArray())
     }
   },
+  data() {
+    return {
+      dataset: {
+        datasets: [{
+          data: [30, 45, 25],
+          backgroundColor: ['#00A3FF', '#50CD89', '#E4E6EF']
+        }],
+        labels: ['Active', 'Completed', 'Yet to start']
+      }
+    }
+  },
   methods: {
     getPriceArray() {
       return this.projects.reduce((acc, current) => {
@@ -150,6 +171,7 @@ export default {
         return acc
       }, [])
     }
-  }
+  },
+  components: {}
 }
 </script>

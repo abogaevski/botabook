@@ -65,7 +65,7 @@
 <script>
 
 export default {
-  name: 'ServiceCard',
+  name: 'ProjectCard',
   props: {
     title: String,
     description: String,

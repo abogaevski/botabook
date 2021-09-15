@@ -191,13 +191,13 @@
 </template>
 
 <script>
-import Modal from '@/components/_core/Modal.vue'
 import { Form, Field } from 'vee-validate'
-import BtButton from '@/components/_core/buttons/BtButton.vue'
 import { mapActions } from 'vuex'
 import * as Yup from 'yup'
 import moment from 'moment';
 import Swal from 'sweetalert2';
+import BtButton from '@/components/_core/buttons/BtButton.vue'
+import Modal from '@/components/_core/Modal.vue'
 
 export default {
   name: 'AddEventModal',
