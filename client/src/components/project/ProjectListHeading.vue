@@ -9,11 +9,11 @@
           <div class="fs-4 fw-bold text-gray-400 mb-7">Всего услуг</div>
           <div class="d-flex flex-wrap">
             <div class="d-flex flex-center h-100px w-100px me-5 mb-5">
-<!--              <project-count-chart :dataset="dataset"></project-count-chart>-->
+              <project-counter-chart :dataset="chartDataSet"></project-counter-chart>
             </div>
             <div class="d-flex flex-column justify-content-center flex-row-fluid pe-11 mb-5">
               <div class="d-flex fs-6 fw-bold align-items-center mb-3">
-                <div class="bullet bg-primary me-3"></div>
+                <div class="bullet bg-success me-3"></div>
                 <div class="text-gray-400">Активные</div>
                 <div class="ms-auto fw-bolder text-gray-700">
                   {{ activeProjects }}
@@ -126,6 +126,7 @@
 </template>
 <script>
 import { mapGetters } from 'vuex'
+import ProjectCounterChart from '@/components/project/ProjectCounterChart'
 
 export default {
   name: 'ProjectListHeading',
@@ -151,16 +152,14 @@ export default {
     },
     priceMax() {
       return Math.max(...this.getPriceArray())
-    }
-  },
-  data() {
-    return {
-      dataset: {
+    },
+    chartDataSet() {
+      return {
         datasets: [{
-          data: [30, 45, 25],
-          backgroundColor: ['#00A3FF', '#50CD89', '#E4E6EF']
+          data: [this.activeProjects, this.disabledProjects],
+          backgroundColor: ['#50CD89', '#E4E6EF']
         }],
-        labels: ['Active', 'Completed', 'Yet to start']
+        labels: ['Активные', 'Неактивные']
       }
     }
   },
@@ -172,6 +171,6 @@ export default {
       }, [])
     }
   },
-  components: {}
+  components: { ProjectCounterChart }
 }
 </script>
