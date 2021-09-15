@@ -159,15 +159,6 @@
           </li>
           <li class="nav-item">
             <router-link
-              to="/profile/projects"
-              class="nav-link text-active-primary me-6"
-              active-class="active"
-            >
-              Услуги
-            </router-link>
-          </li>
-          <li class="nav-item">
-            <router-link
               to="/profile/settings"
               class="nav-link text-active-primary me-6"
               active-class="active"

@@ -1,4 +1,3 @@
-from django.shortcuts import render
 from rest_framework import generics
 from rest_framework.permissions import IsAuthenticated
 
@@ -29,4 +28,3 @@ class ProjectRetrieveUpdateDestroyApiView(generics.RetrieveUpdateDestroyAPIView)
     def get_queryset(self):
         user = self.request.user
         return Project.objects.filter(user=user)
-

@@ -14,7 +14,7 @@ export const AsideMenuConfig = [
     ]
   },
   {
-    heading: 'Работа с профилем',
+    heading: 'Настройки',
     pages: [
       {
         sectionTitle: 'Профиль',
@@ -26,15 +26,16 @@ export const AsideMenuConfig = [
             route: '/profile/overview'
           },
           {
-            heading: 'Услуги',
-            route: '/profile/projects'
-          },
-          {
             heading: 'Настройки',
             route: '/profile/settings'
           },
         ]
-      }
+      },
+      {
+        heading: 'Услуги',
+        route: '/projects/list',
+        svgIcon: '/media/icons/duotone/Interface/Briefcase.svg'
+      },
     ]
   },
   {

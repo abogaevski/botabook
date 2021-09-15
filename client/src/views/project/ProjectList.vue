@@ -1,4 +1,5 @@
 <template>
+  <project-list-heading></project-list-heading>
   <div class="d-flex flex-wrap flex-stack my-5">
     <h2 class="fs-2 fw-bold my-2">
       Услуги
@@ -32,21 +33,23 @@
 
   </div>
 </template>
+
 <script>
-import BtButton from '@/components/_core/buttons/BtButton'
+import ProjectListHeading from '@/components/project/ProjectListHeading'
 import ProjectCard from '@/components/project/ProjectCard'
+import BtButton from '@/components/_core/buttons/BtButton'
 import { mapGetters } from 'vuex'
 
 export default {
-  name: 'ProfileProjectList',
+  name: 'ProjectList',
   components: {
-    BtButton, ProjectCard
+    ProjectListHeading, ProjectCard, BtButton
+  },
+  created() {
+    this.$store.dispatch('project/getProjects')
   },
   computed: {
     ...mapGetters('project', ['projects'])
   },
-  created() {
-    this.$store.dispatch('project/getProjects')
-  }
 }
 </script>
