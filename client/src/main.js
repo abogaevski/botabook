@@ -2,7 +2,6 @@ import { createApp } from 'vue'
 
 import InlineSvg from 'vue-inline-svg'
 import ElementPlus from 'element-plus'
-
 import { initVeeValidate } from '@/core/plugins/vee-validate'
 import { initYup } from '@/core/plugins/yup'
 
