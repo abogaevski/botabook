@@ -10,7 +10,7 @@ class ProjectListApiView(generics.ListAPIView):
     permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
-        return Project.objects.filter(user=self.request.user)
+        return Project.objects.filter(user=self.request.user).order_by('-created_at')
 
 
 class ProjectCreateApiView(generics.CreateAPIView):
