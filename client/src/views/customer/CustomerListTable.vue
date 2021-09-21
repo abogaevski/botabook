@@ -19,28 +19,28 @@
       <div class="table-responsive">
         <table class="table table-row-dashed table-row-gray-300 align-middle gs-0 gy-4">
           <thead>
-          <tr class="fw-bolder text-muted">
-            <th class="ps-4 min-w-300px rounded-start">Имя</th>
-            <th class="min-w-125px">Телефон</th>
-            <th class="min-w-125px">Статус</th>
-            <th class="min-w-125px text-end rounded-end"></th>
-          </tr>
+            <tr class="fw-bolder text-muted">
+              <th class="min-w-300px rounded-start">Имя</th>
+              <th class="min-w-125px">Телефон</th>
+              <th class="min-w-125px">Статус</th>
+              <th class="min-w-125px text-end rounded-end"></th>
+            </tr>
           </thead>
           <tbody>
 
-          <template v-for="(item, index) in list" :key="index">
+          <template v-for="(item, index) in customers" :key="index">
             <tr>
               <td>
                 <div class="d-flex align-items-center">
-                  <div class="symbol symbol-50px me-5">
-                      <span class="symbol-label bg-light">
-                        <img
-                          :src="item.image"
-                          class="h-75 align-self-end"
-                          alt=""
-                        />
-                      </span>
-                  </div>
+<!--                  <div class="symbol symbol-50px me-5">-->
+<!--                      <span class="symbol-label bg-light">-->
+<!--                        <img-->
+<!--                          :src="item.image"-->
+<!--                          class="h-75 align-self-end"-->
+<!--                          alt=""-->
+<!--                        />-->
+<!--                      </span>-->
+<!--                  </div>-->
 
                   <div class="d-flex justify-content-start flex-column">
                     <a
@@ -49,7 +49,7 @@
                       {{ item.name }}
                     </a>
                     <span class="text-muted fw-bold text-muted d-block fs-7">
-                      {{ item.note }}
+                      {{ item.email }}
                     </span>
                   </div>
                 </div>
@@ -95,51 +95,29 @@
 </template>
 
 <script>
-import BtButton from '@/components/_core/buttons/BtButton.vue';
+import { mapActions, mapGetters } from 'vuex'
+import BtButton from '@/components/_core/buttons/BtButton.vue'
 
 export default {
   name: 'CustomerListTable',
-  setup() {
-    const list = [
-      {
-        image: '/media/svg/avatars/001-boy.svg',
-        name: 'Антон Богаевский',
-        note: 'HTML, JS, ReactJS',
-        phone: '+995 587 042 792',
-        status: 'approved',
-      },
-      {
-        image: '/media/svg/avatars/001-boy.svg',
-        name: 'Антон Богаевский',
-        note: 'HTML, JS, ReactJS',
-        phone: '+995 587 042 792',
-        status: 'warning',
-      },
-      {
-        image: '/media/svg/avatars/001-boy.svg',
-        name: 'Антон Богаевский',
-        note: 'HTML, JS, ReactJS',
-        phone: '+995 587 042 792',
-        status: 'approved',
-      }
-    ];
-
-    return {
-      list
-    };
-  },
   components: {
     BtButton
   },
   computed: {
+    ...mapGetters('customerModule', ['customers'])
   },
   methods: {
+    ...mapActions('customerModule', ['getCustomers']),
+
     getStatus(status) {
       return {
         class: status === 'approved' ? 'success' : 'warning',
         text: status === 'approved' ? 'Подтвержден' : 'Не подтвержден'
       }
     }
+  },
+  mounted() {
+    this.getCustomers()
   }
 }
 </script>

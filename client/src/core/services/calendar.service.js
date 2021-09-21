@@ -3,7 +3,7 @@ import api from './api'
 class CalendarService {
   getEvents() {
     return api
-      .get('/events')
+      .get('/events/')
       .then((response) => response.data)
   }
 

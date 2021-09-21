@@ -22,3 +22,7 @@ export const REMOVE_USERPROFILE_AVATAR = 'REMOVE_USERPROFILE_AVATAR'
 // Projects
 export const SET_PROJECTS = 'SET_PROJECTS'
 export const CREATE_PROJECT = 'CREATE_PROJECT'
+
+// Customers
+
+export const SET_CUSTOMERS = 'SET_CUSTOMERS'

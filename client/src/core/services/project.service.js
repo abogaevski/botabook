@@ -3,7 +3,7 @@ import api from './api'
 class ProjectService {
   getProjects() {
     return api
-      .get('/projects')
+      .get('/projects/')
       .then((response) => response.data)
   }
 

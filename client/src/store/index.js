@@ -4,6 +4,7 @@ import { userProfile } from '@/store/modules/userProfile.module'
 import { calendar } from '@/store/modules/calendar.module'
 import { project } from '@/store/modules/project.module'
 import * as Mutation from './mutation-types'
+import { customerModule } from '@/store/modules/customer.module'
 
 export default createStore({
   state: {
@@ -26,6 +27,7 @@ export default createStore({
     auth,
     userProfile,
     calendar,
-    project
+    project,
+    customerModule
   },
 });
