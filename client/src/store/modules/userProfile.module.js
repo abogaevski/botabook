@@ -16,7 +16,12 @@ const initialProfile = {
     phone: '',
     title: '',
     updatedAt: '',
-    website: ''
+    website: '',
+    projectCount: {
+      all: 0,
+      active: 0,
+      disabled: 0
+    }
   }
 }
 export const userProfile = {

@@ -1,3 +1,4 @@
+/* eslint-disable func-names */
 import { createPopper } from '@popperjs/core'
 import { getElementChild } from '../_utils/helpers/dom-helpers/getElementChild'
 import { getElementParents } from '../_utils/helpers/dom-helpers/_getElementParents'

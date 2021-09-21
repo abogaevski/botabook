@@ -1,10 +1,10 @@
 import { createApp } from 'vue'
 
-import { initVeeValidate } from '@/core/plugins/vee-validate'
-import { initYup } from '@/core/plugins/yup'
-
 import InlineSvg from 'vue-inline-svg'
 import ElementPlus from 'element-plus'
+import { Chart, registerables } from 'chart.js'
+import { initVeeValidate } from '@/core/plugins/vee-validate'
+import { initYup } from '@/core/plugins/yup'
 
 import App from './App.vue'
 
@@ -16,6 +16,8 @@ import store from './store'
 
 import '@/core/plugins/theme'
 import 'bootstrap'
+
+Chart.register(...registerables);
 
 const app = createApp(App)
 app.use(store)

@@ -7,7 +7,7 @@ export const calendar = {
   namespaced: true,
 
   state: {
-    events: ''
+    events: []
   },
 
   actions: {

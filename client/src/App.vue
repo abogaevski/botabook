@@ -5,8 +5,7 @@
 <style lang="scss">
 @import '~@fortawesome/fontawesome-free/css/all.min.css';
 @import "~bootstrap-icons/font/bootstrap-icons.css";
-@import "~element-plus/lib/theme-chalk/index.css";
-@import '~flatpickr/dist/flatpickr.css';
+@import "~element-plus/theme-chalk/index.css";
 @import "~sweetalert2/dist/sweetalert2.css";
 
 // Main demo style scss

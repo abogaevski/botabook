@@ -61,11 +61,11 @@
 </template>
 
 <script>
-import Modal from '@/components/_core/Modal.vue'
-import BtButton from '@/components/_core/buttons/BtButton.vue'
 import moment from 'moment'
 import Swal from 'sweetalert2';
 import { mapActions } from 'vuex';
+import BtButton from '@/components/_core/buttons/BtButton.vue'
+import Modal from '@/components/_core/Modal.vue'
 
 export default {
   name: 'ViewEventModal',
