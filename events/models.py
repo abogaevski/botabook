@@ -1,6 +1,8 @@
 from django.contrib.auth import get_user_model
 from django.db import models
 
+from customers.models import Customer
+
 
 class Event(models.Model):
     class Meta:
@@ -15,6 +17,9 @@ class Event(models.Model):
         blank=True,
         null=True
     )
+
+    customer = models.ForeignKey(Customer, on_delete=models.CASCADE, null=True, blank=True)
+
     title = models.CharField('Тема встречи', max_length=255)
     start = models.DateTimeField('Начинается', )
     end = models.DateTimeField('Заканчивается')

@@ -10,3 +10,6 @@ class Customer(models.Model):
         verbose_name = 'Customer'
         verbose_name_plural = 'Customers'
         db_table = 'customers'
+
+    def __str__(self):
+        return self.name
