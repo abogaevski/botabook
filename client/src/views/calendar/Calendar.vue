@@ -1,20 +1,20 @@
 <template>
   <div class="card">
-    <div class="card-header">
-      <h2 class="card-title fw-bolder">Календарь</h2>
-      <div class="card-toolbar">
+<!--    <div class="card-header">-->
+<!--      <h2 class="card-title fw-bolder">Календарь</h2>-->
+<!--      <div class="card-toolbar">-->
 
-        <bt-button
-          @click:btn="onAddEventButtonClick"
-          btn-class="btn-primary btn-flex"
-          icon-url="/media/icons/duotone/Navigation/Plus.svg"
-          icon-class="svg-icon-2"
-        >
-          Добавить событие
-        </bt-button>
+<!--        <bt-button-->
+<!--          @click:btn="onAddEventButtonClick"-->
+<!--          btn-class="btn-primary btn-flex"-->
+<!--          icon-url="/media/icons/duotone/Navigation/Plus.svg"-->
+<!--          icon-class="svg-icon-2"-->
+<!--        >-->
+<!--          Добавить событие-->
+<!--        </bt-button>-->
 
-      </div>
-    </div>
+<!--      </div>-->
+<!--    </div>-->
     <div class="card-body calendar-wrapper">
       <full-calendar :options="config"></full-calendar>
     </div>
@@ -136,7 +136,7 @@ export default {
     calendarOptions() {
       return {
         plugins: [dayGridPlugin, timeGridPlugin, interactionPlugin, listPlugin],
-        initialView: 'dayGridMonth',
+        initialView: 'timeGridWeek',
         navLinks: true,
         selectable: true,
         selectMirror: true,
@@ -144,18 +144,12 @@ export default {
         headerToolbar: {
           left: 'prev,next today',
           center: 'title',
-          right: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek'
+          right: 'timeGridWeek,dayGridMonth,timeGridDay,listWeek'
         },
-        // buttonText: {
-        //   today: 'Сегодня',
-        //   month: 'Месяц',
-        //   week: 'Неделя',
-        //   day: 'День',
-        //   list: 'Повестка'
-        // },
         locale: ruLocale,
         firstDay: '1',
-        events: this.events
+        events: this.events,
+        // aspectRatio: 1.6
       }
     },
     eventHandlers() {
