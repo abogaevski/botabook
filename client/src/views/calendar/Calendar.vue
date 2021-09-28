@@ -173,7 +173,6 @@ export default {
     ViewEventModal,
     EditEventModal,
     FullCalendar,
-    BtButton,
   }
 }
 </script>

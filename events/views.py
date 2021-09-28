@@ -4,11 +4,20 @@ from rest_framework.permissions import IsAuthenticated
 
 from core.permissions import IsOwnerOrSuperuser
 from .models import Event
-from .serializers import EventSerializer
+from .serializers import EventSerializer, EventDatesListSerializer
 
 
 class EventListApiView(generics.ListAPIView):
     serializer_class = EventSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        user = self.request.user
+        return Event.objects.filter(user=user)
+
+
+class EventDatesApiView(generics.ListAPIView):
+    serializer_class = EventDatesListSerializer
     permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
