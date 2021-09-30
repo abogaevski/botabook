@@ -5,6 +5,7 @@ const routes = [
     path: '/',
     redirect: '/calendar',
     component: () => import('@/layout/Layout.vue'),
+    meta: { requiresAuth: true },
     children: [
       {
         path: '/calendar',
@@ -19,18 +20,19 @@ const routes = [
       {
         path: '/profile',
         name: 'profile',
+        redirect: '/profile/settings',
         component: () => import('@/views/profile/Profile.vue'),
         children: [
-          {
-            path: 'overview',
-            name: 'profile-overview',
-            component: () => import('@/views/profile/ProfileOverview.vue')
-          },
+          // {
+          //   path: 'overview',
+          //   name: 'profile-overview',
+          //   component: () => import('@/views/profile/ProfileOverview.vue')
+          // },
           {
             path: 'settings',
             name: 'profile-settings',
             component: () => import('@/views/profile/ProfileSettings.vue')
-          },
+          }
         ]
       },
       {
@@ -54,6 +56,11 @@ const routes = [
     path: '/signup',
     name: 'signup',
     component: () => import('@/views/auth/SignUp.vue')
+  },
+  {
+    path: '/:slug',
+    name: 'public-profile',
+    component: () => import('@/views/public/PublicPage.vue')
   }
 ]
 
@@ -63,12 +70,13 @@ const router = createRouter({
 })
 
 router.beforeEach((to, from, next) => {
-  const publicPages = ['/signin', '/signup']
-  const authRequired = !publicPages.includes(to.path)
-  const loggedIn = localStorage.getItem('token')
-
-  if (authRequired && !loggedIn) {
-    next('/signin')
+  if (to.matched.some((record) => record.meta.requiresAuth)) {
+    const loggedIn = localStorage.getItem('token')
+    if (!loggedIn) {
+      next({ name: 'signin' })
+    } else {
+      next()
+    }
   } else {
     next()
   }

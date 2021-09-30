@@ -1,5 +1,7 @@
 <template>
-  <div class="card mb-5 mb-xl-8">
+  <div
+    v-if="customers.length"
+    class="card mb-5 mb-xl-8">
     <div class="card-header border-0 pt-5">
       <h3 class="card-title align-items-start flex-column">
         <span class="card-label fw-bolder fs-3 mb-1">Клиенты</span>
@@ -92,15 +94,18 @@
       </div>
     </div>
   </div>
+  <customer-no-data v-else />
 </template>
 
 <script>
 import { mapActions, mapGetters } from 'vuex'
 import BtButton from '@/components/_core/buttons/BtButton.vue'
+import CustomerNoData from '@/components/customer/CustomerNoData'
 
 export default {
   name: 'CustomerListTable',
   components: {
+    CustomerNoData,
     BtButton
   },
   computed: {

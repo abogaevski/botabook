@@ -30,6 +30,12 @@ class UserService {
       .patch(`/account/user/${id}/remove-avatar`)
       .then((response) => response.data)
   }
+
+  getPublicProfile(slug) {
+    return api
+      .get(`/account/profile/${slug}`)
+      .then((response) => response.data)
+  }
 }
 
 export default new UserService();

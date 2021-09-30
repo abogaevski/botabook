@@ -21,6 +21,7 @@ export const customerModule = {
     }
   },
   getters: {
-    customers: (state) => state.customers
+    customers: (state) => state.customers,
+    customerCount: (state) => state.customers.length
   }
 }

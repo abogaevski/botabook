@@ -74,6 +74,7 @@ export const calendar = {
   },
 
   getters: {
-    events: (state) => state.events
+    events: (state) => state.events,
+    eventCount: (state) => state.events.length
   }
 }

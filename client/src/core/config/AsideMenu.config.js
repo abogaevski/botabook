@@ -17,19 +17,19 @@ export const AsideMenuConfig = [
     heading: 'Настройки',
     pages: [
       {
-        sectionTitle: 'Профиль',
-        route: '/profile',
+        heading: 'Профиль',
+        route: '/profile/settings',
         svgIcon: '/media/icons/duotone/General/User.svg',
-        sub: [
-          {
-            heading: 'Детали',
-            route: '/profile/overview'
-          },
-          {
-            heading: 'Настройки',
-            route: '/profile/settings'
-          },
-        ]
+        // sub: [
+        //   {
+        //     heading: 'Детали',
+        //     route: '/profile/overview'
+        //   },
+        //   {
+        //     heading: 'Настройки',
+        //     route: '/profile/settings'
+        //   },
+        // ]
       },
       {
         heading: 'Услуги',

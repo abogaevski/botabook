@@ -88,6 +88,7 @@ class ProfileUpdateSerializer(serializers.ModelSerializer):
             'welcome_text',
         ]
 
+
 class ProfileUpdateAvatarSerializer(serializers.ModelSerializer):
     class Meta:
         model = Profile
@@ -102,3 +103,27 @@ class UserRetrieveSerializer(serializers.ModelSerializer):
     class Meta:
         model = get_user_model()
         fields = ['id', 'email', 'profile']
+
+
+class PublicProfileRetrieveSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Profile
+        fields = [
+            'avatar',
+            'first_name',
+            'last_name',
+            'title',
+            'phone',
+            'company',
+            'website',
+            'city',
+            'country',
+            'welcome_text',
+        ]
+
+    def get_avatar(self, profile):
+        request = self.context['request']
+        if profile.avatar != "":
+            avatar_url = profile.avatar.url
+            return request.build_absolute_uri(avatar_url)

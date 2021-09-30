@@ -13,6 +13,7 @@ class Project(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     # status
+    # color
 
     user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE, related_name='projects')
 

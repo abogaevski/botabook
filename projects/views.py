@@ -1,8 +1,9 @@
 from rest_framework import generics
 from rest_framework.permissions import IsAuthenticated
 
+from accounts.models import Profile
 from .models import Project
-from .serializers import ProjectSerializer
+from .serializers import *
 
 
 class ProjectListApiView(generics.ListAPIView):
@@ -28,3 +29,12 @@ class ProjectRetrieveUpdateDestroyApiView(generics.RetrieveUpdateDestroyAPIView)
     def get_queryset(self):
         user = self.request.user
         return Project.objects.filter(user=user)
+
+
+class PublicProjectListApiView(generics.ListAPIView):
+    serializer_class = PublicProjectSerializer
+
+    def get_queryset(self):
+        slug = self.kwargs['slug']
+        profile = Profile.objects.filter(slug=slug).first()
+        return Project.objects.filter(user=profile.user)

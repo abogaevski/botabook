@@ -9,5 +9,6 @@ urlpatterns = [
     path('user', UserApiView.as_view()),
     path('user/<int:pk>/update', ProfileUpdateApiView.as_view()),
     path('user/<int:pk>/upload-avatar', ProfileAvatarUploadApiView.as_view()),
-    path('user/<int:pk>/remove-avatar', ProfileAvatarRemoveApiView.as_view())
+    path('user/<int:pk>/remove-avatar', ProfileAvatarRemoveApiView.as_view()),
+    path('profile/<str:slug>', PublicProfileApiView.as_view())
 ]

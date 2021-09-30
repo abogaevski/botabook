@@ -31,6 +31,7 @@ export const project = {
     }
   },
   getters: {
-    projects: (state) => state.projects
+    projects: (state) => state.projects,
+    projectCount: (state) => state.projects.length
   }
 }

@@ -12,5 +12,11 @@ class ProjectService {
       .post('/projects/create', { ...project })
       .then((response) => response.data)
   }
+
+  getPublicProjects(slug) {
+    return api
+      .get(`/projects/profile/${slug}`)
+      .then((response) => response.data)
+  }
 }
 export default new ProjectService()
