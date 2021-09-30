@@ -17,6 +17,27 @@
           <profile-avatar :id="user.id" :avatar="user.profile.avatar"></profile-avatar>
 
           <div class="row mb-6">
+            <label class="col-lg-4 col-form-label fw-bold fs-6">
+              Ссылка на страницу
+            </label>
+            <div class="col-lg-8 fv-row">
+              <div class="form-text mb-3">{{ location }}</div>
+              <Field
+                type="text"
+                rows="3"
+                name="slug"
+                class="form-control form-control-lg form-control-solid"
+                v-model.lazy="user.profile.slug"
+              />
+              <div class="fv-plugins-message-container">
+                <div class="fv-help-block">
+                  <ErrorMessage name="slug"/>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row mb-6">
             <label class="col-lg-4 col-form-label required fw-bold fs-6">
               Полное имя
             </label>
@@ -32,7 +53,7 @@
                   />
                   <div class="fv-plugins-message-container">
                     <div class="fv-help-block">
-                      <ErrorMessage name="firstName" />
+                      <ErrorMessage name="firstName"/>
                     </div>
                   </div>
                 </div>
@@ -46,9 +67,35 @@
                   />
                   <div class="fv-plugins-message-container">
                     <div class="fv-help-block">
-                      <ErrorMessage name="lastName" />
+                      <ErrorMessage name="lastName"/>
                     </div>
                   </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row mb-6">
+            <label class="col-lg-4 col-form-label fw-bold fs-6">
+              Текст приветствия
+              <bt-tooltip
+                tag="i"
+                tooltipClass="fas fa-exclamation-circle ms-1 fs-7"
+                title="Отобразится на Вашей публичной странице"
+                placement="right"
+              />
+            </label>
+            <div class="col-lg-8 fv-row">
+              <Field
+                as="textarea"
+                rows="3"
+                name="welcomeText"
+                class="form-control form-control-lg form-control-solid"
+                v-model.lazy="user.profile.welcomeText"
+              />
+              <div class="fv-plugins-message-container">
+                <div class="fv-help-block">
+                  <ErrorMessage name="welcomeText"/>
                 </div>
               </div>
             </div>
@@ -68,7 +115,7 @@
               />
               <div class="fv-plugins-message-container">
                 <div class="fv-help-block">
-                  <ErrorMessage name="title" />
+                  <ErrorMessage name="title"/>
                 </div>
               </div>
             </div>
@@ -88,7 +135,7 @@
               />
               <div class="fv-plugins-message-container">
                 <div class="fv-help-block">
-                  <ErrorMessage name="company" />
+                  <ErrorMessage name="company"/>
                 </div>
               </div>
             </div>
@@ -97,11 +144,12 @@
           <div class="row mb-6">
             <label class="col-lg-4 col-form-label fw-bold fs-6">
               <span>Телефон</span>
-              <i
-                class="fas fa-exclamation-circle ms-1 fs-7"
-                data-bs-toggle="tooltip"
-                title="Phone number must be active"
-              ></i>
+              <bt-tooltip
+                tag="i"
+                tooltipClass="fas fa-exclamation-circle ms-1 fs-7"
+                title="Телефон должен быть активен"
+                placement="right"
+              />
             </label>
 
             <div class="col-lg-8 fv-row">
@@ -114,7 +162,7 @@
               />
               <div class="fv-plugins-message-container">
                 <div class="fv-help-block">
-                  <ErrorMessage name="phone" />
+                  <ErrorMessage name="phone"/>
                 </div>
               </div>
             </div>
@@ -135,7 +183,7 @@
               />
               <div class="fv-plugins-message-container">
                 <div class="fv-help-block">
-                  <ErrorMessage name="website" />
+                  <ErrorMessage name="website"/>
                 </div>
               </div>
             </div>
@@ -145,11 +193,12 @@
             <label class="col-lg-4 col-form-label fw-bold fs-6">
               <span>Страна</span>
 
-              <i
-                class="fas fa-exclamation-circle ms-1 fs-7"
-                data-bs-toggle="tooltip"
-                title="Country of origination"
-              ></i>
+              <bt-tooltip
+                tag="i"
+                tooltipClass="fas fa-exclamation-circle ms-1 fs-7"
+                title="Страна нахождения"
+                placement="right"
+              />
             </label>
             <div class="col-lg-8 fv-row">
               <Field
@@ -161,7 +210,7 @@
               </Field>
               <div class="fv-plugins-message-container">
                 <div class="fv-help-block">
-                  <ErrorMessage name="country" />
+                  <ErrorMessage name="country"/>
                 </div>
               </div>
             </div>
@@ -171,11 +220,12 @@
             <label class="col-lg-4 col-form-label fw-bold fs-6">
               <span>Город</span>
 
-              <i
-                class="fas fa-exclamation-circle ms-1 fs-7"
-                data-bs-toggle="tooltip"
-                title="Country of origination"
-              ></i>
+              <bt-tooltip
+                tag="i"
+                tooltipClass="fas fa-exclamation-circle ms-1 fs-7"
+                title="Город проживания"
+                placement="right"
+              />
             </label>
             <div class="col-lg-8 fv-row">
               <Field
@@ -187,11 +237,12 @@
               </Field>
               <div class="fv-plugins-message-container">
                 <div class="fv-help-block">
-                  <ErrorMessage name="city" />
+                  <ErrorMessage name="city"/>
                 </div>
               </div>
             </div>
           </div>
+<!--          Тут должна быть ссылка! -->
 
         </div>
 
@@ -228,6 +279,7 @@ import * as Yup from 'yup'
 import { mapActions, mapGetters } from 'vuex'
 import Swal from 'sweetalert2'
 import ProfileAvatar from '@/components/profile/ProfileAvatar'
+import BtTooltip from '@/components/_core/BtTooltip'
 
 export default {
   name: 'ProfileSettings',
@@ -239,6 +291,12 @@ export default {
       lastName: Yup.string()
         .required()
         .label('Фамилия'),
+      welcomeText: Yup.string()
+        .label('Текст приветствия'),
+      slug: Yup.string()
+        .required()
+        .matches('^[a-z0-9]+(?:-[a-z0-9]+)*$')
+        .label('Ссылка на страницу'),
       title: Yup.string()
         .label('Должность'),
       company: Yup.string()
@@ -250,7 +308,7 @@ export default {
       country: Yup.string()
         .label('Страна'),
       city: Yup.string()
-        .label('Город'),
+        .label('Город')
     })
     return {
       profileSchema
@@ -260,9 +318,12 @@ export default {
     ...mapGetters('userProfile', ['user']),
     error() {
       return this.$store.getters.error
+    },
+    location() {
+      return window.location.origin
     }
   },
-  components: { Form, Field, ErrorMessage, ProfileAvatar },
+  components: { Form, Field, ErrorMessage, ProfileAvatar, BtTooltip },
 
   methods: {
     ...mapActions('userProfile', ['updateUserProfile', 'updateUserProfileAvatar']),
@@ -326,6 +387,6 @@ export default {
     removeProfileAvatar(props) {
       console.log(props)
     }
-  }
+  },
 }
 </script>

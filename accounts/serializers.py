@@ -46,7 +46,6 @@ class SigninTokenObtainPairSerializer(TokenObtainPairSerializer):
 
 class ProfileSerializer(serializers.ModelSerializer):
     avatar = serializers.SerializerMethodField()
-    project_count = serializers.SerializerMethodField()
 
     class Meta:
         model = Profile
@@ -54,13 +53,16 @@ class ProfileSerializer(serializers.ModelSerializer):
             'avatar',
             'first_name',
             'last_name',
+            'slug',
             'title',
             'phone',
             'company',
             'website',
             'city',
             'country',
-            'project_count'
+            'welcome_text',
+            'created_at',
+            'updated_at'
         ]
 
     def get_avatar(self, profile):
@@ -69,15 +71,22 @@ class ProfileSerializer(serializers.ModelSerializer):
             avatar_url = profile.avatar.url
             return request.build_absolute_uri(avatar_url)
 
-    def get_project_count(self, profile):
-        user = profile.user
-        response = {
-            'all': user.projects.count(),
-            'active': user.projects.filter(is_active=True).count(),
-            'disabled': user.projects.filter(is_active=False).count()
-        }
-        return response
 
+class ProfileUpdateSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Profile
+        fields = [
+            'first_name',
+            'last_name',
+            'title',
+            'phone',
+            'company',
+            'website',
+            'city',
+            'country',
+            'welcome_text',
+        ]
 
 class ProfileUpdateAvatarSerializer(serializers.ModelSerializer):
     class Meta:

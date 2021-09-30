@@ -1,5 +1,6 @@
-from django.db.models.signals import post_save, post_delete, pre_save
+from django.db.models.signals import post_save
 from django.dispatch import receiver
+from django.template.defaultfilters import slugify
 from rest_framework.authtoken.models import Token
 
 from .models import User, Profile
@@ -11,7 +12,8 @@ def save_profile(sender, instance, created, **kwargs):
         profile = Profile(
             user=instance,
             first_name=instance.first_name,
-            last_name=instance.last_name
+            last_name=instance.last_name,
+            slug=slugify(instance.email.split('@')[0])
         )
         profile.save()
 

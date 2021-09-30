@@ -53,6 +53,7 @@ class Profile(models.Model):
     avatar = models.ImageField(upload_to='users/profiles/avatars/', null=True, blank=True)
     title = models.CharField(max_length=255, blank=True, default='')
     phone = models.CharField(max_length=32, blank=True, default='')
+    welcome_text = models.TextField()
 
     company = models.CharField(max_length=255, blank=True, default='')
     website = models.CharField(max_length=32, blank=True, default='')
@@ -62,6 +63,9 @@ class Profile(models.Model):
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+    slug = models.SlugField()
+
     #
     # @property
     # def avatar_url(self):

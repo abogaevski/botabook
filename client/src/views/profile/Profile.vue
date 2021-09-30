@@ -47,7 +47,7 @@
                 </a>
                 <a
                   href="#"
-                  class="d-flex align-items-center text-gray-400 text-hover-primary mb-2"
+                  class="d-flex align-items-center text-gray-400 text-hover-primary me-5 mb-2"
                 >
                   <span class="svg-icon svg-icon-4 me-1">
                     <inline-svg
@@ -55,6 +55,18 @@
                     />
                   </span>
                   {{ user.email }}
+                </a>
+                <a
+                  v-if="slug"
+                  :href="slug"
+                  class="d-flex align-items-center text-gray-400 text-hover-primary mb-2"
+                >
+                  <span class="svg-icon svg-icon-4 me-1">
+                    <inline-svg
+                      src="/media/icons/duotone/Interface/Grid-Vetical.svg"
+                    />
+                  </span>
+                  {{ slug }}
                 </a>
               </div>
             </div>
@@ -70,76 +82,6 @@
           <div class="d-flex flex-wrap flex-stack">
             <div class="d-flex flex-column flex-grow-1 pe-8">
               <div class="d-flex flex-wrap">
-
-                <div class="border border-gray-300 border-dashed rounded min-w-125px py-3 px-4 me-6 mb-3">
-                  <div class="d-flex align-items-center">
-                    <span
-                      :class="{ 'svg-icon-success': user.profile.projectCount.all > 0 }"
-                      class="svg-icon svg-icon-2 me-2"
-                    >
-                      <inline-svg
-                        :src="user.profile.projectCount.all > 0
-                          ? '/media/icons/duotone/General/Like.svg'
-                          : '/media/icons/duotone/General/Update.svg'"
-                      />
-                    </span>
-                    <div
-                      class="fs-2 fw-bolder"
-                      data-kt-countup="true"
-                      :data-kt-countup-value="user.profile.projectCount.all"
-                    >
-                      {{ user.profile.projectCount.all }}
-                    </div>
-                  </div>
-                  <div class="fw-bold fs-6 text-gray-400">Всего услуг</div>
-                </div>
-
-                <div class="border border-gray-300 border-dashed rounded min-w-125px py-3 px-4 me-6 mb-3">
-                  <div class="d-flex align-items-center">
-                    <span
-                      :class="{ 'svg-icon-success': user.profile.projectCount.active > 0 }"
-                      class="svg-icon svg-icon-2 me-2"
-                    >
-                      <inline-svg
-                        :src="user.profile.projectCount.active > 0
-                        ? '/media/icons/duotone/General/Like.svg'
-                        : '/media/icons/duotone/General/Update.svg'"
-                      />
-                    </span>
-                    <div
-                      class="fs-2 fw-bolder"
-                      data-kt-countup="true"
-                      :data-kt-countup-value="user.profile.projectCount.active"
-                    >
-                      {{ user.profile.projectCount.active }}
-                    </div>
-                  </div>
-                  <div class="fw-bold fs-6 text-gray-400">Активных услуг</div>
-                </div>
-
-                <div class="border border-gray-300 border-dashed rounded min-w-125px py-3 px-4 me-6 mb-3">
-                  <div class="d-flex align-items-center">
-                    <span
-                      :class="{ 'svg-icon-success': user.profile.projectCount.disabled < 0 }"
-                      class="svg-icon svg-icon-2 me-2"
-                    >
-                      <inline-svg
-                        :src="user.profile.projectCount.disabled < 0
-                        ? '/media/icons/duotone/General/Like.svg'
-                        : '/media/icons/duotone/General/Update.svg'"
-
-                      />
-                    </span>
-                    <div
-                      class="fs-2 fw-bolder"
-                      data-kt-countup="true"
-                      :data-kt-countup-value="user.profile.projectCount.disabled"
-                    >
-                      {{ user.profile.projectCount.disabled }}
-                    </div>
-                  </div>
-                  <div class="fw-bold fs-6 text-gray-400">Неактивных услуг</div>
-                </div>
               </div>
             </div>
           </div>
@@ -188,6 +130,9 @@ export default {
         ? `${this.user.profile.city}, ${this.user.profile.country}`
         : ''
     },
+    slug() {
+      return `${window.location.origin}/${this.user.profile.slug}` || ''
+    }
   },
 }
 </script>

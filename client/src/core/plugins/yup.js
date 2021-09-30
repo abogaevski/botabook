@@ -8,7 +8,8 @@ export function initYup() {
     },
     string: {
       min: '${path} должно быть не менее ${min} символов',
-      email: '${path} - нерпавильный формат'
+      email: '${path} - неправильный формат',
+      matches: '${path} - неправильный формат'
     },
   });
 }
