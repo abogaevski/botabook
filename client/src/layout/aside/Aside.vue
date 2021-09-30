@@ -1,7 +1,7 @@
 <template>
   <div class="aside aside-hoverable aside-light">
     <div class="aside-logo flex-column-auto">
-      <img src="/media/logos/logo-full.svg" class="h-45px logo" alt="">
+      <img src="/media/logos/botabook-dark.svg" class="h-35px logo" alt="">
 
       <div
         id="bb_aside_toggle"

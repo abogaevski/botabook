@@ -1,6 +1,6 @@
 <template>
   <div class="page-loader flex-column">
-    <img alt="Logo" class="max-h-75px" src="/media/logos/logo-full.svg" />
+    <img alt="Logo" class="h-40px" src="/media/logos/botabook-dark.svg" />
 
     <div class="d-flex align-items-center mt-5">
       <span class="spinner-border text-primary" role="status"></span>
