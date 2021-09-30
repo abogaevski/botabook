@@ -50,7 +50,6 @@ import listPlugin from '@fullcalendar/list'
 import interactionPlugin from '@fullcalendar/interaction'
 import ruLocale from '@fullcalendar/core/locales/ru'
 import { mapActions, mapGetters } from 'vuex'
-import BtButton from '@/components/_core/buttons/BtButton.vue'
 import AddEventModal from '@/components/calendar/AddEventModal.vue';
 import ViewEventModal from '@/components/calendar/ViewEventModal.vue';
 import EditEventModal from '@/components/calendar/EditEventModal.vue';

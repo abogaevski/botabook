@@ -72,7 +72,7 @@
         <div class="card-body p-9">
           <!--begin::Heading-->
           <div class="fs-2hx fw-bolder">49</div>
-          <div class="fs-4 fw-bold text-gray-400 mb-7">Metronic Clients</div>
+          <div class="fs-4 fw-bold text-gray-400 mb-7">Клиенты</div>
           <!--end::Heading-->
           <!--begin::Users group-->
           <div class="symbol-group symbol-hover mb-9">
