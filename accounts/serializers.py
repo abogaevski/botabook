@@ -61,6 +61,8 @@ class ProfileSerializer(serializers.ModelSerializer):
             'city',
             'country',
             'welcome_text',
+            'working_hours',
+            'timezone',
             'created_at',
             'updated_at'
         ]
@@ -86,6 +88,8 @@ class ProfileUpdateSerializer(serializers.ModelSerializer):
             'city',
             'country',
             'welcome_text',
+            'working_hours',
+            'timezone'
         ]
 
 
@@ -120,6 +124,8 @@ class PublicProfileRetrieveSerializer(serializers.ModelSerializer):
             'city',
             'country',
             'welcome_text',
+            'working_hours',
+            'timezone'
         ]
 
     def get_avatar(self, profile):

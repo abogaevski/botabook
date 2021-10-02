@@ -47,6 +47,7 @@ import FullCalendar from '@fullcalendar/vue3'
 import dayGridPlugin from '@fullcalendar/daygrid'
 import timeGridPlugin from '@fullcalendar/timegrid'
 import listPlugin from '@fullcalendar/list'
+import momentTimezonePlugin from '@fullcalendar/moment-timezone'
 import interactionPlugin from '@fullcalendar/interaction'
 import ruLocale from '@fullcalendar/core/locales/ru'
 import { mapActions, mapGetters } from 'vuex'
@@ -106,7 +107,8 @@ export default {
         title: event.title,
         start: event.start,
         end: event.end,
-        allDay: event.allDay
+        allDay: event.allDay,
+        customer: ''
       }
       this.showModal('View')
     },
@@ -125,7 +127,10 @@ export default {
     },
   },
   computed: {
-    ...mapGetters('calendar', ['events']),
+    ...mapGetters({
+      events: 'calendar/events',
+      profileTimezone: 'userProfile/timezone',
+    }),
     config() {
       return {
         ...this.calendarOptions,
@@ -134,7 +139,7 @@ export default {
     },
     calendarOptions() {
       return {
-        plugins: [dayGridPlugin, timeGridPlugin, interactionPlugin, listPlugin],
+        plugins: [dayGridPlugin, timeGridPlugin, interactionPlugin, listPlugin, momentTimezonePlugin],
         initialView: 'timeGridWeek',
         navLinks: true,
         selectable: true,
@@ -146,6 +151,10 @@ export default {
           right: 'timeGridWeek,dayGridMonth,timeGridDay,listWeek'
         },
         locale: ruLocale,
+        timeZone: this.profileTimezone,
+        // TODO: Change to profile working hours
+        slotMinTime: '08:00:00',
+        slotMaxTime: '18:00:00',
         firstDay: '1',
         events: this.events,
         // aspectRatio: 1.6
@@ -160,7 +169,6 @@ export default {
         select: this.onDateSelect
       }
     }
-
   },
 
   mounted() {

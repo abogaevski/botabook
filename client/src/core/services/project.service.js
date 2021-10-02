@@ -15,7 +15,7 @@ class ProjectService {
 
   getPublicProjects(slug) {
     return api
-      .get(`/projects/profile/${slug}`)
+      .get(`/projects/profile/${slug}/projects`)
       .then((response) => response.data)
   }
 }

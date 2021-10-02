@@ -5,5 +5,5 @@ urlpatterns = [
     path('', ProjectListApiView.as_view()),
     path('create', ProjectCreateApiView.as_view()),
     path('<int:pk>', ProjectRetrieveUpdateDestroyApiView.as_view()),
-    path('profile/<str:slug>', PublicProjectListApiView.as_view())
+    path('profile/<str:slug>/projects', PublicProjectListApiView.as_view())
 ]

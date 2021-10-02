@@ -242,7 +242,59 @@
               </div>
             </div>
           </div>
-<!--          Тут должна быть ссылка! -->
+          <div class="row mb-6">
+            <label class="col-lg-4 col-form-label fw-bold fs-6">
+              <span>График работы</span>
+
+              <bt-tooltip
+                tag="i"
+                tooltipClass="fas fa-exclamation-circle ms-1 fs-7"
+                title="График работы в формате. например 08:00:00-17:00:00"
+                placement="right"
+              />
+            </label>
+            <div class="col-lg-8 fv-row">
+              <Field
+                name="workingHours"
+                class="form-control form-control-solid fw-bold"
+                placeholder="08:00:00-17:00:00"
+                v-model.lazy="user.profile.workingHours"
+              >
+              </Field>
+              <div class="fv-plugins-message-container">
+                <div class="fv-help-block">
+                  <ErrorMessage name="city"/>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row mb-6">
+            <label class="col-lg-4 col-form-label fw-bold fs-6">
+              <span>Часовой пояс</span>
+
+              <bt-tooltip
+                tag="i"
+                tooltipClass="fas fa-exclamation-circle ms-1 fs-7"
+                title="Город проживания"
+                placement="right"
+              />
+            </label>
+            <div class="col-lg-8 fv-row">
+              <Field
+                name="timezone"
+                class="form-select form-select-solid"
+                as="select"
+                v-model.lazy="user.profile.timezone"
+              >
+                <option v-for="(zone, i) in zones" :key="i" :value="zone">{{ zone }}</option>
+              </Field>
+              <div class="fv-plugins-message-container">
+                <div class="fv-help-block">
+                  <ErrorMessage name="city"/>
+                </div>
+              </div>
+            </div>
+          </div>
 
         </div>
 
@@ -274,6 +326,7 @@
   </div>
 </template>
 <script>
+import { tz } from 'moment-timezone'
 import { Form, Field, ErrorMessage } from 'vee-validate'
 import * as Yup from 'yup'
 import { mapActions, mapGetters } from 'vuex'
@@ -308,7 +361,11 @@ export default {
       country: Yup.string()
         .label('Страна'),
       city: Yup.string()
-        .label('Город')
+        .label('Город'),
+      timezone: Yup.string()
+        .label('Часовой пояс'),
+      workingHours: Yup.string()
+        .label('Часы доступности')
     })
     return {
       profileSchema
@@ -321,6 +378,14 @@ export default {
     },
     location() {
       return window.location.origin
+    },
+    zones() {
+      const result = []
+      result.push(...tz.zonesForCountry('BY'))
+      result.push(...tz.zonesForCountry('GE'))
+      result.push(...tz.zonesForCountry('UA'))
+      result.push(...tz.zonesForCountry('RU'))
+      return result
     }
   },
   components: { Form, Field, ErrorMessage, ProfileAvatar, BtTooltip },

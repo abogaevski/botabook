@@ -254,7 +254,12 @@ export default {
         title: this.event.title,
         start: moment(`${this.event.startDate} ${this.event.startTime}`).toISOString(),
         end: moment(`${this.event.endDate} ${this.event.endTime}`).toISOString(),
-        allDay: this.event.allDay
+        allDay: this.event.allDay,
+        customer: {
+          email: 'a@bbo.com',
+          name: 'Ivan',
+          phone: '+375336098531'
+        }
       }
 
       this

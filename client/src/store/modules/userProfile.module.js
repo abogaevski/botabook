@@ -7,21 +7,6 @@ const initialProfile = {
   email: '',
   profile: {
     avatar: '/media/avatars/blank.png',
-    city: '',
-    company: '',
-    country: '',
-    createdAt: '',
-    firstName: '',
-    lastName: '',
-    phone: '',
-    title: '',
-    updatedAt: '',
-    website: '',
-    projectCount: {
-      all: 0,
-      active: 0,
-      disabled: 0
-    }
   }
 }
 export const userProfile = {
@@ -88,6 +73,7 @@ export const userProfile = {
   },
   getters: {
     user: (state) => state.userProfile,
-    avatar: (state) => state.userProfile.profile.avatar
+    avatar: (state) => state.userProfile.profile.avatar,
+    timezone: (state) => state.userProfile.profile.timezone,
   }
 }

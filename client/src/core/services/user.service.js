@@ -33,7 +33,7 @@ class UserService {
 
   getPublicProfile(slug) {
     return api
-      .get(`/account/profile/${slug}`)
+      .get(`/account/profile/${slug}/info`)
       .then((response) => response.data)
   }
 }

@@ -16,6 +16,6 @@ import PublicProfileOverview from '@/components/public/PublicProfileOverview'
 import PublicProfileBookingWizard from '@/components/public/PublicProfileBookingWizard'
 
 export default {
-  components: { PublicProfileOverview, PublicProfileBookingWizard }
+  components: { PublicProfileOverview, PublicProfileBookingWizard },
 }
 </script>

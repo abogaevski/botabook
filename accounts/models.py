@@ -65,6 +65,8 @@ class Profile(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     slug = models.SlugField()
+    working_hours = models.CharField(max_length=20)
+    timezone = models.CharField(max_length=255)
 
     #
     # @property

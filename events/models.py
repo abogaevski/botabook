@@ -14,14 +14,14 @@ class Event(models.Model):
         get_user_model(),
         on_delete=models.CASCADE,
         related_name='events',
-        blank=True,
-        null=True
     )
 
     project = models.ForeignKey(
         Project,
         on_delete=models.CASCADE,
-        related_name='events'
+        related_name='events',
+        blank=True,
+        null=True
     )
 
     title = models.CharField('Тема встречи', max_length=255)

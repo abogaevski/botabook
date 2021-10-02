@@ -12,24 +12,26 @@
         </div>
       </div>
       <div class="card-body p-9 pt-4">
-        <div class="stepper stepper-links d-flex flex-column" data-bb-steper="true"
+        <div
+          class="stepper stepper-links d-flex flex-column"
+          ref="addEventFormStepper"
         >
           <div class="stepper-nav py-5">
             <div class="stepper-item current" data-bb-stepper-element="nav">
               <h3 class="stepper-title">Выберите услугу</h3>
             </div>
             <div class="stepper-item" data-bb-stepper-element="nav">
-              <h3 class="stepper-title">Выберите дату</h3>
-            </div>
-            <div class="stepper-item" data-bb-stepper-element="nav">
-              <h3 class="stepper-title">Выберите время</h3>
+              <h3 class="stepper-title">Выберите дату и время</h3>
             </div>
             <div class="stepper-item" data-bb-stepper-element="nav">
               <h3 class="stepper-title">Последний шаг</h3>
             </div>
           </div>
-
-          <form action="" class="mx-auto mw-700px w-100 py-10 fv-plugins-bootstrap5 fv-plugins-framework">
+          <Form
+            class="mx-auto mw-700px w-100 py-10 fv-plugins-bootstrap5 fv-plugins-framework"
+            @submit="handleStep"
+            novalidate
+          >
             <div class="current" data-bb-stepper-element="content">
               <div class="w-100">
                 <div class="pb-10 pb-lg-15">
@@ -41,15 +43,17 @@
                       v-for="(project, k) in projects"
                       :key="k"
                       class="col-lg-6">
-                      <input
+                      <Field
                         type="radio"
                         class="btn-check"
-                        name="project_name"
+                        name="projectId"
                         :value="project.id"
-                        :id="projectInputId(project.id)">
+                        :id="getProjectInputId(project.id)"
+                        v-model="formData.projectId"
+                      />
                       <label
                         class="btn btn-outline btn-outline-dashed btn-outline-default p-7 d-flex align-items-center mb-10"
-                        :for="projectInputId(project.id)">
+                        :for="getProjectInputId(project.id)">
                         <span class="svg-icon svg-icon-3x me-5">
                           <inline-svg src="/media/icons/duotone/Communication/Clipboard-list.svg"></inline-svg>
                         </span>
@@ -59,20 +63,125 @@
                           <div class="d-flex flex-wrap fw-bold fs-6 mt-4 pe-2">
                             <div class="d-flex align-items-center text-gray-400 text-hover-primary me-5 mb-2">
                               <span class="svg-icon svg-icon-4 me-1">
-                                <inline-svg src="/media/icons/duotone/Code/Time-schedule.svg" />
+                                <inline-svg src="/media/icons/duotone/Code/Time-schedule.svg"/>
                                 {{ project.timeRange }} мин.
                               </span>
                             </div>
                             <div class="d-flex align-items-center text-gray-400 text-hover-primary me-5 mb-2">
                               <span class="svg-icon svg-icon-4 me-1">
-                                <inline-svg src="/media/icons/duotone/Shopping/Money.svg" />
+                                <inline-svg src="/media/icons/duotone/Shopping/Money.svg"/>
                                 {{ project.price }} руб.
                               </span>
                             </div>
                           </div>
                         </span>
                       </label>
-                      <div class="fv-plugins-message-container invalid-feedback"></div>
+                      <div class="fv-plugins-message-container">
+                        <div class="fv-help-block">
+                          <ErrorMessage name="projectId"/>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div data-bb-stepper-element="content">
+              <div class="w-100">
+                <div class="pb-10 pb-lg-15">
+                  <h2 class="fw-bolder d-flex align-items-center text-dark">Выберите дату и время</h2>
+                </div>
+                <div class="mb-10 fv-row fv-plugins-icon-container">
+                  <div class="row">
+                    <div class="col-lg-6">
+                      <div class="fv-row mb-9 fv-plugins-icon-container">
+                        <label class="form-label mb-3">Выберите нужную дату</label>
+                        <el-date-picker
+                          v-model="selectedDate"
+                          @update:model-value="handleDateChange"
+                          type="date"
+                          placeholder="Выберите дату"
+                          format="DD.MM.YYYY"
+                          value-format="YYYY-MM-DD"
+                        >
+                        </el-date-picker>
+                      </div>
+                    </div>
+                    <div class="col-lg-6" v-if="dates.length">
+                      <label class="form-label mb-3">Выберите время</label>
+                      <template v-for="(date, i) in dates" :key="i">
+                        <Field
+                          type="radio"
+                          name="selectedTime"
+                          :value="date.time"
+                          v-model="formData.time"
+                          class="btn-check"
+                          :id="getEventInputId(date.time)"
+                          :disabled="date.status === 'busy'"
+                        />
+                        <label
+                          class="d-block btn btn-outline btn-outline-dashed mb-3"
+                          :class="getAvailableTimeClass(date.status)"
+                          :for="getEventInputId(date.time)">
+                          {{ getTimeOnly(date.time) }}
+                        </label>
+                      </template>
+                      <div class="fv-plugins-message-container">
+                        <div class="fv-help-block">
+                          <ErrorMessage name="selectedTime"/>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div data-bb-stepper-element="content">
+              <div class="w-100">
+                <div class="pb-10 pb-lg-15">
+                  <h2 class="fw-bolder d-flex align-items-center text-dark">Выберите данные</h2>
+                </div>
+                <div class="mb-5 fv-row fv-plugins-icon-container">
+                  <label class="form-label mb-3">Введите имя</label>
+                  <Field
+                    type="text"
+                    class="form-control form-control-lg form-control-solid"
+                    name="name"
+                    v-model="formData.name"
+                  />
+                  <div class="fv-plugins-message-container">
+                    <div class="fv-help-block">
+                      <ErrorMessage name="name"/>
+                    </div>
+                  </div>
+                </div>
+                <div class="mb-5 fv-row fv-plugins-icon-container">
+                  <label class="form-label mb-3">Введите телефон</label>
+                  <Field
+                    type="text"
+                    class="form-control form-control-lg form-control-solid"
+                    name="phone"
+                    v-model="formData.phone"
+                  />
+                  <div class="fv-plugins-message-container">
+                    <div class="fv-help-block">
+                      <ErrorMessage name="phone"/>
+                    </div>
+                  </div>
+                </div>
+                <div class="mb-5 fv-row fv-plugins-icon-container">
+                  <label class="form-label mb-3">Введите email</label>
+                  <Field
+                    type="text"
+                    class="form-control form-control-lg form-control-solid"
+                    name="email"
+                    v-model="formData.email"
+                  />
+                  <div class="fv-plugins-message-container">
+                    <div class="fv-help-block">
+                      <ErrorMessage name="selectedTime"/>
                     </div>
                   </div>
                 </div>
@@ -81,8 +190,12 @@
 
             <div class="d-flex flex-stack pt-15">
               <div class="mr-2">
-                <button type="button" class="btn btn-lg btn-light-primary me-3" data-bb-stepper-action="previous">
-                  <!--begin::Svg Icon | path: icons/duotune/arrows/arr063.svg-->
+                <button
+                  type="button"
+                  class="btn btn-lg btn-light-primary me-3"
+                  @click="previousStep"
+                  data-bb-stepper-action="previous"
+                >
                   <span class="svg-icon svg-icon-4 me-1">
                     <inline-svg src="/media/icons/duotone/Navigation/Arrow-left.svg"/>
                   </span>
@@ -90,7 +203,12 @@
                 </button>
               </div>
               <div>
-                <button type="button" class="btn btn-lg btn-primary me-3" data-bb-stepper-action="submit">
+                <button
+                  type="submit"
+                  class="btn btn-lg btn-primary me-3"
+                  v-if="currentStepIndex === totalSteps - 1"
+                  @click="formSubmit"
+                >
                   <span class="indicator-label">Отправить
                     <span class="svg-icon svg-icon-3 ms-2 me-0">
                       <inline-svg src="/media/icons/duotone/Navigation/Arrow-right.svg"/>
@@ -99,40 +217,141 @@
                   <span class="indicator-progress">Подождите...
                     <span class="spinner-border spinner-border-sm align-middle ms-2"></span></span>
                 </button>
-                <button type="button" class="btn btn-lg btn-primary" data-bb-stepper-action="next">Продолжить
+                <button
+                  type="submit"
+                  class="btn btn-lg btn-primary"
+                  v-else
+                >Продолжить
                   <span class="svg-icon svg-icon-4 ms-1 me-0">
                     <inline-svg src="/media/icons/duotone/Navigation/Arrow-right.svg"/>
                   </span>
                 </button>
               </div>
             </div>
-          </form>
+          </Form>
+
         </div>
       </div>
     </div>
   </div>
 </template>
 <script>
-import { onMounted, ref } from 'vue'
-import { useRoute } from 'vue-router'
+import { Field, Form, ErrorMessage } from 'vee-validate'
+import * as Yup from 'yup'
+import Swal from 'sweetalert2'
+import { StepperComponent } from '@/core/components/_StepperComponent'
 import ProjectService from '@/core/services/project.service'
+import EventService from '@/core/services/calendar.service'
 
 export default {
-  setup() {
-    const route = useRoute()
-    const projects = ref([])
-
-    const getProjects = async () => {
-      projects.value = await ProjectService.getPublicProjects(route.params.slug)
-        .then((p) => p)
-    }
-    onMounted(getProjects)
-    const projectInputId = (id) => `project_type_${id}`
-
+  components: { Form, Field, ErrorMessage },
+  data() {
+    const addEventValidationSchema = Yup.object({
+      projectId: Yup.string()
+        .required()
+        .label('Проект'),
+      selectedTime: Yup.string()
+        .required(),
+      name: Yup.string()
+        .required(),
+      phone: Yup.string()
+        .required(),
+      email: Yup.string()
+        .required()
+    })
     return {
-      projects,
-      getProjects,
-      projectInputId
+      projects: [],
+      dates: [],
+      stepperObj: null,
+      currentStepIndex: null,
+      selectedDate: '',
+      formData: {
+        projectId: '',
+        time: '',
+        name: '',
+        phone: '',
+        email: ''
+      },
+      addEventValidationSchema
+    }
+  },
+  methods: {
+    async getProjects() {
+      this.projects = await ProjectService.getPublicProjects(this.slug)
+        .then((p) => p)
+    },
+    getProjectInputId(id) {
+      return `project_type_${id}`
+    },
+    getEventInputId(date) {
+      const id = this.getTimeOnly(date).replace(':', '_')
+      return `event_time_${id}`
+    },
+    getTimeOnly(date) {
+      // TODO: Change it to moment
+      return date.split(' ')[1].split('+')[0]
+    },
+    getAvailableTimeClass(status) {
+      if (status === 'available') {
+        return 'btn-outline-primary btn-active-light-primary'
+      }
+      return 'btn-outline-default'
+    },
+    previousStep() {
+      if (!this.stepperObj) {
+        return
+      }
+      this.currentStepIndex--
+      this.stepperObj.goPrev()
+    },
+
+    handleStep() {
+      if (!this.stepperObj) {
+        return
+      }
+      console.log('step')
+      this.currentStepIndex++
+      this.stepperObj.goNext()
+    },
+
+    async handleDateChange() {
+      this.dates = await EventService.getAvailableDates(this.slug, this.selectedDate, this.formData.projectId)
+        .then((d) => d)
+    },
+
+    formSubmit() {
+      EventService.addEventRequest(this.formData)
+        .then((response) => {
+          if (response.status === 'ok') {
+            Swal.fire({
+              title: 'Ваш запрос успешно отправлен!',
+              icon: 'success',
+              buttonsStyling: false,
+              confirmButtonText: 'Отлично',
+              customClass: {
+                confirmButton: 'btn btn-primary'
+              }
+            }).then(() => {
+              window.location.reload()
+            })
+          }
+        })
+      console.log(this.formData)
+    }
+  },
+  mounted() {
+    this.stepperObj = StepperComponent.createInstance(this.$refs.addEventFormStepper)
+    this.getProjects()
+  },
+  computed: {
+    totalSteps() {
+      if (!this.stepperObj) {
+        return
+      }
+      return this.stepperObj.totalStepsNumber
+    },
+    slug() {
+      return this.$route.params.slug
     }
   }
 }
