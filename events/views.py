@@ -77,7 +77,7 @@ class PublicAddEventApiView(generics.GenericAPIView):
         data = request.data
         project = Project.objects.filter(pk=data['project_id']).first()
 
-        customer = Customer.objects.create(name=data['name'], phone=data['phone'], email=data['email'])
+        customer, created = Customer.objects.get_or_create(name=data['name'], phone=data['phone'], email=data['email'])
         start_time = datetime.strptime(data['time'], '%Y-%m-%d %H:%M:%S%z')
         title = '{}. {}'.format(customer.name, project.title)
 
