@@ -99,7 +99,7 @@ body {
 
     // Toolbar title
     .fc-toolbar-title {
-      text-transform: capitalize;
+      text-transform: uppercase;
       font-size: 1.5rem;
       font-weight: $font-weight-bolder;
       color: $gray-800;
@@ -297,4 +297,13 @@ body {
       }
     }
   }
+}
+.fc-event {
+  cursor: pointer;
+}
+.fc-list-event-time {
+  font-weight: 700;
+}
+.fc-list-day {
+  text-transform: uppercase;
 }

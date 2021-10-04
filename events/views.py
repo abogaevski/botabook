@@ -40,6 +40,15 @@ class EventRetrieveApiView(generics.RetrieveDestroyAPIView):
         return Event.objects.filter(user=user)
 
 
+class EventApproveApiView(generics.UpdateAPIView):
+    permission_classes = [IsAuthenticated]
+    serializer_class = EventSerializer
+
+    def get_object(self):
+        pk = self.kwargs['pk']
+        return get_object_or_404(Event, pk=pk)
+
+
 class PublicAvailableTimeApiView(generics.GenericAPIView):
 
     def get(self, request, slug, date, project_id):
@@ -51,7 +60,7 @@ class PublicAvailableTimeApiView(generics.GenericAPIView):
             start=working_hours[0],
             end=working_hours[1],
             freq='{}min'.format(project_range)).tolist()
-        events = profile.user.events.filter(start__gte=selected_date)
+        events = profile.user.events.filter(start__gte=selected_date, is_approved=True)
 
         time_result = []
         timezone = pytz.timezone(profile.timezone)

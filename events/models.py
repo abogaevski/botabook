@@ -35,5 +35,7 @@ class Event(models.Model):
     all_day = models.BooleanField('Весь день', default=False)
     created_at = models.DateTimeField(auto_now=True)
 
+    is_approved = models.BooleanField(default=False)
+
     def __str__(self):
         return self.title

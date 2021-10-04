@@ -15,6 +15,11 @@ class CalendarService {
   //     .put(`/events/${id}`, { ...event })
   //     .then((response) => response.data)
   // }
+  approveEvent(eventId) {
+    return api
+      .patch(`/events/${eventId}/approve`, { isApproved: true })
+      .then((response) => response.data)
+  }
 
   deleteEvent(eventId) {
     return api

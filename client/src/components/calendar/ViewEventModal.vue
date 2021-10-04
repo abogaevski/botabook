@@ -3,7 +3,16 @@
     <template v-slot:modal-content>
         <div class="modal-header border-0 justify-content-end">
           <bt-button
-            btn-class="btn-icon btn-sm btn-active-icon-primary"
+            v-if="!event.isApproved"
+            @click:btn="approveEventHandler"
+            btn-class="btn-sm btn-light-success btn-active-icon-white me-3"
+            icon-class="svg-icon-2"
+            icon-url="/media/icons/duotone/Navigation/Check.svg"
+          >
+            Подтвердить
+          </bt-button>
+          <bt-button
+            btn-class="btn-icon btn-sm btn-active-icon-danger"
             @click:btn="deleteEventHandler"
             icon-class="svg-icon-1"
             icon-url="/media/icons/duotone/General/Trash.svg"
@@ -25,8 +34,11 @@
                 <div class="d-flex align-items-center mb-2">
                   <span class="fs-3 fw-bolder me-3">{{ event.title }}</span>
                   <span
-                    v-if="event.allDay"
-                    class="badge badge-light-success">Весь день</span>
+                    class="badge"
+                    :class="badgeColorClass"
+                  >
+                    {{ event.isApproved ? 'Подтвержден' : 'Не подтвержден' }}
+                  </span>
                 </div>
               </div>
             </div>
@@ -77,6 +89,7 @@ export default {
         endDate: '',
         startTime: '',
         endTime: '',
+        isApproved: false,
         allDay: false,
       },
     }
@@ -98,7 +111,7 @@ export default {
     }
   },
   methods: {
-    ...mapActions('calendar', ['deleteEvent']),
+    ...mapActions('calendar', ['deleteEvent', 'approveEvent']),
     close() {
       this.$emit('modal:hide')
     },
@@ -119,7 +132,43 @@ export default {
           this.deleteEvent(this.event.id)
           this.close()
         }
-      });
+      })
+    },
+    approveEventHandler() {
+      Swal.fire({
+        title: 'Хотите подтвердить эту встречу?',
+        icon: 'success',
+        showCancelButton: true,
+        buttonsStyling: false,
+        confirmButtonText: 'Подтвердить!',
+        cancelButtonText: 'Позже',
+        customClass: {
+          confirmButton: 'btn btn-success',
+          cancelButton: 'btn btn-active-light'
+        }
+      }).then((result) => {
+        if (result.value) {
+          this.approveEvent(this.event.id)
+            .then(() => {
+              this.event.isApproved = true
+              Swal.fire({
+                title: 'Встреча подтверждена!',
+                icon: 'success',
+                showCancelButton: false,
+                buttonsStyling: false,
+                confirmButtonText: 'Супер!',
+                customClass: {
+                  confirmButton: 'btn btn-success',
+                }
+              })
+            })
+        }
+      })
+    }
+  },
+  computed: {
+    badgeColorClass() {
+      return this.event.isApproved ? 'badge-light-success' : 'badge-light-danger'
     }
   },
   components: { Modal, BtButton }

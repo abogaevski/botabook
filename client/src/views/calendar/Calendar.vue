@@ -20,8 +20,9 @@ import timeGridPlugin from '@fullcalendar/timegrid'
 import listPlugin from '@fullcalendar/list'
 import momentTimezonePlugin from '@fullcalendar/moment-timezone'
 import ruLocale from '@fullcalendar/core/locales/ru'
-import { mapActions, mapGetters } from 'vuex'
-import ViewEventModal from '@/components/calendar/ViewEventModal.vue';
+import { mapGetters } from 'vuex'
+import ViewEventModal from '@/components/calendar/ViewEventModal.vue'
+import setEventStyle from '@/core/_utils/helpers/event-helpers/setEventStyle'
 
 export default {
   data() {
@@ -33,12 +34,12 @@ export default {
         start: '',
         end: '',
         allDay: false,
+        isApproved: false
       }
     }
   },
 
   methods: {
-    ...mapActions('calendar', ['updateEvent']),
     onEventClick({ event }) {
       this.eventData = {
         id: event.id,
@@ -46,7 +47,7 @@ export default {
         start: event.start,
         end: event.end,
         allDay: event.allDay,
-        customer: ''
+        isApproved: event.extendedProps.isApproved
       }
       this.showModal('View')
     },
@@ -54,15 +55,14 @@ export default {
       this[`isActive${type}Modal`] = true
     },
     closeModal() {
-      this.isActiveAddModal = false
       this.isActiveViewModal = false
-      this.isActiveEditModal = false
-    },
+    }
   },
   computed: {
     ...mapGetters({
       events: 'calendar/events',
       profileTimezone: 'userProfile/timezone',
+      profileBusinessHours: 'userProfile/businessHours'
     }),
     config() {
       return {
@@ -73,7 +73,7 @@ export default {
     calendarOptions() {
       return {
         plugins: [dayGridPlugin, timeGridPlugin, listPlugin, momentTimezonePlugin],
-        initialView: 'timeGridWeek',
+        initialView: 'listWeek',
         navLinks: true,
         selectable: true,
         selectMirror: true,
@@ -81,22 +81,36 @@ export default {
         headerToolbar: {
           left: 'prev,next today',
           center: 'title',
-          right: 'timeGridWeek,dayGridMonth,timeGridDay,listWeek'
+          right: 'listWeek,timeGridWeek,dayGridMonth,timeGridDay'
         },
         locale: ruLocale,
         timeZone: this.profileTimezone,
-        // TODO: Change to profile working hours
-        slotMinTime: '08:00:00',
-        slotMaxTime: '18:00:00',
+        businessHours: {
+          daysOfWeek: [0, 1, 2, 3, 4, 5, 6, 7],
+          startTime: this.businessHours[0],
+          endTime: this.businessHours[1]
+        },
+        // slotMinTime: ,
+        // slotMaxTime:
         firstDay: '1',
         events: this.events,
-        // aspectRatio: 1.6
+        eventDidMount(info) {
+          console.log('didmount')
+          const { event, el, view } = info
+          setEventStyle(event, el, view)
+        }
       }
     },
     eventHandlers() {
       return {
-        eventClick: this.onEventClick,
+        eventClick: this.onEventClick
       }
+    },
+    businessHours() {
+      if (this.profileBusinessHours) {
+        return this.profileBusinessHours.split('-')
+      }
+      return ''
     }
   },
 
@@ -106,7 +120,7 @@ export default {
 
   components: {
     ViewEventModal,
-    FullCalendar,
+    FullCalendar
   }
 }
 </script>

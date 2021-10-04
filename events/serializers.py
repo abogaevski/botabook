@@ -6,10 +6,10 @@ class EventSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Event
-        fields = ['id', 'title', 'start', 'end', 'all_day']
+        fields = ['id', 'title', 'start', 'end', 'all_day', 'is_approved']
 
 
 class EventDatesListSerializer(serializers.ModelSerializer):
     class Meta:
         model = Event
-        fields = ['start', 'end', 'all_day']
+        fields = ['start', 'end', 'all_day', 'is_approved']

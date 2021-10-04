@@ -75,5 +75,6 @@ export const userProfile = {
     user: (state) => state.userProfile,
     avatar: (state) => state.userProfile.profile.avatar,
     timezone: (state) => state.userProfile.profile.timezone,
+    businessHours: (state) => state.userProfile.profile.workingHours
   }
 }
