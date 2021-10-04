@@ -44,7 +44,6 @@ INSTALLED_APPS = [
     'events',
     'projects',
     'customers',
-    'public'
 ]
 
 MIDDLEWARE = [

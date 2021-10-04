@@ -68,12 +68,6 @@ class Profile(models.Model):
     working_hours = models.CharField(max_length=20)
     timezone = models.CharField(max_length=255)
 
-    #
-    # @property
-    # def avatar_url(self):
-    #     # TODO: Static here static(avatar_url)
-    #     return self.avatar.url if self.avatar else ''
-
     def save(self, *args, **kwargs):
         try:
             this = Profile.objects.get(id=self.id)

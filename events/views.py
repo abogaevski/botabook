@@ -1,4 +1,3 @@
-import json
 import pandas as pd
 import pytz
 from datetime import datetime, timedelta
@@ -9,7 +8,6 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
 from accounts.models import Profile
-from core.permissions import IsOwnerOrSuperuser
 from customers.models import Customer
 from projects.models import Project
 from .models import Event

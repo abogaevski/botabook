@@ -3,7 +3,6 @@ from rest_framework.generics import get_object_or_404
 from rest_framework.permissions import IsAuthenticated
 
 from accounts.models import Profile
-from .models import Project
 from .serializers import *
 
 
