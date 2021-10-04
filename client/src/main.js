@@ -9,7 +9,6 @@ import { initYup } from '@/core/plugins/yup'
 
 import App from './App.vue'
 
-import './registerServiceWorker'
 import setupInterceptors from './core/services/setupInterceptors'
 
 import router from './router'
