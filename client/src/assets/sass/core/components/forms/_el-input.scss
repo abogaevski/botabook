@@ -1,0 +1,22 @@
+.el-input {
+  &__inner {
+    background-color: $input-solid-bg;
+    border-color: $input-solid-bg;
+    @include placeholder($input-solid-placeholder-color);
+    color: $input-solid-color;
+    transition: $transition-input;
+
+    .dropdown.show > &,
+    &:active,
+    &.active,
+    &:focus,
+    &.focus,
+    &:hover {
+      background-color: $input-solid-bg-focus;
+      border-color: $input-solid-bg-focus;
+      color: $input-solid-color;
+      transition: $transition-input;
+    }
+  }
+
+}

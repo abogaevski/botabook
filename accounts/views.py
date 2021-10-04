@@ -88,6 +88,6 @@ class ProfileAvatarRemoveApiView(generics.UpdateAPIView):
 class PublicProfileApiView(generics.GenericAPIView):
 
     def get(self, request, slug):
-        profile = Profile.objects.filter(slug=slug).first()
+        profile = get_object_or_404(Profile, slug=slug)
         serializer = PublicProfileRetrieveSerializer(profile, context={'request': request})
         return Response(serializer.data)

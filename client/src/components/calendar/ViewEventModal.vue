@@ -4,12 +4,6 @@
         <div class="modal-header border-0 justify-content-end">
           <bt-button
             btn-class="btn-icon btn-sm btn-active-icon-primary"
-            @click:btn="editEvent"
-            icon-class="svg-icon-2"
-            icon-url="/media/icons/duotone/General/Edit.svg"
-          ></bt-button>
-          <bt-button
-            btn-class="btn-icon btn-sm btn-active-icon-primary"
             @click:btn="deleteEventHandler"
             icon-class="svg-icon-1"
             icon-url="/media/icons/duotone/General/Trash.svg"
@@ -107,10 +101,6 @@ export default {
     ...mapActions('calendar', ['deleteEvent']),
     close() {
       this.$emit('modal:hide')
-    },
-    editEvent() {
-      this.close()
-      this.$emit('modal:edit-event')
     },
     deleteEventHandler() {
       Swal.fire({

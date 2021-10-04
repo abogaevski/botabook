@@ -1,4 +1,6 @@
 import api from './api'
+import getErrorStatusCode from '@/core/_utils/helpers/error-helpers/getErrorStatusCode'
+import router from '@/router'
 
 class CalendarService {
   getEvents() {
@@ -7,18 +9,12 @@ class CalendarService {
       .then((response) => response.data)
   }
 
-  createEvent(event) {
-    return api
-      .post('/events/create', { ...event })
-      .then((response) => response.data)
-  }
-
-  updateEvent(event) {
-    const { id } = event
-    return api
-      .put(`/events/${id}`, { ...event })
-      .then((response) => response.data)
-  }
+  // updateEvent(event) {
+  //   const { id } = event
+  //   return api
+  //     .put(`/events/${id}`, { ...event })
+  //     .then((response) => response.data)
+  // }
 
   deleteEvent(eventId) {
     return api
@@ -30,6 +26,13 @@ class CalendarService {
     return api
       .get(`/events/${slug}/${projectId}/${date}`)
       .then((response) => response.data)
+      .catch((error) => {
+        if (error.response) {
+          const status = getErrorStatusCode(error.response)
+          const redirectPath = status === 404 ? '/404' : '/500'
+          router.push(redirectPath)
+        }
+      })
   }
 
   addEventRequest(eventData) {
@@ -37,12 +40,6 @@ class CalendarService {
       .post('/events/event-request', { ...eventData })
       .then((response) => response.data)
   }
-
-  // retrieveEvent(eventId) {
-  //   return api
-  //     .get(`/events/${eventId}`)
-  //     .then((response) => response.data)
-  // }
 }
 
 export default new CalendarService()

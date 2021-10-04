@@ -33,15 +33,7 @@ class EventDatesApiView(generics.ListAPIView):
         return Event.objects.filter(user=profile.user)
 
 
-class EventCreateApiView(generics.CreateAPIView):
-    serializer_class = EventSerializer
-    permission_classes = [IsAuthenticated]
-
-    def perform_create(self, serializer):
-        serializer.save(user=self.request.user)
-
-
-class EventRetrieveApiView(generics.RetrieveUpdateDestroyAPIView):
+class EventRetrieveApiView(generics.RetrieveDestroyAPIView):
     permission_classes = [IsAuthenticated]
     serializer_class = EventSerializer
 
@@ -53,7 +45,7 @@ class EventRetrieveApiView(generics.RetrieveUpdateDestroyAPIView):
 class PublicAvailableTimeApiView(generics.GenericAPIView):
 
     def get(self, request, slug, date, project_id):
-        profile = Profile.objects.filter(slug=slug).first()
+        profile = get_object_or_404(Profile, slug=slug)
         project_range = Project.objects.filter(pk=project_id).first().time_range
         working_hours = profile.working_hours.split('-')
         selected_date = datetime.strptime(date, '%Y-%m-%d')
@@ -87,18 +79,17 @@ class PublicAddEventApiView(generics.GenericAPIView):
         data = request.data
         project = Project.objects.filter(pk=data['project_id']).first()
 
+        customer = Customer.objects.create(name=data['name'], phone=data['phone'], email=data['email'])
         start_time = datetime.strptime(data['time'], '%Y-%m-%d %H:%M:%S%z')
-        event = Event.objects.create(
-            title=project.title,
+        title = '{}. {}'.format(customer.name, project.title)
+
+        Event.objects.create(
+            title=title,
             start=start_time,
             end=start_time + timedelta(minutes=project.time_range),
             user=project.user,
             project=project,
+            customer=customer,
             all_day=False
         )
-        customer = Customer.objects.create(name=data['name'], phone=data['phone'], email=data['email'], event=event)
-        response = {
-            'customer': customer,
-            'event': event
-        }
         return Response({'status': 'ok'})

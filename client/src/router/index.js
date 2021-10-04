@@ -61,6 +61,21 @@ const routes = [
     path: '/:slug',
     name: 'public-profile',
     component: () => import('@/views/public/PublicPage.vue')
+  },
+  {
+    // the 404 route, when none of the above matches
+    path: '/404',
+    name: '404',
+    component: () => import('@/views/error/Error404.vue')
+  },
+  {
+    path: '/500',
+    name: '500',
+    component: () => import('@/views/error/Error500.vue')
+  },
+  {
+    path: '/:pathMatch(.*)*',
+    redirect: '/404'
   }
 ]
 

@@ -1,4 +1,6 @@
 import api from './api'
+import router from '@/router'
+import getErrorStatusCode from '@/core/_utils/helpers/error-helpers/getErrorStatusCode'
 
 const fileUploadConfig = {
   headers: {
@@ -35,6 +37,13 @@ class UserService {
     return api
       .get(`/account/profile/${slug}/info`)
       .then((response) => response.data)
+      .catch((error) => {
+        if (error.response) {
+          const status = getErrorStatusCode(error.response)
+          const redirectPath = status === 404 ? '/404' : '/500'
+          router.push(redirectPath)
+        }
+      })
   }
 }
 

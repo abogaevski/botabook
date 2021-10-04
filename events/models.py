@@ -1,6 +1,7 @@
 from django.contrib.auth import get_user_model
 from django.db import models
 
+from customers.models import Customer
 from projects.models import Project
 
 
@@ -20,8 +21,12 @@ class Event(models.Model):
         Project,
         on_delete=models.CASCADE,
         related_name='events',
-        blank=True,
-        null=True
+    )
+
+    customer = models.ForeignKey(
+        Customer,
+        on_delete=models.PROTECT,
+        related_name='events'
     )
 
     title = models.CharField('Тема встречи', max_length=255)
