@@ -37,7 +37,6 @@ export default {
     async getProjects() {
       await ProjectService.getPublicProjects(this.slug)
         .then((p) => {
-          // TODO: Loader with store (just change the page-loading class in the body)
           this.projects = p
           document.body.classList.remove('page-loading')
         })

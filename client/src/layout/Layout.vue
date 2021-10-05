@@ -31,43 +31,41 @@ export default {
     Aside, Header, Loader
   },
   mounted() {
-    setTimeout(() => {
-      // Remove page loader after some time
-      // store.dispatch(Actions.REMOVE_BODY_CLASSNAME, "page-loading");
-      // TODO: Loader with store (just change the page-loading class in the body)
-      document.body.classList.remove('page-loading')
-    }, 500)
     MenuComponent.hideDropdowns(undefined)
     MenuComponent.reinitialization()
 
     EventBus.on('signout', () => {
       this.signout()
     })
+
+    this.getProfile()
+    this.getEvents()
+    this.getProjects()
+    this.getCustomers()
+      .then(() => {
+        document.body.classList.remove('page-loading')
+      })
   },
 
   created() {
-    this.getUserProfile()
+    this.getProfile()
       .then(() => {
       })
       .catch(() => EventBus.dispatch('signout'))
   },
 
   methods: {
-    ...mapActions('userProfile', ['getUserProfile']),
+    ...mapActions({
+      getEvents: 'calendar/getEvents',
+      getProfile: 'userProfile/getUserProfile',
+      getProjects: 'project/getProjects',
+      getCustomers: 'customerModule/getCustomers'
+    }),
 
     signout() {
       this.$store.dispatch('auth/signout')
       this.$router.push('/signin')
-    },
-  },
-
-  // beforeUnmount() {
-  //   EventBus.remove('signout')
-  // }
+    }
+  }
 }
-
 </script>
-
-<style>
-
-</style>

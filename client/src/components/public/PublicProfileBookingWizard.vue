@@ -64,7 +64,7 @@
                         v-model="formData.projectId"
                       />
                       <label
-                        class="btn btn-outline btn-outline-dashed btn-outline-default p-7 d-flex align-items-center mb-10"
+                        class="btn btn-outline btn-outline-default btn-outline-dashed p-7 d-flex align-items-center mb-10"
                         :for="getProjectInputId(project.id)">
                         <span class="svg-icon svg-icon-3x me-5">
                           <inline-svg src="/media/icons/duotone/Communication/Clipboard-list.svg"></inline-svg>
