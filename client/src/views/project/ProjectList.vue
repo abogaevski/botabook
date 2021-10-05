@@ -24,11 +24,12 @@
       <template v-for="(project, i) in projects" :key="i">
         <div class="col-md-6 col-xl-4">
           <project-card
-            :title=project.title
-            :description=project.description
-            :time-range=project.timeRange
-            :price=project.price
-            :is-active=project.isActive
+            :color="project.color"
+            :title="project.title"
+            :description="project.description"
+            :time-range="project.timeRange"
+            :price="project.price"
+            :is-active="project.isActive"
           />
         </div>
       </template>

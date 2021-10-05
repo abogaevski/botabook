@@ -79,6 +79,28 @@
             </div>
           </div>
 
+          <div class="d-flex flex-column mb-10 fv-row fv-plugins-icon-container">
+            <label class="fs-5 fw-bold mb-2 required">Цвет</label>
+            <div class="d-flex flex-row align-self-center">
+              <template v-for="(color, i) in colors" :key="i">
+                <Field
+                  type="radio"
+                  name="color"
+                  class="btn-check"
+                  :value="color"
+                  :id="getProjectColorInputId(color)"
+                />
+                <label
+                  class="btn btn-outline me-3 h-40px w-40px symbol symbol-circle"
+                  :class="badgeColor(color)"
+                  :for="getProjectColorInputId(color)"/>
+              </template>
+            </div>
+            <div class="fv-plugins-message-container invalid-feedback">
+              <ErrorMessage name="color"/>
+            </div>
+          </div>
+
           <div class="fv-row mb-15">
             <div class="d-flex flex-stack">
               <div class="me-5">
@@ -149,10 +171,21 @@ export default {
         .required()
         .label('Продолжительность'),
       isActive: Yup.boolean()
+        .required(),
+      color: Yup.string()
         .required()
+        .label('Цвет')
     })
     return {
       isActiveProject: true,
+      colors: [
+        'primary',
+        'success',
+        'danger',
+        'info',
+        'warning',
+        'dark',
+      ],
       projectSchema
     }
   },
@@ -175,11 +208,17 @@ export default {
           }).then(() => {
             actions.resetForm()
             this.close()
-          });
+          })
         })
     },
     close() {
       this.$emit('modal:hide')
+    },
+    getProjectColorInputId(color) {
+      return `project_color_${color}`
+    },
+    badgeColor(color) {
+      return `border-${color} btn-light-${color} btn-outline-${color}`
     }
   }
 }

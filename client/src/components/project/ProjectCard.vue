@@ -4,7 +4,8 @@
       <div class="card-title m-0">
         <div class="symbol symbol-50px w-50px bg-light">
           <span
-            class="bg-light text-inverse-light symbol-label fw-bolder"
+            class="symbol-label fw-bolder"
+            :class="getColorClass"
           >
             {{ getInitials }}
           </span>
@@ -34,7 +35,7 @@
         </div>
 
         <div class="border border-gray-300 border-dashed rounded min-w-125px py-3 px-4 mb-3">
-          <div class="fs-6 text-gray-800 fw-bolder">{{ price }}</div>
+          <div class="fs-6 text-gray-800 fw-bolder">{{ getPrice }}</div>
           <div class="fw-bold text-gray-400">Стоимость</div>
         </div>
       </div>
@@ -71,7 +72,8 @@ export default {
     description: String,
     timeRange: Number,
     price: String,
-    isActive: Boolean
+    isActive: Boolean,
+    color: String
   },
   computed: {
     getStatusDataColor() {
@@ -82,6 +84,15 @@ export default {
     },
     getInitials() {
       return this.title.split('')[0].toUpperCase()
+    },
+    getColorClass() {
+      return [
+        `bg-light-${this.color}`,
+        `text-${this.color}`
+      ]
+    },
+    getPrice() {
+      return parseFloat(this.price) > 0 ? this.price : 'Бесплатно'
     }
   }
 }
