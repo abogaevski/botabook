@@ -39,43 +39,52 @@
           <div class="fw-bold text-gray-400">Стоимость</div>
         </div>
       </div>
-      <!--      <template v-if="service.customers">-->
-      <!--        <div class="symbol-group symbol-hover">-->
-      <!--          <template v-for="(user, index) in service.customers" :key="index">-->
-      <!--            <div-->
-      <!--              class="symbol symbol-35px symbol-circle"-->
-      <!--              data-bs-toggle="tooltip"-->
-      <!--              :title="user.title"-->
-      <!--            >-->
-      <!--              <img v-if="user.src" alt="Pic" :src="user.src" />-->
-      <!--              <span-->
-      <!--                v-else-->
-      <!--                class="symbol-label fw-bolder"-->
-      <!--                :class="`bg-${user.state} text-inverse-${user.state}`"-->
-      <!--              >{{ user.initials }}</span-->
-      <!--              >-->
-      <!--            </div>-->
-      <!--            &lt;!&ndash;begin::User&ndash;&gt;-->
-      <!--          </template>-->
-      <!--        </div>-->
-      <!--        &lt;!&ndash;end::Users&ndash;&gt;-->
-      <!--      </template>-->
+            <template v-if="customers">
+              <div class="symbol-group symbol-hover">
+                <template v-for="(customer, index) in customers" :key="index">
+                  <bt-tooltip
+                    tag="div"
+                    class="symbol symbol-35px symbol-circle"
+                    :title="customer.name"
+                    placement="top"
+                  >
+                    <span
+                      class="symbol-label fw-bolder"
+                      :class="`bg-${customer.color} text-inverse-${customer.color}`"
+                    >{{ customer.initials }}</span
+                    >
+                  </bt-tooltip>
+                </template>
+              </div>
+            </template>
     </div>
   </div>
 </template>
 <script>
 
+import { mapGetters } from 'vuex'
+import BtTooltip from '@/components/_core/BtTooltip'
+
 export default {
   name: 'ProjectCard',
+  components: { BtTooltip },
   props: {
     title: String,
     description: String,
     timeRange: Number,
     price: String,
     isActive: Boolean,
-    color: String
+    color: String,
+    events: Array,
+    customersId: Array
+  },
+  data() {
+    return {
+      customers: []
+    }
   },
   computed: {
+    ...mapGetters('customerModule', ['customerById']),
     getStatusDataColor() {
       return this.isActive ? 'light-success' : 'light'
     },
@@ -93,7 +102,13 @@ export default {
     },
     getPrice() {
       return parseFloat(this.price) > 0 ? this.price : 'Бесплатно'
-    }
+    },
+  },
+  mounted() {
+    this.customersId.forEach((id) => {
+      const customer = this.customerById(id)
+      this.customers.push(customer)
+    })
   }
 }
 </script>

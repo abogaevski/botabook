@@ -36,12 +36,12 @@ const routes = [
         ]
       },
       {
-        path: '/projects/list',
+        path: '/projects',
         name: 'projects',
         component: () => import('@/views/project/ProjectList')
       },
       {
-        path: '/customer/list',
+        path: '/customers',
         name: 'customers-table',
         component: () => import('@/views/customer/CustomerListTable.vue')
       }

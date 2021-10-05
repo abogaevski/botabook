@@ -33,7 +33,7 @@ export const AsideMenuConfig = [
       },
       {
         heading: 'Услуги',
-        route: '/projects/list',
+        route: '/projects',
         svgIcon: '/media/icons/duotone/Interface/Briefcase.svg'
       },
     ]
@@ -43,7 +43,7 @@ export const AsideMenuConfig = [
     pages: [
       {
         heading: 'Список',
-        route: '/customer/list',
+        route: '/customers',
         svgIcon: '/media/icons/duotone/Communication/Group.svg'
       },
       // {

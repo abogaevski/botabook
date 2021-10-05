@@ -67,57 +67,37 @@
       </div>
     </div>
     <div class="col-lg-6 col-xxl-4">
-      <!--begin::Clients-->
       <div class="card h-100">
         <div class="card-body p-9">
-          <!--begin::Heading-->
-          <div class="fs-2hx fw-bolder">49</div>
-          <div class="fs-4 fw-bold text-gray-400 mb-7">Клиенты</div>
-          <!--end::Heading-->
-          <!--begin::Users group-->
+          <div class="fs-2hx fw-bolder">{{ customersCount }}</div>
+          <div class="fs-4 fw-bold text-gray-400 mb-7">Всего клиентов</div>
           <div class="symbol-group symbol-hover mb-9">
-            <div class="symbol symbol-35px symbol-circle" data-bs-toggle="tooltip" title=""
-                 data-bs-original-title="Alan Warden">
-              <span class="symbol-label bg-warning text-inverse-warning fw-bolder">A</span>
-            </div>
-            <div class="symbol symbol-35px symbol-circle" data-bs-toggle="tooltip" title=""
-                 data-bs-original-title="Michael Eberon">
-              <img alt="Pic" src="/media/avatars/150-12.jpg">
-            </div>
-            <div class="symbol symbol-35px symbol-circle" data-bs-toggle="tooltip" title=""
-                 data-bs-original-title="Michelle Swanston">
-              <img alt="Pic" src="/media/avatars/150-13.jpg">
-            </div>
-            <div class="symbol symbol-35px symbol-circle" data-bs-toggle="tooltip" title=""
-                 data-bs-original-title="Francis Mitcham">
-              <img alt="Pic" src="/media/avatars/150-5.jpg">
-            </div>
-            <div class="symbol symbol-35px symbol-circle" data-bs-toggle="tooltip" title=""
-                 data-bs-original-title="Susan Redwood">
-              <span class="symbol-label bg-primary text-inverse-primary fw-bolder">S</span>
-            </div>
-            <div class="symbol symbol-35px symbol-circle" data-bs-toggle="tooltip" title=""
-                 data-bs-original-title="Melody Macy">
-              <img alt="Pic" src="/media/avatars/150-3.jpg">
-            </div>
-            <div class="symbol symbol-35px symbol-circle" data-bs-toggle="tooltip" title=""
-                 data-bs-original-title="Perry Matthew">
-              <span class="symbol-label bg-info text-inverse-info fw-bolder">P</span>
-            </div>
-            <div class="symbol symbol-35px symbol-circle" data-bs-toggle="tooltip" title=""
-                 data-bs-original-title="Barry Walter">
-              <img alt="Pic" src="/media/avatars/150-7.jpg">
-            </div>
-            <a href="#" class="symbol symbol-35px symbol-circle" data-bs-toggle="modal"
-               data-bs-target="#kt_modal_view_users">
-              <span class="symbol-label bg-dark text-gray-300 fs-8 fw-bolder">+42</span>
-            </a>
+            <template v-for="(k, i) of 8" :key="i">
+              <template v-if="customers[i]">
+                <bt-tooltip
+                  tag="div"
+                  class="symbol symbol-35px symbol-circle"
+                  :title="customers[i].name"
+                  placement="top"
+                >
+                    <span
+                      class="symbol-label fw-bolder"
+                      :class="`bg-${customers[i].color} text-inverse-${customers[i].color}`"
+                    >{{ customers[i].initials }}</span
+                    >
+                </bt-tooltip>
+              </template>
+            </template>
+            <template v-if="customersCount > 8">
+              <router-link to="/customers" class="symbol symbol-35px symbol-circle">
+                <span class="symbol-label bg-dark text-gray-300 fs-8 fw-bolder">
+                  +{{ customersCount - 8 }}
+                </span>
+              </router-link>
+            </template>
           </div>
           <div class="d-flex">
-            <a href="#" class="btn btn-primary btn-sm me-3" data-bs-toggle="modal"
-               data-bs-target="#kt_modal_view_users">All Clients</a>
-            <a href="#" class="btn btn-light btn-sm" data-bs-toggle="modal" data-bs-target="#kt_modal_users_search">Invite
-              New</a>
+            <router-link to="/customers" class="btn btn-light-primary btn-sm me-3">Все клиенты</router-link>
           </div>
         </div>
       </div>
@@ -127,11 +107,16 @@
 <script>
 import { mapGetters } from 'vuex'
 import ProjectCounterChart from '@/components/project/ProjectCounterChart'
+import BtTooltip from '@/components/_core/BtTooltip'
 
 export default {
   name: 'ProjectListHeading',
   computed: {
-    ...mapGetters('project', ['projects']),
+    ...mapGetters({
+      projects: 'project/projects',
+      customers: 'customerModule/customers',
+      customersCount: 'customerModule/customerCount'
+    }),
 
     activeProjects() {
       return this.projects.filter((project) => project.isActive).length
@@ -171,6 +156,6 @@ export default {
       }, [])
     }
   },
-  components: { ProjectCounterChart }
+  components: { ProjectCounterChart, BtTooltip }
 }
 </script>

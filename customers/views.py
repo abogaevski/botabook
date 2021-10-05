@@ -11,8 +11,3 @@ class CustomerListApiView(generics.ListAPIView):
 
     def get_queryset(self):
         return Customer.objects.all()
-
-
-class CustomerCreateApiView(generics.CreateAPIView):
-    serializer_class = CustomerSerializer
-    permission_classes = [IsAuthenticated]

@@ -30,6 +30,7 @@
             :time-range="project.timeRange"
             :price="project.price"
             :is-active="project.isActive"
+            :customers-id="project.customers"
           />
         </div>
       </template>
@@ -82,6 +83,6 @@ export default {
     showModal() {
       this.isActiveCreateModal = true
     }
-  }
+  },
 }
 </script>

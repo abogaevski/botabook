@@ -8,6 +8,7 @@
     :data-bs-placement="placement"
     :title="title"
     :aria-label="title">
+    <slot />
   </component>
 </template>
 <script>
