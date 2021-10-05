@@ -15,6 +15,12 @@ class ProjectService {
       .then((response) => response.data)
   }
 
+  toggleProject(projectId, status) {
+    return api
+      .patch(`/projects/${projectId}`, { isActive: status })
+      .then((response) => response.data)
+  }
+
   getPublicProjects(slug) {
     return api
       .get(`/projects/profile/${slug}/projects`)

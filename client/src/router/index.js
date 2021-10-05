@@ -41,6 +41,11 @@ const routes = [
         component: () => import('@/views/project/ProjectList')
       },
       {
+        path: '/project/:id',
+        name: 'project-detail',
+        component: () => import('@/views/project/ProjectDetail')
+      },
+      {
         path: '/customers',
         name: 'customers-table',
         component: () => import('@/views/customer/CustomerListTable.vue')

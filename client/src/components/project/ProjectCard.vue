@@ -14,7 +14,8 @@
       <div class="card-toolbar">
         <span
           :class="`badge-${getStatusDataColor}`"
-          class="badge fw-bolder me-auto px-4 py-3"
+          class="badge fw-bolder me-auto px-4 py-3 cursor-pointer"
+          @click="toggleProjectStatus"
         >
           {{ getStatus }}
         </span>
@@ -22,15 +23,15 @@
     </div>
     <div class="card-body p-9">
       <div class="fs-3 fw-bolder text-dark">
-        {{ title }}
+        {{ project.title }}
       </div>
       <p class="text-gray-400 fw-bold fs-5 mt-1 mb-7">
-        {{ description }}
+        {{ project.description }}
       </p>
 
       <div class="d-flex flex-wrap mb-5">
         <div class="border border-gray-300 border-dashed rounded min-w-125px py-3 px-4 me-7 mb-3">
-          <div class="fs-6 text-gray-800 fw-bolder">{{ timeRange }} мин.</div>
+          <div class="fs-6 text-gray-800 fw-bolder">{{ project.timeRange }} мин.</div>
           <div class="fw-bold text-gray-400">Длительность</div>
         </div>
 
@@ -39,44 +40,37 @@
           <div class="fw-bold text-gray-400">Стоимость</div>
         </div>
       </div>
-            <template v-if="customers">
-              <div class="symbol-group symbol-hover">
-                <template v-for="(customer, index) in customers" :key="index">
-                  <bt-tooltip
-                    tag="div"
-                    class="symbol symbol-35px symbol-circle"
-                    :title="customer.name"
-                    placement="top"
-                  >
+      <template v-if="customers">
+        <div class="symbol-group symbol-hover">
+          <template v-for="(customer, index) in customers" :key="index">
+            <bt-tooltip
+              tag="div"
+              class="symbol symbol-35px symbol-circle"
+              :title="customer.name"
+              placement="top"
+            >
                     <span
                       class="symbol-label fw-bolder"
                       :class="`bg-${customer.color} text-inverse-${customer.color}`"
                     >{{ customer.initials }}</span
                     >
-                  </bt-tooltip>
-                </template>
-              </div>
-            </template>
+            </bt-tooltip>
+          </template>
+        </div>
+      </template>
     </div>
   </div>
 </template>
 <script>
-
-import { mapGetters } from 'vuex'
+import { mapActions, mapGetters } from 'vuex'
+import Swal from 'sweetalert2'
 import BtTooltip from '@/components/_core/BtTooltip'
 
 export default {
   name: 'ProjectCard',
   components: { BtTooltip },
   props: {
-    title: String,
-    description: String,
-    timeRange: Number,
-    price: String,
-    isActive: Boolean,
-    color: String,
-    events: Array,
-    customersId: Array
+    project: Object
   },
   data() {
     return {
@@ -86,29 +80,50 @@ export default {
   computed: {
     ...mapGetters('customerModule', ['customerById']),
     getStatusDataColor() {
-      return this.isActive ? 'light-success' : 'light'
+      return this.project.isActive ? 'light-success' : 'light'
     },
     getStatus() {
-      return this.isActive ? 'Активен' : 'Неактивен'
+      return this.project.isActive ? 'Активен' : 'Неактивен'
     },
     getInitials() {
-      return this.title.split('')[0].toUpperCase()
+      return this.project.title.split('')[0].toUpperCase()
     },
     getColorClass() {
       return [
-        `bg-light-${this.color}`,
-        `text-${this.color}`
+        `bg-light-${this.project.color}`,
+        `text-${this.project.color}`
       ]
     },
     getPrice() {
-      return parseFloat(this.price) > 0 ? this.price : 'Бесплатно'
-    },
+      return parseFloat(this.project.price) > 0 ? this.project.price : 'Бесплатно'
+    }
   },
   mounted() {
-    this.customersId.forEach((id) => {
+    this.project.customers.forEach((id) => {
       const customer = this.customerById(id)
       this.customers.push(customer)
     })
+  },
+  methods: {
+    ...mapActions('project', ['toggleProject']),
+    toggleProjectStatus() {
+      Swal.fire({
+        title: 'Вы уверены, что хотите изменить статус услуги?',
+        icon: 'warning',
+        showCancelButton: true,
+        buttonsStyling: false,
+        confirmButtonText: 'Да!',
+        cancelButtonText: 'Отмена',
+        customClass: {
+          confirmButton: 'btn btn-warning',
+          cancelButton: 'btn btn-active-light'
+        }
+      }).then((result) => {
+        if (result.value) {
+          this.toggleProject(this.project)
+        }
+      })
+    }
   }
 }
 </script>

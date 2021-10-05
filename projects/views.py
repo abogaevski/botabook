@@ -37,4 +37,4 @@ class PublicProjectListApiView(generics.ListAPIView):
     def get_queryset(self):
         slug = self.kwargs['slug']
         profile = get_object_or_404(Profile, slug=slug)
-        return Project.objects.filter(user=profile.user)
+        return Project.objects.filter(user=profile.user, is_active=True)

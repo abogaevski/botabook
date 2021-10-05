@@ -4,7 +4,7 @@
     <div class="d-flex flex-wrap flex-stack my-5">
       <h2 class="fs-2 fw-bold my-2">
         Услуги
-        <span class="fs-6 text-gray-400 ms-1">по названию</span>
+        <span class="fs-6 text-gray-400 ms-1">по дате создания</span>
       </h2>
       <div class="d-flex flex-wrap my-1">
         <div class="m-0">
@@ -24,13 +24,7 @@
       <template v-for="(project, i) in projects" :key="i">
         <div class="col-md-6 col-xl-4">
           <project-card
-            :color="project.color"
-            :title="project.title"
-            :description="project.description"
-            :time-range="project.timeRange"
-            :price="project.price"
-            :is-active="project.isActive"
-            :customers-id="project.customers"
+            :project="project"
           />
         </div>
       </template>

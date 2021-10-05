@@ -37,21 +37,19 @@ export default {
     EventBus.on('signout', () => {
       this.signout()
     })
-
-    this.getProfile()
-    this.getEvents()
-    this.getProjects()
-    this.getCustomers()
-      .then(() => {
-        document.body.classList.remove('page-loading')
-      })
   },
 
-  created() {
-    this.getProfile()
+  async created() {
+    await this.getProfile()
       .then(() => {
       })
       .catch(() => EventBus.dispatch('signout'))
+    await this.getEvents()
+    await this.getProjects()
+    await this.getCustomers()
+      .then(() => {
+        document.body.classList.remove('page-loading')
+      })
   },
 
   methods: {
