@@ -34,7 +34,8 @@ export default {
         start: '',
         end: '',
         allDay: false,
-        isApproved: false
+        isApproved: false,
+        eventColor: ''
       }
     }
   },
@@ -47,7 +48,8 @@ export default {
         start: event.start,
         end: event.end,
         allDay: event.allDay,
-        isApproved: event.extendedProps.isApproved
+        isApproved: event.extendedProps.isApproved,
+        eventColor: event.extendedProps.color
       }
       this.showModal('View')
     },
@@ -94,8 +96,9 @@ export default {
         // slotMaxTime:
         firstDay: '1',
         events: this.events,
+        nowIndicator: true,
+        eventShortHeight: 10,
         eventDidMount(info) {
-          console.log('didmount')
           const { event, el, view } = info
           setEventStyle(event, el, view)
         }

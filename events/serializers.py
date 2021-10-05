@@ -3,10 +3,14 @@ from .models import Event
 
 
 class EventSerializer(serializers.ModelSerializer):
+    event_color = serializers.SerializerMethodField()
 
     class Meta:
         model = Event
-        fields = ['id', 'title', 'start', 'end', 'all_day', 'is_approved']
+        fields = ['id', 'title', 'start', 'end', 'all_day', 'is_approved', 'event_color']
+
+    def get_event_color(self, event):
+        return event.project.color
 
 
 class EventDatesListSerializer(serializers.ModelSerializer):

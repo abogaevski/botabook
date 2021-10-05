@@ -24,7 +24,7 @@ body {
     --fc-bg-event-opacity: 0.3;
     --fc-neutral-bg-color: #{$light};
     //--fc-event-selected-overlay-color:
-    --fc-today-bg-color: #{$primary-light};
+    --fc-today-bg-color: #{$secondary-light};
     //--fc-neutral-bg-color:
     //--fc-neutral-text-color:
     //--fc-more-link-text-color:
@@ -305,14 +305,82 @@ body {
 .fc-list-event-time {
   font-weight: 700;
 }
+.fc .fc-list-event-title a {
+  font-weight: 500;
+}
 .fc-list-day {
   text-transform: uppercase;
 }
-//.grid-event {
-//  background-color: $primary-light;
-//  border-color: $primary-light;
-//
-//  .fc-event-main {
-//    color: $primary;
-//  }
-//}
+.fc-daygrid .fc-daygrid-event {
+  box-shadow: 0 0 9px 0 rgba(0, 0, 0, .06) !important;
+}
+.fc-v-event.event {
+  box-shadow: 0 0 9px 0 rgba(0, 0, 0, .06) !important;
+  &-primary {
+    background-color: $primary !important;
+    border-color: $primary !important;
+  }
+  &-success {
+    background-color: $success !important;
+    border-color: $success !important;
+  }
+  &-danger {
+    background-color: $danger !important;
+    border-color: $danger !important;
+  }
+  &-info {
+    background-color: $info !important;
+    border-color: $info !important;
+  }
+  &-warning {
+    background-color: $warning !important;
+    border-color: $warning !important;
+  }
+  &-dark {
+    background-color: $dark !important;
+    border-color: $dark !important;
+  }
+  &-light-primary {
+    background-color: $primary-light !important;
+    border-color: $primary-light !important;
+
+    .fc-event-main {
+      color: $primary;
+    }
+  }
+  &-light-success {
+    background-color: $success-light !important;
+    border-color: $success-light !important;
+    .fc-event-main {
+      color: $success;
+    }
+  }
+  &-light-danger {
+    background-color: $danger-light !important;
+    border-color: $danger-light !important;
+    .fc-event-main {
+      color: $danger;
+    }
+  }
+  &-light-info {
+    background-color: $info-light !important;
+    border-color: $info-light !important;
+    .fc-event-main {
+      color: $info;
+    }
+  }
+  &-light-warning {
+    background-color: $warning-light !important;
+    border-color: $warning-light !important;
+    .fc-event-main {
+      color: $warning;
+    }
+  }
+  &-light-dark {
+    background-color: $dark-light !important;
+    border-color: $dark-light !important;
+    .fc-event-main {
+      color: $dark;
+    }
+  }
+}
