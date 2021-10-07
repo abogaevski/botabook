@@ -1,17 +1,20 @@
 <template>
-  <div class="card border border-2 border-gray-300 border-hover">
-    <div class="card-header border-0 pt-9">
-      <div class="card-title m-0">
-        <div class="symbol symbol-50px w-50px bg-light">
+  <router-link
+    :to="`/project/${project.id}`"
+  >
+    <div class="card border border-2 border-gray-300 border-hover">
+      <div class="card-header border-0 pt-9">
+        <div class="card-title m-0">
+          <div class="symbol symbol-50px w-50px bg-light">
           <span
             class="symbol-label fw-bolder"
             :class="getColorClass"
           >
             {{ getInitials }}
           </span>
+          </div>
         </div>
-      </div>
-      <div class="card-toolbar">
+        <div class="card-toolbar">
         <span
           :class="`badge-${getStatusDataColor}`"
           class="badge fw-bolder me-auto px-4 py-3 cursor-pointer"
@@ -19,66 +22,47 @@
         >
           {{ getStatus }}
         </span>
+        </div>
+      </div>
+      <div class="card-body p-9">
+        <div class="fs-3 fw-bolder text-dark">
+          {{ project.title }}
+        </div>
+        <p class="text-gray-400 fw-bold fs-5 mt-1 mb-7">
+          {{ project.description }}
+        </p>
+
+        <div class="d-flex flex-wrap mb-5">
+          <div class="border border-gray-300 border-dashed rounded min-w-125px py-3 px-4 me-7 mb-3">
+            <div class="fs-6 text-gray-800 fw-bolder">{{ project.timeRange }} мин.</div>
+            <div class="fw-bold text-gray-400">Длительность</div>
+          </div>
+
+          <div class="border border-gray-300 border-dashed rounded min-w-125px py-3 px-4 mb-3">
+            <div class="fs-6 text-gray-800 fw-bolder">{{ getPrice }}</div>
+            <div class="fw-bold text-gray-400">Стоимость</div>
+          </div>
+        </div>
+        <template v-if="customers">
+          <project-customers-symbols-list :customers-id="project.customers" />
+        </template>
       </div>
     </div>
-    <div class="card-body p-9">
-      <div class="fs-3 fw-bolder text-dark">
-        {{ project.title }}
-      </div>
-      <p class="text-gray-400 fw-bold fs-5 mt-1 mb-7">
-        {{ project.description }}
-      </p>
-
-      <div class="d-flex flex-wrap mb-5">
-        <div class="border border-gray-300 border-dashed rounded min-w-125px py-3 px-4 me-7 mb-3">
-          <div class="fs-6 text-gray-800 fw-bolder">{{ project.timeRange }} мин.</div>
-          <div class="fw-bold text-gray-400">Длительность</div>
-        </div>
-
-        <div class="border border-gray-300 border-dashed rounded min-w-125px py-3 px-4 mb-3">
-          <div class="fs-6 text-gray-800 fw-bolder">{{ getPrice }}</div>
-          <div class="fw-bold text-gray-400">Стоимость</div>
-        </div>
-      </div>
-      <template v-if="customers">
-        <div class="symbol-group symbol-hover">
-          <template v-for="(customer, index) in customers" :key="index">
-            <bt-tooltip
-              tag="div"
-              class="symbol symbol-35px symbol-circle"
-              :title="customer.name"
-              placement="top"
-            >
-                    <span
-                      class="symbol-label fw-bolder"
-                      :class="`bg-${customer.color} text-inverse-${customer.color}`"
-                    >{{ customer.initials }}</span
-                    >
-            </bt-tooltip>
-          </template>
-        </div>
-      </template>
-    </div>
-  </div>
+  </router-link>
 </template>
 <script>
 import { mapActions, mapGetters } from 'vuex'
 import Swal from 'sweetalert2'
-import BtTooltip from '@/components/_core/BtTooltip'
+import ProjectCustomersSymbolsList from '@/components/project/ProjectCustomersSymbolsList'
 
 export default {
   name: 'ProjectCard',
-  components: { BtTooltip },
+  components: { ProjectCustomersSymbolsList },
   props: {
     project: Object
   },
-  data() {
-    return {
-      customers: []
-    }
-  },
   computed: {
-    ...mapGetters('customerModule', ['customerById']),
+    ...mapGetters('customerModule', ['customers']),
     getStatusDataColor() {
       return this.project.isActive ? 'light-success' : 'light'
     },
@@ -97,12 +81,6 @@ export default {
     getPrice() {
       return parseFloat(this.project.price) > 0 ? this.project.price : 'Бесплатно'
     }
-  },
-  mounted() {
-    this.project.customers.forEach((id) => {
-      const customer = this.customerById(id)
-      this.customers.push(customer)
-    })
   },
   methods: {
     ...mapActions('project', ['toggleProject']),

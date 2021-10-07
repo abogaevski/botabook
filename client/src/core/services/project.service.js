@@ -21,6 +21,18 @@ class ProjectService {
       .then((response) => response.data)
   }
 
+  updateProject(projectId, project) {
+    return api
+      .put(`/projects/${projectId}`, { ...project })
+      .then((response) => response.data)
+  }
+
+  deleteProject(projectId) {
+    return api
+      .delete(`/projects/${projectId}`)
+      .then((response) => response)
+  }
+
   getPublicProjects(slug) {
     return api
       .get(`/projects/profile/${slug}/projects`)

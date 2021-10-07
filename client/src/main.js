@@ -4,6 +4,7 @@ import InlineSvg from 'vue-inline-svg'
 import ElementPlus from 'element-plus'
 import ru from 'element-plus/es/locale/lang/ru'
 import { Chart, registerables } from 'chart.js'
+import VueApexCharts from 'vue3-apexcharts'
 import { initVeeValidate } from '@/core/plugins/vee-validate'
 import { initYup } from '@/core/plugins/yup'
 
@@ -16,6 +17,7 @@ import store from './store'
 
 import '@/core/plugins/theme'
 import 'bootstrap'
+import initMoment from '@/core/plugins/moment'
 
 Chart.register(...registerables);
 
@@ -25,10 +27,11 @@ app.use(router)
 app.use(ElementPlus, {
   locale: ru
 });
-
+app.use(VueApexCharts);
 setupInterceptors(store);
 app.component('inline-svg', InlineSvg)
 initVeeValidate()
 initYup()
+initMoment()
 
 app.mount('#app')

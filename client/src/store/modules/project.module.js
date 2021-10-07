@@ -10,8 +10,9 @@ export const project = {
   },
 
   actions: {
-    getProjects({ commit }) {
-      return ProjectService.getProjects()
+    async getProjects({ commit }) {
+      // eslint-disable-next-line no-return-await
+      return await ProjectService.getProjects()
         .then((projects) => {
           commit(Mutation.SET_PROJECTS, projects)
         })
@@ -29,6 +30,15 @@ export const project = {
         .then((p) => {
           commit(Mutation.UPDATE_PROJECT, p)
         })
+    },
+    updateProject({ commit }, updatedProject) {
+      const { id } = updatedProject
+      return ProjectService.updateProject(id, updatedProject)
+        .then((p) => commit(Mutation.UPDATE_PROJECT, p))
+    },
+    deleteProject({ commit }, projectId) {
+      return ProjectService.deleteProject(projectId)
+        .then(() => commit(Mutation.DELETE_PROJECT, projectId))
     }
   },
   mutations: {
@@ -39,7 +49,6 @@ export const project = {
       return state.projects.push(prj)
     },
     [Mutation.UPDATE_PROJECT](state, updatedProject) {
-      console.log(updatedProject)
       const index = getProjectIndexById(state, updatedProject.id)
       if (index === -1) {
         return console.warn(`Unable to delete event (id ${updatedProject.id})`)
@@ -48,6 +57,14 @@ export const project = {
         ...state.projects[index],
         ...updatedProject
       })
+    },
+    [Mutation.DELETE_PROJECT](state, projectId) {
+      const index = getProjectIndexById(state, projectId)
+      if (index === -1) {
+        return console.warn(`Unable to delete event (id ${projectId})`)
+      }
+
+      return state.projects.splice(index, 1)
     }
   },
   getters: {

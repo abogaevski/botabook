@@ -2,7 +2,7 @@ export default function setEventStyle(event, el, view) {
   const color = event.extendedProps.eventColor
   const { isApproved } = event.extendedProps
   const statusColor = isApproved ? 'success' : 'danger'
-  const statusText = isApproved ? 'Подтверждено' : 'Не пожтверждено'
+  const statusText = isApproved ? 'Подтверждена' : 'Не подтверждена'
   const approvedStatusHtml = `<span class="ms-auto badge badge-light-${statusColor}">${statusText}</span>`
 
   // eslint-disable-next-line default-case

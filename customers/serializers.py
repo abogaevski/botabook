@@ -11,7 +11,7 @@ class CustomerSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Customer
-        fields = ['id', 'name', 'phone', 'email', 'color', 'initials']
+        fields = ['id', 'name', 'phone', 'email', 'color', 'initials', 'created_at']
 
     def get_initials(self, customer):
         return customer.name[0].upper()

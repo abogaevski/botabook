@@ -12,6 +12,7 @@
           </div>
         </div>
       </div>
+      <Footer />
       <!--    Footer    -->
     </div>
   </div>
@@ -25,10 +26,11 @@ import { MenuComponent } from '@/core/components/MenuComponent'
 import Loader from '@/components/Loader.vue'
 import Aside from './aside/Aside.vue'
 import Header from './header/Header.vue'
+import Footer from './footer/Footer'
 
 export default {
   components: {
-    Aside, Header, Loader
+    Aside, Header, Loader, Footer
   },
   mounted() {
     MenuComponent.hideDropdowns(undefined)

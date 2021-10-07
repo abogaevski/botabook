@@ -82,7 +82,7 @@
                 >
                     <span
                       class="symbol-label fw-bolder"
-                      :class="`bg-${customers[i].color} text-inverse-${customers[i].color}`"
+                      :class="`bg-light-${customers[i].color} text-${customers[i].color}`"
                     >{{ customers[i].initials }}</span
                     >
                 </bt-tooltip>

@@ -10,7 +10,18 @@ class ProjectSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Project
-        fields = ['id', 'title', 'description', 'price', 'is_active', 'time_range', 'color', 'events', 'customers']
+        fields = [
+            'id',
+            'title',
+            'description',
+            'price',
+            'is_active',
+            'time_range',
+            'color',
+            'events',
+            'customers',
+            'created_at'
+        ]
 
     def get_customers(self, project):
         return list(Customer.objects.filter(events__project=project).distinct().values_list('id', flat=True))

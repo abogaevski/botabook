@@ -43,7 +43,20 @@ const routes = [
       {
         path: '/project/:id',
         name: 'project-detail',
-        component: () => import('@/views/project/ProjectDetail')
+        redirect: { name: 'project-overview' },
+        component: () => import('@/views/project/ProjectDetail'),
+        children: [
+          {
+            path: 'overview',
+            name: 'project-overview',
+            component: () => import('@/components/project/details/ProjectDetailsOverview')
+          },
+          {
+            path: 'settings',
+            name: 'project-settings',
+            component: () => import('@/components/project/ProjectSettings')
+          }
+        ]
       },
       {
         path: '/customers',
@@ -100,6 +113,9 @@ router.beforeEach((to, from, next) => {
   } else {
     next()
   }
+  setTimeout(() => {
+    window.scrollTo(0, 0);
+  }, 0);
 })
 
 export default router
