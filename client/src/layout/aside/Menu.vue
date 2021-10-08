@@ -1,6 +1,15 @@
 <template>
-  <div class="hover-scroll-overlay-y my-5 my-lg-5">
+  <div
+    id="bb-aside-menu-wrapper"
+    data-bb-scroll="true"
+    data-bb-scroll-activate="{default: true}"
+    data-bb-scroll-height="auto"
+    data-bb-scroll-dependencies="#bb_aside_logo, #bb_aside_footer"
+    data-bb-scroll-wrappers="#bb_aside_menu"
+    data-bb-scroll-offset="0"
+    class="hover-scroll-overlay-y my-5 my-lg-5">
     <div
+      id="bb_aside_menu"
       class="menu menu-column menu-title-gray-800 menu-state-title-primary menu-state-icon-primary menu-state-bullet-primary menu-arrow-gray-500"
       data-bb-menu="true"
     >
@@ -97,6 +106,7 @@
 
 <script>
 import { AsideMenuConfig } from '@/core/config/AsideMenu.config'
+import { ScrollComponent } from '@/core/components/_ScrollComponent'
 
 export default {
   name: 'AsideMenu',
@@ -109,6 +119,11 @@ export default {
     hasActiveChildren(match) {
       return this.$route.path.indexOf(match) !== -1;
     }
+  },
+  mounted() {
+    setTimeout(() => {
+      ScrollComponent.reinitialization();
+    }, 0)
   }
 }
 </script>

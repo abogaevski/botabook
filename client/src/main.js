@@ -19,7 +19,7 @@ import '@/core/plugins/theme'
 import 'bootstrap'
 import initMoment from '@/core/plugins/moment'
 
-Chart.register(...registerables);
+Chart.register(...registerables)
 
 const app = createApp(App)
 app.use(store)
@@ -27,8 +27,9 @@ app.use(router)
 app.use(ElementPlus, {
   locale: ru
 });
-app.use(VueApexCharts);
-setupInterceptors(store);
+app.use(VueApexCharts)
+
+setupInterceptors(store)
 app.component('inline-svg', InlineSvg)
 initVeeValidate()
 initYup()

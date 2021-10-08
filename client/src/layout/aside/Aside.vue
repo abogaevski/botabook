@@ -1,6 +1,6 @@
 <template>
   <div class="aside aside-hoverable aside-light">
-    <div class="aside-logo flex-column-auto">
+    <div id="bb_aside_logo" class="aside-logo flex-column-auto">
       <img src="/media/logos/botabook-dark.svg" class="h-35px logo" alt="">
 
       <div
@@ -19,6 +19,8 @@
 
     <div class="aside-menu flex-column-fluid">
       <Menu></Menu>
+    </div>
+    <div class="aside-footer flex-column-auto pt-5 pb-7 px-5" id="bb_aside_footer">
     </div>
   </div>
 </template>
