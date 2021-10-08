@@ -12,6 +12,7 @@ export default function setEventStyle(event, el, view) {
       isApproved ? el.classList.add('event', `event-${color}`) : el.classList.add('event', `event-light-${color}`)
       break
     case 'listWeek':
+    case 'listDay':
       el.querySelector('.fc-list-event-title a').classList.add('d-flex')
       el.querySelector('.fc-list-event-dot').classList.add(`border-${color}`)
       el.querySelector('.fc-list-event-title a').innerHTML += approvedStatusHtml

@@ -31,7 +31,7 @@ class EventDatesApiView(generics.ListAPIView):
         return Event.objects.filter(user=profile.user)
 
 
-class EventRetrieveApiView(generics.RetrieveDestroyAPIView):
+class EventRetrieveApiView(generics.RetrieveUpdateDestroyAPIView):
     permission_classes = [IsAuthenticated]
     serializer_class = EventSerializer
 
@@ -97,6 +97,7 @@ class PublicAddEventApiView(generics.GenericAPIView):
             user=project.user,
             project=project,
             customer=customer,
-            all_day=False
+            all_day=False,
+            description=data['description']
         )
         return Response({'status': 'ok'})

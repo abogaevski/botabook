@@ -37,5 +37,8 @@ class Event(models.Model):
 
     is_approved = models.BooleanField(default=False)
 
+    link = models.URLField(max_length=1000, blank=True, null=True)
+    description = models.TextField(null=True, blank=True)
+
     def __str__(self):
         return self.title

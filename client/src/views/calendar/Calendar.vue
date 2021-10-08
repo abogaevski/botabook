@@ -4,11 +4,17 @@
       <full-calendar :options="config"></full-calendar>
     </div>
   </div>
-  <view-event-modal
+<!--  <view-event-modal-->
+<!--    :show-modal="isActiveViewModal"-->
+<!--    @modal:hide="closeModal"-->
+<!--    :event-data="eventData"-->
+<!--  ></view-event-modal>-->
+
+  <calendar-view-event-modal
     :show-modal="isActiveViewModal"
-    @modal:hide="closeModal"
+    @modal:close="closeModal"
     :event-data="eventData"
-  ></view-event-modal>
+  />
 
 </template>
 
@@ -21,8 +27,8 @@ import listPlugin from '@fullcalendar/list'
 import momentTimezonePlugin from '@fullcalendar/moment-timezone'
 import ruLocale from '@fullcalendar/core/locales/ru'
 import { mapGetters } from 'vuex'
-import ViewEventModal from '@/components/calendar/ViewEventModal.vue'
 import setEventStyle from '@/core/_utils/helpers/event-helpers/setEventStyle'
+import CalendarViewEventModal from '@/components/calendar/CalendarViewEventModal'
 
 export default {
   data() {
@@ -35,7 +41,11 @@ export default {
         end: '',
         allDay: false,
         isApproved: false,
-        eventColor: ''
+        color: '',
+        customer: '',
+        project: 0,
+        link: '',
+        description: ''
       }
     }
   },
@@ -49,7 +59,11 @@ export default {
         end: event.end,
         allDay: event.allDay,
         isApproved: event.extendedProps.isApproved,
-        eventColor: event.extendedProps.color
+        eventColor: event.extendedProps.eventColor,
+        customer: event.extendedProps.customer,
+        project: event.extendedProps.project,
+        link: event.extendedProps.link,
+        description: event.extendedProps.description
       }
       this.showModal('View')
     },
@@ -83,7 +97,15 @@ export default {
         headerToolbar: {
           left: 'prev,next today',
           center: 'title',
-          right: 'listWeek,timeGridWeek,dayGridMonth,timeGridDay'
+          right: 'listWeek,timeGridWeek,dayGridMonth'
+        },
+        buttonText: {
+          today: 'Сегодня',
+          month: 'Месяц',
+          week: 'Неделя',
+          day: 'День',
+          listWeek: 'Повестка недели',
+          listDay: 'Повестка дня'
         },
         locale: ruLocale,
         timeZone: this.profileTimezone,
@@ -122,8 +144,9 @@ export default {
   },
 
   components: {
-    ViewEventModal,
-    FullCalendar
+    // ViewEventModal,
+    FullCalendar,
+    CalendarViewEventModal
   }
 }
 </script>

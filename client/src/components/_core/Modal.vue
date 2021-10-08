@@ -40,9 +40,12 @@ export default {
       this.modalInstance.toggle()
     }
   },
+  beforeUnmount() {
+    this.modalInstance.hide()
+  },
   methods: {
     close() {
-      this.$emit('modal:hide')
+      this.$emit('modal:close')
     }
   }
 }

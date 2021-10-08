@@ -9,12 +9,12 @@ class CalendarService {
       .then((response) => response.data)
   }
 
-  // updateEvent(event) {
-  //   const { id } = event
-  //   return api
-  //     .put(`/events/${id}`, { ...event })
-  //     .then((response) => response.data)
-  // }
+  addEventLink(id, event) {
+    return api
+      .patch(`/events/${id}`, event)
+      .then((response) => response.data)
+  }
+
   approveEvent(eventId) {
     return api
       .patch(`/events/${eventId}/approve`, { isApproved: true })

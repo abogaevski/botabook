@@ -116,6 +116,7 @@
                           placeholder="Выберите дату"
                           format="DD.MM.YYYY"
                           value-format="YYYY-MM-DD"
+                          :disabled-date="getDisabledDates"
                         >
                         </el-date-picker>
                       </div>
@@ -163,10 +164,10 @@
             <div data-bb-stepper-element="content">
               <div class="w-100">
                 <div class="pb-10 pb-lg-15">
-                  <h2 class="fw-bolder d-flex align-items-center text-dark">Выберите данные</h2>
+                  <h2 class="fw-bolder d-flex align-items-center text-dark">Укажите ваши данные для встречи</h2>
                 </div>
                 <div class="mb-5 fv-row fv-plugins-icon-container">
-                  <label class="form-label mb-3">Введите имя</label>
+                  <label class="form-label mb-3 required">Введите имя</label>
                   <Field
                     type="text"
                     class="form-control form-control-lg form-control-solid"
@@ -180,7 +181,7 @@
                   </div>
                 </div>
                 <div class="mb-5 fv-row fv-plugins-icon-container">
-                  <label class="form-label mb-3">Введите телефон</label>
+                  <label class="form-label mb-3 required">Введите телефон</label>
                   <Field
                     type="text"
                     class="form-control form-control-lg form-control-solid"
@@ -194,7 +195,7 @@
                   </div>
                 </div>
                 <div class="mb-5 fv-row fv-plugins-icon-container">
-                  <label class="form-label mb-3">Введите email</label>
+                  <label class="form-label mb-3 required">Введите email</label>
                   <Field
                     type="text"
                     class="form-control form-control-lg form-control-solid"
@@ -204,6 +205,25 @@
                   <div class="fv-plugins-message-container">
                     <div class="fv-help-block">
                       <ErrorMessage name="selectedTime"/>
+                    </div>
+                  </div>
+                </div>
+                <div class="mb-5 fv-row fv-plugins-icon-container">
+                  <label class="form-label mb-3">Сообщение
+                    <div class="fs-7 fw-bold text-muted d-flex mb-3">
+                      Напишите что угодно, что могло бы помочь подготовиться к встрече
+                    </div>
+                  </label>
+                  <Field
+                    as="textarea"
+                    type="text"
+                    class="form-control form-control-lg form-control-solid"
+                    name="description"
+                    v-model="formData.description"
+                  />
+                  <div class="fv-plugins-message-container">
+                    <div class="fv-help-block">
+                      <ErrorMessage name="description"/>
                     </div>
                   </div>
                 </div>
@@ -261,6 +281,7 @@
 import { Field, Form, ErrorMessage } from 'vee-validate'
 import * as Yup from 'yup'
 import Swal from 'sweetalert2'
+import moment from 'moment'
 import { StepperComponent } from '@/core/components/_StepperComponent'
 import EventService from '@/core/services/calendar.service'
 import { ScrollComponent } from '@/core/components/_ScrollComponent'
@@ -280,7 +301,8 @@ export default {
       phone: Yup.string()
         .required(),
       email: Yup.string()
-        .required()
+        .required(),
+      description: Yup.string()
     })
     return {
       dates: [],
@@ -292,7 +314,8 @@ export default {
         time: '',
         name: '',
         phone: '',
-        email: ''
+        email: '',
+        description: ''
       },
       addEventValidationSchema
     }
@@ -300,6 +323,9 @@ export default {
   methods: {
     getProjectInputId(id) {
       return `project_type_${id}`
+    },
+    getDisabledDates(date) {
+      return moment(date) < moment()
     },
     getEventInputId(date) {
       const id = this.getTimeOnly(date).replace(':', '_')

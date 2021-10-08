@@ -7,7 +7,19 @@ class EventSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Event
-        fields = ['id', 'title', 'start', 'end', 'all_day', 'is_approved', 'event_color']
+        fields = [
+            'id',
+            'title',
+            'start',
+            'end',
+            'all_day',
+            'is_approved',
+            'event_color',
+            'customer',
+            'project',
+            'link',
+            'description'
+        ]
 
     def get_event_color(self, event):
         return event.project.color
@@ -16,4 +28,4 @@ class EventSerializer(serializers.ModelSerializer):
 class EventDatesListSerializer(serializers.ModelSerializer):
     class Meta:
         model = Event
-        fields = ['start', 'end', 'all_day', 'is_approved']
+        fields = ['start', 'end']

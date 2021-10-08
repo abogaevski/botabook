@@ -33,12 +33,6 @@
               <div class="mb-9">
                 <div class="d-flex align-items-center mb-2">
                   <span class="fs-3 fw-bolder me-3">{{ event.title }}</span>
-                  <span
-                    class="badge"
-                    :class="badgeColorClass"
-                  >
-                    {{ event.isApproved ? 'Подтвержден' : 'Не подтвержден' }}
-                  </span>
                 </div>
               </div>
             </div>

@@ -49,7 +49,8 @@
                   <button
                     @click="showModal(event)"
                     class="btn btn-light-primary btn-sm"
-                  >Просмотр</button>
+                  >Просмотр
+                  </button>
                 </div>
               </template>
             </template>
@@ -67,9 +68,9 @@
       </div>
     </div>
   </div>
-  <view-event-modal
+  <calendar-view-event-modal
     :show-modal="isActiveViewModal"
-    @modal:hide="closeModal"
+    @modal:close="closeModal"
     :event-data="eventData"
   />
 </template>
@@ -81,14 +82,14 @@ import moment from 'moment'
 import { computed, onMounted, ref, toRefs } from 'vue'
 import { Tab } from 'bootstrap'
 import getDaysOfLastMonth from '@/core/_utils/helpers/date-healpers/getDaysOfLastMonth'
-import ViewEventModal from '@/components/calendar/ViewEventModal'
+import CalendarViewEventModal from '@/components/calendar/CalendarViewEventModal'
 
 export default {
   name: 'ProjectDetailsEventsNav',
   props: {
     eventsId: Array
   },
-  components: { ViewEventModal },
+  components: { CalendarViewEventModal },
   setup(props) {
     const store = useStore()
     const { eventsId } = toRefs(props)
@@ -137,20 +138,22 @@ export default {
     })
 
     const eventData = ref({
-      eventData: {
-        id: '',
-        title: '',
-        start: '',
-        end: '',
-        allDay: false,
-        isApproved: false,
-        eventColor: ''
-      }
+      id: '',
+      title: '',
+      start: '',
+      end: '',
+      allDay: false,
+      isApproved: false,
+      eventColor: '',
+      customer: 1,
+      project: 1,
+      link: '',
+      description: ''
     })
     const isActiveViewModal = ref(false)
 
     const showModal = (event) => {
-      eventData.value = event
+      eventData.value = { ...event }
       isActiveViewModal.value = true
     }
 
