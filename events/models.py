@@ -4,7 +4,18 @@ from django.db import models
 from customers.models import Customer
 from projects.models import Project
 
-
+# NEW = 'new'
+# WAIT_PAYMENT = 'wait_payment'
+# APPROVED = 'approved'
+# ENDED = 'ended'
+# CANCELED = 'canceled'
+# STATUSES = [
+#     (NEW, 'new'),
+#     (WAIT_PAYMENT, 'wait_payment'),
+#     (APPROVED, 'approved'),
+#     (ENDED, 'ended'),
+#     (CANCELED, 'canceled'),
+# ]
 class Event(models.Model):
     class Meta:
         verbose_name = 'Встреча'

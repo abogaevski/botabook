@@ -29,7 +29,6 @@ class Project(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     color = models.CharField(max_length=255, choices=COLORS, default=PRIMARY)
-    # status
 
     user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE, related_name='projects')
 

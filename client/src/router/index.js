@@ -60,8 +60,8 @@ const routes = [
       },
       {
         path: '/customers',
-        name: 'customers-table',
-        component: () => import('@/views/customer/CustomerListTable.vue')
+        name: 'customers-list',
+        component: () => import('@/views/customer/CustomerList.vue')
       }
     ]
   },
