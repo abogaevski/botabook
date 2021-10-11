@@ -8,7 +8,8 @@ import { customerModule } from '@/store/modules/customer.module'
 
 export default createStore({
   state: {
-    error: null
+    error: null,
+    title: ''
   },
   mutations: {
     [Mutation.SET_ERROR](state, error) {
@@ -16,12 +17,19 @@ export default createStore({
     },
     [Mutation.CLEAR_ERROR](state) {
       state.error = null
+    },
+    [Mutation.SET_TITLE](state, title) {
+      state.title = title
     }
   },
   getters: {
-    error: (s) => s.error
+    error: (s) => s.error,
+    title: (s) => s.title
   },
   actions: {
+    setTitle({ commit }, title) {
+      commit(Mutation.SET_TITLE, title)
+    }
   },
   modules: {
     auth,

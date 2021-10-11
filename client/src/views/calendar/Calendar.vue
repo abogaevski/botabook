@@ -141,6 +141,7 @@ export default {
 
   mounted() {
     this.$store.dispatch('calendar/getEvents')
+    this.$store.dispatch('setTitle', 'Календарь')
   },
 
   components: {

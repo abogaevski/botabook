@@ -27,5 +27,7 @@ export const UPDATE_PROJECT = 'UPDATE_PROJECT'
 export const DELETE_PROJECT = 'DELETE_PROJECT'
 
 // Customers
-
 export const SET_CUSTOMERS = 'SET_CUSTOMERS'
+
+// Title
+export const SET_TITLE = 'SET_TITLE'

@@ -78,5 +78,8 @@ export default {
       this.isActiveCreateModal = true
     }
   },
+  mounted() {
+    this.$store.dispatch('setTitle', 'Услуги')
+  }
 }
 </script>

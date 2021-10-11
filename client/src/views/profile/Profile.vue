@@ -183,6 +183,9 @@ export default {
     getSvgIconColor(counter) {
       return counter ? 'svg-icon-success' : 'svg-icon-danger'
     }
+  },
+  mounted() {
+    this.$store.dispatch('setTitle', 'Профиль')
   }
 }
 </script>
