@@ -5,16 +5,31 @@ export const AsideMenuConfig = [
         heading: 'Дашборд',
         route: '/dashboard',
         svgIcon: '/media/icons/duotone/Design/PenAndRuller.svg'
-      },
+      }
+    ]
+  },
+  {
+    heading: 'Встречи',
+    pages: [
       {
         heading: 'Календарь',
         route: '/calendar',
         svgIcon: '/media/icons/duotone/Interface/Calendar.svg'
       },
       {
+        heading: 'Доска',
+        route: '/events-board',
+        svgIcon: '/media/icons/duotone/Communication/Clipboard-check.svg'
+      }
+    ]
+  },
+  {
+    heading: ' ',
+    pages: [
+      {
         heading: 'Профиль',
         route: '/profile/settings',
-        svgIcon: '/media/icons/duotone/General/User.svg',
+        svgIcon: '/media/icons/duotone/General/User.svg'
       },
       {
         heading: 'Услуги',
@@ -25,47 +40,7 @@ export const AsideMenuConfig = [
         heading: 'Клиенты',
         route: '/customers',
         svgIcon: '/media/icons/duotone/Communication/Group.svg'
-      },
+      }
     ]
-  },
-  // {
-  //   heading: 'Настройки',
-  //   pages: [
-  //     {
-  //       heading: 'Профиль',
-  //       route: '/profile/settings',
-  //       svgIcon: '/media/icons/duotone/General/User.svg',
-  //       // sub: [
-  //       //   {
-  //       //     heading: 'Детали',
-  //       //     route: '/profile/overview'
-  //       //   },
-  //       //   {
-  //       //     heading: 'Настройки',
-  //       //     route: '/profile/settings'
-  //       //   },
-  //       // ]
-  //     },
-  //     {
-  //       heading: 'Услуги',
-  //       route: '/projects',
-  //       svgIcon: '/media/icons/duotone/Interface/Briefcase.svg'
-  //     },
-  //   ]
-  // },
-  // {
-  //   heading: 'Клиенты',
-  //   pages: [
-  //     {
-  //       heading: 'Список',
-  //       route: '/customers',
-  //       svgIcon: '/media/icons/duotone/Communication/Group.svg'
-  //     },
-  //     // {
-  //     //   heading: 'Kanban',
-  //     //   route: '/customer/board',
-  //     //   svgIcon: '/media/icons/duotone/Communication/Group.svg'
-  //     // }
-  //   ]
-  // }
+  }
 ]

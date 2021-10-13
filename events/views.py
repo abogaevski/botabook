@@ -2,6 +2,7 @@ import pandas as pd
 import pytz
 from datetime import datetime, timedelta
 
+from django.db.models import Q
 from rest_framework import generics
 from rest_framework.generics import get_object_or_404
 from rest_framework.permissions import IsAuthenticated
@@ -12,6 +13,7 @@ from customers.models import Customer
 from projects.models import Project
 from .models import Event
 from .serializers import EventSerializer, EventDatesListSerializer
+from .constants import *
 
 
 class EventListApiView(generics.ListAPIView):
@@ -60,7 +62,8 @@ class PublicAvailableTimeApiView(generics.GenericAPIView):
             start=working_hours[0],
             end=working_hours[1],
             freq='{}min'.format(project_range)).tolist()
-        events = profile.user.events.filter(start__gte=selected_date, is_approved=True)
+
+        events = profile.user.events.filter(Q(start__gte=selected_date), Q(status=APPROVED))
 
         time_result = []
         timezone = pytz.timezone(profile.timezone)

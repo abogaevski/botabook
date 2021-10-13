@@ -9,15 +9,9 @@ class CalendarService {
       .then((response) => response.data)
   }
 
-  addEventLink(id, event) {
+  updateEvent(id, event) {
     return api
       .patch(`/events/${id}`, event)
-      .then((response) => response.data)
-  }
-
-  approveEvent(eventId) {
-    return api
-      .patch(`/events/${eventId}/approve`, { isApproved: true })
       .then((response) => response.data)
   }
 

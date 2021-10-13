@@ -24,15 +24,8 @@ export const calendar = {
           return Promise.resolve()
         })
     },
-    approveEvent({ commit }, eventId) {
-      return CalendarService.approveEvent(eventId)
-        .then(() => {
-          commit(Mutation.APPROVE_EVENT, eventId)
-        })
-    },
-    addEventLink({ commit }, event) {
-      console.log(event)
-      return CalendarService.addEventLink(event.id, event)
+    updateEvent({ commit }, event) {
+      return CalendarService.updateEvent(event.id, event)
         .then((e) => {
           commit(Mutation.UPDATE_EVENT, e)
           return Promise.resolve(e)
@@ -43,17 +36,6 @@ export const calendar = {
   mutations: {
     [Mutation.GET_EVENTS](state, events) {
       return state.events = [...events]
-    },
-    [Mutation.APPROVE_EVENT](state, eventId) {
-      const index = getEventIndexById(state, eventId)
-
-      if (index === -1) {
-        return console.warn(`Unable to delete event (id ${eventId})`)
-      }
-      return state.events.splice(index, 1, {
-        ...state.events[index],
-        isApproved: true,
-      })
     },
     [Mutation.UPDATE_EVENT](state, event) {
       const index = getEventIndexById(state, event.id)
@@ -78,6 +60,8 @@ export const calendar = {
 
   getters: {
     events: (state) => state.events,
-    eventCount: (state) => state.events.length
+    eventCount: (state) => state.events.length,
+    eventById: (state) => (id) => state.events.find((e) => e.id.toString() === id.toString())
+
   }
 }

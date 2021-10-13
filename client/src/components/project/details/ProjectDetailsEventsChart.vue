@@ -1,12 +1,12 @@
 <template>
-  <div v-if="events" class="card card-flush h-lg-100">
+  <div v-if="events.length" class="card card-flush h-lg-100">
     <div class="card-header mt-6">
       <div class="card-title flex-column">
         <h3 class="fw-bolder mb-1">
           Встречи
         </h3>
         <div class="fs-6 fw-bold text-gray-400">
-          Предстоящие встречи: {{ activeEvents.length }}
+          Представление ваших встреч по статусам за все время
         </div>
       </div>
     </div>
@@ -22,26 +22,16 @@
           </div>
         </div>
         <div class="d-flex flex-column justify-content-center flex-row-fluid pe-11 mb-5">
-          <div class="d-flex fs-6 fw-bold align-items-center mb-3">
-            <div class="bullet bg-primary me-3"></div>
-            <div class="text-gray-400">Предстоящие</div>
-            <div class="ms-auto fw-bolder text-gray-700">{{ activeEvents.length }}</div>
-          </div>
-          <div class="d-flex fs-6 fw-bold align-items-center mb-3">
-            <div class="bullet bg-success me-3"></div>
-            <div class="text-gray-400">Выполненные</div>
-            <div class="ms-auto fw-bolder text-gray-700">{{ completedEvents.length }}</div>
-          </div>
-          <div class="d-flex fs-6 fw-bold align-items-center mb-3">
-            <div class="bullet bg-danger me-3"></div>
-            <div class="text-gray-400">Просроченные</div>
-            <div class="ms-auto fw-bolder text-gray-700">{{ notApprovedEventOverdue.length }}</div>
-          </div>
-          <div class="d-flex fs-6 fw-bold align-items-center">
-            <div class="bullet bg-secondary me-3"></div>
-            <div class="text-gray-400">Еще не начали</div>
-            <div class="ms-auto fw-bolder text-gray-700">{{ notApprovedEventYet.length }}</div>
-          </div>
+          <template v-for="(status, i) in statuses" :key="i">
+            <div class="d-flex fs-6 fw-bold align-items-center mb-3">
+              <div
+                class="bullet me-3"
+                :class="`bg-${status.color}`"
+              ></div>
+              <div class="text-gray-400">{{ status.name }}</div>
+              <div class="ms-auto fw-bolder text-gray-700">{{ eventsData[i] }}</div>
+            </div>
+          </template>
         </div>
       </div>
     </div>
@@ -49,11 +39,11 @@
 </template>
 <script>
 
-import { computed, ref, toRefs } from 'vue'
+import { computed, toRefs } from 'vue'
 import { useStore } from 'vuex'
-import moment from 'moment'
 import { DoughnutChart } from 'vue-chart-3'
 import { doughnutChartDefaultConfig } from '@/core/config/charts/DoughnutChart.default.config'
+import getEventStatus from '@/core/_utils/helpers/event-helpers/getEventStatus'
 
 export default {
   props: {
@@ -64,7 +54,6 @@ export default {
     const doughnutOptions = doughnutChartDefaultConfig
     const store = useStore()
     const { eventsId } = toRefs(props)
-    const now = moment()
 
     const allEvents = computed(() => store.getters['calendar/events'])
 
@@ -75,33 +64,34 @@ export default {
         }
         return acc
       }, []))
+    const statuses = getEventStatus()
+    const newEvents = computed(() => events.value.filter((e) => e.status === 0))
+    const waitingPayEvents = computed(() => events.value.filter((e) => e.status === 1))
+    const activeEvents = computed(() => events.value.filter((e) => e.status === 2))
+    const completedEvents = computed(() => events.value.filter((e) => e.status === 3))
+    const canceledEvents = computed(() => events.value.filter((e) => e.status === 4))
 
-    const completedEvents = computed(() => events.value.filter((e) => e.isApproved && moment(e.end) < now))
-    const notApprovedEventYet = computed(() => events.value.filter((e) => !e.isApproved && moment(e.start) > now))
-    const activeEvents = computed(() => events.value.filter((e) => e.isApproved && moment(e.start) > now))
-    const notApprovedEventOverdue = computed(() => events.value.filter((e) => !e.isApproved && moment(e.end) < now))
-
-    const datasets = ref({
+    const eventsData = computed(() => [
+      newEvents.value.length,
+      waitingPayEvents.value.length,
+      activeEvents.value.length,
+      completedEvents.value.length,
+      canceledEvents.value.length
+    ])
+    const datasets = computed(() => ({
       datasets: [{
-        data: [
-          completedEvents.value.length,
-          activeEvents.value.length,
-          notApprovedEventOverdue.value.length,
-          notApprovedEventYet.value.length,
-        ],
-        backgroundColor: ['#50CD89', '#30A3E6', '#F1416C', '#E4E6EF']
+        data: eventsData.value,
+        backgroundColor: [...statuses.map((s) => s.colorHEX)]
       }],
-      labels: ['Выполнены', 'Предстоящие', 'Не подтверждены и окончены', 'Не подтверждены']
-    })
+      labels: [...statuses.map((s) => s.name)]
+    }))
 
     return {
       doughnutOptions,
       events,
       datasets,
-      completedEvents,
-      activeEvents,
-      notApprovedEventYet,
-      notApprovedEventOverdue
+      eventsData,
+      statuses
     }
   }
 }

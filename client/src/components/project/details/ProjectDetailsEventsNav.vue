@@ -42,8 +42,8 @@
                     <h3 class="fs-5 fw-bolder text-gray-800 mb-2">
                       {{ event.title }}
                     </h3>
-                    <div :class="`text-${event.isApproved ? 'success' : 'danger'}`">
-                      {{ event.isApproved ? 'Подтверждено' : 'Не подтверждено' }}
+                    <div :class="`text-${getEventStatus(event.status).color}`">
+                      {{ getEventStatus(event.status).name }}
                     </div>
                   </div>
                   <button
@@ -71,7 +71,7 @@
   <calendar-view-event-modal
     :show-modal="isActiveViewModal"
     @modal:close="closeModal"
-    :event-data="eventData"
+    :event-id="eventId"
   />
 </template>
 
@@ -81,6 +81,7 @@ import { useStore } from 'vuex'
 import moment from 'moment'
 import { computed, onMounted, ref, toRefs } from 'vue'
 import { Tab } from 'bootstrap'
+import getEventStatus from '@/core/_utils/helpers/event-helpers/getEventStatus'
 import getDaysOfLastMonth from '@/core/_utils/helpers/date-healpers/getDaysOfLastMonth'
 import CalendarViewEventModal from '@/components/calendar/CalendarViewEventModal'
 
@@ -137,23 +138,11 @@ export default {
       })
     })
 
-    const eventData = ref({
-      id: '',
-      title: '',
-      start: '',
-      end: '',
-      allDay: false,
-      isApproved: false,
-      eventColor: '',
-      customer: 1,
-      project: 1,
-      link: '',
-      description: ''
-    })
+    const eventId = ref('')
     const isActiveViewModal = ref(false)
 
     const showModal = (event) => {
-      eventData.value = { ...event }
+      eventId.value = event.id.toString()
       isActiveViewModal.value = true
     }
 
@@ -172,7 +161,8 @@ export default {
       isActiveViewModal,
       showModal,
       closeModal,
-      eventData
+      eventId,
+      getEventStatus
     }
   }
 }

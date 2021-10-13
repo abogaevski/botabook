@@ -13,7 +13,7 @@ class EventSerializer(serializers.ModelSerializer):
             'start',
             'end',
             'all_day',
-            'is_approved',
+            'status',
             'event_color',
             'customer',
             'project',

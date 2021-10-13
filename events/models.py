@@ -3,20 +3,18 @@ from django.db import models
 
 from customers.models import Customer
 from projects.models import Project
+from .constants import *
 
-# NEW = 'new'
-# WAIT_PAYMENT = 'wait_payment'
-# APPROVED = 'approved'
-# ENDED = 'ended'
-# CANCELED = 'canceled'
-# STATUSES = [
-#     (NEW, 'new'),
-#     (WAIT_PAYMENT, 'wait_payment'),
-#     (APPROVED, 'approved'),
-#     (ENDED, 'ended'),
-#     (CANCELED, 'canceled'),
-# ]
+
 class Event(models.Model):
+    STATUSES = [
+        (NEW, 'new'),
+        (WAIT_PAYMENT, 'wait_payment'),
+        (APPROVED, 'approved'),
+        (ENDED, 'ended'),
+        (CANCELED, 'canceled'),
+    ]
+
     class Meta:
         verbose_name = 'Встреча'
         verbose_name_plural = 'Встречи'
@@ -46,7 +44,8 @@ class Event(models.Model):
     all_day = models.BooleanField('Весь день', default=False)
     created_at = models.DateTimeField(auto_now=True)
 
-    is_approved = models.BooleanField(default=False)
+    status = models.CharField(max_length=255, choices=STATUSES, default=NEW)
+    # is_approved = models.BooleanField(default=False)
 
     link = models.URLField(max_length=1000, blank=True, null=True)
     description = models.TextField(null=True, blank=True)

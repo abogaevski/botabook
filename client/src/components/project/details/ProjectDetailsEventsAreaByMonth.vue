@@ -71,15 +71,9 @@ export default {
 
     const completedEvents = computed(() => months.value
       .reduce((acc, month) => {
-        acc.push(events.value.filter((e) => moment(e.end).month() === month.month() && e.isApproved).length)
+        acc.push(events.value.filter((e) => moment(e.end).month() === month.month() && e.status === 2).length)
         return acc
       }, []))
-
-    // const rejectedEvents = computed(() => months.value
-    //   .reduce((acc, month) => {
-    //     acc.push(allEvents.value.filter((e) => moment(e.end).month() === month.month() && !e.isApproved).length)
-    //     return acc
-    //   }, []))
 
     const summaryEvents = computed(() => months.value
       .reduce((acc, month) => {

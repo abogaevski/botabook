@@ -1,19 +1,13 @@
 <template>
   <div class="card">
     <div class="card-body calendar-wrapper">
-      <full-calendar :options="config"></full-calendar>
+      <full-calendar :options="config" />
     </div>
   </div>
-<!--  <view-event-modal-->
-<!--    :show-modal="isActiveViewModal"-->
-<!--    @modal:hide="closeModal"-->
-<!--    :event-data="eventData"-->
-<!--  ></view-event-modal>-->
-
   <calendar-view-event-modal
     :show-modal="isActiveViewModal"
     @modal:close="closeModal"
-    :event-data="eventData"
+    :event-id="eventId"
   />
 
 </template>
@@ -34,37 +28,13 @@ export default {
   data() {
     return {
       isActiveViewModal: false,
-      eventData: {
-        id: '',
-        title: '',
-        start: '',
-        end: '',
-        allDay: false,
-        isApproved: false,
-        color: '',
-        customer: '',
-        project: 0,
-        link: '',
-        description: ''
-      }
+      eventId: ''
     }
   },
 
   methods: {
     onEventClick({ event }) {
-      this.eventData = {
-        id: event.id,
-        title: event.title,
-        start: event.start,
-        end: event.end,
-        allDay: event.allDay,
-        isApproved: event.extendedProps.isApproved,
-        eventColor: event.extendedProps.eventColor,
-        customer: event.extendedProps.customer,
-        project: event.extendedProps.project,
-        link: event.extendedProps.link,
-        description: event.extendedProps.description
-      }
+      this.eventId = event.id
       this.showModal('View')
     },
     showModal(type) {
