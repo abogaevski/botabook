@@ -13,11 +13,6 @@ const routes = [
         component: () => import('@/views/calendar/Calendar.vue')
       },
       {
-        path: '/events-board',
-        name: 'events-board',
-        component: () => import('@/views/events/EventsKanban')
-      },
-      {
         path: '/dashboard',
         name: 'dashboard',
         component: () => import('@/views/dashboard/Dashboard.vue')

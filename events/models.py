@@ -9,9 +9,8 @@ from .constants import *
 class Event(models.Model):
     STATUSES = [
         (NEW, 'new'),
-        (WAIT_PAYMENT, 'wait_payment'),
         (APPROVED, 'approved'),
-        (ENDED, 'ended'),
+        (COMPLETED, 'completed'),
         (CANCELED, 'canceled'),
     ]
 

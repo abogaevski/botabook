@@ -1,0 +1,92 @@
+<template>
+  <div class="me-7">
+    <bt-tooltip
+      v-if="currentStatus < 1"
+      title="Подтвердить встречу" placement="top">
+      <bt-button
+        btn-class="btn-icon btn-sm btn-active-icon-success"
+        @click:btn="approveEvent"
+        icon-class="svg-icon-1"
+        icon-url="/media/icons/duotone/Navigation/Check.svg"
+      />
+    </bt-tooltip>
+    <bt-tooltip
+      v-if="currentStatus < 1"
+      title="Отменить встречу" placement="top">
+      <bt-button
+        btn-class="btn-icon btn-sm btn-active-icon-danger"
+        @click:btn="cancelEvent"
+        icon-class="svg-icon-1"
+        icon-url="/media/icons/duotone/General/Trash.svg"
+      />
+    </bt-tooltip>
+    <div v-else>
+      <span class="badge" :class="`badge-light-${statusInfo.color}`">{{ statusInfo.name }}</span>
+    </div>
+  </div>
+</template>
+<script>
+import { useStore } from 'vuex'
+import { computed, toRefs } from 'vue'
+import Swal from 'sweetalert2'
+import BtButton from '@/components/_core/buttons/BtButton'
+import BtTooltip from '@/components/_core/BtTooltip'
+import getEventStatus from '@/core/_utils/helpers/event-helpers/getEventStatus'
+
+export default {
+  props: ['eventId', 'currentStatus'],
+  components: { BtButton, BtTooltip },
+  setup(props) {
+    const { eventId, currentStatus } = toRefs(props)
+    const store = useStore()
+
+    const statusInfo = computed(() => getEventStatus(currentStatus.value))
+
+    const updateEventStatus = (status) => {
+      Swal.fire({
+        title: 'Вы уверены, что хотите изменить статус встречи?',
+        icon: 'question',
+        showCancelButton: true,
+        buttonsStyling: false,
+        confirmButtonText: 'Изменить!',
+        cancelButtonText: 'Отмена',
+        customClass: {
+          confirmButton: 'btn btn-primary',
+          cancelButton: 'btn btn-active-light'
+        }
+      }).then((result) => {
+        if (result.value) {
+          store.dispatch('calendar/updateEvent', { id: eventId.value, status })
+            .then(() => {
+              Swal.fire({
+                title: 'Статус изменен!',
+                icon: 'success',
+                showCancelButton: false,
+                buttonsStyling: false,
+                confirmButtonText: 'Супер!',
+                customClass: {
+                  confirmButton: 'btn btn-primary',
+                  cancelButton: 'btn btn-active-light'
+                }
+              })
+            })
+        }
+      })
+    }
+
+    const approveEvent = () => {
+      updateEventStatus(1)
+    }
+    const cancelEvent = () => {
+      updateEventStatus(2)
+    }
+
+    return {
+      approveEvent,
+      cancelEvent,
+      updateEventStatus,
+      statusInfo
+    }
+  }
+}
+</script>

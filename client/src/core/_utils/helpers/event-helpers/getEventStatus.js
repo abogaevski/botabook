@@ -8,11 +8,6 @@ export default function getEventStatus(id) {
       name: 'Новая'
     },
     {
-      color: 'warning',
-      colorHEX: getCSSVariableValue('--bs-warning'),
-      name: 'Ожидает оплаты'
-    },
-    {
       color: 'success',
       colorHEX: getCSSVariableValue('--bs-success'),
       name: 'Подтверждена'

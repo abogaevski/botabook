@@ -30,6 +30,7 @@ module.exports = {
     'consistent-return': 'off',
     'no-plusplus': 'off',
     'no-unused-expressions': 'off',
-    'import/extensions': 'off'
+    'import/extensions': 'off',
+    'no-use-before-define': 'off'
   },
 };

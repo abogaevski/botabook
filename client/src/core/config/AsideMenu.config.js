@@ -5,27 +5,12 @@ export const AsideMenuConfig = [
         heading: 'Дашборд',
         route: '/dashboard',
         svgIcon: '/media/icons/duotone/Design/PenAndRuller.svg'
-      }
-    ]
-  },
-  {
-    heading: 'Встречи',
-    pages: [
+      },
       {
         heading: 'Календарь',
         route: '/calendar',
         svgIcon: '/media/icons/duotone/Interface/Calendar.svg'
       },
-      {
-        heading: 'Доска',
-        route: '/events-board',
-        svgIcon: '/media/icons/duotone/Communication/Clipboard-check.svg'
-      }
-    ]
-  },
-  {
-    heading: ' ',
-    pages: [
       {
         heading: 'Профиль',
         route: '/profile/settings',
@@ -42,5 +27,5 @@ export const AsideMenuConfig = [
         svgIcon: '/media/icons/duotone/Communication/Group.svg'
       }
     ]
-  }
+  },
 ]

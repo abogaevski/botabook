@@ -11,7 +11,7 @@
           <div class="d-flex align-items-center me-6">
             <span class="menu-bullet d-flex align-items-center me-2">
               <span class="bullet bg-success"></span>
-            </span>Подтвержденные
+            </span>Оконченные
           </div>
           <div class="d-flex align-items-center">
             <span class="menu-bullet d-flex align-items-center me-2">
@@ -97,7 +97,7 @@ export default {
         data: summaryEvents.value
       },
       {
-        name: 'Подтвержденные',
+        name: 'Оконченные',
         data: completedEvents.value
       }
     ])

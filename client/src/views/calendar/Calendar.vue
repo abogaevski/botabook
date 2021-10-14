@@ -59,7 +59,7 @@ export default {
     calendarOptions() {
       return {
         plugins: [dayGridPlugin, timeGridPlugin, listPlugin, momentTimezonePlugin],
-        initialView: 'listWeek',
+        initialView: 'listDay',
         navLinks: true,
         selectable: true,
         selectMirror: true,
@@ -67,7 +67,7 @@ export default {
         headerToolbar: {
           left: 'prev,next today',
           center: 'title',
-          right: 'listWeek,timeGridWeek,dayGridMonth'
+          right: 'listDay,listWeek,timeGridWeek,dayGridMonth'
         },
         buttonText: {
           today: 'Сегодня',
@@ -75,7 +75,7 @@ export default {
           week: 'Неделя',
           day: 'День',
           listWeek: 'Повестка недели',
-          listDay: 'Повестка дня'
+          listDay: 'Сегодня'
         },
         locale: ruLocale,
         timeZone: this.profileTimezone,

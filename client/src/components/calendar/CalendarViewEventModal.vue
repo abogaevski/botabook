@@ -2,8 +2,7 @@
   <Modal :show-modal="showModal">
     <template v-slot:modal-content>
       <div v-if="event" class="modal-header border-0 justify-content-end">
-        <calendar-status-select :event-id="eventId" :current-status="event.status" />
-
+        <calendar-status-buttons :event-id="event.id" :current-status="event.status" />
         <bt-button
           btn-class="btn-icon btn-sm btn-active-icon-primary"
           @click:btn="$emit('modal:close')"
@@ -124,7 +123,7 @@ import Swal from 'sweetalert2'
 import * as Yup from 'yup'
 import Modal from '@/components/_core/Modal'
 import BtButton from '@/components/_core/buttons/BtButton'
-import CalendarStatusSelect from '@/components/calendar/CalendarStatusSelect'
+import CalendarStatusButtons from '@/components/calendar/CalendarStatusButtons'
 
 export default {
   props: {
@@ -132,7 +131,7 @@ export default {
     eventId: String
   },
   emits: ['modal:close'],
-  components: { Modal, BtButton, Form, Field, ErrorMessage, CalendarStatusSelect },
+  components: { Modal, BtButton, Form, Field, ErrorMessage, CalendarStatusButtons },
   setup(props) {
     const { eventId } = toRefs(props)
     const store = useStore()

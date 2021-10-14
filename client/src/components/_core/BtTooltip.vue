@@ -17,10 +17,21 @@ import { ref, onMounted, onBeforeUnmount } from 'vue'
 
 export default {
   props: {
-    tag: String,
-    tooltipClass: String,
-    title: String,
-    placement: String
+    tag: {
+      required: false,
+      default: 'span'
+    },
+    tooltipClass: {
+      required: false,
+      default: ''
+    },
+    title: {
+      required: true
+    },
+    placement: {
+      required: false,
+      default: 'auto'
+    }
   },
   setup() {
     const tooltipEl = ref(null)
