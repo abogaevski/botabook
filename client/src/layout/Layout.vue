@@ -45,6 +45,7 @@ export default {
     await this.getEvents()
     await this.getProjects()
     await this.getCustomers()
+    await this.getBoard()
       .then(() => {
         document.body.classList.remove('page-loading')
       })
@@ -55,7 +56,8 @@ export default {
       getEvents: 'calendar/getEvents',
       getProfile: 'userProfile/getUserProfile',
       getProjects: 'project/getProjects',
-      getCustomers: 'customerModule/getCustomers'
+      getCustomers: 'customerModule/getCustomers',
+      getBoard: 'customerModule/getBoard'
     }),
 
     signout() {

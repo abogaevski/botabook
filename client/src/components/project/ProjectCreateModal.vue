@@ -12,7 +12,7 @@
             @click:btn="close"
             icon-class="svg-icon-1"
             icon-url="/media/icons/duotone/Navigation/Close.svg"
-          ></bt-button>
+          />
         </div>
         <div class="modal-body py-10 px-lg-17">
           <div class="text-center mb-13">

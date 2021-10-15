@@ -15,6 +15,7 @@ export default function setEventStyle(event, el, view) {
     case 'listDay':
       el.querySelector('.fc-list-event-title a').classList.add('d-flex')
       el.querySelector('.fc-list-event-dot').classList.add(`border-${color}`)
+      // TODO: adding event title bug
       el.querySelector('.fc-list-event-title a').innerHTML += approvedStatusHtml
       break
     case 'dayGridMonth':

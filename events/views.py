@@ -9,7 +9,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
 from accounts.models import Profile
-from customers.models import Customer
+from customers.models import Customer, BoardColumn
 from projects.models import Project
 from .models import Event
 from .serializers import EventSerializer, EventDatesListSerializer
@@ -89,8 +89,14 @@ class PublicAddEventApiView(generics.GenericAPIView):
         data = request.data
         project = Project.objects.filter(pk=data['project_id']).first()
 
+        primary_board = BoardColumn.objects.filter(is_primary=True).first()
         # TODO: Check customer by email and update?
-        customer, created = Customer.objects.get_or_create(name=data['name'], phone=data['phone'], email=data['email'])
+        customer, created = Customer.objects.get_or_create(
+            name=data['name'],
+            phone=data['phone'],
+            email=data['email'],
+            board_column=primary_board
+        )
         start_time = datetime.strptime(data['time'], '%Y-%m-%d %H:%M:%S%z')
         title = '{}. {}'.format(customer.name, project.title)
 

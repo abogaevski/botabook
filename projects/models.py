@@ -1,22 +1,9 @@
 from django.contrib.auth import get_user_model
 from django.db import models
+from core.constants import *
 
 
 class Project(models.Model):
-    PRIMARY = 'primary'
-    SUCCESS = 'success'
-    DANGER = 'danger'
-    INFO = 'info'
-    WARNING = 'warning'
-    DARK = 'dark'
-    COLORS = [
-        (PRIMARY, 'primary'),
-        (SUCCESS, 'success'),
-        (DANGER, 'danger'),
-        (INFO, 'info'),
-        (WARNING, 'warning'),
-        (DARK, 'dark'),
-    ]
 
     title = models.CharField(max_length=255)
     price = models.DecimalField(max_digits=9, decimal_places=2)

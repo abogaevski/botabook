@@ -28,6 +28,9 @@ export const DELETE_PROJECT = 'DELETE_PROJECT'
 
 // Customers
 export const SET_CUSTOMERS = 'SET_CUSTOMERS'
+export const SET_BOARD = 'SET_BOARD'
+export const CREATE_BOARD_COLUMN = 'CREATE_BOARD_COLUMN'
+export const UPDATE_CUSTOMER = 'UPDATE_CUSTOMER'
 
 // Title
 export const SET_TITLE = 'SET_TITLE'

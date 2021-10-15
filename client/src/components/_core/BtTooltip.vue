@@ -30,7 +30,7 @@ export default {
     },
     placement: {
       required: false,
-      default: 'auto'
+      default: 'top'
     }
   },
   setup() {
