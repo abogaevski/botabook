@@ -3,7 +3,6 @@
     <template v-for="(column, i) in columns" :key="i">
       <div class="col-md-6 col-lg-4 col-xl-3 h-100">
         <customer-board-section-heading :column="column"/>
-
         <draggable
           class="min-h-300px"
           v-model="column.customers"

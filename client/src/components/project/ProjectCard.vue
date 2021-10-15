@@ -18,7 +18,7 @@
         <span
           :class="`badge-${getStatusDataColor}`"
           class="badge fw-bolder me-auto px-4 py-3 cursor-pointer"
-          @click="toggleProjectStatus"
+          @click.prevent="toggleProjectStatus"
         >
           {{ getStatus }}
         </span>

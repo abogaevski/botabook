@@ -9,6 +9,7 @@ class Customer(models.Model):
     phone = models.CharField(max_length=100)
     email = models.EmailField(unique=True)
 
+    user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE, related_name='customers')
     board_column = models.ForeignKey('BoardColumn', on_delete=models.PROTECT, related_name='customers')
     board_order = models.IntegerField(default=0)
 

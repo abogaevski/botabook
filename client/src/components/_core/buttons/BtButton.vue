@@ -16,7 +16,7 @@ export default {
       type: String,
       default: 'button'
     },
-    iconClass: String,
+    iconClass: [String, Array],
     iconUrl: String,
     tag: {
       default: 'button'

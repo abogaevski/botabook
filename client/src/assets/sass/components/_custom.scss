@@ -12,3 +12,17 @@
 .customer__board-content {
   height: calc( 100% - 70px );
 }
+.board__column-color-picker {
+  .el-input__inner {
+    height: auto;
+    line-height: 1.5;
+    border: 0;
+    border-radius: 0;
+    font-weight: 600;
+    font-size: 1.25rem;
+    padding: 0.75rem 1rem;
+  }
+  .el-input__icon {
+    line-height: 1.5;
+  }
+}

@@ -55,12 +55,15 @@ export const userProfile = {
   },
   mutations: {
     [Mutation.SET_USERPROFILE](state, user) {
-      if (user.profile.avatar === null) {
+      if (!user.profile.avatar) {
         user.profile.avatar = initialProfile.profile.avatar
       }
       return state.userProfile = { ...user }
     },
     [Mutation.UPDATE_USERPROFILE](state, profile) {
+      if (!profile.avatar) {
+        profile.avatar = initialProfile.profile.avatar
+      }
       return state.userProfile.profile = { ...profile }
     },
     [Mutation.UPDATE_USERPROFILE_AVATAR](state, avatar) {

@@ -5,7 +5,7 @@
         <div class="card-body">
           <div class="d-flex flex-center flex-column py-5">
             <div class="symbol symbol-100px symbol-circle mb-7">
-              <img :src="profile.avatar" alt="image">
+              <img :src="profile.avatar || '/media/avatars/blank.png'" alt="image">
             </div>
             <a href="#" class="fs-3 text-gray-800 text-hover-primary fw-bolder mb-3">{{ fullName }}</a>
             <div class="mb-9">

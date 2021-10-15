@@ -1,54 +1,83 @@
 <template>
-  <div class="table-responsive">
-    <table class="table table-row-dashed table-row-gray-300 align-middle gs-0 gy-4">
-      <thead>
-      <tr class="fw-bolder text-muted">
-        <th class="min-w-300px rounded-start">Имя</th>
-        <th class="min-w-125px">Телефон</th>
-        <th class="min-w-125px text-end rounded-end"></th>
-      </tr>
-      </thead>
-      <tbody>
-      <template v-for="(customer, index) in customers" :key="index">
-        <tr>
-          <td>
-            <div class="d-flex align-items-center">
-              <div class="symbol symbol-50px me-5">
-                <span
-                  :class="`bg-light-${customer.color} text-${customer.color}`"
-                  class="symbol-label"
-                >
-                  {{ customer.initials }}
-                </span>
-              </div>
-              <div class="d-flex justify-content-start flex-column">
-                <span class="text-dark fw-bolder text-hover-primary mb-1 fs-6">{{ customer.name }}</span>
-                <a :href="`mailto:${customer.email}`" class="text-muted fw-bold text-muted d-block fs-7">
+  <div class="card">
+    <div class="card-body">
+      <div class="table-responsive">
+        <table class="table table-row-bordered table-row-dashed gy-4 align-middle fw-bolder dataTable no-footer">
+          <thead class="fs-7 text-gray-400 text-uppercase">
+          <tr>
+            <th></th>
+            <th>Имя</th>
+            <th>Email</th>
+            <th>Телефон</th>
+            <th>Дата добавления</th>
+            <th>Кол-во встреч</th>
+            <th>Статус</th>
+<!--            <th></th>-->
+          </tr>
+          </thead>
+          <tbody class="fs-6 fw-bold text-gray-600">
+          <template v-for="(customer, index) in customers" :key="index">
+            <tr>
+              <td>
+                <div class="d-flex align-items-center">
+                  <div class="symbol symbol-30px">
+                    <span :class="`bg-${customer.color} text-white`" class="symbol-label">
+                      {{ customer.initials }}
+                    </span>
+                  </div>
+                </div>
+              </td>
+              <td class="fw-bolder">
+                <div class="text-gray-900">{{ customer.name }}</div>
+              </td>
+              <td>
+                <a :href="`mailto:${customer.email}`" class="text-dark text-hover-primary d-block fs-6">
                   {{ customer.email }}
                 </a>
-              </div>
-            </div>
-          </td>
-          <td>
-            <a :href="`tel:${customer.phone}`" class="text-dark fw-bolder text-hover-primary d-block mb-1 fs-6">
-              {{ customer.phone }}
-            </a>
-          </td>
-          <td class="text-end">
-            <a href="#" class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm">
-              <span class="svg-icon svg-icon-3">
-                <inline-svg src="/media/icons/duotone/General/Trash.svg"/>
-              </span>
-            </a>
-          </td>
-        </tr>
-      </template>
-      </tbody>
-    </table>
+              </td>
+              <td>
+                <a :href="`tel:${customer.phone}`" class="text-dark text-hover-primary d-block fs-6">
+                  {{ customer.phone }}
+                </a>
+              </td>
+              <td>
+                {{ getDate(customer.date) }}
+              </td>
+              <td>
+                <span class="svg-icon svg-icon-1">
+                  <inline-svg src="/media/icons/duotone/Interface/Calendar.svg"/>
+                </span>
+                <span class="ms-3">
+                  {{ customer.events.length }}
+                </span>
+              </td>
+              <td>
+                <span class="badge" :class="`badge-light-${getBoardColumn(customer.boardColumn).color}`">
+                  {{ getBoardColumn(customer.boardColumn).title }}
+                </span>
+              </td>
+<!--              <td class="text-end">-->
+<!--                <bt-tooltip title="Удалить клиента" placement="top">-->
+<!--                  <bt-button-->
+<!--                    class="btn btn-icon btn-bg-white btn-active-light-danger btn-active-color-danger btn-sm"-->
+<!--                    icon-url="/media/icons/duotone/General/Trash.svg"-->
+<!--                    icon-class="svg-icon svg-icon-3"-->
+<!--                  />-->
+<!--                </bt-tooltip>-->
+<!--              </td>-->
+            </tr>
+          </template>
+          </tbody>
+        </table>
+      </div>
+    </div>
   </div>
 </template>
 <script>
-// import { toRefs } from 'vue'
+import { useStore } from 'vuex'
+import moment from 'moment'
+// import BtButton from '@/components/_core/buttons/BtButton'
+// import BtTooltip from '@/components/_core/BtTooltip'
 
 export default {
   name: 'CustomerTableList',
@@ -57,9 +86,14 @@ export default {
     customers: Array
   },
   setup() {
-    // const { customers } = toRefs(props)
+    const store = useStore()
+    const getDate = (date) => moment(date).format('DD MMM YYYY')
+    const getBoardColumn = (id) => store.getters['customerModule/boardById'](id) || ''
 
-    return {}
+    return {
+      getDate,
+      getBoardColumn
+    }
   }
 }
 </script>

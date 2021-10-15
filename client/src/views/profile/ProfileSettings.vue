@@ -405,8 +405,6 @@ export default {
             customClass: {
               confirmButton: 'btn btn-primary'
             }
-          }).then(() => {
-            this.$router.push({ name: 'profile-overview' })
           })
         })
         .catch(() => {

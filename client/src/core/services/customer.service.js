@@ -24,6 +24,18 @@ class CustomerService {
       .post('/customers/board/column/create', { ...column })
       .then((response) => response.data)
   }
+
+  updateBoardColumn(column) {
+    return api
+      .patch(`/customers/board/column/${column.id}`, { ...column })
+      .then((response) => response.data)
+  }
+
+  deleteBoardColumn(id) {
+    return api
+      .delete(`/customers/board/column/${id}`)
+      .then((response) => response)
+  }
 }
 
 export default new CustomerService()

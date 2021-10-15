@@ -90,13 +90,16 @@ class PublicAddEventApiView(generics.GenericAPIView):
         project = Project.objects.filter(pk=data['project_id']).first()
 
         primary_board = BoardColumn.objects.filter(is_primary=True).first()
-        # TODO: Check customer by email and update?
-        customer, created = Customer.objects.get_or_create(
-            name=data['name'],
-            phone=data['phone'],
-            email=data['email'],
-            board_column=primary_board
-        )
+        customer = Customer.objects.filter(email=data['email']).first()
+        if not customer:
+            customer = Customer.objects.create(
+                    name=data['name'],
+                    phone=data['phone'],
+                    email=data['email'],
+                    user=project.user,
+                    board_column=primary_board
+                )
+
         start_time = datetime.strptime(data['time'], '%Y-%m-%d %H:%M:%S%z')
         title = '{}. {}'.format(customer.name, project.title)
 
