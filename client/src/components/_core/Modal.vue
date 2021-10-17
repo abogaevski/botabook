@@ -42,6 +42,7 @@ export default {
   },
   beforeUnmount() {
     this.modalInstance.hide()
+    this.modalInstance = ''
   },
   methods: {
     close() {

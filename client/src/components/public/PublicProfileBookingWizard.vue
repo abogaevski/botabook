@@ -9,20 +9,25 @@
         </div>
       </div>
       <div class="card-body p-9 pt-4">
-        <div
-          v-if="storageBookingInfo"
-          class="notice d-flex bg-light-info rounded mb-9 p-6">
-          <span class="svg-icon svg-icon-2tx svg-icon-info me-4">
+        <div v-if="storageBookingInfo" class="alert alert-dismissible bg-light-primary d-flex flex-column flex-sm-row p-5 mb-10">
+          <span class="svg-icon svg-icon-2hx svg-icon-primary me-4 mb-5 mb-sm-0">
             <inline-svg src="/media/icons/duotone/General/Notification2.svg" />
           </span>
-          <div class="d-flex flex-stack flex-grow-1">
-            <div class="fw-bold">
-              <div class="fs-7 text-info">
-                Вы уже бронировали запись на <strong>{{ storageBookingInfo.time }}</strong>
+          <div class="d-flex flex-column pe-0 pe-sm-10">
+            <h4 class="fw-bold">Поздравляем!</h4>
+            <span>
+              Вы уже бронировали запись на <strong>{{ storageBookingInfo.time }}</strong>
                 <br>Если вы хотите записаться еще раз, пожалуйста, укажите данные ниже.
-              </div>
-            </div>
+            </span>
           </div>
+          <bt-button
+            type="button"
+            data-bs-dismiss="alert"
+            btn-class="position-absolute position-sm-relative m-2 m-sm-0 top-0 end-0 btn btn-icon ms-sm-auto"
+            @click:btn="closeAlert"
+            icon-class="svg-icon svg-icon-1 svg-icon-primary"
+            icon-url="/media/icons/duotone/Navigation/Close.svg"
+          />
         </div>
         <div
           class="stepper stepper-links d-flex flex-column"
@@ -285,9 +290,10 @@ import moment from 'moment'
 import { StepperComponent } from '@/core/components/_StepperComponent'
 import EventService from '@/core/services/calendar.service'
 import { ScrollComponent } from '@/core/components/_ScrollComponent'
+import BtButton from '@/components/_core/buttons/BtButton'
 
 export default {
-  components: { Form, Field, ErrorMessage },
+  components: { Form, Field, ErrorMessage, BtButton },
   props: ['projects'],
   data() {
     const addEventValidationSchema = Yup.object({
@@ -321,6 +327,9 @@ export default {
     }
   },
   methods: {
+    closeAlert() {
+      localStorage.removeItem('public-booking-state')
+    },
     getProjectInputId(id) {
       return `project_type_${id}`
     },

@@ -134,7 +134,6 @@ export default {
   setup(props) {
     const { eventId } = toRefs(props)
     const store = useStore()
-
     const event = computed(() => store.getters['calendar/eventById'](eventId.value))
     const eventDurationDate = computed(() => {
       const start = moment(event.value.start).format('DD MMM HH:mm')

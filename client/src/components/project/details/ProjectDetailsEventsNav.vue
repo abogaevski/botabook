@@ -12,12 +12,15 @@
           <li class="nav-item me-1">
             <a
               :class="{'active': currentTab === i}"
-              class="nav-link btn d-flex flex-column flex-center rounded-pill min-w-45px me-2 py-4 px-3 btn-active-primary"
+              class="position-relative nav-link btn d-flex flex-column flex-center rounded-pill min-w-45px me-2 py-4 px-3 btn-active-primary"
               data-bs-toggle="tab"
               role="tab"
               aria-selected="false"
               :href="`#${getDayNavId(day.date)}`"
             >
+              <span
+                v-if="checkEventCountInDay(day)"
+                class="bullet bullet-dot h-6px w-6px position-absolute translate-middle start-50 project__events-bullet"></span>
               <span class="opacity-50 fs-7 fw-bold">{{ day.name }}</span>
               <span class="fs-6 fw-bolder">{{ day.date }}</span>
             </a>
@@ -123,22 +126,26 @@ export default {
         return acc
       }, []))
 
+    const checkEventCountInDay = (day) => {
+      const evs = events.value
+        .filter((e) => moment(e.start).format('MM-DD-YYYY') === moment(day.fullDate).format('MM-DD-YYYY'))
+      return evs.length || false
+    }
+
     const getDayNavId = (date) => `bb_schedule_day_${date}`
 
     const getEventStartEnd = (start, end) => `${moment(start).format('hh:mm')} - ${moment(end).format('hh:mm')}`
 
     onMounted(() => {
-      if (events.value.length) {
-        const links = tabLinks.value.querySelectorAll('.nav-item a')
-        links.forEach((l, i) => {
-          const triggerEl = new Tab(l)
-          l.addEventListener('click', (event) => {
-            event.preventDefault()
-            currentTab.value = i
-            triggerEl.show()
-          })
+      const links = tabLinks.value.querySelectorAll('.nav-item a')
+      links.forEach((l, i) => {
+        const triggerEl = new Tab(l)
+        l.addEventListener('click', (event) => {
+          event.preventDefault()
+          currentTab.value = i
+          triggerEl.show()
         })
-      }
+      })
     })
 
     const eventId = ref('')
@@ -165,7 +172,8 @@ export default {
       showModal,
       closeModal,
       eventId,
-      getEventStatus
+      getEventStatus,
+      checkEventCountInDay
     }
   }
 }

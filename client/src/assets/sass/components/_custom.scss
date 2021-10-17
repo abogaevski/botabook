@@ -31,3 +31,10 @@
     font-weight: 500;
   }
 }
+.project__events-bullet {
+  top: 10px;
+  background: $primary;
+}
+.nav-link.active .project__events-bullet, .nav-link:hover .project__events-bullet {
+  background: rgba($primary-light, .5);
+}
