@@ -1,5 +1,5 @@
 <template>
-  <div class="card mb-5 mb-xl-10">
+  <div v-if="user" class="card mb-5 mb-xl-10">
     <div class="card-body pt-9 pb-0">
       <div class="d-flex flex-wrap flex-sm-nowrap mb-3">
         <div class="me-7 mb-4">
@@ -87,13 +87,13 @@
                   <div class="d-flex align-items-center">
                     <span
                       class="svg-icon svg-icon-3 me-2"
-                      :class="getSvgIconColor(projectCount)"
+                      :class="getSvgIconColor(projects)"
                     >
                       <inline-svg src="/media/icons/duotone/General/Settings-2.svg" />
                     </span>
                     <div
                       class="fs-2 fw-bolder counted">
-                      {{ projectCount }}
+                      {{ projects }}
                     </div>
                   </div>
                   <div class="fw-bold fs-6 text-gray-400">Услуг всего</div>
@@ -103,13 +103,13 @@
                   <div class="d-flex align-items-center">
                     <span
                       class="svg-icon svg-icon-3 me-2"
-                      :class="getSvgIconColor(eventCount)"
+                      :class="getSvgIconColor(events)"
                     >
                       <inline-svg src="/media/icons/duotone/Interface/Calendar.svg" />
                     </span>
                     <div
                       class="fs-2 fw-bolder counted">
-                      {{ eventCount }}
+                      {{ events }}
                     </div>
                   </div>
                   <div class="fw-bold fs-6 text-gray-400">Встреч всего</div>
@@ -119,13 +119,13 @@
                   <div class="d-flex align-items-center">
                     <span
                       class="svg-icon svg-icon-3 me-2"
-                      :class="getSvgIconColor(customerCount)"
+                      :class="getSvgIconColor(customers)"
                     >
                       <inline-svg src="/media/icons/duotone/Communication/Group.svg" />
                     </span>
                     <div
                       class="fs-2 fw-bolder counted">
-                      {{ customerCount }}
+                      {{ customers }}
                     </div>
                   </div>
                   <div class="fw-bold fs-6 text-gray-400">Клиентов всего</div>
@@ -155,38 +155,39 @@
   <router-view :user="user"></router-view>
 </template>
 <script>
-
-import { mapGetters } from 'vuex'
+import { useStore } from 'vuex'
+import { computed } from 'vue'
 
 export default {
   name: 'Profile',
-  computed: {
-    ...mapGetters({
-      user: 'userProfile/user',
-      projectCount: 'project/projectCount',
-      eventCount: 'calendar/eventCount',
-      customerCount: 'customerModule/customerCount'
-    }),
-    fullName() {
-      return `${this.user.profile.firstName} ${this.user.profile.lastName}`
-    },
-    place() {
-      return this.user.profile.city && this.user.profile.country
-        ? `${this.user.profile.city}, ${this.user.profile.country}`
-        : ''
-    },
-    slug() {
-      return `${window.location.origin}/${this.user.profile.slug}` || ''
-    },
-  },
-  methods: {
-    getSvgIconColor(counter) {
-      return counter ? 'svg-icon-success' : 'svg-icon-danger'
+  setup() {
+    const store = useStore()
+    store.dispatch('calendar/getEvents')
+    store.dispatch('userProfile/getUserProfile')
+    store.dispatch('project/getProjects')
+    store.dispatch('customerModule/getCustomers')
+    store.dispatch('setTitle', 'Профиль')
+
+    const user = computed(() => store.getters['userProfile/user'])
+    const projects = computed(() => store.getters['project/projectCount'])
+    const events = computed(() => store.getters['calendar/eventCount'])
+    const customers = computed(() => store.getters['customerModule/customerCount'])
+    const fullName = computed(() => `${user.value.profile.firstName} ${user.value.profile.lastName}`)
+    const place = computed(() => (user.value.profile.city && user.value.profile.country
+      ? `${user.value.profile.city}, ${user.value.profile.country}`
+      : ''))
+    const slug = computed(() => `${window.location.origin}/${user.value.profile.slug}` || '')
+    const getSvgIconColor = (counter) => (counter ? 'svg-icon-success' : 'svg-icon-danger')
+    return {
+      user,
+      projects,
+      events,
+      customers,
+      fullName,
+      place,
+      slug,
+      getSvgIconColor
     }
-  },
-  async mounted() {
-    await this.$store.dispatch('userProfile/getUserProfile')
-    this.$store.dispatch('setTitle', 'Профиль')
   }
 }
 </script>

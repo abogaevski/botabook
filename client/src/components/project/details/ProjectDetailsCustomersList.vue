@@ -7,7 +7,6 @@
       </div>
     </div>
     <div class="card-body pt-2">
-      <template v-if="customers.length">
         <template v-for="(customer, i) in customers" :key="i">
           <div class="d-flex align-items-center mb-7">
             <div class="symbol symbol-50px me-5">
@@ -25,7 +24,6 @@
             </div>
           </div>
         </template>
-      </template>
 
     </div>
   </div>

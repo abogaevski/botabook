@@ -1,5 +1,5 @@
 <template>
-  <div v-if="events" class="card card-flush h-lg-100">
+  <div class="card card-flush h-lg-100">
     <div class="card-header mt-6">
       <div class="card-title flex-column">
         <h3 class="fw-bolder mb-1">

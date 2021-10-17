@@ -128,7 +128,8 @@ class PublicProfileRetrieveSerializer(serializers.ModelSerializer):
             'city',
             'country',
             'welcome_text',
-            'working_hours',
+            'start_work_hour',
+            'end_work_hour',
             'timezone'
         ]
 

@@ -1,5 +1,5 @@
 <template>
-  <div v-if="events.length" class="card card-flush h-lg-100">
+  <div class="card card-flush h-lg-100">
     <div class="card-header mt-6">
       <div class="card-title flex-column">
         <h3 class="fw-bolder mb-1">
@@ -34,11 +34,6 @@
           </template>
         </div>
       </div>
-    </div>
-  </div>
-  <div class="bg-transparent border-1 border-dashed border-gray-400 card card-flush h-lg-100">
-    <div class="align-items-center card-body d-flex justify-content-center p-9">
-      <h3 class="text-gray-700">Нет данных для отображения</h3>
     </div>
   </div>
 </template>

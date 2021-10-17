@@ -1,5 +1,5 @@
 <template>
-  <div v-if="events" class="card card-flush h-lg-100">
+  <div class="card card-flush h-lg-100">
     <div class="card-header mt-6">
       <div class="card-title flex-column">
         <h3 class="fw-bolder mb-1">Навигация по встречам</h3>
@@ -69,6 +69,7 @@
     </div>
   </div>
   <calendar-view-event-modal
+    v-if="events.length"
     :show-modal="isActiveViewModal"
     @modal:close="closeModal"
     :event-id="eventId"
@@ -127,15 +128,17 @@ export default {
     const getEventStartEnd = (start, end) => `${moment(start).format('hh:mm')} - ${moment(end).format('hh:mm')}`
 
     onMounted(() => {
-      const links = tabLinks.value.querySelectorAll('.nav-item a')
-      links.forEach((l, i) => {
-        const triggerEl = new Tab(l)
-        l.addEventListener('click', (event) => {
-          event.preventDefault()
-          currentTab.value = i
-          triggerEl.show()
+      if (events.value.length) {
+        const links = tabLinks.value.querySelectorAll('.nav-item a')
+        links.forEach((l, i) => {
+          const triggerEl = new Tab(l)
+          l.addEventListener('click', (event) => {
+            event.preventDefault()
+            currentTab.value = i
+            triggerEl.show()
+          })
         })
-      })
+      }
     })
 
     const eventId = ref('')

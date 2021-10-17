@@ -19,6 +19,7 @@
 <script>
 import { computed, onMounted, watch } from 'vue'
 import { useStore } from 'vuex'
+import { useRouter } from 'vue-router'
 import EventBus from '@/core/EventBus'
 import { MenuComponent } from '@/core/components/MenuComponent'
 import Loader from '@/components/Loader.vue'
@@ -29,15 +30,20 @@ import Footer from './footer/Footer'
 export default {
   components: { Aside, Header, Loader, Footer },
   setup() {
+    const router = useRouter()
     const store = useStore()
     const loader = computed(() => store.getters.loader)
-    onMounted(() => {
+    onMounted(async () => {
       MenuComponent.hideDropdowns(undefined)
       MenuComponent.reinitialization()
       EventBus.on('signout', () => {
-        this.signout()
+        signout()
       })
     })
+    const signout = () => {
+      store.dispatch('auth/signout')
+      router.push('/signin')
+    }
     watch(loader, (l) => {
       l ? document.body.classList.add('page-loading') : document.body.classList.remove('page-loading')
     })

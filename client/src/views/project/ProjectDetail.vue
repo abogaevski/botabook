@@ -82,7 +82,7 @@
         </div>
       </div>
       <div class="d-flex overflow-auto h-55px">
-        <div class="nav nav-stretch nav-line-tabs nav-line-tabs-2x border-transparent fs-5 fw-bolder flex-nowrap">
+        <ul class="nav nav-stretch nav-line-tabs nav-line-tabs-2x border-transparent fs-5 fw-bolder flex-nowrap">
           <li class="nav-item">
             <router-link
               :to="`/project/${project.id}/overview`"
@@ -101,7 +101,7 @@
               Настройки
             </router-link>
           </li>
-        </div>
+        </ul>
       </div>
     </div>
   </div>
@@ -125,6 +125,9 @@ export default {
     const route = useRoute()
     const router = useRouter()
 
+    store.dispatch('project/getProjects')
+    store.dispatch('calendar/getEvents')
+    store.dispatch('customerModule/getCustomers')
     const project = computed(() => store.getters['project/projectById'](route.params.id))
     const customers = computed(() => store.getters['customerModule/customers'])
 

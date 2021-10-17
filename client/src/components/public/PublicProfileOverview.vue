@@ -26,7 +26,7 @@
           <div id="kt_user_view_details" class="collapse show">
             <div class="pb-5 fs-6">
               <div class="fw-bolder mt-5">График работы</div>
-              <div class="text-gray-600">{{ profile.workingHours }}</div>
+              <div class="text-gray-600">{{ profile.startWorkHour }} - {{ profile.endWorkHour }}</div>
               <div class="fw-bolder mt-5">Часовой пояс</div>
               <div class="text-gray-600">{{ profile.timezone }}</div>
               <div class="fw-bolder mt-5">Рабочий телефон</div>

@@ -43,7 +43,8 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { useStore } from 'vuex'
+import { computed, onMounted, ref } from 'vue'
 import ProjectListHeading from '@/components/project/ProjectListHeading'
 import ProjectCard from '@/components/project/ProjectCard'
 import ProjectNoData from '@/components/project/ProjectNoData'
@@ -59,27 +60,21 @@ export default {
     ProjectNoData,
     ProjectCreateModal
   },
-  data() {
+  setup() {
+    const store = useStore()
+    const isActiveCreateModal = ref(false)
+    store.dispatch('project/getProjects')
+    const closeModal = () => isActiveCreateModal.value = false
+    const showModal = () => isActiveCreateModal.value = true
+    onMounted(() => store.dispatch('setTitle', 'Услуги'))
+    const projects = computed(() => store.getters['project/projects'])
+
     return {
-      isActiveCreateModal: false
+      isActiveCreateModal,
+      closeModal,
+      showModal,
+      projects
     }
-  },
-  async created() {
-    await this.$store.dispatch('project/getProjects')
-  },
-  computed: {
-    ...mapGetters('project', ['projects'])
-  },
-  methods: {
-    closeModal() {
-      this.isActiveCreateModal = false
-    },
-    showModal() {
-      this.isActiveCreateModal = true
-    }
-  },
-  mounted() {
-    this.$store.dispatch('setTitle', 'Услуги')
   }
 }
 </script>

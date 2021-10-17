@@ -78,7 +78,7 @@ export default {
       updateEventStatus(1)
     }
     const cancelEvent = () => {
-      updateEventStatus(2)
+      updateEventStatus(3)
     }
 
     return {

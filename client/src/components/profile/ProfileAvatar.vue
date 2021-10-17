@@ -26,7 +26,8 @@
           <i class="bi bi-pencil-fill fs-7"></i>
         </span>
       </el-upload>
-      <div class="form-text">Расширения файлов: png, jpg, jpeg.</div>
+      <div class="form-text">Для лучшего отображения используйте квадратную фотографию</div>
+      <div class="form-text mt-0">Расширения файлов: png, jpg, jpeg.</div>
     </div>
   </div>
 </template>

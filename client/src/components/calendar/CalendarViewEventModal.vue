@@ -99,8 +99,7 @@
                 />
                 <button class="btn btn-secondary" type="submit">Добавить</button>
               </div>
-              <div class="text-muted fs-7 mt-2">Пока вы не подтвердите встречу, вы можете менять ссылку, сколько хотите!
-                После подтверждения ссылку изменить больше нельзя
+              <div class="text-muted fs-7 mt-2">После добавления или изменения ссылки на встречу клиент получит уведомление.
               </div>
 
               <div class="fv-plugins-message-container invalid-feedback">
