@@ -42,8 +42,8 @@ export default {
         })
     },
   },
-  mounted() {
-    this.getProjects()
+  async mounted() {
+    await this.getProjects()
   },
   computed: {
     slug() {

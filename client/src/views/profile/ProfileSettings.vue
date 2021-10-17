@@ -1,5 +1,5 @@
 <template>
-  <div class="card mb-5 mb-xl-10">
+  <div v-if="user" class="card mb-5 mb-xl-10">
     <div class="card-header border-0 cursor-pointer">
       <div class="card-title m-0">
         <h3 class="fw-bolder m-0">Настройки профиля</h3>
@@ -27,7 +27,7 @@
                 rows="3"
                 name="slug"
                 class="form-control form-control-lg form-control-solid"
-                v-model.lazy="user.profile.slug"
+                v-model="profileData.slug"
               />
               <div class="fv-plugins-message-container">
                 <div class="fv-help-block">
@@ -49,7 +49,7 @@
                     name="firstName"
                     class="form-control form-control-lg form-control-solid mb-3 mb-lg-0"
                     placeholder="Федор"
-                    v-model.lazy="user.profile.firstName"
+                    v-model="profileData.firstName"
                   />
                   <div class="fv-plugins-message-container">
                     <div class="fv-help-block">
@@ -63,7 +63,7 @@
                     name="lastName"
                     class="form-control form-control-lg form-control-solid"
                     placeholder="Федоров"
-                    v-model.lazy="user.profile.lastName"
+                    v-model="profileData.lastName"
                   />
                   <div class="fv-plugins-message-container">
                     <div class="fv-help-block">
@@ -91,7 +91,7 @@
                 rows="3"
                 name="welcomeText"
                 class="form-control form-control-lg form-control-solid"
-                v-model.lazy="user.profile.welcomeText"
+                v-model="profileData.welcomeText"
               />
               <div class="fv-plugins-message-container">
                 <div class="fv-help-block">
@@ -111,7 +111,7 @@
                 name="title"
                 class="form-control form-control-lg form-control-solid"
                 placeholder="Например, психолог"
-                v-model.lazy="user.profile.title"
+                v-model="profileData.title"
               />
               <div class="fv-plugins-message-container">
                 <div class="fv-help-block">
@@ -131,7 +131,7 @@
                 name="company"
                 class="form-control form-control-lg form-control-solid"
                 placeholder="ООО &quot;Рога и копыта&quot;"
-                v-model.lazy="user.profile.company"
+                v-model="profileData.company"
               />
               <div class="fv-plugins-message-container">
                 <div class="fv-help-block">
@@ -158,7 +158,7 @@
                 name="phone"
                 class="form-control form-control-lg form-control-solid"
                 placeholder="+7 12345678"
-                v-model.lazy="user.profile.phone"
+                v-model="profileData.phone"
               />
               <div class="fv-plugins-message-container">
                 <div class="fv-help-block">
@@ -179,7 +179,7 @@
                 name="website"
                 class="form-control form-control-lg form-control-solid"
                 placeholder="https://botabook.com"
-                v-model.lazy="user.profile.website"
+                v-model="profileData.website"
               />
               <div class="fv-plugins-message-container">
                 <div class="fv-help-block">
@@ -205,7 +205,7 @@
                 name="country"
                 class="form-control form-control-solid fw-bold"
                 placeholder="Беларусь"
-                v-model.lazy="user.profile.country"
+                v-model="profileData.country"
               >
               </Field>
               <div class="fv-plugins-message-container">
@@ -232,7 +232,7 @@
                 name="city"
                 class="form-control form-control-solid fw-bold"
                 placeholder="Брест"
-                v-model.lazy="user.profile.city"
+                v-model="profileData.city"
               >
               </Field>
               <div class="fv-plugins-message-container">
@@ -253,17 +253,41 @@
                 placement="right"
               />
             </label>
-            <div class="col-lg-8 fv-row">
+            <div class="col-lg-8 fv-row profile__time-picker">
               <Field
-                name="workingHours"
-                class="form-control form-control-solid fw-bold"
-                placeholder="08:00:00-17:00:00"
-                v-model.lazy="user.profile.workingHours"
+                v-model="profileData.startWorkHour"
+                name="startWorkHour"
+                v-slot="{ value, handleChange }"
               >
+                <el-time-select
+                  class="me-5"
+                  :model-value="value"
+                  @update:model-value="handleChange"
+                  placeholder="Start time"
+                  start="00:00"
+                  step="00:30"
+                  end="23:30"
+                />
+              </Field>
+              <Field
+                v-model="profileData.endWorkHour"
+                name="endWorkHour"
+                v-slot="{ value, handleChange }"
+              >
+                <el-time-select
+                  :min-time="profileData.startWorkHour"
+                  :model-value="value"
+                  @update:model-value="handleChange"
+                  placeholder="Start time"
+                  start="00:00"
+                  step="00:30"
+                  end="23:30"
+                />
               </Field>
               <div class="fv-plugins-message-container">
                 <div class="fv-help-block">
-                  <ErrorMessage name="city"/>
+                  <ErrorMessage name="startWorkHour"/>
+                  <ErrorMessage name="endWorkHour"/>
                 </div>
               </div>
             </div>
@@ -284,7 +308,7 @@
                 name="timezone"
                 class="form-select form-select-solid"
                 as="select"
-                v-model.lazy="user.profile.timezone"
+                v-model="profileData.timezone"
               >
                 <option v-for="(zone, i) in zones" :key="i" :value="zone">{{ zone }}</option>
               </Field>
@@ -326,17 +350,38 @@
   </div>
 </template>
 <script>
+import { computed, ref, toRefs, watch } from 'vue'
+import { useStore } from 'vuex'
 import { tz } from 'moment-timezone'
 import { Form, Field, ErrorMessage } from 'vee-validate'
 import * as Yup from 'yup'
-import { mapActions, mapGetters } from 'vuex'
 import Swal from 'sweetalert2'
 import ProfileAvatar from '@/components/profile/ProfileAvatar'
 import BtTooltip from '@/components/_core/BtTooltip'
+import UserService from '@/core/services/user.service'
 
 export default {
   name: 'ProfileSettings',
-  data() {
+  props: ['user'],
+  components: { Form, Field, ErrorMessage, ProfileAvatar, BtTooltip },
+  setup(props) {
+    const { user } = toRefs(props)
+    const store = useStore()
+    const profileData = ref({
+      firstName: '',
+      lastName: '',
+      welcomeText: '',
+      slug: '',
+      title: '',
+      company: '',
+      phone: '',
+      website: '',
+      country: '',
+      city: '',
+      timezone: '',
+      startWorkHour: '',
+      endWorkHour: ''
+    })
     const profileSchema = Yup.object({
       firstName: Yup.string()
         .required()
@@ -347,8 +392,17 @@ export default {
       welcomeText: Yup.string()
         .label('Текст приветствия'),
       slug: Yup.string()
-        .required()
         .matches('^[a-z0-9]+(?:-[a-z0-9]+)*$')
+        .test('slugUnique', (value, { path, createError }) => {
+          if (value) {
+            return UserService
+              .checkProfileSlug(value)
+              .then((status) => status || createError({ path, message: 'Ссылка уже занята другим пользователем' }))
+          }
+          return false
+        })
+        .min(4, 'Минимальное количество символов - 4')
+        .required()
         .label('Ссылка на страницу'),
       title: Yup.string()
         .label('Должность'),
@@ -364,38 +418,31 @@ export default {
         .label('Город'),
       timezone: Yup.string()
         .label('Часовой пояс'),
-      workingHours: Yup.string()
+      startWorkHour: Yup.string()
+        .label('Часы доступности'),
+      endWorkHour: Yup.string()
         .label('Часы доступности')
     })
-    return {
-      profileSchema
-    }
-  },
-  computed: {
-    ...mapGetters('userProfile', ['user']),
-    error() {
-      return this.$store.getters.error
-    },
-    location() {
-      return window.location.origin
-    },
-    zones() {
+    const startTime = ref('')
+    const endTime = ref('')
+    const location = window.location.origin
+    const zones = computed(() => {
       const result = []
       result.push(...tz.zonesForCountry('BY'))
       result.push(...tz.zonesForCountry('GE'))
       result.push(...tz.zonesForCountry('UA'))
       result.push(...tz.zonesForCountry('RU'))
       return result
-    }
-  },
-  components: { Form, Field, ErrorMessage, ProfileAvatar, BtTooltip },
-
-  methods: {
-    ...mapActions('userProfile', ['updateUserProfile', 'updateUserProfileAvatar']),
-
-    profileSubmit(profile) {
-      const { id } = this.user
-      this.updateUserProfile({ profile, id })
+    })
+    watch(user, (newUser) => {
+      profileData.value = {
+        ...newUser.profile
+      }
+    })
+    const profileSubmit = (values) => {
+      const { id } = user.value
+      console.log(values)
+      store.dispatch('userProfile/updateUserProfile', { values, id })
         .then(() => {
           Swal.fire({
             title: 'Ваш профиль успешно обновлен!',
@@ -427,28 +474,16 @@ export default {
             }
           })
         })
-    },
+    }
 
-    uploadProfileAvatar(props) {
-      const avatar = props.file
-      const { id } = this.user
-      const form = new FormData()
-      form.append('avatar', avatar)
-      this.updateUserProfileAvatar({ form, id })
-        .then(() => {
-          Swal.fire({
-            title: 'Ваш профиль успешно обновлен!',
-            icon: 'success',
-            buttonsStyling: false,
-            confirmButtonText: 'Отлично',
-            customClass: {
-              confirmButton: 'btn btn-primary'
-            }
-          })
-        })
-    },
-    removeProfileAvatar(props) {
-      console.log(props)
+    return {
+      profileData,
+      profileSchema,
+      startTime,
+      endTime,
+      location,
+      zones,
+      profileSubmit
     }
   },
 }

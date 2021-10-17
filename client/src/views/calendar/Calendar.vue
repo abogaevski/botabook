@@ -109,8 +109,8 @@ export default {
     }
   },
 
-  mounted() {
-    this.$store.dispatch('calendar/getEvents')
+  async mounted() {
+    await this.$store.dispatch('calendar/getEvents')
     this.$store.dispatch('setTitle', 'Календарь')
   },
 

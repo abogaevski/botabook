@@ -10,9 +10,8 @@ export const project = {
   },
 
   actions: {
-    async getProjects({ commit }) {
-      // eslint-disable-next-line no-return-await
-      return await ProjectService.getProjects()
+    getProjects({ commit }) {
+      return ProjectService.getProjects()
         .then((projects) => {
           commit(Mutation.SET_PROJECTS, projects)
         })

@@ -13,7 +13,8 @@ def save_profile(sender, instance, created, **kwargs):
             user=instance,
             first_name=instance.first_name,
             last_name=instance.last_name,
-            slug=slugify(instance.email.split('@')[0])
+            slug=slugify(instance.email.split('@')[0]),
+            timezone=instance.timezone
         )
         profile.save()
 

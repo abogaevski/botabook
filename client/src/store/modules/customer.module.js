@@ -30,9 +30,11 @@ export const customerModule = {
         })
     },
     getBoard({ commit }) {
+      commit(Mutation.SET_LOADER, true, { root: true })
       return CustomerService.getBoard()
         .then((columns) => {
           commit(Mutation.SET_BOARD, columns)
+          commit(Mutation.SET_LOADER, false, { root: true })
         })
     },
     createBoardColumn({ commit }, column) {

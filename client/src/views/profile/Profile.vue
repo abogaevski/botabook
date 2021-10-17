@@ -152,7 +152,7 @@
       </div>
     </div>
   </div>
-  <router-view></router-view>
+  <router-view :user="user"></router-view>
 </template>
 <script>
 
@@ -184,7 +184,8 @@ export default {
       return counter ? 'svg-icon-success' : 'svg-icon-danger'
     }
   },
-  mounted() {
+  async mounted() {
+    await this.$store.dispatch('userProfile/getUserProfile')
     this.$store.dispatch('setTitle', 'Профиль')
   }
 }

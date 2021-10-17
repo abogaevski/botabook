@@ -45,6 +45,12 @@ class UserService {
         }
       })
   }
+
+  checkProfileSlug(slug) {
+    return api
+      .get(`/account/profile/check-slug/${slug}`)
+      .then((response) => response.data)
+  }
 }
 
 export default new UserService();

@@ -2,7 +2,7 @@ import { configure } from 'vee-validate'
 
 export function initVeeValidate() {
   configure({
-    validateOnBlur: false,
+    validateOnBlur: true,
     validateOnChange: false,
     validateOnInput: false,
     validateOnModelUpdate: false

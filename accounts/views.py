@@ -1,5 +1,6 @@
 import uuid
 
+from django.db.models import Q
 from rest_framework import generics
 from rest_framework.generics import get_object_or_404
 from rest_framework.response import Response
@@ -91,3 +92,12 @@ class PublicProfileApiView(generics.GenericAPIView):
         profile = get_object_or_404(Profile, slug=slug)
         serializer = PublicProfileRetrieveSerializer(profile, context={'request': request})
         return Response(serializer.data)
+
+
+class CheckProfileSlugApiView(generics.GenericAPIView):
+    def get(self, request, slug):
+        user = request.user
+        check_profile = Profile.objects.filter(Q(slug=slug), ~Q(user=user))
+        if check_profile:
+            return Response(False)
+        return Response(True)

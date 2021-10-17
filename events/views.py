@@ -56,11 +56,21 @@ class PublicAvailableTimeApiView(generics.GenericAPIView):
     def get(self, request, slug, date, project_id):
         profile = get_object_or_404(Profile, slug=slug)
         project_range = Project.objects.filter(pk=project_id).first().time_range
-        working_hours = profile.working_hours.split('-')
+
+        start = pd.to_datetime(
+            profile.start_work_hour,
+            format='%H:%M'
+        ).time().strftime('%H:%M:%S')
+
+        end = pd.to_datetime(
+            profile.end_work_hour,
+            format='%H:%M'
+        ).time().strftime('%H:%M:%S')
+
         selected_date = datetime.strptime(date, '%Y-%m-%d')
         time_range = pd.timedelta_range(
-            start=working_hours[0],
-            end=working_hours[1],
+            start=start,
+            end=end,
             freq='{}min'.format(project_range)).tolist()
 
         events = profile.user.events.filter(Q(start__gte=selected_date), Q(status=APPROVED))
@@ -89,8 +99,8 @@ class PublicAddEventApiView(generics.GenericAPIView):
         data = request.data
         project = Project.objects.filter(pk=data['project_id']).first()
 
-        primary_board = BoardColumn.objects.filter(is_primary=True).first()
-        customer = Customer.objects.filter(email=data['email']).first()
+        primary_board = BoardColumn.objects.filter(user=project.user, is_primary=True).first()
+        customer = Customer.objects.filter(user=project.user, email=data['email']).first()
         if not customer:
             customer = Customer.objects.create(
                     name=data['name'],

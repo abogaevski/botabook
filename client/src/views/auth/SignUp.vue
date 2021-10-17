@@ -5,7 +5,7 @@
   >
     <div class="d-flex flex-center flex-column flex-column-fluid p-10 pb-lg-20">
       <div class="mb-12">
-        <img alt="Logo" src="/media/logos/logo-full.svg" class="h-75px"/>
+        <img alt="Logo" src="/media/logos/botabook-dark.svg" class="h-50px"/>
       </div>
       <div class="bg-white rounded shadow-sm p-10 p-lg-15 mx-auto">
         <Form
@@ -208,8 +208,12 @@ export default {
   },
   methods: {
     submitSignup(values) {
+      const userData = {
+        ...values,
+        timezone: Intl.DateTimeFormat().resolvedOptions().timeZone
+      }
       this.$store
-        .dispatch('auth/signup', values)
+        .dispatch('auth/signup', userData)
         .catch(() => {
           const title = this.error ? 'Не удалось зарегистрироваться в систему' : 'Что-то пошло не так'
           const html = this.error

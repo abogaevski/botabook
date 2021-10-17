@@ -11,5 +11,5 @@ export function initYup() {
       email: '${path} - неправильный формат',
       matches: '${path} - неправильный формат'
     },
-  });
+  })
 }

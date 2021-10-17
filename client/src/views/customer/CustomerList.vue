@@ -37,7 +37,7 @@
 </template>
 <script>
 import { useStore } from 'vuex'
-import { computed } from 'vue'
+import { computed, onMounted } from 'vue'
 import CustomerNoData from '@/components/customer/CustomerNoData'
 import CustomerTableList from '@/components/customer/CustomerTableList'
 import CustomerBoard from '@/components/customer/CustomerBoard'
@@ -48,6 +48,9 @@ export default {
   setup() {
     const store = useStore()
     const customers = computed(() => store.getters['customerModule/customers'])
+    onMounted(async () => {
+      await store.dispatch('customerModule/getCustomers')
+    })
     return { customers }
   }
 }

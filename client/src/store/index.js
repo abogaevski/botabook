@@ -6,10 +6,11 @@ import { project } from '@/store/modules/project.module'
 import * as Mutation from './mutation-types'
 import { customerModule } from '@/store/modules/customer.module'
 
-export default createStore({
+const states = {
   state: {
     error: null,
-    title: ''
+    title: '',
+    loaderEnabled: false
   },
   mutations: {
     [Mutation.SET_ERROR](state, error) {
@@ -20,11 +21,15 @@ export default createStore({
     },
     [Mutation.SET_TITLE](state, title) {
       state.title = title
+    },
+    [Mutation.SET_LOADER](state, loaderStatus) {
+      state.loaderEnabled = loaderStatus
     }
   },
   getters: {
     error: (s) => s.error,
-    title: (s) => s.title
+    title: (s) => s.title,
+    loader: (s) => s.loaderEnabled
   },
   actions: {
     setTitle({ commit }, title) {
@@ -38,4 +43,7 @@ export default createStore({
     project,
     customerModule
   },
-});
+}
+const store = createStore(states)
+
+export default store

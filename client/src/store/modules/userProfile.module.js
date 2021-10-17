@@ -27,8 +27,8 @@ export const userProfile = {
         })
     },
 
-    updateUserProfile({ commit }, { profile, id }) {
-      return UserService.updateUserProfile(profile, id)
+    updateUserProfile({ commit }, { values, id }) {
+      return UserService.updateUserProfile(values, id)
         .then((newProfile) => {
           commit(Mutation.UPDATE_USERPROFILE, newProfile)
           return Promise.resolve()

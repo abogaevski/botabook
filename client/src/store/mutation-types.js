@@ -36,3 +36,6 @@ export const UPDATE_CUSTOMER = 'UPDATE_CUSTOMER'
 
 // Title
 export const SET_TITLE = 'SET_TITLE'
+
+// Loader
+export const SET_LOADER = 'SET_LOADER'

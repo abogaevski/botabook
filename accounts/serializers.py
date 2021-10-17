@@ -8,10 +8,11 @@ from accounts.models import Profile
 class SignupUserSerializer(serializers.ModelSerializer):
     first_name = serializers.CharField(required=True)
     last_name = serializers.CharField(required=True)
+    timezone = serializers.CharField(required=True)
 
     class Meta:
         model = get_user_model()
-        fields = ['id', 'email', 'password', 'first_name', 'last_name']
+        fields = ['id', 'email', 'password', 'first_name', 'last_name', 'timezone']
         extra_kwargs = {
             'password': {'write_only': True},
         }
@@ -25,6 +26,7 @@ class SignupUserSerializer(serializers.ModelSerializer):
 
         instance.first_name = validated_data['first_name']
         instance.last_name = validated_data['last_name']
+        instance.timezone = validated_data['timezone']
 
         instance.save()
         return instance
@@ -61,7 +63,8 @@ class ProfileSerializer(serializers.ModelSerializer):
             'city',
             'country',
             'welcome_text',
-            'working_hours',
+            'start_work_hour',
+            'end_work_hour',
             'timezone',
             'created_at',
             'updated_at'
@@ -88,7 +91,8 @@ class ProfileUpdateSerializer(serializers.ModelSerializer):
             'city',
             'country',
             'welcome_text',
-            'working_hours',
+            'start_work_hour',
+            'end_work_hour',
             'timezone'
         ]
 

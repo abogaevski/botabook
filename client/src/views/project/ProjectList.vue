@@ -64,8 +64,8 @@ export default {
       isActiveCreateModal: false
     }
   },
-  created() {
-    this.$store.dispatch('project/getProjects')
+  async created() {
+    await this.$store.dispatch('project/getProjects')
   },
   computed: {
     ...mapGetters('project', ['projects'])

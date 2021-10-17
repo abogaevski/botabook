@@ -7,7 +7,7 @@ from core.constants import *
 class Customer(models.Model):
     name = models.CharField(max_length=255)
     phone = models.CharField(max_length=100)
-    email = models.EmailField(unique=True)
+    email = models.EmailField()
 
     user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE, related_name='customers')
     board_column = models.ForeignKey('BoardColumn', on_delete=models.PROTECT, related_name='customers')
@@ -34,12 +34,12 @@ class BoardColumn(models.Model):
         verbose_name = 'BoardColumn'
         verbose_name_plural = 'BoardColumns'
         db_table = 'user_customers_boards'
-        constraints = [
-            UniqueConstraint(
-                fields=['is_primary'],
-                condition=Q(is_primary=True),
-                name='unique_is_primary')
-        ]
+        # constraints = [
+        #     UniqueConstraint(
+        #         fields=['is_primary'],
+        #         condition=Q(is_primary=True),
+        #         name='unique_is_primary')
+        # ]
 
     def __str__(self):
         return self.title

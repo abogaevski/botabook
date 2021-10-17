@@ -53,7 +53,7 @@ class Profile(models.Model):
     avatar = models.ImageField(upload_to='users/profiles/avatars/', null=True, blank=True)
     title = models.CharField(max_length=255, blank=True, default='')
     phone = models.CharField(max_length=32, blank=True, default='')
-    welcome_text = models.TextField(blank=True, null=True)
+    welcome_text = models.TextField(blank=True, null=True, default='')
 
     company = models.CharField(max_length=255, blank=True, default='')
     website = models.CharField(max_length=32, blank=True, default='')
@@ -64,8 +64,10 @@ class Profile(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
-    slug = models.SlugField()
-    working_hours = models.CharField(max_length=20)
+    slug = models.SlugField(unique=True)
+
+    start_work_hour = models.CharField(max_length=20, default='09:00')
+    end_work_hour = models.CharField(max_length=20, default='18:00')
     timezone = models.CharField(max_length=255, blank=True, null=True)
 
     def save(self, *args, **kwargs):
