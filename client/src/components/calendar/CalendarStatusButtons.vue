@@ -21,7 +21,7 @@
       />
     </bt-tooltip>
     <div v-else>
-      <span class="badge" :class="`badge-light-${statusInfo.color}`">{{ statusInfo.name }}</span>
+      <span class="event__status-badge badge" :class="`badge-light-${statusInfo.color}`">{{ statusInfo.name }}</span>
     </div>
   </div>
 </template>
