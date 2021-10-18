@@ -11,9 +11,11 @@ export const project = {
 
   actions: {
     getProjects({ commit }) {
+      commit(Mutation.SET_LOADER, true, { root: true })
       return ProjectService.getProjects()
         .then((projects) => {
           commit(Mutation.SET_PROJECTS, projects)
+          commit(Mutation.SET_LOADER, false, { root: true })
         })
     },
     createProject({ commit }, newProject) {

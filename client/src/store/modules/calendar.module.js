@@ -12,9 +12,11 @@ export const calendar = {
 
   actions: {
     getEvents({ commit }) {
+      commit(Mutation.SET_LOADER, true, { root: true })
       return CalendarService.getEvents()
         .then((events) => {
           commit(Mutation.GET_EVENTS, events)
+          commit(Mutation.SET_LOADER, false, { root: true })
         })
     },
     deleteEvent({ commit }, eventId) {

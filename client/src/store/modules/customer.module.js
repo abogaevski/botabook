@@ -18,9 +18,11 @@ export const customerModule = {
   },
   actions: {
     getCustomers({ commit }) {
+      commit(Mutation.SET_LOADER, true, { root: true })
       return CustomerService.getCustomers()
         .then((customers) => {
           commit(Mutation.SET_CUSTOMERS, customers)
+          commit(Mutation.SET_LOADER, false, { root: true })
         })
     },
     updateCustomer({ commit }, updatedCustomer) {
