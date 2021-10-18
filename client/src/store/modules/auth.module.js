@@ -1,6 +1,7 @@
 import AuthService from '@/core/services/auth.service'
 
 import * as Mutation from '../mutation-types'
+import router from '@/router'
 
 const tokenInStorage = JSON.parse(localStorage.getItem('token'))
 const initialToken = {
@@ -61,6 +62,7 @@ export const auth = {
     [Mutation.SIGNIN_SUCCESS](state, token) {
       state.status.isAuthenticated = true
       state.token = token
+      router.push({ name: 'dashboard' })
     },
     [Mutation.SIGNIN_FAILURE](state) {
       state.status.isAuthenticated = false
@@ -73,6 +75,7 @@ export const auth = {
     [Mutation.SIGNOUT](state) {
       state.status.isAuthenticated = false
       state.token = initialToken
+      router.push({ name: 'signin' })
     }
   }
 }

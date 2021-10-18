@@ -33,6 +33,13 @@ export default {
     const store = useStore()
     const isActiveViewModal = ref(false)
     const eventId = ref('0')
+    store.dispatch('userProfile/getUserProfile')
+    store.dispatch('calendar/getEvents')
+    store.dispatch('project/getProjects')
+    store.dispatch('customerModule/getCustomers')
+    store.dispatch('customerModule/getBoard')
+    store.dispatch('setTitle', 'Календарь')
+
     const onEventClick = ({ event }) => {
       eventId.value = event.id
       showModal()
