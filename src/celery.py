@@ -13,6 +13,6 @@ app.autodiscover_tasks()
 app.conf.beat_schedule = {
     'update-event-status-every-single-minute': {
         'task': 'events.tasks.update_event_status',
-        'schedule': crontab(),  # change to `crontab(minute=0, hour=0)` if you want it to run daily at midnight
+        'schedule': crontab(hour='*/1')
     },
 }
