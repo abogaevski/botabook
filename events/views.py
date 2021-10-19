@@ -4,6 +4,7 @@ from datetime import datetime, timedelta
 
 from django.db.models import Q
 from rest_framework import generics
+from rest_framework.exceptions import ValidationError
 from rest_framework.generics import get_object_or_404
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
@@ -14,6 +15,8 @@ from projects.models import Project
 from .models import Event
 from .serializers import EventSerializer, EventDatesListSerializer
 from .constants import *
+from .tasks import send_approve_status_notification, \
+    send_event_link_notification, set_event_reminder, send_successful_booking_notification
 
 
 class EventListApiView(generics.ListAPIView):
@@ -40,6 +43,20 @@ class EventRetrieveApiView(generics.RetrieveUpdateDestroyAPIView):
     def get_queryset(self):
         user = self.request.user
         return Event.objects.filter(user=user)
+
+    def perform_update(self, serializer):
+        if 'status' in serializer.validated_data:
+            send_approve_status_notification.delay(serializer.instance.id, serializer.validated_data['status'])
+            if serializer.validated_data['status'] != 3:
+                remind_time = datetime.now() + timedelta(minutes=1)
+                set_event_reminder.apply_async([serializer.instance.id], eta=remind_time)
+
+        if 'link' in serializer.validated_data:
+            is_update_link = True
+            if serializer.instance.link is None:
+                is_update_link = False
+            send_event_link_notification.delay(serializer.instance.id, serializer.validated_data['link'], is_update_link)
+        serializer.save()
 
 
 class EventApproveApiView(generics.UpdateAPIView):
@@ -99,28 +116,44 @@ class PublicAddEventApiView(generics.GenericAPIView):
         data = request.data
         project = Project.objects.filter(pk=data['project_id']).first()
 
+        if project is None:
+            raise ValidationError('Не найден проект')
+
+        user = project.user
+        timezone = pytz.timezone(user.profile.timezone)
+
         primary_board = BoardColumn.objects.filter(user=project.user, is_primary=True).first()
+        if primary_board is None:
+            raise ValidationError('Не найдена основная доска клиентов')
+
         customer = Customer.objects.filter(user=project.user, email=data['email']).first()
         if not customer:
             customer = Customer.objects.create(
                     name=data['name'],
                     phone=data['phone'],
                     email=data['email'],
-                    user=project.user,
+                    user=user,
                     board_column=primary_board
                 )
+
+        if customer is None:
+            raise ValidationError('Клиент не создался')
 
         start_time = datetime.strptime(data['time'], '%Y-%m-%d %H:%M:%S%z')
         title = '{}. {}'.format(customer.name, project.title)
 
-        Event.objects.create(
+        event = Event.objects.create(
             title=title,
             start=start_time,
             end=start_time + timedelta(minutes=project.time_range),
-            user=project.user,
+            user=user,
             project=project,
             customer=customer,
             all_day=False,
             description=data['description']
         )
+        if event is None:
+            raise ValidationError('Событие не создалось')
+        send_successful_booking_notification.delay(event.id)
+
         return Response({'status': 'ok'})

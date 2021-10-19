@@ -8,10 +8,10 @@ from .constants import *
 
 class Event(models.Model):
     STATUSES = [
-        (NEW, 'new'),
-        (APPROVED, 'approved'),
-        (COMPLETED, 'completed'),
-        (CANCELED, 'canceled'),
+        (NEW, 0),
+        (APPROVED, 1),
+        (COMPLETED, 2),
+        (CANCELED, 3),
     ]
 
     class Meta:

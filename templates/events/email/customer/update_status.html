@@ -1,0 +1,41 @@
+{% extends 'events/email/base.html' %}
+
+{% block user %}
+    {{ name }}
+{% endblock user %}
+
+{% block title %}
+    {% if status == 1 %}
+        <p>Ура! {{ u_name }} подтвердил(-a) Вашу заявку на встречу!</p>
+        <p>Это означает, что Ваша встреча обязательно состоится.
+            {{ u_name }} свяжется с Вами, либо же добавит ссылку к Вашей встрече.
+            После этого Вам придет уведомление со ссылкой. Не пропустите!</p>
+    {% elif status == 3 %}
+        <p>Упс! {{ u_name }} отклонил(-a) Вашу заявку на встречу!</p>
+        <p>Это означает, что Ваша встреча отменена и не состоится.
+            Нам очень жаль, что так произошло! Возможно, {{ u_name }} не смог(-лa) с вами связаться.
+            Попробуйте оставить еще одну заявку, нажав по кнопке ниже.
+        </p>
+        <div style="margin: 20px 0">
+        <a href="{{ url }}" rel="noopener"
+           style="text-decoration:none;display:inline-block;text-align:center;padding:0.75575rem 1.3rem;font-size:0.925rem;line-height:1.5;border-radius:0.35rem;color:#ffffff;background-color:#009EF7;border:0px;margin-right:0.75rem!important;font-weight:600!important;outline:none!important;vertical-align:middle"
+           target="_blank">Попробовать еще раз</a>
+        </div>
+    {% endif %}
+{% endblock title %}
+
+{% block body %}
+    Напомним Вам данные встречи:
+    <br>
+    <strong style="margin-right: 5px">К кому записались:</strong>
+    <span>{{ u_name }}</span>
+    <br>
+    <strong style="margin-right: 5px">Услуга:</strong>
+    <span>{{ project }}</span>
+    <br>
+    <strong style="margin-right: 5px">Дата:</strong>
+    <span>{{ time }}</span>
+    <br>
+    <strong style="margin-right: 5px">Ваше сообщение:</strong>
+    <span>{{ message }}</span>
+{% endblock body %}

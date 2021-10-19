@@ -1,0 +1,38 @@
+{% extends 'events/email/base.html' %}
+
+{% block user %}
+    {{ name }}
+{% endblock user %}
+
+{% block title %}
+    <p>{{ u_name }} {% if update_link %}изменил{% else %}добавил{% endif %}(-a) ссылку на Вашу встречу!
+    Мы еще пришлем Вам уведомление за 1 час до начала события,
+    но на всякий случай сохраните это письмо, чтобы не потерять ссылку!
+    </p>
+    <div style="margin: 20px 0">
+    <a href="{{ url }}" rel="noopener"
+       style="text-decoration:none;display:inline-block;text-align:center;padding:0.75575rem 1.3rem;font-size:0.925rem;line-height:1.5;border-radius:0.35rem;color:#ffffff;background-color:#009EF7;border:0px;margin-right:0.75rem!important;font-weight:600!important;outline:none!important;vertical-align:middle"
+       target="_blank">Открыть ссылку на встречу!</a>
+    </div>
+{% endblock title %}
+
+{% block body %}
+    <div style="border-bottom: 1px solid #eeeeee; margin: 15px 0"></div>
+    <div style="margin-bottom: 20px">
+        <p>Кнопка не работает? Воспользуйтесь ссылкой: </p>
+        <a href="{{ url }}" rel="noopener" target="_blank" style="text-decoration:none;color: #009EF7">{{ url }}</a>
+    </div>
+    Напомним Вам данные встречи:
+    <br>
+    <strong style="margin-right: 5px">К кому записались:</strong>
+    <span>{{ u_name }}</span>
+    <br>
+    <strong style="margin-right: 5px">Услуга:</strong>
+    <span>{{ project }}</span>
+    <br>
+    <strong style="margin-right: 5px">Дата:</strong>
+    <span>{{ time }}</span>
+    <br>
+    <strong style="margin-right: 5px">Ваше сообщение:</strong>
+    <span>{{ message }}</span>
+{% endblock body %}

@@ -1,0 +1,43 @@
+{% extends 'events/email/base.html' %}
+
+{% block user %}
+    {{ name }}
+{% endblock user %}
+
+{% block title %}
+    <p>Наконец-то! Напоминам вам, что у вас через час состоится встреча по услуге "{{ project }}".
+        {{ u_name }} ранее подтвердил(-a) Вашу встречу, поэтому Вам не о чем переживать.
+        <br>Ваша встреча продлится приблизительно {{ duration }} минут.
+    </p>
+    {% if url %}
+        Ссылка на Вашу встречу:
+        <div style="margin: 20px 0">
+            <a href="{{ url }}" rel="noopener"
+               style="text-decoration:none;display:inline-block;text-align:center;padding:0.75575rem 1.3rem;font-size:0.925rem;line-height:1.5;border-radius:0.35rem;color:#ffffff;background-color:#009EF7;border:0px;margin-right:0.75rem!important;font-weight:600!important;outline:none!important;vertical-align:middle"
+               target="_blank">Открыть ссылку на встречу!</a>
+        </div>
+        <div style="margin-bottom: 20px">
+            <p>Кнопка не работает? Воспользуйтесь ссылкой: </p>
+            <a href="{{ url }}" rel="noopener" target="_blank" style="text-decoration:none;color: #009EF7">{{ url }}</a>
+        </div>
+    {% else %}
+        {{ u_name }} не предоставлял(-a) ссылку на встречу, поэтому с Вами обязательно свяжутся!
+    {% endif %}
+
+{% endblock title %}
+
+{% block body %}
+    Напомним Вам данные встречи:
+    <br>
+    <strong style="margin-right: 5px">К кому записались:</strong>
+    <span>{{ u_name }}</span>
+    <br>
+    <strong style="margin-right: 5px">Услуга:</strong>
+    <span>{{ project }}</span>
+    <br>
+    <strong style="margin-right: 5px">Дата:</strong>
+    <span>{{ time }}</span>
+    <br>
+    <strong style="margin-right: 5px">Ваше сообщение:</strong>
+    <span>{{ message }}</span>
+{% endblock body %}

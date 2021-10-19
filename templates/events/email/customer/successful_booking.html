@@ -1,0 +1,29 @@
+{% extends 'events/email/base.html' %}
+
+{% block user %}
+    {{ name }}
+{% endblock user %}
+
+{% block title %}
+    Ранее вы записывались на встречу. Данные встречи:
+    <br>
+    <strong style="margin-right: 5px">К кому записались:</strong>
+    <span>{{ u_name }}</span>
+    <br>
+    <strong style="margin-right: 5px">Услуга:</strong>
+    <span>{{ project }}</span>
+    <br>
+    <strong style="margin-right: 5px">Дата:</strong>
+    <span>{{ time }}</span>
+    <br>
+    <strong style="margin-right: 5px">Ваше сообщение:</strong>
+    <span>{{ message }}</span>
+{% endblock title %}
+
+{% block body %}
+    <div style="padding-bottom: 20px">
+        {{ u_name }} в ближайшее время просмотрит заявку и подтвердит свое пристутствие.
+        <br>
+        После подтверждения или отмены Вы получите уведомление со статусом Вашей встречи.
+    </div>
+{% endblock body %}

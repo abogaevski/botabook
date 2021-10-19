@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework.authtoken',
     'corsheaders',
+    'anymail',
     'accounts',
     'events',
     'projects',
@@ -171,3 +172,13 @@ REDIS_PORT = '6379'
 BROKER_URL = 'redis://' + REDIS_HOST + ':' + REDIS_PORT + '/0'
 BROKER_TRANSPORT_OPTIONS = {'visibility_timeout': 3600}
 CELERY_RESULT_BACKEND = 'redis://' + REDIS_HOST + ':' + REDIS_PORT + '/0'
+
+ANYMAIL = {
+    'MAILGUN_API_KEY': 'ed6703fbcd2f093a82d2ea4d05b85d15-2bf328a5-ee5ebb66',
+    'MAILGUN_WEBHOOK_SIGNING_KEY': 'ed6703fbcd2f093a82d2ea4d05b85d15-2bf328a5-ee5ebb66',
+    # 'MAILGUN_API_URL': 'https://api.eu.mailgun.net/v3',
+    'WEBHOOK_SECRET': 'PWCsZeo7B5oPjPHD:ljRoMrVhl1NRUDVC'
+}
+EMAIL_BACKEND = 'anymail.backends.mailgun.EmailBackend'
+# DEFAULT_FROM_EMAIL = 'you@example.com'
+# SERVER_EMAIL = "your-server@example.com"
