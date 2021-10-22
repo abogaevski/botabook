@@ -1,57 +1,21 @@
 <template>
-  <div class="flex-lg-row-fluid ms-lg-15">
-    <div class="card card-flush mb-6 mb-xl-9">
-      <div class="card-header mt-6">
-        <div class="card-title flex-column">
-          <h2 class="mb-1">
-            Записаться
-          </h2>
-        </div>
-      </div>
-      <div class="card-body p-9 pt-4">
-        <div v-if="storageBookingInfo" class="alert alert-dismissible bg-light-primary d-flex flex-column flex-sm-row p-5 mb-10">
-          <span class="svg-icon svg-icon-2hx svg-icon-primary me-4 mb-5 mb-sm-0">
-            <inline-svg src="/media/icons/duotone/General/Notification2.svg" />
-          </span>
-          <div class="d-flex flex-column pe-0 pe-sm-10">
-            <h4 class="fw-bold">Поздравляем!</h4>
-            <span>
-              Вы уже бронировали запись на <strong>{{ storageBookingInfo.time }}</strong>
-                <br>Если вы хотите записаться еще раз, пожалуйста, укажите данные ниже.
-            </span>
-          </div>
-          <bt-button
-            type="button"
-            data-bs-dismiss="alert"
-            btn-class="position-absolute position-sm-relative m-2 m-sm-0 top-0 end-0 btn btn-icon ms-sm-auto"
-            @click:btn="closeAlert"
-            icon-class="svg-icon svg-icon-1 svg-icon-primary"
-            icon-url="/media/icons/duotone/Navigation/Close.svg"
-          />
-        </div>
-        <div
-          class="stepper stepper-links d-flex flex-column"
-          ref="addEventFormStepper"
-        >
-          <div class="stepper-nav py-5">
-            <div class="stepper-item current" data-bb-stepper-element="nav">
-              <h3 class="stepper-title">Выберите услугу</h3>
-            </div>
-            <div class="stepper-item" data-bb-stepper-element="nav">
-              <h3 class="stepper-title">Выберите дату и время</h3>
-            </div>
-            <div class="stepper-item" data-bb-stepper-element="nav">
-              <h3 class="stepper-title">Последний шаг</h3>
-            </div>
-          </div>
+    <div class="card card-flush h-lg-100">
+      <div class="card-body">
+        <public-page-booking-info
+          v-if="storageBookingInfo"
+          :time="storageBookingInfo.time"
+          @alert:close="closeAlert"
+        />
+        <div class="stepper stepper-links" ref="addEventFormStepper">
+          <public-page-stepper-nav />
           <Form
-            class="mx-auto mw-700px w-100 py-10 fv-plugins-bootstrap5 fv-plugins-framework"
+            class="fv-plugins-bootstrap5 fv-plugins-framework"
             @submit="formSubmit"
-            novalidate
+            :validation-schema="eventRequestSchema"
           >
             <div class="current" data-bb-stepper-element="content">
               <div class="w-100">
-                <div class="pb-10 pb-lg-15">
+                <div class="py-10">
                   <h2 class="fw-bolder d-flex align-items-center text-dark">Выберите услугу</h2>
                 </div>
                 <div class="fv-row fv-plugins-icon-container fv-plugins-bootstrap5-row-valid">
@@ -59,7 +23,7 @@
                     <div
                       v-for="(project, k) in projects"
                       :key="k"
-                      class="col-lg-6">
+                      class="col-xl-4 col-lg-6 col-md-6">
                       <Field
                         type="radio"
                         class="btn-check"
@@ -68,31 +32,7 @@
                         :id="getProjectInputId(project.id)"
                         v-model="formData.projectId"
                       />
-                      <label
-                        class="btn btn-outline btn-outline-default btn-outline-dashed p-7 d-flex align-items-center mb-10"
-                        :for="getProjectInputId(project.id)">
-                        <span class="svg-icon svg-icon-3x me-5">
-                          <inline-svg src="/media/icons/duotone/Communication/Clipboard-list.svg"></inline-svg>
-                        </span>
-                        <span class="d-block fw-bold text-start">
-                          <span class="text-dark fw-bolder d-block fs-4 mb-2">{{ project.title }}</span>
-                          <span class="text-muted fw-bold fs-6">{{ project.description }}</span>
-                          <div class="d-flex flex-wrap fw-bold fs-6 mt-4 pe-2">
-                            <div class="d-flex align-items-center text-gray-400 text-hover-primary me-5 mb-2">
-                              <span class="svg-icon svg-icon-4 me-1">
-                                <inline-svg src="/media/icons/duotone/Code/Time-schedule.svg"/>
-                                {{ project.timeRange }} мин.
-                              </span>
-                            </div>
-                            <div class="d-flex align-items-center text-gray-400 text-hover-primary me-5 mb-2">
-                              <span class="svg-icon svg-icon-4 me-1">
-                                <inline-svg src="/media/icons/duotone/Shopping/Money.svg"/>
-                                {{ project.price }} руб.
-                              </span>
-                            </div>
-                          </div>
-                        </span>
-                      </label>
+                      <public-page-project-button :project="project" :project-input-id="getProjectInputId(project.id)" />
                       <div class="fv-plugins-message-container">
                         <div class="fv-help-block">
                           <ErrorMessage name="projectId"/>
@@ -106,55 +46,51 @@
 
             <div data-bb-stepper-element="content">
               <div class="w-100">
-                <div class="pb-10 pb-lg-15">
+                <div class="py-10">
                   <h2 class="fw-bolder d-flex align-items-center text-dark">Выберите дату и время</h2>
                 </div>
                 <div class="mb-10 fv-row fv-plugins-icon-container">
                   <div class="row">
-                    <div class="col-lg-6">
+                    <div class="col-xl-3">
+                      <public-page-project-info :project-id="formData.projectId" />
+                    </div>
+                    <div class="col-xl-6">
                       <div class="fv-row mb-9 fv-plugins-icon-container">
-                        <label class="form-label mb-3">Выберите нужную дату</label>
-                        <el-date-picker
-                          v-model="selectedDate"
-                          @update:model-value="handleDateChange"
-                          type="date"
-                          placeholder="Выберите дату"
-                          format="DD.MM.YYYY"
-                          value-format="YYYY-MM-DD"
-                          :disabled-date="getDisabledDates"
-                        >
-                        </el-date-picker>
+                        <public-page-wizard-calendar @calendar:change-date="handleDateChange" />
                       </div>
                     </div>
-                    <div class="col-lg-6" v-if="dates.length">
-                      <label class="form-label mb-3">Выберите время</label>
-                      <div
-                        data-bb-scroll="true"
-                        data-bb-scroll-activate="{default: true}"
-                        data-bb-scroll-height="330px"
-                        data-bb-scroll-wrappers="#bb_times"
-                        data-bb-scroll-offset="0"
-                        id="bb_times"
-                        class="hover-scroll-overlay-y p-3 border-top border-bottom border-2 border-gray-300"
-                      >
-                        <template v-for="(date, i) in dates" :key="i">
-                          <Field
-                            type="radio"
-                            name="selectedTime"
-                            :value="date.time"
-                            v-model="formData.time"
-                            class="btn-check"
-                            :id="getEventInputId(date.time)"
-                            :disabled="date.status === 'busy'"
-                          />
-                          <label
-                            class="d-block btn btn-outline btn-outline-dashed public-time-element"
-                            :class="getAvailableTimeClass(date.status)"
-                            :for="getEventInputId(date.time)">
-                            {{ getTimeOnly(date.time) }}
-                          </label>
-                        </template>
-                      </div>
+                    <div class="col-xl-3 mh-xl-300px">
+                      <template v-if="dates.length">
+                        <label class="form-label mb-3">{{ labelTime }}</label>
+                        <div
+                          data-bb-scroll="true"
+                          data-bb-scroll-activate="{default: false, lg: true}"
+                          data-bb-scroll-height="340px"
+                          data-bb-scroll-wrappers="#bb_times"
+                          data-bb-scroll-offset="0"
+                          id="bb_times"
+                          class="hover-scroll-overlay-y p-3 border-top border-bottom border-2 border-gray-300"
+                        >
+                          <template v-for="(date, i) in dates" :key="i">
+                            <Field
+                              type="radio"
+                              name="selectedTime"
+                              :value="date.time"
+                              v-model="formData.time"
+                              class="btn-check"
+                              :id="getEventInputId(date.time)"
+                              :disabled="date.status === 'busy'"
+                            />
+                            <label
+                              class="d-block btn btn-outline btn-outline-dashed public-time-element"
+                              :class="getAvailableTimeClass(date.status)"
+                              :for="getEventInputId(date.time)">
+                              {{ getTimeOnly(date.time) }}
+                            </label>
+                          </template>
+                        </div>
+                      </template>
+                      <bt-content-loader v-if="isWaitingForNewDates" />
                       <div class="fv-plugins-message-container">
                         <div class="fv-help-block">
                           <ErrorMessage name="selectedTime"/>
@@ -168,74 +104,81 @@
 
             <div data-bb-stepper-element="content">
               <div class="w-100">
-                <div class="pb-10 pb-lg-15">
+                <div class="py-10">
                   <h2 class="fw-bolder d-flex align-items-center text-dark">Укажите ваши данные для встречи</h2>
                 </div>
-                <div class="mb-5 fv-row fv-plugins-icon-container">
-                  <label class="form-label mb-3 required">Введите имя</label>
-                  <Field
-                    type="text"
-                    class="form-control form-control-lg form-control-solid"
-                    name="name"
-                    v-model="formData.name"
-                  />
-                  <div class="fv-plugins-message-container">
-                    <div class="fv-help-block">
-                      <ErrorMessage name="name"/>
-                    </div>
+                <div class="row">
+                  <div class="col-xl-3">
+                    <public-page-project-info :project-id="formData.projectId" :event="formData.time" />
                   </div>
-                </div>
-                <div class="mb-5 fv-row fv-plugins-icon-container">
-                  <label class="form-label mb-3 required">Введите телефон</label>
-                  <Field
-                    type="text"
-                    class="form-control form-control-lg form-control-solid"
-                    name="phone"
-                    v-model="formData.phone"
-                  />
-                  <div class="fv-plugins-message-container">
-                    <div class="fv-help-block">
-                      <ErrorMessage name="phone"/>
+                  <div class="col-xl-9">
+                    <div class="mb-5 fv-row fv-plugins-icon-container">
+                      <label class="form-label mb-3 required">Введите имя</label>
+                      <Field
+                        type="text"
+                        class="form-control form-control-lg form-control-solid"
+                        name="name"
+                        v-model="formData.name"
+                      />
+                      <div class="fv-plugins-message-container">
+                        <div class="fv-help-block">
+                          <ErrorMessage name="name"/>
+                        </div>
+                      </div>
                     </div>
-                  </div>
-                </div>
-                <div class="mb-5 fv-row fv-plugins-icon-container">
-                  <label class="form-label mb-3 required">Введите email</label>
-                  <Field
-                    type="text"
-                    class="form-control form-control-lg form-control-solid"
-                    name="email"
-                    v-model="formData.email"
-                  />
-                  <div class="fv-plugins-message-container">
-                    <div class="fv-help-block">
-                      <ErrorMessage name="selectedTime"/>
+                    <div class="mb-5 fv-row fv-plugins-icon-container">
+                      <label class="form-label mb-3 required">Введите телефон</label>
+                      <Field
+                        type="text"
+                        class="form-control form-control-lg form-control-solid"
+                        name="phone"
+                        v-model="formData.phone"
+                      />
+                      <div class="fv-plugins-message-container">
+                        <div class="fv-help-block">
+                          <ErrorMessage name="phone"/>
+                        </div>
+                      </div>
                     </div>
-                  </div>
-                </div>
-                <div class="mb-5 fv-row fv-plugins-icon-container">
-                  <label class="form-label mb-3">Сообщение
-                    <div class="fs-7 fw-bold text-muted d-flex mb-3">
-                      Напишите что угодно, что могло бы помочь подготовиться к встрече
+                    <div class="mb-5 fv-row fv-plugins-icon-container">
+                      <label class="form-label mb-3 required">Введите email</label>
+                      <Field
+                        type="text"
+                        class="form-control form-control-lg form-control-solid"
+                        name="email"
+                        v-model="formData.email"
+                      />
+                      <div class="fv-plugins-message-container">
+                        <div class="fv-help-block">
+                          <ErrorMessage name="email"/>
+                        </div>
+                      </div>
                     </div>
-                  </label>
-                  <Field
-                    as="textarea"
-                    type="text"
-                    class="form-control form-control-lg form-control-solid"
-                    name="description"
-                    v-model="formData.description"
-                  />
-                  <div class="fv-plugins-message-container">
-                    <div class="fv-help-block">
-                      <ErrorMessage name="description"/>
+                    <div class="mb-5 fv-row fv-plugins-icon-container">
+                      <label class="form-label mb-3">Сообщение
+                        <div class="fs-7 fw-bold text-muted d-flex mb-3">
+                          Напишите что угодно, что могло бы помочь подготовиться к встрече
+                        </div>
+                      </label>
+                      <Field
+                        as="textarea"
+                        type="text"
+                        class="form-control form-control-lg form-control-solid"
+                        name="description"
+                        v-model="formData.description"
+                      />
+                      <div class="fv-plugins-message-container">
+                        <div class="fv-help-block">
+                          <ErrorMessage name="description"/>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
 
-            <div class="d-flex flex-stack pt-15">
+            <div class="d-flex flex-stack">
               <div class="mr-2">
                 <button
                   type="button"
@@ -268,6 +211,7 @@
                   class="btn btn-lg btn-primary"
                   v-else
                   @click="handleStep"
+                  :disabled="isDisabledContinueButton"
                 >Продолжить
                   <span class="svg-icon svg-icon-4 ms-1 me-0">
                     <inline-svg src="/media/icons/duotone/Navigation/Arrow-right.svg"/>
@@ -280,112 +224,146 @@
         </div>
       </div>
     </div>
-  </div>
 </template>
 <script>
+import { toRefs, ref, onMounted, computed } from 'vue'
 import { Field, Form, ErrorMessage } from 'vee-validate'
+import { useRoute } from 'vue-router'
 import * as Yup from 'yup'
 import Swal from 'sweetalert2'
 import moment from 'moment'
 import { StepperComponent } from '@/core/components/_StepperComponent'
 import EventService from '@/core/services/calendar.service'
 import { ScrollComponent } from '@/core/components/_ScrollComponent'
-import BtButton from '@/components/_core/buttons/BtButton'
+import PublicPageBookingInfo from '@/components/public/wizard/PublicPageBookingInfo'
+import PublicPageStepperNav from '@/components/public/wizard/PublicPageStepperNav'
+import PublicPageProjectButton from '@/components/public/wizard/PublicPageProjectButton'
+import PublicPageWizardCalendar from '@/components/public/wizard/PublicPageWizardCalendar'
+import PublicPageProjectInfo from '@/components/public/wizard/PublicPageProjectInfo'
+import BtContentLoader from '@/components/_core/BtContentLoader'
 
 export default {
-  components: { Form, Field, ErrorMessage, BtButton },
-  props: ['projects'],
-  data() {
-    const addEventValidationSchema = Yup.object({
-      projectId: Yup.string()
-        .required()
-        .label('Проект'),
-      selectedTime: Yup.string()
-        .required(),
-      name: Yup.string()
-        .required(),
-      phone: Yup.string()
-        .required(),
-      email: Yup.string()
-        .required(),
-      description: Yup.string()
-    })
-    return {
-      dates: [],
-      stepperObj: null,
-      currentStepIndex: 0,
-      selectedDate: '',
-      formData: {
-        projectId: '',
-        time: '',
-        name: '',
-        phone: '',
-        email: '',
-        description: ''
-      },
-      addEventValidationSchema
-    }
+  components: {
+    Form,
+    Field,
+    ErrorMessage,
+    PublicPageStepperNav,
+    PublicPageBookingInfo,
+    PublicPageProjectButton,
+    PublicPageWizardCalendar,
+    PublicPageProjectInfo,
+    BtContentLoader
   },
-  methods: {
-    closeAlert() {
-      localStorage.removeItem('public-booking-state')
-    },
-    getProjectInputId(id) {
-      return `project_type_${id}`
-    },
-    getDisabledDates(date) {
-      return moment(date) < moment()
-    },
-    getEventInputId(date) {
-      const id = this.getTimeOnly(date).replace(':', '_')
+  props: ['projects'],
+  emits: ['calendar:change-date'],
+  setup(props) {
+    const route = useRoute()
+    const { projects } = toRefs(props)
+    const addEventFormStepper = ref()
+    const dates = ref([])
+    const stepperObj = ref()
+    const currentStepIndex = ref(0)
+    const labelTime = ref('')
+    const eventRequestSchema = Yup.object({
+      name: Yup.string()
+        .required()
+        .label('Имя'),
+      email: Yup.string()
+        .email()
+        .required()
+        .label('Email'),
+      phone: Yup.string()
+        .required()
+        .label('Телефон'),
+    })
+    const formData = ref({
+      projectId: '',
+      time: '',
+      name: '',
+      phone: '',
+      email: '',
+      description: ''
+    })
+    const totalSteps = computed(() => {
+      if (!stepperObj.value) {
+        return
+      }
+      return stepperObj.value.totalStepsNumber
+    })
+    const slug = computed(() => route.params.slug)
+    const storageBookingInfo = computed(() => {
+      const storageObj = JSON.parse(localStorage.getItem('public-booking-state'))
+      if (storageObj) {
+        if (slug.value === storageObj.slug) {
+          storageObj.time = new Date(storageObj.time).toLocaleString('ru')
+          return storageObj
+        }
+      }
+      return ''
+    })
+    const isDisabledContinueButton = ref(false)
+    const isWaitingForNewDates = ref(false)
+    const closeAlert = () => localStorage.removeItem('public-booking-state')
+    const getProjectInputId = (id) => `project_type_${id}`
+    const getEventInputId = (date) => {
+      const id = getTimeOnly(date).replace(':', '_')
       return `event_time_${id}`
-    },
-    getTimeOnly(date) {
-      // TODO: Change it to moment
-      return date.split(' ')[1].split('+')[0]
-    },
-    getAvailableTimeClass(status) {
-      if (status === 'available') {
-        return 'btn-outline-primary btn-active-light-primary'
-      }
-      return 'btn-outline-default'
-    },
-    previousStep() {
-      if (!this.stepperObj) {
+    }
+    const getTimeOnly = (date) => moment(date).format('HH:mm')
+    const getAvailableTimeClass = (status) => (status === 'available'
+      ? 'btn-outline-primary btn-active-light-primary'
+      : 'btn-outline-default')
+
+    const previousStep = () => {
+      if (!stepperObj.value) {
         return
       }
-      this.currentStepIndex--
-      this.stepperObj.goPrev()
-    },
+      currentStepIndex.value--
+      stepperObj.value.goPrev()
+    }
 
-    handleStep() {
-      if (!this.stepperObj) {
+    const handleStep = () => {
+      if (!stepperObj.value) {
         return
       }
-      this.currentStepIndex++
-      this.stepperObj.goNext()
-    },
-
-    async handleDateChange() {
-      if (this.selectedDate === null) {
-        this.dates = []
-        this.formData.time = ''
-      } else {
-        this.dates = await EventService.getAvailableDates(this.slug, this.selectedDate, this.formData.projectId)
-          .then((d) => {
-            setTimeout(() => {
-              ScrollComponent.reinitialization()
-            }, 100)
-            return d
+      if (currentStepIndex.value === 1) {
+        if (!formData.value.time) {
+          Swal.fire({
+            title: 'Пожалуйста, укажите дату!',
+            icon: 'warning',
+            buttonsStyling: false,
+            confirmButtonText: 'Хорошо',
+            customClass: {
+              confirmButton: 'btn btn-primary'
+            }
           })
+          return
+        }
       }
-    },
+      currentStepIndex.value++
+      stepperObj.value.goNext()
+    }
 
-    formSubmit() {
-      EventService.addEventRequest(this.formData)
+    const handleDateChange = async (date) => {
+      isWaitingForNewDates.value = true
+      formData.value.time = ''
+      labelTime.value = moment(date.date).format('DD MMM YYYY')
+      dates.value = []
+      dates.value = await EventService.getAvailableDates(slug.value, date.id, formData.value.projectId)
+        .then((d) => {
+          setTimeout(() => {
+            ScrollComponent.reinitialization()
+            isWaitingForNewDates.value = false
+          }, 0)
+          return d
+        })
+    }
+
+    const formSubmit = () => {
+      EventService.addEventRequest(formData.value)
         .then((response) => {
           if (response.status === 'ok') {
-            const storageItem = { ...this.formData, slug: this.slug }
+            const storageItem = { ...formData.value, slug: slug.value }
             localStorage.setItem('public-booking-state', JSON.stringify(storageItem))
             Swal.fire({
               title: 'Ваш запрос успешно отправлен!',
@@ -401,30 +379,32 @@ export default {
           }
         })
     }
-  },
-  mounted() {
-    this.stepperObj = StepperComponent.createInstance(this.$refs.addEventFormStepper)
-    this.formData.projectId = this.projects[0].id
-  },
-  computed: {
-    totalSteps() {
-      if (!this.stepperObj) {
-        return
-      }
-      return this.stepperObj.totalStepsNumber
-    },
-    slug() {
-      return this.$route.params.slug
-    },
-    storageBookingInfo() {
-      const storageObj = JSON.parse(localStorage.getItem('public-booking-state'))
-      if (storageObj) {
-        if (this.slug === storageObj.slug) {
-          storageObj.time = new Date(storageObj.time).toLocaleString('ru')
-          return storageObj
-        }
-      }
-      return ''
+
+    onMounted(() => {
+      stepperObj.value = StepperComponent.createInstance(addEventFormStepper.value)
+      formData.value.projectId = projects.value[0].id
+    })
+
+    return {
+      addEventFormStepper,
+      storageBookingInfo,
+      closeAlert,
+      formSubmit,
+      getProjectInputId,
+      formData,
+      handleDateChange,
+      dates,
+      getEventInputId,
+      getAvailableTimeClass,
+      getTimeOnly,
+      previousStep,
+      currentStepIndex,
+      totalSteps,
+      handleStep,
+      eventRequestSchema,
+      isDisabledContinueButton,
+      isWaitingForNewDates,
+      labelTime
     }
   }
 }

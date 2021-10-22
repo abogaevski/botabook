@@ -1,5 +1,5 @@
 <template>
-  <div class="card mb-5 mb-xl-10">
+  <div class="card mb-xl-10">
     <div class="card-header align-items-center border-0 mt-4">
       <h3 class="card-title align-items-start flex-column">
         <span class="fw-bolder mb-2 text-dark">Встречи</span>

@@ -1,5 +1,14 @@
 <template>
-  <div class="aside aside-hoverable aside-light">
+  <div
+    class="aside aside-hoverable aside-light"
+    data-bb-drawer="true"
+    data-bb-drawer-name="aside"
+    data-bb-drawer-activate="{default: true, lg: false}"
+    data-bb-drawer-overlay="true"
+    data-bb-drawer-width="{default:'200px', '300px': '250px'}"
+    data-bb-drawer-direction="start"
+    data-bb-drawer-toggle="#bb_aside_mobile_toggle"
+  >
     <div id="bb_aside_logo" class="aside-logo flex-column-auto">
       <img src="/media/logos/botabook-dark.svg" class="h-35px logo" alt="">
 
@@ -28,6 +37,7 @@
 <script>
 import { onMounted, onUpdated } from 'vue'
 import { ToggleComponent } from '@/core/components/_ToggleComponent'
+import { DrawerComponent } from '@/core/_utils/_DrawerComponent'
 import Menu from './Menu.vue'
 
 export default {
@@ -37,6 +47,7 @@ export default {
   },
   setup() {
     onMounted(() => {
+      DrawerComponent.reinitialization()
       ToggleComponent.reinitialization();
     })
     onUpdated(() => {

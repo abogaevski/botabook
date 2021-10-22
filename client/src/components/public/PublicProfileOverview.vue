@@ -1,50 +1,45 @@
 <template>
-  <div class="d-flex flex-column flex-xl-row">
-    <div class="flex-column flex-lg-row-auto w-100 w-xl-350px mb-10">
-      <div class="card mb-5 mb-xl-8">
-        <div class="card-body">
-          <div class="d-flex flex-center flex-column py-5">
-            <div class="symbol symbol-100px symbol-circle mb-7">
-              <img :src="profile.avatar || '/media/avatars/blank.png'" alt="image">
+  <div class="card h-lg-100">
+    <div class="card-body px-5">
+      <div class="d-flex flex-center flex-column">
+        <div class="symbol symbol-70px symbol-circle mb-3">
+          <img :src="profile.avatar || '/media/avatars/blank.png'" alt="image">
+        </div>
+        <div class="fs-3 text-gray-800 fw-bolder mb-3">{{ fullName }}</div>
+        <div class="badge badge-lg badge-light-primary d-flex mb-3">{{ profile.title }}</div>
+        <div class="d-flex flex-wrap flex-start w-100 my-5">
+            <div class="fw-bold text-muted">
+              {{ profile.welcomeText }}
             </div>
-            <a href="#" class="fs-3 text-gray-800 text-hover-primary fw-bolder mb-3">{{ fullName }}</a>
-            <div class="mb-9">
-              <div class="badge badge-lg badge-light-primary d-inline">{{ profile.title }}</div>
-            </div>
-            <div class="d-flex flex-wrap flex-center">
-              <div class="border text-center border-gray-300 border-dashed rounded py-3 px-3 mb-3">
-                <div class="fw-bold text-muted">
-                  {{ profile.welcomeText }}
-                </div>
-              </div>
-            </div>
+        </div>
+      </div>
+      <div class="d-flex flex-stack fs-4 mb-3">
+        <div class="fw-bolder rotate collapsible">Детали</div>
+      </div>
+      <div class="separator"></div>
+      <div class="fs-6 mt-3">
+        <div class="d-flex justify-content-between mb-3 mb-lg-5">
+          <div class="fw-bold text-gray-600">График работы</div>
+          <div class="fw-bolder">{{ profile.startWorkHour }} - {{ profile.endWorkHour }}</div>
+        </div>
+        <div class="d-flex justify-content-between mb-3 mb-lg-5">
+          <div class="fw-bold text-gray-600">Часовой пояс</div>
+          <div class="fw-bolder">{{ profile.timezone }}</div>
+        </div>
+        <div class="d-flex justify-content-between mb-3 mb-lg-5">
+          <div class="fw-bold text-gray-600">Рабочий телефон</div>
+          <div class="fw-bolder">
+            <a :href="phoneLink" class="text-hover-primary">{{ profile.phone }}</a>
           </div>
-          <div class="d-flex flex-stack fs-4 py-3">
-            <div class="fw-bolder rotate collapsible">Детали</div>
-          </div>
-          <div class="separator"></div>
-          <div id="kt_user_view_details" class="collapse show">
-            <div class="pb-5 fs-6">
-              <div class="fw-bolder mt-5">График работы</div>
-              <div class="text-gray-600">{{ profile.startWorkHour }} - {{ profile.endWorkHour }}</div>
-              <div class="fw-bolder mt-5">Часовой пояс</div>
-              <div class="text-gray-600">{{ profile.timezone }}</div>
-              <div class="fw-bolder mt-5">Рабочий телефон</div>
-              <div class="text-gray-600">
-                <a :href="phoneLink" class="text-gray-600 text-hover-primary">{{ profile.phone }}</a>
-
-              </div>
-              <div class="fw-bolder mt-5">Название компании</div>
-              <div class="text-gray-600">{{ profile.company }}</div>
-              <div class="fw-bolder mt-5">Сайт</div>
-              <div class="text-gray-600">
-                <a :href="profile.website" class="text-gray-600 text-hover-primary">{{ profile.website }}</a>
-              </div>
-              <div class="fw-bolder mt-5">Адрес</div>
-              <div class="text-gray-600">
-                {{ profile.city }}, {{ profile.country }}
-              </div>
-            </div>
+        </div>
+        <div class="d-flex justify-content-between mb-3 mb-lg-5">
+          <div class="fw-bold text-gray-600">Название компании</div>
+          <div class="fw-bolder">{{ profile.company }}</div>
+        </div>
+        <div class="d-flex justify-content-between mb-3 mb-lg-5">
+          <div class="fw-bold text-gray-600">Сайт</div>
+          <div class="fw-bolder">
+            <a :href="profile.website" class="text-hover-primary">{{ profile.website }}</a>
           </div>
         </div>
       </div>

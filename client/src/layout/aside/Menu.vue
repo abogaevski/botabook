@@ -2,12 +2,12 @@
   <div
     id="bb-aside-menu-wrapper"
     data-bb-scroll="true"
-    data-bb-scroll-activate="{default: true}"
+    data-bb-scroll-activate="{default: false, lg: true}"
     data-bb-scroll-height="auto"
     data-bb-scroll-dependencies="#bb_aside_logo, #bb_aside_footer"
     data-bb-scroll-wrappers="#bb_aside_menu"
     data-bb-scroll-offset="0"
-    class="hover-scroll-overlay-y my-5 my-lg-5">
+    class="hover-scroll-overlay-y my-lg-5">
     <div
       id="bb_aside_menu"
       class="menu menu-column menu-title-gray-800 menu-state-title-primary menu-state-icon-primary menu-state-bullet-primary menu-arrow-gray-500"

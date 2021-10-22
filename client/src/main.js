@@ -5,6 +5,7 @@ import ElementPlus from 'element-plus'
 import ru from 'element-plus/es/locale/lang/ru'
 import { Chart, registerables } from 'chart.js'
 import VueApexCharts from 'vue3-apexcharts'
+import VCalendar from 'v-calendar'
 import { initVeeValidate } from '@/core/plugins/vee-validate'
 import { initYup } from '@/core/plugins/yup'
 
@@ -28,6 +29,7 @@ app.use(ElementPlus, {
   locale: ru
 });
 app.use(VueApexCharts)
+app.use(VCalendar, {})
 
 setupInterceptors(store)
 app.component('inline-svg', InlineSvg)

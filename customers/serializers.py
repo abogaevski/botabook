@@ -25,6 +25,7 @@ class CustomerSerializer(serializers.ModelSerializer):
         ]
 
     def get_initials(self, customer):
+        # TODO: If customer name
         return customer.name[0].upper()
 
     def get_color(self, customer):

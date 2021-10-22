@@ -1,6 +1,7 @@
 import { getViewPort } from './dom-helpers/_getViewPort'
 import { getObjectPropertyValueByKey } from './types-helpers/_getObjectPropertyValueByKey'
 import { toJSON } from './types-helpers/_toJSON'
+import Theme from '@/core/_utils/_Theme'
 
 export function getAttributeValueByBreakpoint(incomingAttr) {
   const value = toJSON(incomingAttr)
@@ -16,7 +17,10 @@ export function getAttributeValueByBreakpoint(incomingAttr) {
   // eslint-disable-next-line no-restricted-syntax,guard-for-in
   for (const key in value) {
     if (key === 'default') {
-      breakpoint = 0
+      breakpoint = 0;
+    } else {
+      // eslint-disable-next-line radix
+      breakpoint = Theme.getBreakpoint(key) ? Theme.getBreakpoint(key) : parseInt(key);
     }
 
     if (breakpoint <= width && breakpoint > resultBreakpoint) {

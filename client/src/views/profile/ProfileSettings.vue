@@ -16,7 +16,7 @@
 
           <profile-avatar :id="user.id" :avatar="user.profile.avatar"></profile-avatar>
 
-          <div class="row mb-6">
+          <div class="row mb-4 mb-lg-6">
             <label class="col-lg-4 col-form-label fw-bold fs-6">
               Ссылка на страницу
             </label>
@@ -37,17 +37,17 @@
             </div>
           </div>
 
-          <div class="row mb-6">
+          <div class="row mb-4 mb-lg-6">
             <label class="col-lg-4 col-form-label required fw-bold fs-6">
               Полное имя
             </label>
             <div class="col-lg-8">
               <div class="row">
-                <div class="col-lg-6 fv-row">
+                <div class="col-lg-6 col-md-6 fv-row">
                   <Field
                     type="text"
                     name="firstName"
-                    class="form-control form-control-lg form-control-solid mb-3 mb-lg-0"
+                    class="form-control form-control-lg form-control-solid mb-3 mb-md-0"
                     placeholder="Федор"
                     v-model="profileData.firstName"
                   />
@@ -57,7 +57,7 @@
                     </div>
                   </div>
                 </div>
-                <div class="col-lg-6 fv-row">
+                <div class="col-lg-6 col-md-6 fv-row">
                   <Field
                     type="text"
                     name="lastName"
@@ -75,7 +75,7 @@
             </div>
           </div>
 
-          <div class="row mb-6">
+          <div class="row mb-4 mb-lg-6">
             <label class="col-lg-4 col-form-label fw-bold fs-6">
               Текст приветствия
               <bt-tooltip
@@ -101,7 +101,7 @@
             </div>
           </div>
 
-          <div class="row mb-6">
+          <div class="row mb-4 mb-lg-6">
             <label class="col-lg-4 col-form-label fw-bold fs-6">
               Должность / специализация
             </label>
@@ -121,7 +121,7 @@
             </div>
           </div>
 
-          <div class="row mb-6">
+          <div class="row mb-4 mb-lg-6">
             <label class="col-lg-4 col-form-label fw-bold fs-6">
               Компания
             </label>
@@ -141,7 +141,7 @@
             </div>
           </div>
 
-          <div class="row mb-6">
+          <div class="row mb-4 mb-lg-6">
             <label class="col-lg-4 col-form-label fw-bold fs-6">
               <span>Телефон</span>
               <bt-tooltip
@@ -168,7 +168,7 @@
             </div>
           </div>
 
-          <div class="row mb-6">
+          <div class="row mb-4 mb-lg-6">
             <label class="col-lg-4 col-form-label fw-bold fs-6">
               Вебсайт
             </label
@@ -189,7 +189,7 @@
             </div>
           </div>
 
-          <div class="row mb-6">
+          <div class="row mb-4 mb-lg-6">
             <label class="col-lg-4 col-form-label fw-bold fs-6">
               <span>Страна</span>
 
@@ -216,7 +216,7 @@
             </div>
           </div>
 
-          <div class="row mb-6">
+          <div class="row mb-4 mb-lg-6">
             <label class="col-lg-4 col-form-label fw-bold fs-6">
               <span>Город</span>
 
@@ -242,7 +242,7 @@
               </div>
             </div>
           </div>
-          <div class="row mb-6">
+          <div class="row mb-4 mb-lg-6">
             <label class="col-lg-4 col-form-label fw-bold fs-6">
               <span>График работы</span>
 
@@ -254,36 +254,43 @@
               />
             </label>
             <div class="col-lg-8 fv-row profile__time-picker">
-              <Field
-                v-model="profileData.startWorkHour"
-                name="startWorkHour"
-                v-slot="{ value, handleChange }"
-              >
-                <el-time-select
-                  class="me-5"
-                  :model-value="value"
-                  @update:model-value="handleChange"
-                  placeholder="Start time"
-                  start="00:00"
-                  step="00:30"
-                  end="23:30"
-                />
-              </Field>
-              <Field
-                v-model="profileData.endWorkHour"
-                name="endWorkHour"
-                v-slot="{ value, handleChange }"
-              >
-                <el-time-select
-                  :min-time="profileData.startWorkHour"
-                  :model-value="value"
-                  @update:model-value="handleChange"
-                  placeholder="Start time"
-                  start="00:00"
-                  step="00:30"
-                  end="23:30"
-                />
-              </Field>
+              <div class="row">
+                <div class="col-lg-6 col-md-6 fv-row mb-3 mb-md-0">
+                  <Field
+                    v-model="profileData.startWorkHour"
+                    name="startWorkHour"
+                    v-slot="{ value, handleChange }"
+                  >
+                    <el-time-select
+                      class="d-block"
+                      :model-value="value"
+                      @update:model-value="handleChange"
+                      placeholder="Start time"
+                      start="00:00"
+                      step="00:30"
+                      end="23:30"
+                    />
+                  </Field>
+                </div>
+                <div class="col-lg-6 col-md-6 fv-row">
+                  <Field
+                    v-model="profileData.endWorkHour"
+                    name="endWorkHour"
+                    v-slot="{ value, handleChange }"
+                  >
+                    <el-time-select
+                      class="d-block"
+                      :min-time="profileData.startWorkHour"
+                      :model-value="value"
+                      @update:model-value="handleChange"
+                      placeholder="Start time"
+                      start="00:00"
+                      step="00:30"
+                      end="23:30"
+                    />
+                  </Field>
+                </div>
+              </div>
               <div class="fv-plugins-message-container">
                 <div class="fv-help-block">
                   <ErrorMessage name="startWorkHour"/>
@@ -292,7 +299,7 @@
               </div>
             </div>
           </div>
-          <div class="row mb-6">
+          <div class="row mb-4 mb-lg-6">
             <label class="col-lg-4 col-form-label fw-bold fs-6">
               <span>Часовой пояс</span>
 

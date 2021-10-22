@@ -85,6 +85,7 @@ export default {
       events: events.value,
       nowIndicator: true,
       eventShortHeight: 10,
+      height: null,
       eventDidMount(info) {
         const { event, el, view } = info
         setEventStyle(event, el, view)

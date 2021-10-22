@@ -191,8 +191,11 @@
 		display: none;
 
 		// Logo
-		.aside-logo {
+		.aside-logo .aside-toggle {
 			display: none;
+		}
+		.aside-logo {
+			padding: 15px 25px;
 		}
 	}
 }

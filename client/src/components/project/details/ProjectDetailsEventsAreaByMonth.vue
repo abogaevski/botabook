@@ -7,8 +7,8 @@
         </h3>
 
         <div class="fs-6 d-flex text-gray-400 fs-6 fw-bold">
-          <div class="d-flex align-items-center me-6">{{ monthsNumText }}</div>
-          <div class="d-flex align-items-center me-6">
+          <div class="d-flex align-items-center me-xl-6 me-3">{{ monthsNumText }}</div>
+          <div class="d-flex align-items-center me-xl-6 me-3">
             <span class="menu-bullet d-flex align-items-center me-2">
               <span class="bullet bg-success"></span>
             </span>Оконченные
@@ -21,7 +21,7 @@
         </div>
       </div>
     </div>
-    <div class="card-body pt-10 pb-0 px-5">
+    <div class="card-body pt-10 pb-0 px-xl-5 px-0">
       <apexchart type="area" :options="options" :series="series"/>
     </div>
   </div>

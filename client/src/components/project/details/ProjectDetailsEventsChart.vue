@@ -11,8 +11,8 @@
       </div>
     </div>
     <div class="card-body p-9 pt-5">
-      <div class="d-flex flex-wrap">
-        <div class="position-relative d-flex flex-center h-175px w-175px me-15 mb-7">
+      <div class="align-items-center d-flex flex-center flex-column flex-lg-column flex-md-row flex-wrap">
+        <div class="d-flex flex-center h-175px mb-7 me-0 me-lg-0 me-md-15 position-relative w-175px">
           <DoughnutChart ref="doughnutRef" :chartData="datasets" :options="doughnutOptions"/>
           <div class="position-absolute translate-middle start-50 top-50 d-flex flex-column flex-center">
             <span class="fs-2qx fw-bolder">
@@ -21,7 +21,7 @@
             <span class="fs-6 fw-bold text-gray-400">Всего</span>
           </div>
         </div>
-        <div class="d-flex flex-column justify-content-center flex-row-fluid pe-11 mb-5">
+        <div class="d-flex flex-column flex-row-fluid justify-content-center mb-5 pe-10 pe-lg-0 w-100 w-md-auto w-lg-100">
           <template v-for="(status, i) in statuses" :key="i">
             <div class="d-flex fs-6 fw-bold align-items-center mb-3">
               <div

@@ -83,10 +83,5 @@
 			display: none;
 			z-index: get($header-config, fixed, z-index) - 1;
 		}
-
-		// Page title
-		.page-title {
-			display: none !important;
-		}
 	}
 }

@@ -38,3 +38,11 @@ class PublicProjectListApiView(generics.ListAPIView):
         slug = self.kwargs['slug']
         profile = get_object_or_404(Profile, slug=slug)
         return Project.objects.filter(user=profile.user, is_active=True)
+
+
+class PublicProjectRetrieveApiView(generics.RetrieveAPIView):
+    serializer_class = PublicProjectSerializer
+
+    def get_object(self):
+        pk = self.kwargs['pk']
+        return get_object_or_404(Project, pk=pk)

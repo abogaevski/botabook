@@ -6,6 +6,7 @@ export default function setEventStyle(event, el, view) {
   const statusEl = document.createElement('span')
   statusEl.classList.add('position-absolute', 'badge', `badge-light-${statusInfo.color}`, 'event__status-badge')
   statusEl.textContent = statusInfo.name
+  const titleEl = el.querySelector('.fc-list-event-title a')
 
   // eslint-disable-next-line default-case
   switch (view.type) {
@@ -17,8 +18,8 @@ export default function setEventStyle(event, el, view) {
     case 'listDay':
       el.querySelector('.fc-list-event-title a').classList.add('d-flex')
       el.querySelector('.fc-list-event-dot').classList.add(`border-${color}`)
-      // TODO: adding event title bug
-      el.querySelector('.fc-list-event-title a').prepend(statusEl)
+      el.classList.add('position-relative')
+      titleEl.prepend(statusEl)
       break
     case 'dayGridMonth':
       el.querySelector('.fc-daygrid-event-dot').classList.add(`border-${color}`)

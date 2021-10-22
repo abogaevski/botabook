@@ -1,7 +1,7 @@
 <template>
   <div v-if="columns.length" class="h-100 row hover-scroll-x flex-nowrap">
     <template v-for="(column, i) in columns" :key="i">
-      <div class="col-md-6 col-lg-4 col-xl-3 h-100">
+      <div class="col-md-6 col-lg-6 col-xl-3 h-100">
         <customer-board-section-heading :column="column"/>
         <draggable
           class="min-h-300px"

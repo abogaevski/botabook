@@ -1,6 +1,6 @@
 <template>
   <div class="row g-6 g-xl-9">
-    <div class="col-lg-6 col-xxl-4">
+    <div class="col-md-12 col-lg-12 col-xxl-4">
       <div class="card h-100">
         <div class="card-body p-9">
           <div class="fs-2hx fw-bolder">
@@ -32,7 +32,7 @@
       </div>
     </div>
 
-    <div class="col-lg-6 col-xxl-4">
+    <div class="col-md-6 col-lg-6 col-xxl-4">
       <div class="card h-100">
         <div class="card-body p-9">
           <div class="fs-2hx fw-bolder">{{ priceSum }} руб</div>
@@ -66,7 +66,7 @@
         </div>
       </div>
     </div>
-    <div class="col-lg-6 col-xxl-4">
+    <div class="col-md-6 col-lg-6 col-xxl-4">
       <div class="card h-100">
         <div class="card-body p-9">
           <div class="fs-2hx fw-bolder">{{ customersCount }}</div>

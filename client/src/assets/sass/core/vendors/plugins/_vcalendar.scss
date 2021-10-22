@@ -1,0 +1,35 @@
+.vc-container {
+  --blue-600: #{$primary};
+  font-family: Montserrat, sans-serif;
+  border: 0;
+  width: 100%;
+  .vc-header {
+    padding: 1rem 1.5rem;
+  }
+  .vc-weeks {
+    padding: 0;
+  }
+  .vc-weekday {
+    line-height: 1;
+    padding: 1rem;
+  }
+  .vc-day-content.is-disabled:focus, .vc-day-content.is-disabled:hover {
+    background-color: transparent;
+    font-weight: 500;
+  }
+  @include media-breakpoint-up(md) {
+    .vc-day-content {
+      width: 48px;
+      height: 48px;
+      line-height: 48px;
+    }
+    .vc-highlight {
+      width: 48px;
+      height: 48px;
+    }
+    .vc-day-box-center-center {
+      padding: 4px;
+    }
+  }
+
+}

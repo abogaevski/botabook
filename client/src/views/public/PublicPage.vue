@@ -1,54 +1,56 @@
 <template>
-  <loader></loader>
-  <div class="pt-xl-20 content d-flex flex-column flex-column-fluid">
-    <div class="d-flex flex-column-fluid">
-      <div class="container-xxl">
-        <template v-if="projects.length">
-          <div class="d-flex flex-column flex-xl-row">
-            <public-profile-overview />
-            <public-profile-booking-wizard :projects="projects" />
+  <loader v-if="loaderEnabled"></loader>
+  <div v-if="projects.length" class="d-flex flex-column flex-column-fluid">
+    <public-page-header />
+    <div class="d-flex flex-column-fluid pt-5">
+      <div class="container">
+          <div class="row g-8">
+            <div class="col-xl-3 col-lg-4">
+              <public-profile-overview />
+            </div>
+            <div class="col-xl-9 col-lg-8">
+              <public-profile-booking-wizard :projects="projects" />
+            </div>
           </div>
-
-        </template>
-        <template v-else>
-          <public-profile-no-data/>
-        </template>
-
       </div>
     </div>
   </div>
+  <template v-else>
+    <public-profile-no-data/>
+  </template>
 </template>
 
 <script>
+import { computed, ref, watch } from 'vue'
+import { useStore } from 'vuex'
+import { useRoute } from 'vue-router'
+import PublicPageHeader from '@/components/public/PublicPageHeader'
 import PublicProfileOverview from '@/components/public/PublicProfileOverview'
 import PublicProfileBookingWizard from '@/components/public/PublicProfileBookingWizard'
 import PublicProfileNoData from '@/components/public/PublicProfileNoData'
-import ProjectService from '@/core/services/project.service'
 import Loader from '@/components/Loader'
 
 export default {
-  data() {
+  components: { PublicProfileOverview, PublicProfileBookingWizard, PublicProfileNoData, Loader, PublicPageHeader },
+  setup() {
+    const store = useStore()
+    const loaderEnabled = ref(true)
+    const route = useRoute()
+    const slug = computed(() => route.params.slug)
+
+    store.dispatch('project/getPublicProjects', slug.value)
+    const projects = computed(() => store.getters['project/projects'])
+    watch(projects, (val) => {
+      if (val) {
+        document.body.classList.remove('page-loading')
+      }
+    })
+    document.body.classList.remove('header-fixed', 'header-tablet-and-mobile-fixed', 'aside-enabled', 'aside-fixed')
+
     return {
-      projects: []
+      loaderEnabled,
+      projects
     }
   },
-  components: { PublicProfileOverview, PublicProfileBookingWizard, PublicProfileNoData, Loader },
-  methods: {
-    async getProjects() {
-      await ProjectService.getPublicProjects(this.slug)
-        .then((p) => {
-          this.projects = p
-          document.body.classList.remove('page-loading')
-        })
-    },
-  },
-  async mounted() {
-    await this.getProjects()
-  },
-  computed: {
-    slug() {
-      return this.$route.params.slug
-    }
-  }
 }
 </script>

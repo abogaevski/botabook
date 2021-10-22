@@ -28,6 +28,7 @@
     "moment": "^2.29.1",
     "moment-timezone": "^0.5.33",
     "sweetalert2": "^11.1.4",
+    "v-calendar": "^3.0.0-alpha.6",
     "vee-validate": "^4.4.9",
     "vue": "^3.2.11",
     "vue-chart-3": "^0.5.8",

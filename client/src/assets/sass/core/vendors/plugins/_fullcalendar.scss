@@ -271,74 +271,119 @@ body {
     font-weight: $font-weight-normal;
   }
 }
-// Mobile mode
-@include media-breakpoint-down(md) {
-  .fc {
-    // Header toolbar
-    .fc-header-toolbar {
-      flex-direction: column;
-      align-items: flex-start;
 
-      .fc-toolbar-chunk {
-        &:nth-child(1),
-        &:nth-child(3) {
-          order: 2;
-        }
-
-        &:nth-child(2) {
-          order: 1;
-        }
-
-        &:nth-child(2),
-        &:nth-child(1) {
-          margin-bottom: 1rem;
-        }
+// Tablet mode
+@include media-breakpoint-down(lg) {
+  .calendar-wrapper {
+    .fc {
+      .fc-button {
+        padding: 0.5rem .75rem;
+        box-shadow: none !important;
+        border: 0 !important;
+        border-radius: $btn-border-radius;
+        vertical-align: middle;
+        font-weight: $font-weight-bold;
+      }
+      .fc-toolbar-title {
+        font-size: 1rem;
       }
     }
   }
 }
+
+// Mobile mode
+@include media-breakpoint-down(md) {
+  .calendar-wrapper {
+    .fc {
+      // Header toolbar
+      .fc-header-toolbar {
+        flex-direction: column;
+        align-items: center;
+
+        .fc-toolbar-chunk {
+          &:nth-child(1),
+          &:nth-child(3) {
+            order: 2;
+          }
+
+          &:nth-child(2) {
+            order: 1;
+          }
+
+          &:nth-child(2),
+          &:nth-child(1) {
+            margin-bottom: 1rem;
+          }
+        }
+      }
+      .fc-toolbar-title {
+        font-size: 1.6rem;
+      }
+    }
+  }
+}
+@include media-breakpoint-down(sm) {
+  .event__status-badge {
+    bottom: .75rem;
+    left: 1rem;
+    right: auto !important;
+  }
+}
+
 .fc-event {
   cursor: pointer;
   //box-shadow: 0px 0px 9px 0px rgb(0 0 0 / 6%);
 }
+
 .fc-list-event-time {
   font-weight: 700;
 }
+
 .fc .fc-list-event-title a {
   font-weight: 500;
 }
+
 .fc-list-day {
   text-transform: uppercase;
 }
+
 .fc-daygrid .fc-daygrid-event {
-  box-shadow: 0 0 9px 0 rgba(0, 0, 0, .06) !important;
+  box-shadow: 0 0 9px 0 rgba(0, 0, 0, .1) !important;
 }
+
 .fc-v-event.event {
-  box-shadow: 0 0 9px 0 rgba(0, 0, 0, .06) !important;
+  box-shadow: 0 0 9px 0 rgba(0, 0, 0, .1) !important;
+
   &-primary {
     background-color: $primary !important;
     border-color: $primary !important;
   }
+
   &-success {
     background-color: $success !important;
     border-color: $success !important;
   }
+
   &-danger {
     background-color: $danger !important;
     border-color: $danger !important;
   }
+
   &-info {
     background-color: $info !important;
     border-color: $info !important;
   }
+
   &-warning {
     background-color: $warning !important;
     border-color: $warning !important;
   }
+
   &-dark {
     background-color: $dark !important;
     border-color: $dark !important;
   }
+
   &-light-primary {
     background-color: $primary-light !important;
     border-color: $primary-light !important;
@@ -347,37 +392,47 @@ body {
       color: $primary;
     }
   }
+
   &-light-success {
     background-color: $success-light !important;
     border-color: $success-light !important;
+
     .fc-event-main {
       color: $success;
     }
   }
+
   &-light-danger {
     background-color: $danger-light !important;
     border-color: $danger-light !important;
+
     .fc-event-main {
       color: $danger;
     }
   }
+
   &-light-info {
     background-color: $info-light !important;
     border-color: $info-light !important;
+
     .fc-event-main {
       color: $info;
     }
   }
+
   &-light-warning {
     background-color: $warning-light !important;
     border-color: $warning-light !important;
+
     .fc-event-main {
       color: $warning;
     }
   }
+
   &-light-dark {
     background-color: $dark-light !important;
     border-color: $dark-light !important;
+
     .fc-event-main {
       color: $dark;
     }

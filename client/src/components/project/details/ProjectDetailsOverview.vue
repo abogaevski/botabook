@@ -8,11 +8,11 @@
       <project-details-events-area-by-month v-if="project.events.length" :project-start="project.createdAt" :events-id="project.events" />
       <project-details-events-no-data v-else />
     </div>
-    <div class="col-lg-8">
+    <div class="col-xl-8">
       <project-details-events-nav v-if="project.events.length" :events-id="project.events" />
       <project-details-events-no-data v-else />
     </div>
-    <div class="col-lg-4">
+    <div class="col-xl-4">
       <project-details-customers-list v-if="project.customers.length" :customers-id="project.customers" />
       <project-details-events-no-data v-else />
     </div>

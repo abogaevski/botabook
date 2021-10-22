@@ -40,6 +40,10 @@ export const project = {
     deleteProject({ commit }, projectId) {
       return ProjectService.deleteProject(projectId)
         .then(() => commit(Mutation.DELETE_PROJECT, projectId))
+    },
+    getPublicProjects({ commit }, slug) {
+      return ProjectService.getPublicProjects(slug)
+        .then((p) => commit(Mutation.SET_PROJECTS, p))
     }
   },
   mutations: {

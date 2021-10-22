@@ -1,10 +1,10 @@
 <template>
-  <div class="row gy-5 g-xl-8">
+  <div class="row">
     <div class="col-xl-12">
       <dashboard-hello-card :user="user" :today-events="futureEvents.length" />
     </div>
   </div>
-  <div class="row gy-5 g-xl-8">
+  <div class="row gy-lg-8 g-xl-8 gy-6">
     <div class="col-xl-6">
       <dashboard-events-stat-card v-if="events.length" :events="events" :user-created-at="user.profile.createdAt" />
     </div>
