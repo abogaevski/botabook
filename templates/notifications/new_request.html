@@ -5,7 +5,7 @@
         html, body {
             padding: 0;
             margin: 0;
-         }
+        }
     </style>
 </head>
 <body>
@@ -25,24 +25,30 @@
             <td align="left" valign="center">
                 <div style="text-align:left; margin: 0 20px; padding: 40px; background-color:#ffffff; border-radius: 6px">
                     <div style="padding-bottom: 30px; font-size: 17px;">
-                        <strong>Здравствуйте,
-                            {% block user %}
-                            {% endblock user %}
-                        </strong>
+                        <strong>Здравствуйте</strong>
                     </div>
                     <div style="padding-bottom: 20px">
-                        {% block title %}
-                        {% endblock title %}
-                    </div>
-                    <div style="padding-bottom: 20px">
-                        {% block body %}
-                        {% endblock body %}
+                        <strong style="margin-right: 5px">Имя:</strong>
+                        <span>{{ name }}</span>
+                        <br>
+                        <strong style="margin-right: 5px">Email:</strong>
+                        <span>{{ email }}</span>
+                        <br>
+                        <strong style="margin-right: 5px">Тип обращения:</strong>
+                        <span>
+                            {% if account_type == 1 %}
+                                Инвестор
+                            {% elif account_type == 2 %}
+                                Разработчик
+                            {% else %}
+                                Клиент
+                            {% endif %}
+                        </span>
+                        <br>
+                        <strong style="margin-right: 5px">Сообщение:</strong>
+                        <span>{{ message }}</span>
                     </div>
                     <div style="border-bottom: 1px solid #eeeeee; margin: 15px 0"></div>
-                    <div style="padding-bottom: 10px">
-                        Не переживайте. О Ваших встречах теперь
-                        думает BotaBook!
-                    </div>
                     <div style="padding-bottom: 10px">Всегда с вами,
                         <br>Команда BotaBook.
                     </div>

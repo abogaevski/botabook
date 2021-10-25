@@ -10,41 +10,51 @@
 
         <div class="fw-bold fs-3 text-gray-400 mb-15">
           Что-то пошло не так! <br />
-          Попробуйте позже.
+          Попробуйте позже. <br />
+          <pre v-if="error">{{ error }}</pre>
         </div>
-        <!--end::Message-->
 
-        <!--begin::Action-->
         <div class="text-center">
-          <router-link to="/" class="btn btn-lg btn-primary fw-bolder"
-          >На главную</router-link
-          >
+          <a href="#" @click.prevent="showModal" class="btn btn-lg btn-primary fw-bolder me-5">Написать нам</a>
+          <router-link to="/app" class="btn btn-lg btn-light fw-bolder">На главную</router-link>
         </div>
-        <!--end::Action-->
       </div>
-      <!--end::Wrapper-->
     </div>
-    <!--end::Content-->
 
-    <!--begin::Footer-->
     <div class="d-flex flex-center flex-column-auto p-10">
-      <!--begin::Links-->
       <div class="d-flex align-items-center fw-bold fs-6">
-        <a href="#" class="text-muted text-hover-primary px-2">About</a>
-
-        <a href="#" class="text-muted text-hover-primary px-2">Contact</a>
-
-        <a href="#" class="text-muted text-hover-primary px-2">Contact Us</a>
+        <router-link to="/app" class="text-muted text-hover-primary px-2">Главная</router-link>
+        <router-link to="/" class="text-muted text-hover-primary px-2">О BotaBook</router-link>
+        <a href="#" @click.prevent="showModal" class="text-muted text-hover-primary px-2">Связаться с нами</a>
       </div>
-      <!--end::Links-->
     </div>
-    <!--end::Footer-->
   </div>
+  <contact-modal
+    :showModal="isActiveContactModal"
+    @modal:close="closeModal"
+  />
 </template>
 
 <script>
+import { computed, ref } from 'vue'
+import { useStore } from 'vuex'
+import ContactModal from '@/components/common/ContactModal'
+
 export default {
   name: 'error-500',
-  components: {}
+  components: { ContactModal },
+  setup() {
+    const store = useStore()
+    const isActiveContactModal = ref(false)
+    const showModal = () => isActiveContactModal.value = true
+    const closeModal = () => isActiveContactModal.value = false
+    const error = computed(() => store.getters.error)
+    return {
+      isActiveContactModal,
+      showModal,
+      closeModal,
+      error
+    }
+  }
 }
 </script>

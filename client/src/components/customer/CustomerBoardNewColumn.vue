@@ -23,6 +23,7 @@
 import * as Yup from 'yup'
 import { Form, Field, ErrorMessage } from 'vee-validate'
 import { useStore } from 'vuex'
+import Swal from 'sweetalert2'
 
 export default {
   name: 'CustomerBoardNewColumn',
@@ -36,6 +37,18 @@ export default {
     })
     const submitColumn = (values) => {
       store.dispatch('customerModule/createBoardColumn', values)
+        .catch((e) => {
+          Swal.fire({
+            title: 'Произошла ошибка!',
+            html: e,
+            icon: 'error',
+            buttonsStyling: false,
+            confirmButtonText: 'Попробовать еще раз',
+            customClass: {
+              confirmButton: 'btn btn-secondary'
+            }
+          })
+        })
       emit('column-create:close')
     }
 

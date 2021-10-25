@@ -471,8 +471,7 @@ export default {
 
           Swal.fire({
             title,
-            html: `${html}.<br>Пожалуйста обратитесь в поддержку
-              <a href="mailto:antnbog@gmail.com">сюда</a>`,
+            html: `${html}`,
             icon: 'error',
             buttonsStyling: false,
             confirmButtonText: 'Попробуйте еще раз!',

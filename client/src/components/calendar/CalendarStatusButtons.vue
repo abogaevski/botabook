@@ -70,6 +70,18 @@ export default {
                 }
               })
             })
+            .catch((e) => {
+              Swal.fire({
+                title: 'Произошла ошибка!',
+                html: e,
+                icon: 'error',
+                buttonsStyling: false,
+                confirmButtonText: 'Попробовать еще раз',
+                customClass: {
+                  confirmButton: 'btn btn-secondary'
+                }
+              })
+            })
         }
       })
     }

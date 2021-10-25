@@ -9,7 +9,7 @@
       data-bs-backdrop="static"
       data-bs-keyboard="false"
     >
-      <div class="modal-dialog modal-dialog-centered mw-650px">
+      <div class="modal-dialog modal-dialog-centered" :class="widthClass">
         <div class="modal-content">
           <slot name="modal-content"></slot>
         </div>
@@ -23,7 +23,11 @@ import { Modal } from 'bootstrap'
 export default {
   name: 'Modal',
   props: {
-    showModal: Boolean
+    showModal: Boolean,
+    widthClass: {
+      type: String,
+      default: 'mw-650px'
+    }
   },
   data() {
     return {

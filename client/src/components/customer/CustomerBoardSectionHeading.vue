@@ -78,6 +78,18 @@ export default {
     const updateTitle = (e) => {
       const title = e.target.value
       store.dispatch('customerModule/updateBoardColumn', { id: column.value.id, title })
+        .catch((error) => {
+          Swal.fire({
+            title: 'Произошла ошибка!',
+            html: error,
+            icon: 'error',
+            buttonsStyling: false,
+            confirmButtonText: 'Попробовать еще раз',
+            customClass: {
+              confirmButton: 'btn btn-secondary'
+            }
+          })
+        })
       e.target.blur()
     }
     const updatePrimaryColumn = (col) => {

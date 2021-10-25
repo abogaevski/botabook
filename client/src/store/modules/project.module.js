@@ -1,5 +1,6 @@
 import ProjectService from '@/core/services/project.service'
 import * as Mutation from '../mutation-types'
+import router from '@/router'
 
 export const getProjectIndexById = (state, projectId) => state.projects.findIndex((project) => project.id.toString() === projectId.toString())
 
@@ -10,40 +11,64 @@ export const project = {
   },
 
   actions: {
-    getProjects({ commit }) {
+    getProjects({ dispatch, commit }) {
       commit(Mutation.SET_LOADER, true, { root: true })
       return ProjectService.getProjects()
         .then((projects) => {
           commit(Mutation.SET_PROJECTS, projects)
           commit(Mutation.SET_LOADER, false, { root: true })
         })
+        .catch((error) => {
+          dispatch('setError', error, { root: true })
+          router.push('/500')
+        })
     },
-    createProject({ commit }, newProject) {
+    createProject({ dispatch, commit }, newProject) {
       return ProjectService.createProject(newProject)
         .then((prj) => {
           commit(Mutation.CREATE_PROJECT, prj)
           return Promise.resolve()
         })
+        .catch((error) => {
+          dispatch('setError', error, { root: true })
+          return Promise.reject(error)
+        })
     },
-    toggleProject({ commit }, toggledProject) {
+    toggleProject({ dispatch, commit }, toggledProject) {
       toggledProject.isActive = !toggledProject.isActive
       return ProjectService.toggleProject(toggledProject.id, toggledProject.isActive)
         .then((p) => {
           commit(Mutation.UPDATE_PROJECT, p)
         })
+        .catch((error) => {
+          dispatch('setError', error, { root: true })
+          return Promise.reject(error)
+        })
     },
-    updateProject({ commit }, updatedProject) {
+    updateProject({ dispatch, commit }, updatedProject) {
       const { id } = updatedProject
       return ProjectService.updateProject(id, updatedProject)
         .then((p) => commit(Mutation.UPDATE_PROJECT, p))
+        .catch((error) => {
+          dispatch('setError', error, { root: true })
+          return Promise.reject(error)
+        })
     },
-    deleteProject({ commit }, projectId) {
+    deleteProject({ dispatch, commit }, projectId) {
       return ProjectService.deleteProject(projectId)
         .then(() => commit(Mutation.DELETE_PROJECT, projectId))
+        .catch((error) => {
+          dispatch('setError', error, { root: true })
+          return Promise.reject(error)
+        })
     },
-    getPublicProjects({ commit }, slug) {
+    getPublicProjects({ dispatch, commit }, slug) {
       return ProjectService.getPublicProjects(slug)
         .then((p) => commit(Mutation.SET_PROJECTS, p))
+        .catch((error) => {
+          dispatch('setError', error, { root: true })
+          return Promise.reject(error)
+        })
     }
   },
   mutations: {

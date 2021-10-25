@@ -18,8 +18,7 @@
               <br>
               <a
                 href="#"
-                data-bs-toggle="modal"
-                data-bs-target="#modal_contact"
+                @click.prevent="$emit('modal:show')"
                 class="text-white opacity-50 text-hover-primary">
                 Написать нам!
               </a>

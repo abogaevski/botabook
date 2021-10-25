@@ -357,6 +357,18 @@ export default {
           }, 0)
           return d
         })
+        .catch((e) => {
+          Swal.fire({
+            title: 'Произошла ошибка!',
+            html: e,
+            icon: 'error',
+            buttonsStyling: false,
+            confirmButtonText: 'Попробовать еще раз',
+            customClass: {
+              confirmButton: 'btn btn-secondary'
+            }
+          })
+        })
     }
 
     const formSubmit = () => {
@@ -377,6 +389,18 @@ export default {
               window.location.reload()
             })
           }
+        })
+        .catch((e) => {
+          Swal.fire({
+            title: 'Произошла ошибка!',
+            html: e,
+            icon: 'error',
+            buttonsStyling: false,
+            confirmButtonText: 'Попробовать еще раз',
+            customClass: {
+              confirmButton: 'btn btn-secondary'
+            }
+          })
         })
     }
 

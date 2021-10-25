@@ -20,11 +20,16 @@
     </div>
     <div class="mb-0">
       <landing-curve-top />
-      <landing-footer />
+      <landing-footer @modal:show="showModal" />
     </div>
   </div>
+  <contact-modal
+    :showModal="isActiveContactModal"
+    @modal:close="closeModal"
+  />
 </template>
 <script>
+import { ref } from 'vue'
 import LandingHeader from '@/components/landing/LandingHeader'
 import LandingCurveBottom from '@/components/landing/_core/LandingCurveBottom'
 import LandingCurveTop from '@/components/landing/_core/LandingCurveTop'
@@ -33,6 +38,7 @@ import LandingSectionAchievements from '@/components/landing/LandingSectionAchie
 import LandingSectionTeam from '@/components/landing/LandingSectionTeam'
 import LandingHighlight from '@/components/landing/footer/LandingHighlight'
 import LandingFooter from '@/components/landing/footer/LandingFooter'
+import ContactModal from '@/components/common/ContactModal'
 
 export default {
   name: 'Landing',
@@ -44,7 +50,19 @@ export default {
     LandingSectionAchievements,
     LandingSectionTeam,
     LandingHighlight,
-    LandingFooter
+    LandingFooter,
+    ContactModal
+  },
+  emits: ['modal:show', 'modal:close'],
+  setup() {
+    const isActiveContactModal = ref(false)
+    const showModal = () => isActiveContactModal.value = true
+    const closeModal = () => isActiveContactModal.value = false
+    return {
+      isActiveContactModal,
+      showModal,
+      closeModal
+    }
   }
 }
 </script>

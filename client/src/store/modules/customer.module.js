@@ -1,5 +1,6 @@
 import CustomerService from '@/core/services/customer.service'
 import * as Mutation from '../mutation-types'
+import router from '@/router'
 
 export const getCustomerIndexById = (state, customerId) => state.customers.findIndex((customer) => customer.id.toString() === customerId.toString())
 export const getBoardColumnIndexById = (state, columnId) => state.boardColumns.findIndex((customer) => customer.id.toString() === columnId.toString())
@@ -17,43 +18,67 @@ export const customerModule = {
     boardColumns: []
   },
   actions: {
-    getCustomers({ commit }) {
+    getCustomers({ dispatch, commit }) {
       commit(Mutation.SET_LOADER, true, { root: true })
       return CustomerService.getCustomers()
         .then((customers) => {
           commit(Mutation.SET_CUSTOMERS, customers)
           commit(Mutation.SET_LOADER, false, { root: true })
         })
+        .catch((error) => {
+          dispatch('setError', error, { root: true })
+          router.push('/500')
+        })
     },
-    updateCustomer({ commit }, updatedCustomer) {
+    updateCustomer({ dispatch, commit }, updatedCustomer) {
       return CustomerService.updateCustomer(updatedCustomer)
         .then((customer) => {
           commit(Mutation.UPDATE_CUSTOMER, customer)
         })
+        .catch((error) => {
+          dispatch('setError', error, { root: true })
+          return Promise.reject(error)
+        })
     },
-    getBoard({ commit }) {
+    getBoard({ dispatch, commit }) {
       commit(Mutation.SET_LOADER, true, { root: true })
       return CustomerService.getBoard()
         .then((columns) => {
           commit(Mutation.SET_BOARD, columns)
           commit(Mutation.SET_LOADER, false, { root: true })
         })
+        .catch((error) => {
+          dispatch('setError', error, { root: true })
+          router.push('/500')
+        })
     },
-    createBoardColumn({ commit }, column) {
+    createBoardColumn({ dispatch, commit }, column) {
       return CustomerService.createBoardColumn(column)
         .then((newColumn) => {
           commit(Mutation.CREATE_BOARD_COLUMN, newColumn)
         })
+        .catch((error) => {
+          dispatch('setError', error, { root: true })
+          return Promise.reject(error)
+        })
     },
-    updateBoardColumn({ commit }, column) {
+    updateBoardColumn({ dispatch, commit }, column) {
       return CustomerService.updateBoardColumn(column)
         .then((updatedColumn) => {
           commit(Mutation.UPDATE_BOARD_COLUMN, updatedColumn)
         })
+        .catch((error) => {
+          dispatch('setError', error, { root: true })
+          return Promise.reject(error)
+        })
     },
-    deleteBoardColumn({ commit }, columnId) {
+    deleteBoardColumn({ dispatch, commit }, columnId) {
       return CustomerService.deleteBoardColumn(columnId)
         .then(() => commit(Mutation.DELETE_BOARD_COLUMN, columnId))
+        .catch((error) => {
+          dispatch('setError', error, { root: true })
+          return Promise.reject(error)
+        })
     }
   },
   mutations: {

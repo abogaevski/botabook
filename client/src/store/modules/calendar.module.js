@@ -1,5 +1,6 @@
 import CalendarService from '@/core/services/calendar.service'
 import * as Mutation from '../mutation-types'
+import router from '@/router'
 
 export const getEventIndexById = (state, eventId) => state.events.findIndex((event) => event.id.toString() === eventId.toString())
 
@@ -11,12 +12,16 @@ export const calendar = {
   },
 
   actions: {
-    getEvents({ commit }) {
+    getEvents({ dispatch, commit }) {
       commit(Mutation.SET_LOADER, true, { root: true })
       return CalendarService.getEvents()
         .then((events) => {
           commit(Mutation.GET_EVENTS, events)
           commit(Mutation.SET_LOADER, false, { root: true })
+        })
+        .catch((error) => {
+          dispatch('setError', error, { root: true })
+          router.push('/500')
         })
     },
     deleteEvent({ commit }, eventId) {
@@ -26,11 +31,15 @@ export const calendar = {
           return Promise.resolve()
         })
     },
-    updateEvent({ commit }, event) {
+    updateEvent({ dispatch, commit }, event) {
       return CalendarService.updateEvent(event.id, event)
         .then((e) => {
           commit(Mutation.UPDATE_EVENT, e)
           return Promise.resolve(e)
+        })
+        .catch((error) => {
+          dispatch('setError', error, { root: true })
+          return Promise.reject(error)
         })
     }
   },

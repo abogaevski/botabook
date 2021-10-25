@@ -14,7 +14,7 @@
         </div>
 
         <div class="text-center">
-          <router-link to="/" class="btn btn-lg btn-primary fw-bolder"
+          <router-link to="/app" class="btn btn-lg btn-primary fw-bolder"
           >На главную</router-link
           >
         </div>
@@ -22,21 +22,35 @@
     </div>
     <div class="d-flex flex-center flex-column-auto p-10">
       <div class="d-flex align-items-center fw-bold fs-6">
-        <a href="#" class="text-muted text-hover-primary px-2">Главная</a>
-
-        <a href="#" class="text-muted text-hover-primary px-2">О BotaBook</a>
-
-        <a href="#" class="text-muted text-hover-primary px-2">Связаться с нами</a>
+        <router-link to="/app" class="text-muted text-hover-primary px-2">Главная</router-link>
+        <router-link to="/" class="text-muted text-hover-primary px-2">О BotaBook</router-link>
+        <a href="#" @click.prevent="showModal" class="text-muted text-hover-primary px-2">Связаться с нами</a>
       </div>
     </div>
-
   </div>
+  <contact-modal
+    :showModal="isActiveContactModal"
+    @modal:close="closeModal"
+  />
 </template>
 
 <script>
+import { ref } from 'vue'
+import ContactModal from '@/components/common/ContactModal'
 
 export default {
   name: 'error-404',
-  components: {}
+  components: { ContactModal },
+  emits: ['modal:show', 'modal:close'],
+  setup() {
+    const isActiveContactModal = ref(false)
+    const showModal = () => isActiveContactModal.value = true
+    const closeModal = () => isActiveContactModal.value = false
+    return {
+      isActiveContactModal,
+      showModal,
+      closeModal
+    }
+  }
 }
 </script>

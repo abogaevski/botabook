@@ -85,25 +85,29 @@
     </div>
     <div class="d-flex flex-center flex-column-auto p-10">
       <div class="d-flex align-items-center fw-bold fs-6">
-        <a href="#" class="text-muted text-hover-primary px-2">О Bota</a>
-        <a href="#" class="text-muted text-hover-primary px-2">Связаться</a>
-        <a href="#" class="text-muted text-hover-primary px-2">Условия использования</a>
+        <router-link to="/" class="text-muted text-hover-primary px-2">О Bota</router-link>
+        <a href="#" @click.prevent="showModal" class="text-muted text-hover-primary px-2">Связаться</a>
       </div>
     </div>
   </div>
+  <contact-modal
+    :showModal="isActiveContactModal"
+    @modal:close="closeModal"
+  />
 </template>
 <script>
 import { Form, Field, ErrorMessage } from 'vee-validate'
 import * as Yup from 'yup'
 import Swal from 'sweetalert2/dist/sweetalert2.min'
+import ContactModal from '@/components/common/ContactModal'
 
 export default {
   name: 'SignIn',
 
   components: {
-    Form, Field, ErrorMessage
+    Form, Field, ErrorMessage, ContactModal
   },
-
+  emits: ['modal:show', 'modal:close'],
   data() {
     const signInSchema = Yup.object({
       email: Yup.string()
@@ -117,10 +121,17 @@ export default {
     });
     return {
       signInSchema,
+      isActiveContactModal: false
     };
   },
 
   methods: {
+    showModal() {
+      this.isActiveContactModal = true
+    },
+    closeModal() {
+      this.isActiveContactModal = false
+    },
     submitSignin(values) {
       this.$store
         .dispatch('auth/signin', values)
@@ -154,7 +165,7 @@ export default {
   },
   created() {
     if (this.isAuthenticated) {
-      this.$router.push('/');
+      this.$router.push('/app');
     }
   }
 }

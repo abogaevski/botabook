@@ -63,6 +63,18 @@ export default {
             }
           })
         })
+        .catch((e) => {
+          Swal.fire({
+            title: 'Произошла ошибка!',
+            html: e,
+            icon: 'error',
+            buttonsStyling: false,
+            confirmButtonText: 'Попробовать еще раз',
+            customClass: {
+              confirmButton: 'btn btn-secondary'
+            }
+          })
+        })
     },
     removeProfileAvatar() {
       const { id } = this
@@ -75,6 +87,18 @@ export default {
             confirmButtonText: 'ОК',
             customClass: {
               confirmButton: 'btn btn-warning'
+            }
+          })
+        })
+        .catch((e) => {
+          Swal.fire({
+            title: 'Произошла ошибка!',
+            html: e,
+            icon: 'error',
+            buttonsStyling: false,
+            confirmButtonText: 'Попробовать еще раз',
+            customClass: {
+              confirmButton: 'btn btn-secondary'
             }
           })
         })

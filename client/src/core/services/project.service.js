@@ -7,30 +7,35 @@ class ProjectService {
     return api
       .get('/projects/')
       .then((response) => response.data)
+      .catch((error) => error)
   }
 
   createProject(project) {
     return api
       .post('/projects/create', { ...project })
       .then((response) => response.data)
+      .catch((error) => error)
   }
 
   toggleProject(projectId, status) {
     return api
       .patch(`/projects/${projectId}`, { isActive: status })
       .then((response) => response.data)
+      .catch((error) => error)
   }
 
   updateProject(projectId, project) {
     return api
       .put(`/projects/${projectId}`, { ...project })
       .then((response) => response.data)
+      .catch((error) => error)
   }
 
   deleteProject(projectId) {
     return api
       .delete(`/projects/${projectId}`)
       .then((response) => response)
+      .catch((error) => error)
   }
 
   getPublicProjects(slug) {

@@ -1,6 +1,6 @@
 import UserService from '@/core/services/user.service'
-
 import * as Mutation from '../mutation-types'
+import router from '@/router'
 
 const initialProfile = {
   id: '',
@@ -15,41 +15,49 @@ export const userProfile = {
     userProfile: initialProfile
   },
   actions: {
-    getUserProfile({ commit }) {
+    getUserProfile({ dispatch, commit }) {
       return UserService.getUserProfile()
         .then((user) => {
           commit(Mutation.SET_USERPROFILE, user)
           return Promise.resolve()
         })
         .catch((error) => {
-          commit(Mutation.SET_ERROR, error.response, { root: true })
-          return Promise.reject(error)
+          dispatch('setError', error, { root: true })
+          router.push('/500')
         })
     },
 
-    updateUserProfile({ commit }, { values, id }) {
+    updateUserProfile({ dispatch, commit }, { values, id }) {
       return UserService.updateUserProfile(values, id)
         .then((newProfile) => {
           commit(Mutation.UPDATE_USERPROFILE, newProfile)
           return Promise.resolve()
         })
         .catch((error) => {
-          commit(Mutation.SET_ERROR, error.response, { root: true })
+          dispatch('setError', error, { root: true })
           return Promise.reject(error)
         })
     },
 
-    updateUserProfileAvatar({ commit }, { form, id }) {
+    updateUserProfileAvatar({ dispatch, commit }, { form, id }) {
       return UserService.uploadProfileAvatar(form, id)
         .then((response) => {
           commit(Mutation.UPDATE_USERPROFILE_AVATAR, response.avatar)
         })
+        .catch((error) => {
+          dispatch('setError', error, { root: true })
+          return Promise.reject(error)
+        })
     },
 
-    removeUserProfileAvatar({ commit }, id) {
+    removeUserProfileAvatar({ dispatch, commit }, id) {
       return UserService.removeProfileAvatar(id)
         .then(() => {
           commit(Mutation.REMOVE_USERPROFILE_AVATAR)
+        })
+        .catch((error) => {
+          dispatch('setError', error, { root: true })
+          return Promise.reject(error)
         })
     }
   },

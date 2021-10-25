@@ -127,23 +127,23 @@
           </div>
 
           <div class="fv-row mb-10">
-            <label class="form-check form-check-custom form-check-solid">
-              <Field
-                class="form-check-input"
-                type="checkbox"
-                name="toc"
-                value="1"
-              />
-              <span class="form-check-label fw-bold text-gray-700 fs-6">
-                Я согласен с
-                <a href="#" class="ms-1 link-primary">условиями использования</a>.
-              </span>
-            </label>
-            <div class="fv-plugins-message-container">
-              <div class="fv-help-block">
-                <ErrorMessage name="toc"/>
-              </div>
-            </div>
+<!--            <label class="form-check form-check-custom form-check-solid">-->
+<!--              <Field-->
+<!--                class="form-check-input"-->
+<!--                type="checkbox"-->
+<!--                name="toc"-->
+<!--                value="1"-->
+<!--              />-->
+<!--              <span class="form-check-label fw-bold text-gray-700 fs-6">-->
+<!--                Я согласен с-->
+<!--                <a href="#" class="ms-1 link-primary">условиями использования</a>.-->
+<!--              </span>-->
+<!--            </label>-->
+<!--            <div class="fv-plugins-message-container">-->
+<!--              <div class="fv-help-block">-->
+<!--                <ErrorMessage name="toc"/>-->
+<!--              </div>-->
+<!--            </div>-->
           </div>
 
           <div class="text-center">
@@ -159,18 +159,22 @@
     </div>
     <div class="d-flex flex-center flex-column-auto p-10">
       <div class="d-flex align-items-center fw-bold fs-6">
-        <a href="#" class="text-muted text-hover-primary px-2">О Bota</a>
-        <a href="#" class="text-muted text-hover-primary px-2">Связаться</a>
-        <a href="#" class="text-muted text-hover-primary px-2">Условия использования</a>
+        <router-link to="/" class="text-muted text-hover-primary px-2">О Bota</router-link>
+        <a href="#" @click.prevent="showModal" class="text-muted text-hover-primary px-2">Связаться</a>
       </div>
     </div>
   </div>
+  <contact-modal
+    :showModal="isActiveContactModal"
+    @modal:close="closeModal"
+  />
 </template>
 
 <script>
 import * as Yup from 'yup'
 import { Form, Field, ErrorMessage } from 'vee-validate'
-import Swal from 'sweetalert2';
+import Swal from 'sweetalert2'
+import ContactModal from '@/components/common/ContactModal'
 
 export default {
   data() {
@@ -195,18 +199,23 @@ export default {
         .required()
         .oneOf([Yup.ref('password'), null], 'Пароли должны совпадать')
         .label('Подтверждение пароля'),
-      toc: Yup.string()
-        .required()
-        .label('Подтверждение условий'),
     })
     return {
-      signupSchema
+      signupSchema,
+      isActiveContactModal: false
+
     }
   },
   components: {
-    Form, Field, ErrorMessage
+    Form, Field, ErrorMessage, ContactModal
   },
   methods: {
+    showModal() {
+      this.isActiveContactModal = true
+    },
+    closeModal() {
+      this.isActiveContactModal = false
+    },
     submitSignup(values) {
       const userData = {
         ...values,

@@ -3,7 +3,8 @@ import { createRouter, createWebHistory } from 'vue-router'
 const routes = [
   {
     path: '/app',
-    redirect: '/dashboard',
+    name: 'app',
+    redirect: { name: 'dashboard' },
     component: () => import('@/layout/Layout.vue'),
     meta: { requiresAuth: true },
     children: [

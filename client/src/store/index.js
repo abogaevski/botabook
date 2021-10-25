@@ -34,6 +34,17 @@ const states = {
   actions: {
     setTitle({ commit }, title) {
       commit(Mutation.SET_TITLE, title)
+    },
+    setError({ commit }, error) {
+      let errorData = ''
+      if (error.response) {
+        errorData = `Error: ${error.response.statusText}`
+      } else if (error.request) {
+        errorData = error
+      } else {
+        errorData = `Error ${error.message}`
+      }
+      commit(Mutation.SET_ERROR, errorData, { root: true })
     }
   },
   modules: {

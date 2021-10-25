@@ -9,6 +9,7 @@ urlpatterns = [
     path('api/v1/events/', include('events.urls')),
     path('api/v1/projects/', include('projects.urls')),
     path('api/v1/customers/', include('customers.urls')),
+    path('api/v1/notifications/', include('notifications.urls')),
     re_path(r'^webhooks/mail/', include('anymail.urls')),
 ]
 

@@ -99,6 +99,18 @@ export default {
       }).then((result) => {
         if (result.value) {
           this.toggleProject(this.project)
+            .catch((e) => {
+              Swal.fire({
+                title: 'Произошла ошибка!',
+                html: e,
+                icon: 'error',
+                buttonsStyling: false,
+                confirmButtonText: 'Попробовать еще раз',
+                customClass: {
+                  confirmButton: 'btn btn-secondary'
+                }
+              })
+            })
         }
       })
     }
