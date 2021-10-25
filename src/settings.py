@@ -25,12 +25,12 @@ env = environ.Env(
     SESSION_COOKIE_SECURE=(bool, False),
     CSRF_COOKIE_SECURE=(bool, False),
     SECURE_SSL_REDIRECT=(bool, False),
-    REDIS_PORT=(str, '6379'),
+    REDIS_PORT=(int, 6379),
     BROKER_URL=(str, ''),
-    BROKER_TRANSPORT_OPTIONS=(dict, {}),
+    BROKER_TRANSPORT_OPTIONS=(dict(value=int, cast=dict(visibility_timeout=int)), {}),
     MAILGUN_API_KEY=(str, ''),
     MAILGUN_WEBHOOK_SIGNING_KEY=(str, ''),
-    DEFAULT_FROM_EMAIL=(str, 'hello@botabook.com')
+    DEFAULT_FROM_EMAIL=(str, 'hello@botabook.com'),
 )
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -188,6 +188,7 @@ REDIS_PORT = env('REDIS_PORT')
 BROKER_URL = env('BROKER_URL')
 BROKER_TRANSPORT_OPTIONS = env('BROKER_TRANSPORT_OPTIONS')
 CELERY_RESULT_BACKEND = env('BROKER_URL')
+CELERYD_HIJACK_ROOT_LOGGER = False
 
 ANYMAIL = {
     'MAILGUN_API_KEY': env('MAILGUN_API_KEY'),
@@ -195,3 +196,47 @@ ANYMAIL = {
 }
 EMAIL_BACKEND = 'anymail.backends.mailgun.EmailBackend'
 DEFAULT_FROM_EMAIL = env('DEFAULT_FROM_EMAIL')
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'django_file': {
+            'level': 'INFO',
+            'class': 'logging.handlers.RotatingFileHandler',
+            'filename': os.path.join(BASE_DIR, 'logs/django.log'),
+            'maxBytes': 1024 * 1024 * 10,
+            'backupCount': 7,
+            'formatter': 'simple'
+        },
+        'celery': {
+            'level': 'INFO',
+            'class': 'logging.handlers.RotatingFileHandler',
+            'filename': os.path.join(BASE_DIR, 'logs/celery.log'),
+            'maxBytes': 1024 * 1024 * 10,
+            'backupCount': 7,
+            'formatter': 'simple'
+        },
+    },
+    'loggers': {
+        'django': {
+            'level': 'INFO',
+            'handlers': ['django_file'],
+            'propagate': True,
+        },
+        'celery': {
+            'level': 'INFO',
+            'handlers': ['celery'],
+        },
+    },
+    'formatters': {
+        'verbose': {
+            'format': '{levelname} {asctime} {module} {process:d} {thread:d} {message}',
+            'style': '{',
+        },
+        'simple': {
+            'format': '{asctime} {levelname} {message}',
+            'style': '{',
+        },
+    },
+}

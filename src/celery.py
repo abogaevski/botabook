@@ -4,15 +4,15 @@ from celery.schedules import crontab
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'src.settings')
 
-app = Celery('quick_publisher')
+app = Celery('botabook')
 app.config_from_object('django.conf:settings')
 
 # Load task modules from all registered Django app configs.
 app.autodiscover_tasks()
 
 app.conf.beat_schedule = {
-    'update-event-status-every-single-minute': {
+    'update-event-status-every-hour': {
         'task': 'events.tasks.update_event_status',
-        'schedule': crontab(hour='*/1')
+        'schedule': crontab(minute='*/30')
     },
 }
