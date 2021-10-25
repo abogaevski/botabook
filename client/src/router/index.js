@@ -2,7 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 
 const routes = [
   {
-    path: '/',
+    path: '/app',
     redirect: '/dashboard',
     component: () => import('@/layout/Layout.vue'),
     meta: { requiresAuth: true },
@@ -74,6 +74,11 @@ const routes = [
     path: '/signup',
     name: 'signup',
     component: () => import('@/views/auth/SignUp.vue')
+  },
+  {
+    path: '/',
+    name: 'landing-page',
+    component: () => import('@/views/landing/Landing.vue')
   },
   {
     path: '/:slug',

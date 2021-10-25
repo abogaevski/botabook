@@ -42,7 +42,7 @@ class DrawerComponent {
     this.options = Object.assign(defaultDrawerOptions, options)
     this.instanceUid = getUniqueIdWithPrefix('drawer')
     this.overlayElement = null
-    this.name = this.element.getAttribute('data-kt-drawer-name') || ''
+    this.name = this.element.getAttribute('data-bb-drawer-name') || ''
     this.shown = false
     this.toggleElement = null
     // Event Handlers
@@ -84,7 +84,7 @@ class DrawerComponent {
       `${this.options.baseClass}-on`
     )
     const bodyCanvasAttr = String(
-      document.body.getAttribute(`data-kt-drawer-${this.name}-`)
+      document.body.getAttribute(`data-bb-drawer-${this.name}-`)
     )
 
     this.shown = hasBaseClass === true && bodyCanvasAttr === 'on'

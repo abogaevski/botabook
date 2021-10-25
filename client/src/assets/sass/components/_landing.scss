@@ -3,7 +3,7 @@
 //
 
 // Variables
-$landing-dark-color: #13263C;
+$landing-dark-color: #141E30;
 $landing-header-height: 100px;
 $landing-header-height-tablet-and-mobile: 70px;
 $landing-header-sticky-height: 70px;
@@ -12,10 +12,21 @@ $landing-header-sticky-height-tablet-and-mobile: 70px;
 // Utility classes
 .landing-dark-bg {
     background-color: $landing-dark-color;
+    background: -webkit-linear-gradient(to bottom, #243B55, #141E30);  /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to bottom, #243B55, #141E30); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
 }
 
 .landing-dark-color {
-    color: $landing-dark-color;
+    color: #243B55;
+}
+
+.landing-dark-color-top {
+    color: #243B55;
+}
+
+.landing-dark-color-bottom {
+    color: #141E30;
 }
 
 .landing-dark-border {
@@ -61,7 +72,7 @@ $landing-header-sticky-height-tablet-and-mobile: 70px;
         }
 
         // Header menu sticky mode
-        [data-bb-sticky-landing-header="on"] & {
+        [data-kt-sticky-landing-header="on"] & {
             // Menu link
             .menu-link {
                 &.active {
@@ -73,7 +84,7 @@ $landing-header-sticky-height-tablet-and-mobile: 70px;
     }
 
     // Sticky header modes
-    [data-bb-sticky-landing-header="on"] & {
+    [data-kt-sticky-landing-header="on"] & {
         padding: 0;
         position: fixed;
         top: 0;
@@ -96,7 +107,7 @@ $landing-header-sticky-height-tablet-and-mobile: 70px;
 }
 
 // Fix body padding top when Landing sticky header is on
-body[data-bb-sticky-landing-header="on"] {
+body[data-kt-sticky-landing-header="on"] {
     padding-top: $landing-header-height;
 }
 
@@ -113,7 +124,7 @@ body[data-bb-sticky-landing-header="on"] {
         }
 
         // Sticky header modes
-        [data-bb-sticky-landing-header="on"] & {
+        [data-kt-sticky-landing-header="on"] & {
             height: $landing-header-sticky-height-tablet-and-mobile;
         }
 
@@ -130,7 +141,15 @@ body[data-bb-sticky-landing-header="on"] {
     }
 
     // Fix body padding top when Landing sticky header is on
-    body[data-bb-sticky-landing-header="on"] {
+    body[data-kt-sticky-landing-header="on"] {
         padding-top: $landing-header-height-tablet-and-mobile;
     }
 }
+//.footer-highlight {
+//    border-top-left-radius: 0;
+//    border-top-right-radius: 0;
+//}
+//.countdown-card {
+//    border-bottom-left-radius: 0;
+//    border-bottom-right-radius: 0;
+//}
