@@ -13,20 +13,44 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 import os
 from pathlib import Path
 from datetime import timedelta
+import environ
+
+# Initialise environment variables
+env = environ.Env(
+    ALLOWED_ORIGINS=(list, []),
+    ALLOWED_HOSTS=(list, []),
+    DEBUG=(bool, False),
+    SECRET_KEY=(str, 'django-insecure-oc!!s=6a%_+o-d&4*cnjt5tb_(yj70dq4v!tii!-a_p139+ro+'),
+    REDIS_HOST=(str, 'localhost'),
+    SESSION_COOKIE_SECURE=(bool, False),
+    CSRF_COOKIE_SECURE=(bool, False),
+    SECURE_SSL_REDIRECT=(bool, False),
+    REDIS_PORT=(str, '6379'),
+    BROKER_URL=(str, ''),
+    BROKER_TRANSPORT_OPTIONS=(dict, {}),
+    MAILGUN_API_KEY=(str, ''),
+    MAILGUN_WEBHOOK_SIGNING_KEY=(str, ''),
+    DEFAULT_FROM_EMAIL=(str, 'hello@botabook.com')
+)
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+
+environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-oc!!s=6a%_+o-d&4*cnjt5tb_(yj70dq4v!tii!-a_p139+ro+'
+SECRET_KEY = env('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = env('DEBUG')
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = env('ALLOWED_HOSTS')
+CSRF_COOKIE_SECURE = env('CSRF_COOKIE_SECURE')
+SESSION_COOKIE_SECURE = env('SESSION_COOKIE_SECURE')
+SECURE_SSL_REDIRECT = env('SECURE_SSL_REDIRECT')
 
 # Application definition
 
@@ -83,10 +107,7 @@ WSGI_APPLICATION = 'src.wsgi.application'
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
+    'default': env.db()
 }
 
 # Password validation
@@ -156,30 +177,21 @@ SIMPLE_JWT = {
     'ACCESS_TOKEN_LIFETIME': timedelta(hours=1),
     'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
 }
-CORS_ALLOWED_ORIGINS = [
-    "http://localhost:8080",
-    "http://127.0.0.1:8080"
-]
+CORS_ALLOWED_ORIGINS = env('ALLOWED_ORIGINS')
 
-MEDIA_URL = "/media/"
+MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
-# CORS_ORIGIN_ALLOW_ALL = True
-# CORS_ALLOW_CREDENTIALS = True
-
 # REDIS related settings
-REDIS_HOST = 'localhost'
-REDIS_PORT = '6379'
-BROKER_URL = 'redis://' + REDIS_HOST + ':' + REDIS_PORT + '/0'
-BROKER_TRANSPORT_OPTIONS = {'visibility_timeout': 3600}
-CELERY_RESULT_BACKEND = 'redis://' + REDIS_HOST + ':' + REDIS_PORT + '/0'
+REDIS_HOST = env('REDIS_HOST')
+REDIS_PORT = env('REDIS_PORT')
+BROKER_URL = env('BROKER_URL')
+BROKER_TRANSPORT_OPTIONS = env('BROKER_TRANSPORT_OPTIONS')
+CELERY_RESULT_BACKEND = env('BROKER_URL')
 
 ANYMAIL = {
-    'MAILGUN_API_KEY': 'ed6703fbcd2f093a82d2ea4d05b85d15-2bf328a5-ee5ebb66',
-    'MAILGUN_WEBHOOK_SIGNING_KEY': 'ed6703fbcd2f093a82d2ea4d05b85d15-2bf328a5-ee5ebb66',
-    # 'MAILGUN_API_URL': 'https://api.eu.mailgun.net/v3',
-    'WEBHOOK_SECRET': 'PWCsZeo7B5oPjPHD:ljRoMrVhl1NRUDVC'
+    'MAILGUN_API_KEY': env('MAILGUN_API_KEY'),
+    'MAILGUN_WEBHOOK_SIGNING_KEY': env('MAILGUN_WEBHOOK_SIGNING_KEY'),
 }
 EMAIL_BACKEND = 'anymail.backends.mailgun.EmailBackend'
-# DEFAULT_FROM_EMAIL = 'you@example.com'
-# SERVER_EMAIL = "your-server@example.com"
+DEFAULT_FROM_EMAIL = env('DEFAULT_FROM_EMAIL')
