@@ -1,6 +1,10 @@
+from django.contrib.auth.tokens import PasswordResetTokenGenerator
+from django.utils.encoding import force_str
+from django.utils.http import urlsafe_base64_decode
 from rest_framework import serializers
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from django.contrib.auth import get_user_model
+from rest_framework.exceptions import AuthenticationFailed
 
 from accounts.models import Profile
 
@@ -138,3 +142,39 @@ class PublicProfileRetrieveSerializer(serializers.ModelSerializer):
         if profile.avatar != "":
             avatar_url = profile.avatar.url
             return request.build_absolute_uri(avatar_url)
+
+
+class RequestPasswordResetSerializer(serializers.Serializer):
+    email = serializers.EmailField(min_length=1)
+
+    class Meta:
+        fields = ['email']
+
+
+class SetNewPasswordSerializer(serializers.Serializer):
+    password = serializers.CharField(min_length=8, max_length=68, write_only=True)
+    uid64 = serializers.CharField(min_length=1, write_only=True)
+    token = serializers.CharField(min_length=1, write_only=True)
+
+    class Meta:
+        fields = ['password', 'uid64', 'token']
+
+    def validate(self, attrs):
+        try:
+            password = attrs.get('password')
+            uid64 = attrs.get('uid64')
+            token = attrs.get('token')
+
+            id = force_str(urlsafe_base64_decode(uid64))
+            user = get_user_model().objects.get(id=id)
+
+            if not PasswordResetTokenGenerator().check_token(user, token):
+                raise AuthenticationFailed('The reset link is invalid', 401)
+
+            user.set_password(password)
+            user.save()
+
+        except Exception:
+            raise AuthenticationFailed('The reset link is invalid', 401)
+
+        return super().validate(attrs)

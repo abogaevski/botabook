@@ -2,6 +2,11 @@ import axiosInstance from './api'
 import TokenService from './token.service'
 import EventBus from '@/core/EventBus'
 
+const excludedUrls = [
+  '/account/signin',
+  '/account/signup',
+  '/account/reset-password',
+]
 const setup = (store) => {
   axiosInstance.interceptors.request.use(
     (config) => {
@@ -18,7 +23,7 @@ const setup = (store) => {
     (res) => res,
     async (err) => {
       const originalConfig = err.config
-      if (originalConfig.url !== '/account/signin' && err.response) {
+      if (excludedUrls.includes(originalConfig.url) && err.response) {
         if (err.response.status === 401 && originalConfig.url === '/account/token/refresh') {
           TokenService.removeUser()
           EventBus.dispatch('signout')

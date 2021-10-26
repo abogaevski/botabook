@@ -77,6 +77,16 @@ const routes = [
     component: () => import('@/views/auth/SignUp.vue')
   },
   {
+    path: '/reset-password',
+    name: 'reset-password',
+    component: () => import('@/views/auth/reset-password/ResetPasswordRequest.vue')
+  },
+  {
+    path: '/reset-password/:uid64/:token',
+    name: 'reset-password-confirm',
+    component: () => import('@/views/auth/reset-password/ResetPasswordConfirm.vue')
+  },
+  {
     path: '/',
     name: 'landing-page',
     component: () => import('@/views/landing/Landing.vue')

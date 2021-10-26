@@ -11,5 +11,8 @@ urlpatterns = [
     path('user/<int:pk>/upload-avatar', ProfileAvatarUploadApiView.as_view()),
     path('user/<int:pk>/remove-avatar', ProfileAvatarRemoveApiView.as_view()),
     path('profile/<str:slug>/info', PublicProfileApiView.as_view()),
-    path('profile/check-slug/<str:slug>', CheckProfileSlugApiView.as_view())
+    path('profile/check-slug/<str:slug>', CheckProfileSlugApiView.as_view()),
+    path('request-reset-password', RequestPasswordResetApiView.as_view(), name='request-reset-password'),
+    path('reset-password/<uid64>/<token>', PasswordTokenCheckApiView.as_view(), name='reset-password-confirm'),
+    path('reset-password-complete', SetNewPasswordApiView.as_view(), name='reset-password-complete')
 ]

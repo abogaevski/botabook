@@ -171,6 +171,9 @@ REST_FRAMEWORK = {
         'rest_framework_simplejwt.authentication.JWTAuthentication',
         'rest_framework.authentication.TokenAuthentication'
     ],
+    'JSON_UNDERSCOREIZE': {
+        'no_underscore_before_number': True,
+    },
 }
 
 SIMPLE_JWT = {
@@ -222,7 +225,6 @@ LOGGING = {
         'django': {
             'level': 'INFO',
             'handlers': ['django_file'],
-            'propagate': True,
         },
         'celery': {
             'level': 'INFO',

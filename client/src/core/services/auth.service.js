@@ -29,6 +29,23 @@ class AuthService {
         return response.data;
       });
   }
+
+  requestPasswordReset(email) {
+    return api.post('/account/request-reset-password', { ...email })
+      .then((response) => response.data)
+  }
+
+  confirmPasswordReset(uid64, token) {
+    return api.get(`/account/reset-password/${uid64}/${token}`)
+      .then((response) => response.data)
+      .catch((e) => Promise.reject(e))
+  }
+
+  completePasswordReset(data) {
+    return api.patch('/account/reset-password-complete', { ...data })
+      .then((response) => response.data)
+      .catch((e) => Promise.reject(e))
+  }
 }
 
 export default new AuthService();

@@ -50,7 +50,7 @@
               <label class="form-label fw-bolder text-dark fs-6 mb-0"
               >Пароль</label>
               <router-link
-                to="/password-reset"
+                to="/reset-password"
                 class="link-primary fs-6 fw-bolder"
               >
                 Забыли пароль ?
