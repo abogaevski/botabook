@@ -52,7 +52,6 @@ class SigninTokenObtainPairSerializer(TokenObtainPairSerializer):
 
 class ProfileSerializer(serializers.ModelSerializer):
     avatar = serializers.SerializerMethodField()
-    project_count = serializers.SerializerMethodField()
 
     class Meta:
         model = Profile
@@ -80,15 +79,6 @@ class ProfileSerializer(serializers.ModelSerializer):
         if profile.avatar != "":
             avatar_url = profile.avatar.url
             return request.build_absolute_uri(avatar_url)
-
-    def get_project_count(self, profile):
-        user = profile.user
-        response = {
-            'all': user.projects.count(),
-            'active': user.projects.filter(is_active=True).count(),
-            'disabled': user.projects.filter(is_active=False).count()
-        }
-        return response
 
 
 class ProfileUpdateSerializer(serializers.ModelSerializer):
