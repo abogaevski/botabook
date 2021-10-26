@@ -9,7 +9,7 @@ def send_contact_request(data):
     body = render_to_string("notifications/new_request.html", data)
     msg = EmailMultiAlternatives(
         subject=subject,
-        to=['anton.botabook@gmail.com']
+        to=['hello.botabook@gmail.com']
     )
-    msg.attach_alternative(body, "text/html")
+    msg.attach_alternative(body, 'text/html')
     msg.send()

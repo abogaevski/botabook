@@ -48,7 +48,7 @@ class EventRetrieveApiView(generics.RetrieveUpdateDestroyAPIView):
         if 'status' in serializer.validated_data:
             send_approve_status_notification.delay(serializer.instance.id, serializer.validated_data['status'])
             if serializer.validated_data['status'] != 3:
-                remind_time = datetime.now() + timedelta(minutes=1)
+                remind_time = serializer.instance.start - timedelta(hours=1)
                 set_event_reminder.apply_async([serializer.instance.id], eta=remind_time)
 
         if 'link' in serializer.validated_data:
