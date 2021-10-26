@@ -146,10 +146,10 @@ export default {
         .required()
         .label('Сообщение')
     })
-    const submitContactForm = (values) => {
+    const submitContactForm = (values, { resetForm }) => {
       PublicService.sendNotificationRequest(values)
-        .then((d) => {
-          if (d === 'ok') {
+        .then((response) => {
+          if (response.success) {
             Swal.fire({
               title: 'Запрос отправлен!',
               icon: 'success',
@@ -161,6 +161,7 @@ export default {
                 cancelButton: 'btn btn-active-light'
               }
             })
+            resetForm()
             emit('modal:close')
           }
         })

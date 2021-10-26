@@ -9,4 +9,4 @@ class PublicContactRequestApiView(generics.GenericAPIView):
     def post(self, request):
         data = request.data
         send_contact_request.delay(data)
-        return Response('ok')
+        return Response({'success': True})

@@ -11,7 +11,7 @@ app.config_from_object('django.conf:settings')
 app.autodiscover_tasks()
 
 app.conf.beat_schedule = {
-    'update-event-status-every-hour': {
+    'update-event-status-every-30-minutes': {
         'task': 'events.tasks.update_event_status',
         'schedule': crontab(minute='*/30')
     },
