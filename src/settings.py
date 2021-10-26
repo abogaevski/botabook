@@ -30,6 +30,8 @@ env = environ.Env(
     BROKER_TRANSPORT_OPTIONS=(dict(value=int, cast=dict(visibility_timeout=int)), {}),
     MAILGUN_API_KEY=(str, ''),
     MAILGUN_WEBHOOK_SIGNING_KEY=(str, ''),
+    MAILGUN_SENDER_DOMAIN=(str, ''),
+    MAILGUN_API_URL=(str, ''),
     DEFAULT_FROM_EMAIL=(str, 'hello@botabook.com'),
     FRONTEND_URL=(str, 'https://botabook.com')
 )
@@ -197,6 +199,8 @@ CELERYD_HIJACK_ROOT_LOGGER = False
 ANYMAIL = {
     'MAILGUN_API_KEY': env('MAILGUN_API_KEY'),
     'MAILGUN_WEBHOOK_SIGNING_KEY': env('MAILGUN_WEBHOOK_SIGNING_KEY'),
+    'MAILGUN_SENDER_DOMAIN': env('MAILGUN_SENDER_DOMAIN'),
+    'MAILGUN_API_URL': env('MAILGUN_API_URL')
 }
 EMAIL_BACKEND = 'anymail.backends.mailgun.EmailBackend'
 DEFAULT_FROM_EMAIL = env('DEFAULT_FROM_EMAIL')
