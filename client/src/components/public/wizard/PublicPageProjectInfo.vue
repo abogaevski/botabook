@@ -2,7 +2,7 @@
   <div v-if="project" class="d-none d-lg-flex flex-column">
     <div class="d-flex flex-row align-items-center mb-5">
       <div class="symbol symbol-50px w-50px bg-light me-3">
-        <span class="symbol-label fw-bolder text-primary" :class="`bg-light-${project.color}`">{{ initial }}</span>
+        <span class="symbol-label fw-bolder" :class="`bg-light-${project.color} text-${project.color}`">{{ initial }}</span>
       </div>
       <div class="text-dark fs-5 fw-bolder">{{ project.title }}</div>
     </div>

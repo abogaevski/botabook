@@ -1,5 +1,6 @@
 import uuid
 
+import jwt
 from django.conf import settings
 from django.contrib.auth.tokens import PasswordResetTokenGenerator
 from django.db.models import Q
@@ -14,7 +15,7 @@ from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework.parsers import MultiPartParser, FormParser
 
 from .serializers import *
-from .tasks import send_request_password_reset_url
+from .tasks import send_request_password_reset_url, send_email_verification_url
 from .utils import get_tokens_for_user
 
 user_model = get_user_model()
@@ -29,12 +30,10 @@ class SignUpApiView(generics.GenericAPIView):
         user = serializer.save()
         token = get_tokens_for_user(user)
 
-        response = Response({
-            'access': token['access'],
-            'refresh': token['refresh']
-        })
+        url = '{}/verify-email/{}'.format(settings.FRONTEND_URL, token['access'])
+        send_email_verification_url.delay(user.email, user.profile.first_name, url)
 
-        return response
+        return Response({'access': token['access'], 'refresh': token['refresh']})
 
 
 class SigninTokenObtainPairView(TokenObtainPairView):
@@ -150,3 +149,30 @@ class SetNewPasswordApiView(generics.GenericAPIView):
         serializer = self.serializer_class(data=request.data)
         serializer.is_valid(raise_exception=True)
         return Response({'success': True, 'message': 'Password have been reset'}, status=status.HTTP_200_OK)
+
+
+class VerifyEmailApiView(generics.GenericAPIView):
+    def get(self, request):
+        token = request.GET.get('token')
+        try:
+            payload = jwt.decode(token, settings.SECRET_KEY, algorithms="HS256")
+            user = user_model.objects.get(id=payload['user_id'])
+            if not user.is_verified:
+                user.is_verified = True
+                user.save()
+            return Response({'success': True, 'message': 'email_verify_success'}, status=status.HTTP_200_OK)
+        except jwt.ExpiredSignatureError as e:
+            return Response({'success': False, 'message': 'activation_link_expired'}, status=status.HTTP_400_BAD_REQUEST)
+        except jwt.exceptions.DecodeError as e:
+            return Response({'success': False, 'message': 'token_not_valid'}, status=status.HTTP_400_BAD_REQUEST)
+
+
+class SendVerifyEmailMessage(generics.GenericAPIView):
+    def get(self, request):
+        user = request.user
+        token = get_tokens_for_user(user)
+
+        url = '{}/verify-email/{}'.format(settings.FRONTEND_URL, token['access'])
+        send_email_verification_url.delay(user.email, user.profile.first_name, url)
+
+        return Response({'success': True, 'message': 'verify_email_sent'})

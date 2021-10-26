@@ -114,7 +114,7 @@ class UserRetrieveSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = get_user_model()
-        fields = ['id', 'email', 'profile']
+        fields = ['id', 'email', 'is_verified', 'profile']
 
 
 class PublicProfileRetrieveSerializer(serializers.ModelSerializer):

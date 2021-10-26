@@ -87,6 +87,11 @@ const routes = [
     component: () => import('@/views/auth/reset-password/ResetPasswordConfirm.vue')
   },
   {
+    path: '/verify-email/:token',
+    name: 'verify-email',
+    component: () => import('@/views/auth/VerifyEmail.vue')
+  },
+  {
     path: '/',
     name: 'landing-page',
     component: () => import('@/views/landing/Landing.vue')

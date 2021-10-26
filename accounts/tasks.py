@@ -13,3 +13,15 @@ def send_request_password_reset_url(to, url):
     )
     msg.attach_alternative(body, "text/html")
     msg.send()
+
+
+@app.task
+def send_email_verification_url(to, name, url):
+    subject = 'BotaBook: Подтверждение адреса электронной почты'
+    body = render_to_string('accounts/email/email_verify.html', {'url': url, 'name': name})
+    msg = EmailMultiAlternatives(
+        subject=subject,
+        to=[to]
+    )
+    msg.attach_alternative(body, "text/html")
+    msg.send()

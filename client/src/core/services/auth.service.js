@@ -46,6 +46,18 @@ class AuthService {
       .then((response) => response.data)
       .catch((e) => Promise.reject(e))
   }
+
+  verifyEmail(token) {
+    return api.get(`/account/verify-email?token=${token}`)
+      .then((response) => response.data)
+      .catch((e) => Promise.reject(e))
+  }
+
+  requestEmailVerification() {
+    return api.get('/account/request-email-verification')
+      .then((response) => response.data)
+      .catch((e) => Promise.reject(e))
+  }
 }
 
 export default new AuthService();

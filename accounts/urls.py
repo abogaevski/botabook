@@ -14,5 +14,7 @@ urlpatterns = [
     path('profile/check-slug/<str:slug>', CheckProfileSlugApiView.as_view()),
     path('request-reset-password', RequestPasswordResetApiView.as_view(), name='request-reset-password'),
     path('reset-password/<uid64>/<token>', PasswordTokenCheckApiView.as_view(), name='reset-password-confirm'),
-    path('reset-password-complete', SetNewPasswordApiView.as_view(), name='reset-password-complete')
+    path('reset-password-complete', SetNewPasswordApiView.as_view(), name='reset-password-complete'),
+    path('verify-email', VerifyEmailApiView.as_view(), name='verify-email'),
+    path('request-email-verification', SendVerifyEmailMessage.as_view())
 ]
