@@ -81,7 +81,7 @@ export const project = {
     [Mutation.UPDATE_PROJECT](state, updatedProject) {
       const index = getProjectIndexById(state, updatedProject.id)
       if (index === -1) {
-        return console.warn(`Unable to delete event (id ${updatedProject.id})`)
+        return
       }
       return state.projects.splice(index, 1, {
         ...state.projects[index],
@@ -91,7 +91,7 @@ export const project = {
     [Mutation.DELETE_PROJECT](state, projectId) {
       const index = getProjectIndexById(state, projectId)
       if (index === -1) {
-        return console.warn(`Unable to delete event (id ${projectId})`)
+        return
       }
 
       return state.projects.splice(index, 1)

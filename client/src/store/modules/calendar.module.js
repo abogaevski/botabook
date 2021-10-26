@@ -51,7 +51,7 @@ export const calendar = {
     [Mutation.UPDATE_EVENT](state, event) {
       const index = getEventIndexById(state, event.id)
       if (index === -1) {
-        return console.warn(`Unable to delete event (id ${event.id})`)
+        return
       }
       return state.events.splice(index, 1, {
         ...state.events[index],
@@ -60,11 +60,9 @@ export const calendar = {
     },
     [Mutation.DELETE_EVENT](state, eventId) {
       const index = getEventIndexById(state, eventId)
-
       if (index === -1) {
-        return console.warn(`Unable to delete event (id ${eventId})`)
+        return
       }
-
       return state.events.splice(index, 1)
     },
   },

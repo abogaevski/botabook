@@ -448,7 +448,6 @@ export default {
     })
     const profileSubmit = (values) => {
       const { id } = user.value
-      console.log(values)
       store.dispatch('userProfile/updateUserProfile', { values, id })
         .then(() => {
           Swal.fire({

@@ -194,7 +194,6 @@ export default {
     ...mapActions('project', ['createProject']),
 
     submitProject(project, actions) {
-      console.log(project)
       this.createProject(project)
         .then(() => {
           Swal.fire({

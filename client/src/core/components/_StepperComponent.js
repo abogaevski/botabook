@@ -263,7 +263,6 @@ class StepperComponent {
   off = (name = '') => EventHandlerUtil.off(this.element, name);
 
   destroy = () => {
-    console.log('destroy stepper');
   };
 
   trigger = (name = '', event) => EventHandlerUtil.trigger(this.element, name, event);

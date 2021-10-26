@@ -97,7 +97,7 @@ export const customerModule = {
     [Mutation.UPDATE_BOARD_COLUMN](state, updatedColumn) {
       const index = getBoardColumnIndexById(state, updatedColumn.id)
       if (index === -1) {
-        return console.warn(`Unable to delete event (id ${updatedColumn.id})`)
+        return
       }
       if (state.boardColumns[index].isPrimary !== updatedColumn.isPrimary) {
         state.boardColumns.find((c) => c.isPrimary).isPrimary = false
@@ -111,7 +111,7 @@ export const customerModule = {
     [Mutation.DELETE_BOARD_COLUMN](state, columnId) {
       const index = getBoardColumnIndexById(state, columnId)
       if (index === -1) {
-        return console.warn(`Unable to delete event (id ${columnId})`)
+        return
       }
       const customers = state.boardColumns[index].customers.map((c) => c.id)
       if (customers.length !== 0) {
@@ -124,7 +124,7 @@ export const customerModule = {
     [Mutation.UPDATE_CUSTOMER](state, updatedCustomer) {
       const index = getCustomerIndexById(state, updatedCustomer.id)
       if (index === -1) {
-        return console.warn(`Unable to delete event (id ${updatedCustomer.id})`)
+        return
       }
       return state.customers.splice(index, 1, {
         ...state.customers[index],

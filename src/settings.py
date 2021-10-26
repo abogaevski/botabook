@@ -17,7 +17,7 @@ import environ
 
 # Initialise environment variables
 env = environ.Env(
-    ALLOWED_ORIGINS=(list, []),
+    CORS_ALLOW_ALL_ORIGINS=(bool, True),
     ALLOWED_HOSTS=(list, []),
     DEBUG=(bool, False),
     SECRET_KEY=(str, 'django-insecure-oc!!s=6a%_+o-d&4*cnjt5tb_(yj70dq4v!tii!-a_p139+ro+'),
@@ -183,7 +183,7 @@ SIMPLE_JWT = {
     'ACCESS_TOKEN_LIFETIME': timedelta(hours=1),
     'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
 }
-CORS_ALLOWED_ORIGINS = env('ALLOWED_ORIGINS')
+CORS_ALLOW_ALL_ORIGINS = env('CORS_ALLOW_ALL_ORIGINS')
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
