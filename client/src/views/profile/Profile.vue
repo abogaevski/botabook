@@ -122,6 +122,82 @@
               </div>
             </div>
           </div>
+          <div class="d-flex flex-wrap flex-stack">
+            <div class="d-flex flex-column flex-grow-1 pe-8">
+              <div class="d-flex flex-wrap">
+
+                <div class="border border-gray-300 border-dashed rounded min-w-125px py-3 px-4 me-6 mb-3">
+                  <div class="d-flex align-items-center">
+                    <span
+                      :class="{ 'svg-icon-success': user.profile.projectCount.all > 0 }"
+                      class="svg-icon svg-icon-2 me-2"
+                    >
+                      <inline-svg
+                        :src="user.profile.projectCount.all > 0
+                          ? '/media/icons/duotone/General/Like.svg'
+                          : '/media/icons/duotone/General/Update.svg'"
+                      />
+                    </span>
+                    <div
+                      class="fs-2 fw-bolder"
+                      data-kt-countup="true"
+                      :data-kt-countup-value="user.profile.projectCount.all"
+                    >
+                      {{ user.profile.projectCount.all }}
+                    </div>
+                  </div>
+                  <div class="fw-bold fs-6 text-gray-400">Всего услуг</div>
+                </div>
+
+                <div class="border border-gray-300 border-dashed rounded min-w-125px py-3 px-4 me-6 mb-3">
+                  <div class="d-flex align-items-center">
+                    <span
+                      :class="{ 'svg-icon-success': user.profile.projectCount.active > 0 }"
+                      class="svg-icon svg-icon-2 me-2"
+                    >
+                      <inline-svg
+                        :src="user.profile.projectCount.active > 0
+                        ? '/media/icons/duotone/General/Like.svg'
+                        : '/media/icons/duotone/General/Update.svg'"
+                      />
+                    </span>
+                    <div
+                      class="fs-2 fw-bolder"
+                      data-kt-countup="true"
+                      :data-kt-countup-value="user.profile.projectCount.active"
+                    >
+                      {{ user.profile.projectCount.active }}
+                    </div>
+                  </div>
+                  <div class="fw-bold fs-6 text-gray-400">Активных услуг</div>
+                </div>
+
+                <div class="border border-gray-300 border-dashed rounded min-w-125px py-3 px-4 me-6 mb-3">
+                  <div class="d-flex align-items-center">
+                    <span
+                      :class="{ 'svg-icon-success': user.profile.projectCount.disabled < 0 }"
+                      class="svg-icon svg-icon-2 me-2"
+                    >
+                      <inline-svg
+                        :src="user.profile.projectCount.disabled < 0
+                        ? '/media/icons/duotone/General/Like.svg'
+                        : '/media/icons/duotone/General/Update.svg'"
+
+                      />
+                    </span>
+                    <div
+                      class="fs-2 fw-bolder"
+                      data-kt-countup="true"
+                      :data-kt-countup-value="user.profile.projectCount.disabled"
+                    >
+                      {{ user.profile.projectCount.disabled }}
+                    </div>
+                  </div>
+                  <div class="fw-bold fs-6 text-gray-400">Неактивных услуг</div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
 
