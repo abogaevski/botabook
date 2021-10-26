@@ -31,6 +31,7 @@ env = environ.Env(
     MAILGUN_API_KEY=(str, ''),
     MAILGUN_WEBHOOK_SIGNING_KEY=(str, ''),
     DEFAULT_FROM_EMAIL=(str, 'hello@botabook.com'),
+    FRONTEND_URL=(str, 'https://botabook.com')
 )
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -199,6 +200,7 @@ ANYMAIL = {
 }
 EMAIL_BACKEND = 'anymail.backends.mailgun.EmailBackend'
 DEFAULT_FROM_EMAIL = env('DEFAULT_FROM_EMAIL')
+FRONTEND_URL = env('FRONTEND_URL')
 
 LOGGING = {
     'version': 1,

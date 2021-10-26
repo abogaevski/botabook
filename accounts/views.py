@@ -1,9 +1,8 @@
 import uuid
 
+from django.conf import settings
 from django.contrib.auth.tokens import PasswordResetTokenGenerator
-from django.contrib.sites.shortcuts import get_current_site
 from django.db.models import Q
-from django.urls import reverse
 from django.utils.encoding import smart_bytes, smart_str, DjangoUnicodeDecodeError
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from rest_framework import generics, status
@@ -122,7 +121,7 @@ class RequestPasswordResetApiView(generics.GenericAPIView):
             uid64 = urlsafe_base64_encode(smart_bytes(user.id))
             token = PasswordResetTokenGenerator().make_token(user)
             relative_link = '/reset-password/{}/{}'.format(uid64, token)
-            url = 'http://localhost:8080' + relative_link
+            url = settings.FRONTEND_URL + relative_link
             send_request_password_reset_url.delay(user.email, url)
         return Response({'success': 'Confirmation link have been sent to email'})
 

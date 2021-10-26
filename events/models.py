@@ -44,7 +44,6 @@ class Event(models.Model):
     created_at = models.DateTimeField(auto_now=True)
 
     status = models.CharField(max_length=255, choices=STATUSES, default=NEW)
-    # is_approved = models.BooleanField(default=False)
 
     link = models.URLField(max_length=1000, blank=True, null=True)
     description = models.TextField(null=True, blank=True)

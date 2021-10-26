@@ -1,5 +1,6 @@
 from datetime import datetime
 import pytz
+from django.conf import settings
 from django.template.loader import render_to_string
 
 from src.celery import app
@@ -30,7 +31,7 @@ def send_successful_booking_notification(event_id):
         'c_name': event.customer.name,
         'project': event.project.title,
         'time': event.start.astimezone(tz).strftime(format='%d.%m.%Y %H:%M'),
-        'url': 'http://localhost:8080/calendar',
+        'url': settings.FRONTEND_URL + '/calendar',
         'message': event.description
     }
     customer_values = {
@@ -57,7 +58,7 @@ def send_approve_status_notification(event_id, status):
             'u_name': event.user.profile.first_name,
             'time': event.start.astimezone(tz).strftime(format='%d.%m.%Y %H:%M'),
             'status': status,
-            'url': 'http://localhost:8080/{}'.format(event.user.profile.slug),
+            'url': '{}/{}'.format(settings.FRONTEND_URL, event.user.profile.slug),
             'message': event.description,
             'project': event.project.title
         }
@@ -125,7 +126,7 @@ def set_event_reminder(event_id):
         _set_event_reminder_for_customer(customer_values)
         _set_event_reminder_for_user(user_values)
     except:
-        print('Error: Event does not exist')
+        print('Error: SOMETHING HAPPENED')
 
 
 def _send_successful_booking_notification_to_user(values):
@@ -155,7 +156,6 @@ def _set_event_reminder_for_user(values):
 def send_notification(subject, body, to):
     msg = EmailMultiAlternatives(
         subject=subject,
-        from_email='mailgun@sandbox00c3076804094c3eb079e6eed468e713.mailgun.org',
         to=[to]
     )
     msg.attach_alternative(body, "text/html")
