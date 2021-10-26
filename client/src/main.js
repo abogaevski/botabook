@@ -22,6 +22,8 @@ import initMoment from '@/core/plugins/moment'
 
 Chart.register(...registerables)
 
+Chart.register(...registerables);
+
 const app = createApp(App)
 app.use(store)
 app.use(router)
