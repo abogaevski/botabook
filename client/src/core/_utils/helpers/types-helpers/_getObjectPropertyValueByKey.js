@@ -1,6 +1,7 @@
 export function getObjectPropertyValueByKey(obj = {}, key = '') {
   const map = new Map(Object.entries(obj));
-  if (Object.hasOwn(obj, key) && map) {
+  // eslint-disable-next-line no-prototype-builtins
+  if (obj.hasOwnProperty(key) && map) {
     return map.get(key);
   }
 }

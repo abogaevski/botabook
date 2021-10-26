@@ -20,9 +20,10 @@
 <script>
 import { computed, onMounted, watch } from 'vue'
 import { useStore } from 'vuex'
-import { useRouter } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import EventBus from '@/core/EventBus'
 import { MenuComponent } from '@/core/components/MenuComponent'
+import { DrawerComponent } from '@/core/_utils/_DrawerComponent'
 import Loader from '@/components/Loader.vue'
 import Aside from './aside/Aside.vue'
 import Header from './header/Header.vue'
@@ -33,6 +34,7 @@ export default {
   components: { Aside, Header, Loader, Footer, UserNotVerified },
   setup() {
     const router = useRouter()
+    const route = useRoute()
     const store = useStore()
     const loader = computed(() => store.getters.loader)
     store.dispatch('userProfile/getUserProfile')
@@ -55,6 +57,16 @@ export default {
     watch(loader, (l) => {
       l ? document.body.classList.add('page-loading') : document.body.classList.remove('page-loading')
     })
+    DrawerComponent.bootstrap();
+    DrawerComponent.updateAll();
+
+    watch(
+      () => route.path,
+      () => {
+        MenuComponent.hideDropdowns(undefined);
+        DrawerComponent.hideAll();
+      }
+    );
     return {
       loader,
       user

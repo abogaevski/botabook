@@ -278,7 +278,21 @@ class DrawerComponent {
       if (!drawer) {
         drawer = new DrawerComponent(item, defaultDrawerOptions)
       }
+      drawer.element = item;
       drawer.hide()
+    })
+  }
+
+  static handleDismiss = () => {
+    // External drawer toggle handler
+    DOMEventHandlerUtil.on(document.body, '[data-bb-drawer-dismiss="true"]', 'click', () => {
+      const element = this.closest('[data-bb-drawer="true"]')
+      if (element) {
+        const drawer = DrawerComponent.getInstance(element)
+        if (drawer && drawer.isShown()) {
+          drawer.hide()
+        }
+      }
     })
   }
 
@@ -297,6 +311,7 @@ class DrawerComponent {
           elements.forEach((el) => {
             const instance = DrawerComponent.getInstance(el)
             if (instance) {
+              instance.element = el;
               instance.update()
             }
           })
@@ -309,12 +324,14 @@ class DrawerComponent {
   static bootstrap = () => {
     DrawerComponent.createInstances('[data-bb-drawer="true"]')
     DrawerComponent.initGlobalHandlers()
+    DrawerComponent.handleDismiss()
   }
 
   static reinitialization = () => {
     DrawerComponent.createInstances('[data-bb-drawer="true"]')
     DrawerComponent.hideAll()
     DrawerComponent.updateAll()
+    DrawerComponent.handleDismiss()
   }
 }
 
