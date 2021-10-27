@@ -43,8 +43,11 @@
             </div>
             <!--begin::Action-->
             <div class="text-center">
-              <button type="submit" class="btn btn-lg btn-primary fw-bolder">
+              <button ref="submitButton" type="submit" class="btn btn-lg btn-primary fw-bolder">
                 <span class="indicator-label">Изменить пароль</span>
+                <span class="indicator-progress">Подождите...
+                  <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
+                </span>
               </button>
             </div>
           </Form>
@@ -85,6 +88,7 @@ export default {
     const isActiveContactModal = ref(false)
     const showModal = () => isActiveContactModal.value = true
     const closeModal = () => isActiveContactModal.value = false
+    const submitButton = ref()
     AuthService.confirmPasswordReset(route.params.uid64, route.params.token)
       .then(() => isLoaderEnabled.value = false)
       .catch((e) => {
@@ -111,6 +115,7 @@ export default {
         .label('Подтверждение пароля'),
     })
     const submitResetPassword = (values) => {
+      submitButton.value.setAttribute('data-bb-indicator', 'on')
       const formData = {
         password: values.password,
         uid64: route.params.uid64,
@@ -118,6 +123,7 @@ export default {
       }
       AuthService.completePasswordReset(formData)
         .then(() => {
+          submitButton.value.removeAttribute('data-bb-indicator')
           Swal.fire({
             title: 'Пароль был изменен',
             html: 'Пожалуйста, нажмите на кнопку ниже, чтобы войти',
@@ -129,8 +135,18 @@ export default {
             }
           }).then(() => router.push('/signin'))
         })
-        .catch(() => {
-          router.push('/500')
+        .catch((e) => {
+          submitButton.value.removeAttribute('data-bb-indicator')
+          Swal.fire({
+            title: 'Произошла ошибка',
+            html: e,
+            icon: 'error',
+            buttonsStyling: false,
+            confirmButtonText: 'Попробовать еще раз',
+            customClass: {
+              confirmButton: 'btn fw-bold btn-light-secondary'
+            }
+          })
         })
     }
     return {
@@ -139,7 +155,8 @@ export default {
       showModal,
       closeModal,
       resetPasswordSchema,
-      submitResetPassword
+      submitResetPassword,
+      submitButton
     }
   }
 }

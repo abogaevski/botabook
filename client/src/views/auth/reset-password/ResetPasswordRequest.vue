@@ -26,8 +26,11 @@
               </div>
             </div>
             <div class="d-flex flex-wrap justify-content-center pb-lg-0">
-              <button type="submit" class="btn btn-lg btn-primary fw-bolder me-4">
+              <button ref="submitButton" type="submit" class="btn btn-lg btn-primary fw-bolder me-4">
                 <span class="indicator-label">Отправить</span>
+                <span class="indicator-progress">Подождите...
+                  <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
+                </span>
               </button>
               <router-link to="/signin" class="btn btn-lg btn-light-primary fw-bolder">Отмена</router-link>
             </div>
@@ -67,6 +70,7 @@ export default {
     const isActiveContactModal = ref(false)
     const showModal = () => isActiveContactModal.value = true
     const closeModal = () => isActiveContactModal.value = false
+    const submitButton = ref()
     const requestValidationSchema = Yup.object({
       email: Yup.string()
         .email()
@@ -74,8 +78,11 @@ export default {
         .label('Email')
     })
     const submitRequest = (values) => {
+      values.email = values.email.toLowerCase()
+      submitButton.value.setAttribute('data-bb-indicator', 'on')
       AuthService.requestPasswordReset(values)
         .then(() => {
+          submitButton.value.removeAttribute('data-bb-indicator')
           Swal.fire({
             title: 'Запрос отправлен',
             html: `Ваш запрос на сброс пароля отправлен на ${values.email}`,
@@ -87,13 +94,27 @@ export default {
             }
           }).then(() => router.push('/signin'))
         })
+        .catch((e) => {
+          submitButton.value.removeAttribute('data-bb-indicator')
+          Swal.fire({
+            title: 'Произошла ошибка',
+            html: e,
+            icon: 'error',
+            buttonsStyling: false,
+            confirmButtonText: 'Попробовать еще раз',
+            customClass: {
+              confirmButton: 'btn fw-bold btn-light-secondary'
+            }
+          })
+        })
     }
     return {
       isActiveContactModal,
       requestValidationSchema,
       showModal,
       closeModal,
-      submitRequest
+      submitRequest,
+      submitButton
     }
   }
 }

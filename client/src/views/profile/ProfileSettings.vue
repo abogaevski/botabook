@@ -340,12 +340,13 @@
           <button
             type="submit"
             class="btn btn-primary"
+            ref="submitBtn"
           >
             <span class="indicator-label">
               Сохранить изменения
             </span>
             <span class="indicator-progress">
-              Please wait...
+              Подождите...
               <span
                 class="spinner-border spinner-border-sm align-middle ms-2"
               ></span>
@@ -441,12 +442,15 @@ export default {
       result.push(...tz.zonesForCountry('RU'))
       return result
     })
+    // TODO: Change it
     watch(user, (newUser) => {
       profileData.value = {
         ...newUser.profile
       }
     })
+    const submitBtn = ref()
     const profileSubmit = (values) => {
+      submitBtn.value.setAttribute('data-bb-indicator', 'on')
       const { id } = user.value
       store.dispatch('userProfile/updateUserProfile', { values, id })
         .then(() => {
@@ -459,6 +463,7 @@ export default {
               confirmButton: 'btn btn-primary'
             }
           })
+          submitBtn.value.removeAttribute('data-bb-indicator')
         })
         .catch(() => {
           const title = this.error.status
@@ -478,6 +483,7 @@ export default {
               confirmButton: 'btn fw-bold btn-light-danger'
             }
           })
+          submitBtn.value.removeAttribute('data-bb-indicator')
         })
     }
 
@@ -488,7 +494,8 @@ export default {
       endTime,
       location,
       zones,
-      profileSubmit
+      profileSubmit,
+      submitBtn
     }
   },
 }

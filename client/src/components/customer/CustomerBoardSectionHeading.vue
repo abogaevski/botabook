@@ -29,6 +29,9 @@
           </el-option>
         </el-select>
       </div>
+      <span v-if="isUpdating" class="fw-bolder me-4 text-primary">
+        <span class="spinner-border spinner-border-sm align-middle"></span>
+      </span>
       <bt-tooltip :title="getColorPickerTooltipTitle()" placement="top">
         <bt-button
           @click="isActiveChangeColor = !isActiveChangeColor"
@@ -36,6 +39,7 @@
           class="btn btn-sm btn-icon btn-color-light-dark"
           :icon-url="getIconUrl()"
           icon-class="svg-icon-2"
+          :disabled="isUpdating"
         />
       </bt-tooltip>
 
@@ -45,11 +49,12 @@
           class="btn btn-sm btn-icon btn-active-light-warning"
           icon-url="/media/icons/duotone/General/Star.svg"
           :icon-class="['svg-icon-2', {'svg-icon-warning': column.isPrimary}]"
+          :disabled="isUpdating"
         />
       </bt-tooltip>
       <bt-tooltip :title="getDeleteTooltipTitle()" placement="top">
         <bt-button
-          :disabled="column.isPrimary"
+          :disabled="column.isPrimary || isUpdating"
           @click="deleteColumn"
           class="btn btn-sm btn-icon btn-active-light-danger"
           icon-url="/media/icons/duotone/General/Trash.svg"
@@ -74,11 +79,14 @@ export default {
   setup(props) {
     const store = useStore()
     const { column } = toRefs(props)
-
+    const isUpdating = ref(false)
     const updateTitle = (e) => {
       const title = e.target.value
+      isUpdating.value = true
       store.dispatch('customerModule/updateBoardColumn', { id: column.value.id, title })
+        .then(() => isUpdating.value = false)
         .catch((error) => {
+          isUpdating.value = false
           Swal.fire({
             title: 'Произошла ошибка!',
             html: error,
@@ -93,7 +101,23 @@ export default {
       e.target.blur()
     }
     const updatePrimaryColumn = (col) => {
-      col.isPrimary || store.dispatch('customerModule/updateBoardColumn', { id: col.id, isPrimary: true })
+      if (!col.isPrimary) {
+        isUpdating.value = true
+        store.dispatch('customerModule/updateBoardColumn', { id: col.id, isPrimary: true })
+          .then(() => isUpdating.value = false)
+          .catch((e) => {
+            Swal.fire({
+              title: 'Произошла ошибка!',
+              html: e,
+              icon: 'error',
+              buttonsStyling: false,
+              confirmButtonText: 'Попробовать еще раз',
+              customClass: {
+                confirmButton: 'btn btn-secondary'
+              }
+            })
+          })
+      }
     }
     const getTooltipTitle = (primary) => (primary ? 'Основная колонка' : 'Сделать основной')
 
@@ -125,7 +149,22 @@ export default {
     const getColorPickerTooltipTitle = () => (isActiveChangeColor.value ? 'Закрыть' : 'Изменить цвет')
     const updateColor = () => {
       if (column.value.color !== currentColor.value) {
+        isUpdating.value = true
         store.dispatch('customerModule/updateBoardColumn', { id: column.value.id, color: currentColor.value })
+          .then(() => isUpdating.value = false)
+          .catch((e) => {
+            isUpdating.value = false
+            Swal.fire({
+              title: 'Произошла ошибка!',
+              html: e,
+              icon: 'error',
+              buttonsStyling: false,
+              confirmButtonText: 'Попробовать еще раз',
+              customClass: {
+                confirmButton: 'btn btn-secondary'
+              }
+            })
+          })
         isActiveChangeColor.value = false
       }
     }
@@ -145,7 +184,22 @@ export default {
         }
       }).then((result) => {
         if (result.value) {
+          isUpdating.value = true
           store.dispatch('customerModule/deleteBoardColumn', column.value.id)
+            .then(() => isUpdating.value = false)
+            .catch((e) => {
+              isUpdating.value = false
+              Swal.fire({
+                title: 'Произошла ошибка!',
+                html: e,
+                icon: 'error',
+                buttonsStyling: false,
+                confirmButtonText: 'Попробовать еще раз',
+                customClass: {
+                  confirmButton: 'btn btn-secondary'
+                }
+              })
+            })
         }
       })
     }
@@ -162,7 +216,8 @@ export default {
       updateColor,
       getColorPickerTooltipTitle,
       deleteColumn,
-      getDeleteTooltipTitle
+      getDeleteTooltipTitle,
+      isUpdating
     }
   }
 }

@@ -128,9 +128,9 @@
             >
               Отменить
             </bt-button>
-            <button type="submit" class="btn btn-primary">
+            <button ref="submitBtn" type="submit" class="btn btn-primary">
               <span class="indicator-label">Создать</span>
-              <span class="indicator-progress">Please wait...
+              <span class="indicator-progress">Подождите...
                 <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
               </span>
             </button>
@@ -194,8 +194,10 @@ export default {
     ...mapActions('project', ['createProject']),
 
     submitProject(project, actions) {
+      this.$refs.submitBtn.setAttribute('data-bb-indicator', 'on')
       this.createProject(project)
         .then(() => {
+          this.$refs.submitBtn.removeAttribute('data-bb-indicator')
           Swal.fire({
             title: 'Ваша услуга успешно добавлена!',
             icon: 'success',
@@ -210,6 +212,7 @@ export default {
           })
         })
         .catch((e) => {
+          this.$refs.submitBtn.removeAttribute('data-bb-indicator')
           Swal.fire({
             title: 'Произошла ошибка!',
             html: e,

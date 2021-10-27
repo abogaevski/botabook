@@ -149,9 +149,13 @@
           <div class="text-center">
             <button
               type="submit"
-              class="btn btn-lg btn-primary"
+              ref="submitButton"
+              class="btn btn-lg btn-primary w-100 mb-5"
             >
-              Зарегистрироваться
+              <span class="indicator-label">Зарегистрироваться</span>
+              <span class="indicator-progress">Подождите...
+                <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
+              </span>
             </button>
           </div>
         </Form>
@@ -188,6 +192,7 @@ export default {
       email: Yup.string()
         .min(4)
         .required()
+        .lowercase()
         .email()
         .label('Email'),
       password: Yup.string()
@@ -217,6 +222,8 @@ export default {
       this.isActiveContactModal = false
     },
     submitSignup(values) {
+      values.email = values.email.toLowerCase()
+      this.$refs.submitButton.setAttribute('data-bb-indicator', 'on')
       const userData = {
         ...values,
         timezone: Intl.DateTimeFormat().resolvedOptions().timeZone
@@ -224,6 +231,7 @@ export default {
       this.$store
         .dispatch('auth/signup', userData)
         .catch((e) => {
+          this.$refs.submitButton.removeAttribute('data-bb-indicator')
           const title = e ? 'Не удалось зарегистрироваться в систему' : 'Что-то пошло не так'
           const html = e.response.data.email[0]
             ? e.response.data.email[0]

@@ -121,7 +121,13 @@
       </div>
       <div class="card-footer d-flex justify-content-end py-6 px-9">
         <button type="reset" class="btn btn-light btn-active-light-primary me-2">Отменить изменения</button>
-        <button type="submit" class="btn btn-primary">Сохранить</button>
+
+        <button ref="submitBtn" type="submit" class="btn btn-primary">
+          <span class="indicator-label">Изменить</span>
+          <span class="indicator-progress">Подождите...
+                <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
+              </span>
+        </button>
       </div>
     </Form>
   </div>
@@ -130,7 +136,7 @@
 import { ErrorMessage, Field, Form } from 'vee-validate'
 import * as Yup from 'yup'
 import Swal from 'sweetalert2'
-import { computed, toRefs } from 'vue'
+import { computed, toRefs, ref } from 'vue'
 import { useStore } from 'vuex'
 import { useRouter } from 'vue-router'
 
@@ -177,54 +183,57 @@ export default {
     const getProjectColorInputId = (color) => `project_color_${color}`
     const badgeColor = (color) => `border-${color} btn-light-${color} btn-outline-${color}`
     const projectData = computed(() => ({ ...project.value }))
+    const submitBtn = ref()
 
     const submitProject = (values) => {
       const projectValues = {
         id: projectData.value.id,
         ...values
       }
-      store.dispatch('project/updateProject', projectValues)
-        .then(() => {
-          Swal.fire({
-            title: 'Вы уверены, что хотите изменить проект?',
-            icon: 'question',
-            showCancelButton: true,
-            buttonsStyling: false,
-            confirmButtonText: 'Изменить!',
-            cancelButtonText: 'Отмена',
-            customClass: {
-              confirmButton: 'btn btn-warning',
-              cancelButton: 'btn btn-active-light'
-            }
-          })
-            .then((result) => {
-              if (result.value) {
-                Swal.fire({
-                  title: 'Услуга успешно изменена!',
-                  icon: 'success',
-                  showCancelButton: false,
-                  buttonsStyling: false,
-                  confirmButtonText: 'Супер!',
-                  customClass: {
-                    confirmButton: 'btn btn-success'
-                  }
-                })
-                  .then(() => router.push(`/project/${project.value.id}/overview`))
-              }
+      Swal.fire({
+        title: 'Вы уверены, что хотите изменить проект?',
+        icon: 'question',
+        showCancelButton: true,
+        buttonsStyling: false,
+        confirmButtonText: 'Изменить!',
+        cancelButtonText: 'Отмена',
+        customClass: {
+          confirmButton: 'btn btn-warning',
+          cancelButton: 'btn btn-active-light'
+        }
+      }).then((result) => {
+        if (result.value) {
+          submitBtn.value.setAttribute('data-bb-indicator', 'on')
+          store.dispatch('project/updateProject', projectValues)
+            .then(() => {
+              submitBtn.value.removeAttribute('data-bb-indicator')
+              Swal.fire({
+                title: 'Услуга успешно изменена!',
+                icon: 'success',
+                showCancelButton: false,
+                buttonsStyling: false,
+                confirmButtonText: 'Супер!',
+                customClass: {
+                  confirmButton: 'btn btn-success'
+                }
+              }).then(() => router.push(`/project/${project.value.id}/overview`))
             })
-        })
-        .catch((e) => {
-          Swal.fire({
-            title: 'Произошла ошибка!',
-            html: e,
-            icon: 'error',
-            buttonsStyling: false,
-            confirmButtonText: 'Попробовать еще раз',
-            customClass: {
-              confirmButton: 'btn btn-secondary'
-            }
-          })
-        })
+            .catch((e) => {
+              submitBtn.value.removeAttribute('data-bb-indicator')
+              Swal.fire({
+                title: 'Произошла ошибка!',
+                icon: 'error',
+                html: e,
+                showCancelButton: false,
+                buttonsStyling: false,
+                confirmButtonText: 'Супер!',
+                customClass: {
+                  confirmButton: 'btn btn-light'
+                }
+              })
+            })
+        }
+      })
     }
 
     return {
@@ -233,7 +242,8 @@ export default {
       getProjectColorInputId,
       badgeColor,
       projectData,
-      submitProject
+      submitProject,
+      submitBtn
     }
   }
 }

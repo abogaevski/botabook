@@ -12,7 +12,12 @@
           <ErrorMessage name="title" />
         </div>
         <div class="mt-2">
-          <button type="submit" class="btn btn-sm btn-light-primary me-2">Создать</button>
+          <button ref="submitButton" type="submit" class="btn btn-sm btn-light-primary me-2">
+            <span class="indicator-label">Создать</span>
+            <span class="indicator-progress">Подождите...
+              <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
+            </span>
+          </button>
           <button type="button" @click="$emit('column-create:close')" class="btn btn-sm btn-white">Отмена</button>
         </div>
       </Form>
@@ -20,6 +25,7 @@
   </div>
 </template>
 <script>
+import { ref } from 'vue'
 import * as Yup from 'yup'
 import { Form, Field, ErrorMessage } from 'vee-validate'
 import { useStore } from 'vuex'
@@ -35,9 +41,14 @@ export default {
         .required()
         .label('Название колонки')
     })
+    const submitButton = ref()
+
     const submitColumn = (values) => {
+      submitButton.value.setAttribute('data-bb-indicator', 'on')
       store.dispatch('customerModule/createBoardColumn', values)
+        .then(() => emit('column-create:close'))
         .catch((e) => {
+          submitButton.value.removeAttribute('data-bb-indicator')
           Swal.fire({
             title: 'Произошла ошибка!',
             html: e,
@@ -49,12 +60,12 @@ export default {
             }
           })
         })
-      emit('column-create:close')
     }
 
     return {
       submitColumn,
-      columnSchema
+      columnSchema,
+      submitButton
     }
   }
 }

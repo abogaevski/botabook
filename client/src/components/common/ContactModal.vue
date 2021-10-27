@@ -108,8 +108,11 @@
             </div>
             <div class="text-center">
               <button type="reset" class="btn btn-light me-3">Отменить</button>
-              <button type="submit" class="btn btn-primary">
+              <button ref="submitBtn" type="submit" class="btn btn-primary">
                 <span class="indicator-label">Отправить</span>
+                <span class="indicator-progress">Подождите...
+                  <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
+                </span>
               </button>
             </div>
           </Form>
@@ -118,6 +121,7 @@
   </Modal>
 </template>
 <script>
+import { ref } from 'vue'
 import { Form, Field, ErrorMessage } from 'vee-validate'
 import Swal from 'sweetalert2'
 import * as Yup from 'yup'
@@ -131,6 +135,7 @@ export default {
   emits: ['modal:close'],
   components: { Modal, Form, Field, BtButton, ErrorMessage },
   setup(_, { emit }) {
+    const submitBtn = ref()
     const contactValidationSchema = Yup.object({
       name: Yup.string()
         .required()
@@ -147,9 +152,11 @@ export default {
         .label('Сообщение')
     })
     const submitContactForm = (values, { resetForm }) => {
+      submitBtn.value.setAttribute('data-bb-indicator', 'on')
       PublicService.sendNotificationRequest(values)
         .then((response) => {
           if (response.success) {
+            submitBtn.value.removeAttribute('data-bb-indicator')
             Swal.fire({
               title: 'Запрос отправлен!',
               icon: 'success',
@@ -165,10 +172,25 @@ export default {
             emit('modal:close')
           }
         })
+        .catch((e) => {
+          submitBtn.value.removeAttribute('data-bb-indicator')
+          Swal.fire({
+            title: 'Произошла ошибка!',
+            html: e,
+            icon: 'error',
+            showCancelButton: false,
+            buttonsStyling: false,
+            confirmButtonText: 'Попробовать еще раз!',
+            customClass: {
+              confirmButton: 'btn btn-light',
+            }
+          })
+        })
     }
     return {
       contactValidationSchema,
-      submitContactForm
+      submitContactForm,
+      submitBtn
     }
   }
 }

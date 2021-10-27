@@ -1,5 +1,6 @@
 <template>
   <div class="me-7">
+    <span v-if="isStatusUpdating" class="spinner-border spinner-border-sm align-middle text-primary me-3"></span>
     <bt-tooltip
       v-if="currentStatus < 1"
       title="Подтвердить встречу" placement="top">
@@ -8,7 +9,9 @@
         @click:btn="approveEvent"
         icon-class="svg-icon-1"
         icon-url="/media/icons/duotone/Navigation/Check.svg"
-      />
+        :disabled="isStatusUpdating"
+      >
+      </bt-button>
     </bt-tooltip>
     <bt-tooltip
       v-if="currentStatus < 1"
@@ -18,6 +21,7 @@
         @click:btn="cancelEvent"
         icon-class="svg-icon-1"
         icon-url="/media/icons/duotone/General/Trash.svg"
+        :disabled="isStatusUpdating"
       />
     </bt-tooltip>
     <div v-else>
@@ -27,7 +31,7 @@
 </template>
 <script>
 import { useStore } from 'vuex'
-import { computed, toRefs } from 'vue'
+import { computed, toRefs, ref } from 'vue'
 import Swal from 'sweetalert2'
 import BtButton from '@/components/_core/buttons/BtButton'
 import BtTooltip from '@/components/_core/BtTooltip'
@@ -41,7 +45,7 @@ export default {
     const store = useStore()
 
     const statusInfo = computed(() => getEventStatus(currentStatus.value))
-
+    const isStatusUpdating = ref(false)
     const updateEventStatus = (status) => {
       Swal.fire({
         title: 'Вы уверены, что хотите изменить статус встречи?',
@@ -56,8 +60,10 @@ export default {
         }
       }).then((result) => {
         if (result.value) {
+          isStatusUpdating.value = true
           store.dispatch('calendar/updateEvent', { id: eventId.value, status })
             .then(() => {
+              isStatusUpdating.value = false
               Swal.fire({
                 title: 'Статус изменен!',
                 icon: 'success',
@@ -71,6 +77,7 @@ export default {
               })
             })
             .catch((e) => {
+              isStatusUpdating.value = false
               Swal.fire({
                 title: 'Произошла ошибка!',
                 html: e,
@@ -97,7 +104,8 @@ export default {
       approveEvent,
       cancelEvent,
       updateEventStatus,
-      statusInfo
+      statusInfo,
+      isStatusUpdating
     }
   }
 }

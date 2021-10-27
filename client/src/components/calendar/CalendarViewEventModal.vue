@@ -97,7 +97,12 @@
                   placeholder="https://botabook.com/meeting-1"
                   :model-value="event.link"
                 />
-                <button class="btn btn-secondary" type="submit">Добавить</button>
+                <button ref="submitLinkBtn" type="submit" class="border-secondary border-start btn btn-light">
+                  <span class="indicator-label">Добавить</span>
+                  <span class="indicator-progress">Подождите...
+                    <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
+                  </span>
+                </button>
               </div>
               <div class="text-muted fs-7 mt-2">После добавления или изменения ссылки на встречу клиент получит уведомление.
               </div>
@@ -114,7 +119,7 @@
   </Modal>
 </template>
 <script>
-import { computed, toRefs } from 'vue'
+import { computed, toRefs, ref } from 'vue'
 import { useStore } from 'vuex'
 import moment from 'moment'
 import { Form, Field, ErrorMessage } from 'vee-validate'
@@ -153,36 +158,53 @@ export default {
         .nullable()
         .label('Ссылка')
     })
+    const submitLinkBtn = ref()
     const addEventLink = (values) => {
-      const payload = {
-        id: event.value.id,
-        ...values
+      if (values.link) {
+        submitLinkBtn.value.setAttribute('data-bb-indicator', 'on')
+        const payload = {
+          id: event.value.id,
+          ...values
+        }
+        store.dispatch('calendar/updateEvent', { ...payload })
+          .then(() => {
+            submitLinkBtn.value.removeAttribute('data-bb-indicator')
+            Swal.fire({
+              title: 'Ссылка успешно добавлена!',
+              html: 'Пользователь будет уведомлен о ссылке',
+              icon: 'success',
+              buttonsStyling: false,
+              confirmButtonText: 'Отлично',
+              customClass: {
+                confirmButton: 'btn btn-primary'
+              }
+            })
+          })
+          .catch((e) => {
+            submitLinkBtn.value.removeAttribute('data-bb-indicator')
+            Swal.fire({
+              title: 'Произошла ошибка!',
+              html: e,
+              icon: 'error',
+              buttonsStyling: false,
+              confirmButtonText: 'Попробовать еще раз',
+              customClass: {
+                confirmButton: 'btn btn-secondary'
+              }
+            })
+          })
+      } else {
+        Swal.fire({
+          title: 'Укажите ссылку!',
+          html: 'Вы не указали ссылку для встречи',
+          icon: 'error',
+          buttonsStyling: false,
+          confirmButtonText: 'Попробовать еще раз',
+          customClass: {
+            confirmButton: 'btn btn-secondary'
+          }
+        })
       }
-      store.dispatch('calendar/updateEvent', { ...payload })
-        .then(() => {
-          Swal.fire({
-            title: 'Ссылка успешно добавлена!',
-            html: 'Пользователь будет уведомлен о ссылке',
-            icon: 'success',
-            buttonsStyling: false,
-            confirmButtonText: 'Отлично',
-            customClass: {
-              confirmButton: 'btn btn-primary'
-            }
-          })
-        })
-        .catch((e) => {
-          Swal.fire({
-            title: 'Произошла ошибка!',
-            html: e,
-            icon: 'error',
-            buttonsStyling: false,
-            confirmButtonText: 'Попробовать еще раз',
-            customClass: {
-              confirmButton: 'btn btn-secondary'
-            }
-          })
-        })
     }
 
     return {
@@ -194,6 +216,7 @@ export default {
       eventLinkSchema,
       addEventLink,
       event,
+      submitLinkBtn
     }
   }
 }

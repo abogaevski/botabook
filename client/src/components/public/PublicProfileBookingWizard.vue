@@ -194,6 +194,7 @@
               </div>
               <div>
                 <button
+                  ref="submitBtn"
                   type="submit"
                   class="btn btn-lg btn-primary me-3"
                   v-if="currentStepIndex === totalSteps - 1"
@@ -204,7 +205,8 @@
                     </span>
                   </span>
                   <span class="indicator-progress">Подождите...
-                    <span class="spinner-border spinner-border-sm align-middle ms-2"></span></span>
+                    <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
+                  </span>
                 </button>
                 <button
                   type="button"
@@ -264,6 +266,7 @@ export default {
     const stepperObj = ref()
     const currentStepIndex = ref(0)
     const labelTime = ref('')
+    const submitBtn = ref()
     const eventRequestSchema = Yup.object({
       name: Yup.string()
         .required()
@@ -372,8 +375,10 @@ export default {
     }
 
     const formSubmit = () => {
+      submitBtn.value.setAttribute('data-bb-indicator', 'on')
       EventService.addEventRequest(formData.value)
         .then((response) => {
+          submitBtn.value.removeAttribute('data-bb-indicator')
           if (response.status === 'ok') {
             const storageItem = { ...formData.value, slug: slug.value }
             localStorage.setItem('public-booking-state', JSON.stringify(storageItem))
@@ -391,6 +396,7 @@ export default {
           }
         })
         .catch((e) => {
+          submitBtn.value.removeAttribute('data-bb-indicator')
           Swal.fire({
             title: 'Произошла ошибка!',
             html: e,
@@ -428,7 +434,8 @@ export default {
       eventRequestSchema,
       isDisabledContinueButton,
       isWaitingForNewDates,
-      labelTime
+      labelTime,
+      submitBtn
     }
   }
 }

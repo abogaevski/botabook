@@ -41,7 +41,7 @@
 
             <Field
               class="form-control form-control-lg form-control-solid"
-              type="text"
+              type="email"
               name="email"
               autocomplete="off"
             />
@@ -83,8 +83,9 @@
               ref="submitButton"
               class="btn btn-lg btn-primary w-100 mb-5"
             >
-              <span class="indicator-label">
-                Войти
+              <span class="indicator-label">Войти</span>
+              <span class="indicator-progress">Подождите...
+                <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
               </span>
             </button>
           </div>
@@ -117,7 +118,7 @@ export default {
   },
   emits: ['modal:show', 'modal:close'],
   data() {
-    const signInSchema = Yup.object({
+    const signInSchema = Yup.object().shape({
       email: Yup.string()
         .required()
         .email()
@@ -126,7 +127,7 @@ export default {
         .required()
         .min(8)
         .label('Пароль'),
-    });
+    })
     return {
       signInSchema,
       isActiveContactModal: false
@@ -141,9 +142,12 @@ export default {
       this.isActiveContactModal = false
     },
     submitSignin(values) {
+      values.email = values.email.toLowerCase()
+      this.$refs.submitButton.setAttribute('data-bb-indicator', 'on')
       this.$store
         .dispatch('auth/signin', values)
         .catch((e) => {
+          this.$refs.submitButton.removeAttribute('data-bb-indicator')
           const title = e.response ? 'Не удалось войти в систему' : 'Что-то пошло не так'
           const html = e.response.data.detail
             ? e.response.data.detail
