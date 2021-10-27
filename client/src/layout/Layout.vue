@@ -38,10 +38,6 @@ export default {
     const store = useStore()
     const loader = computed(() => store.getters.loader)
     store.dispatch('userProfile/getUserProfile')
-    store.dispatch('calendar/getEvents')
-    store.dispatch('project/getProjects')
-    store.dispatch('customerModule/getCustomers')
-    store.dispatch('customerModule/getBoard')
     onMounted(async () => {
       MenuComponent.hideDropdowns(undefined)
       MenuComponent.reinitialization()

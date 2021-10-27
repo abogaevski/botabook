@@ -35,7 +35,7 @@
 <script>
 
 import { useStore } from 'vuex'
-import { computed, onMounted, ref } from 'vue'
+import { computed, ref } from 'vue'
 import Swal from 'sweetalert2'
 import draggable from 'vuedraggable'
 import CustomerBoardSectionHeading from '@/components/customer/CustomerBoardSectionHeading'
@@ -48,8 +48,8 @@ export default {
   emits: ['column-create:close'],
   setup() {
     const store = useStore()
+    store.dispatch('customerModule/getBoard')
     const columns = computed(() => store.getters['customerModule/board'])
-    onMounted(() => store.dispatch('customerModule/getBoard'))
     const onCardDrop = (e) => {
       const to = e.to.dataset.column
       const itemId = e.clone.dataset.card

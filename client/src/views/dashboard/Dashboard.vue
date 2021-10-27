@@ -30,11 +30,7 @@ export default {
   },
   setup() {
     const store = useStore()
-    store.dispatch('userProfile/getUserProfile')
     store.dispatch('calendar/getEvents')
-    store.dispatch('project/getProjects')
-    store.dispatch('customerModule/getCustomers')
-    store.dispatch('customerModule/getBoard')
     store.dispatch('setTitle', 'Дашборд')
     const user = computed(() => store.getters['userProfile/user'])
     const events = computed(() => store.getters['calendar/events'])

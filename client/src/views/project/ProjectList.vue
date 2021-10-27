@@ -44,7 +44,7 @@
 
 <script>
 import { useStore } from 'vuex'
-import { computed, onMounted, ref } from 'vue'
+import { computed, ref } from 'vue'
 import ProjectListHeading from '@/components/project/ProjectListHeading'
 import ProjectCard from '@/components/project/ProjectCard'
 import ProjectNoData from '@/components/project/ProjectNoData'
@@ -64,9 +64,10 @@ export default {
     const store = useStore()
     const isActiveCreateModal = ref(false)
     store.dispatch('project/getProjects')
+    store.dispatch('customerModule/getCustomers')
+    store.dispatch('setTitle', 'Услуги')
     const closeModal = () => isActiveCreateModal.value = false
     const showModal = () => isActiveCreateModal.value = true
-    onMounted(() => store.dispatch('setTitle', 'Услуги'))
     const projects = computed(() => store.getters['project/projects'])
 
     return {
