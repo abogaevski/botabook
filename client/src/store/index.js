@@ -3,8 +3,9 @@ import { auth } from '@/store/modules/auth.module';
 import { userProfile } from '@/store/modules/userProfile.module'
 import { calendar } from '@/store/modules/calendar.module'
 import { project } from '@/store/modules/project.module'
-import * as Mutation from './mutation-types'
 import { customerModule } from '@/store/modules/customer.module'
+import * as Mutation from './mutation-types'
+import { errors } from '@/core/_utils/helpers/error-helpers/error-types'
 
 const states = {
   state: {
@@ -38,13 +39,13 @@ const states = {
     setError({ commit }, error) {
       let errorData = ''
       if (error.response) {
-        errorData = `Error: ${error.response.statusText}`
+        errorData = errors[error.response.data.code] || 'Произошла ошибка'
       } else if (error.request) {
         errorData = error
       } else {
-        errorData = `Error ${error.message}`
+        errorData = error.message
       }
-      commit(Mutation.SET_ERROR, errorData, { root: true })
+      commit(Mutation.SET_ERROR, errorData)
     }
   },
   modules: {

@@ -10,6 +10,14 @@
       </div>
 
       <div class="w-lg-500px bg-white rounded shadow-sm p-10 p-lg-15 mx-auto">
+        <div v-if="error" class="alert alert-danger d-flex align-items-center p-5 mb-10">
+          <span class="svg-icon svg-icon-2hx svg-icon-danger me-4">
+            <inline-svg src="/media/icons/duotone/General/Shield-protected.svg"/>
+          </span>
+          <div class="d-flex flex-column">
+            <h5 class="mb-1 text-danger">{{ error }}</h5>
+          </div>
+        </div>
         <Form
           class="form w-100"
           :validation-schema="signInSchema"
@@ -135,12 +143,12 @@ export default {
     submitSignin(values) {
       this.$store
         .dispatch('auth/signin', values)
-        .catch(() => {
-          const title = this.error ? 'Не удалось войти в систему' : 'Что-то пошло не так'
-          const html = this.error
-            ? this.error
+        .catch((e) => {
+          const title = e.response ? 'Не удалось войти в систему' : 'Что-то пошло не так'
+          const html = e.response.data.detail
+            ? e.response.data.detail
             : `Произошла неизвестная ошибка, пожалуйста обратитесь в поддержку
-              <a href="mailto:antnbog@gmail.com">сюда</a>
+              <a href="mailto:support.botabook@gmail.com">сюда</a>
             `
           Swal.fire({
             title,

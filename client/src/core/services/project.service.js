@@ -6,42 +6,42 @@ class ProjectService {
   getProjects() {
     return api
       .get('/projects/')
-      .then((response) => response.data)
-      .catch((error) => error)
+      .then((response) => Promise.resolve(response.data))
+      .catch((error) => Promise.reject(error))
   }
 
   createProject(project) {
     return api
       .post('/projects/create', { ...project })
-      .then((response) => response.data)
-      .catch((error) => error)
+      .then((response) => Promise.resolve(response.data))
+      .catch((error) => Promise.reject(error))
   }
 
   toggleProject(projectId, status) {
     return api
       .patch(`/projects/${projectId}`, { isActive: status })
-      .then((response) => response.data)
-      .catch((error) => error)
+      .then((response) => Promise.resolve(response.data))
+      .catch((error) => Promise.reject(error))
   }
 
   updateProject(projectId, project) {
     return api
       .put(`/projects/${projectId}`, { ...project })
-      .then((response) => response.data)
-      .catch((error) => error)
+      .then((response) => Promise.resolve(response.data))
+      .catch((error) => Promise.reject(error))
   }
 
   deleteProject(projectId) {
     return api
       .delete(`/projects/${projectId}`)
-      .then((response) => response)
-      .catch((error) => error)
+      .then((response) => Promise.resolve(response.data))
+      .catch((error) => Promise.reject(error))
   }
 
   getPublicProjects(slug) {
     return api
       .get(`/projects/profile/${slug}/projects`)
-      .then((response) => response.data)
+      .then((response) => Promise.resolve(response.data))
       .catch((error) => {
         if (error.response) {
           const status = getErrorStatusCode(error.response)

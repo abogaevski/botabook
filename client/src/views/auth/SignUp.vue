@@ -223,10 +223,10 @@ export default {
       }
       this.$store
         .dispatch('auth/signup', userData)
-        .catch(() => {
-          const title = this.error ? 'Не удалось зарегистрироваться в систему' : 'Что-то пошло не так'
-          const html = this.error
-            ? this.error
+        .catch((e) => {
+          const title = e ? 'Не удалось зарегистрироваться в систему' : 'Что-то пошло не так'
+          const html = e.response.data.email[0]
+            ? e.response.data.email[0]
             : `Произошла неизвестная ошибка, пожалуйста обратитесь в поддержку
               <a href="mailto:antnbog@gmail.com">сюда</a>
             `

@@ -1,6 +1,5 @@
 import ProjectService from '@/core/services/project.service'
 import * as Mutation from '../mutation-types'
-import router from '@/router'
 
 export const getProjectIndexById = (state, projectId) => state.projects.findIndex((project) => project.id.toString() === projectId.toString())
 
@@ -20,7 +19,6 @@ export const project = {
         })
         .catch((error) => {
           dispatch('setError', error, { root: true })
-          router.push('/500')
         })
     },
     createProject({ dispatch, commit }, newProject) {

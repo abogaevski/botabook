@@ -26,7 +26,7 @@ export const auth = {
         },
         (error) => {
           commit(Mutation.SIGNIN_FAILURE)
-          commit(Mutation.SET_ERROR, error.response.data.detail, { root: true })
+          // commit(Mutation.SET_ERROR, error.response.data.detail, { root: true })
           return Promise.reject(error)
         }
       )
@@ -40,7 +40,7 @@ export const auth = {
         },
         (error) => {
           commit(Mutation.SIGNIN_FAILURE)
-          commit(Mutation.SET_ERROR, error.response.data.email[0], { root: true })
+          // commit(Mutation.SET_ERROR, error.response.data.email[0], { root: true })
           return Promise.reject(error)
         }
       )

@@ -1,6 +1,5 @@
 import CustomerService from '@/core/services/customer.service'
 import * as Mutation from '../mutation-types'
-import router from '@/router'
 
 export const getCustomerIndexById = (state, customerId) => state.customers.findIndex((customer) => customer.id.toString() === customerId.toString())
 export const getBoardColumnIndexById = (state, columnId) => state.boardColumns.findIndex((customer) => customer.id.toString() === columnId.toString())
@@ -27,7 +26,6 @@ export const customerModule = {
         })
         .catch((error) => {
           dispatch('setError', error, { root: true })
-          router.push('/500')
         })
     },
     updateCustomer({ dispatch, commit }, updatedCustomer) {
@@ -49,7 +47,6 @@ export const customerModule = {
         })
         .catch((error) => {
           dispatch('setError', error, { root: true })
-          router.push('/500')
         })
     },
     createBoardColumn({ dispatch, commit }, column) {

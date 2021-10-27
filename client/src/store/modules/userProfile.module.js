@@ -1,6 +1,5 @@
 import UserService from '@/core/services/user.service'
 import * as Mutation from '../mutation-types'
-import router from '@/router'
 
 const initialProfile = {
   id: '',
@@ -23,7 +22,6 @@ export const userProfile = {
         })
         .catch((error) => {
           dispatch('setError', error, { root: true })
-          router.push('/500')
         })
     },
 

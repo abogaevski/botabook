@@ -16,11 +16,17 @@ sudo -H pip3 install --upgrade pip
 sudo -H pip3 install virtualenv
 ssh-keygen #generate user keys and add to github
 git clone git@github.com:abogaevski/botabook.git
+cp -r botabook /opt/botabook
+adduser botabook
+sudo su - botabook
+cd botabook
 python3 -m venv env
 source env/bin/activate
 pip3 install -r requirements.txt
 mkdir logs
 touch .env # .env.sample for example
+pip3 install psycopg2
+sudo nano /etc/systemd/system/gunicorn.socket
 
 ```
     redis - for celery queue
