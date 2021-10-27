@@ -4,7 +4,7 @@ export default function setEventStyle(event, el, view) {
   const color = event.extendedProps.eventColor
   const statusInfo = getEventStatus(event.extendedProps.status)
   const statusEl = document.createElement('span')
-  statusEl.classList.add('position-absolute', 'badge', `badge-light-${statusInfo.color}`, 'event__status-badge')
+  statusEl.classList.add('badge', `badge-light-${statusInfo.color}`, 'event__status-badge', 'order-md-1', 'mb-2', 'mb-md-0', 'ms-auto')
   statusEl.textContent = statusInfo.name
   const titleEl = el.querySelector('.fc-list-event-title a')
 
@@ -16,9 +16,8 @@ export default function setEventStyle(event, el, view) {
       break
     case 'listWeek':
     case 'listDay':
-      el.querySelector('.fc-list-event-title a').classList.add('d-flex')
+      el.querySelector('.fc-list-event-title a').classList.add('d-flex', 'flex-column', 'flex-md-row')
       el.querySelector('.fc-list-event-dot').classList.add(`border-${color}`)
-      el.classList.add('position-relative')
       titleEl.prepend(statusEl)
       break
     case 'dayGridMonth':

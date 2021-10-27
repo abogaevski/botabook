@@ -83,7 +83,12 @@ export default {
       events: events.value,
       nowIndicator: true,
       eventShortHeight: 10,
-      height: null,
+      height: 'auto',
+      views: {
+        dayGrid: {
+          dayMaxEvents: 2,
+        }
+      },
       eventDidMount(info) {
         const { event, el, view } = info
         setEventStyle(event, el, view)

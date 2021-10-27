@@ -7,7 +7,7 @@
       <div class="mb-12">
         <img alt="Logo" src="/media/logos/botabook-dark.svg" class="h-50px"/>
       </div>
-      <div class="bg-white rounded shadow-sm p-10 p-lg-15 mx-auto">
+      <div class="bg-white mw-500px mw-xl-550px mx-auto p-10 p-lg-15 rounded shadow-sm">
         <Form
           class="form w-100 fv-plugins-bootstrap5 fv-plugins-framework"
           novalidate="novalidate"
@@ -180,6 +180,7 @@ import { Form, Field, ErrorMessage } from 'vee-validate'
 import Swal from 'sweetalert2'
 import ContactModal from '@/components/common/ContactModal'
 
+// /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/
 export default {
   data() {
     const signupSchema = Yup.object().shape({
@@ -197,6 +198,11 @@ export default {
         .label('Email'),
       password: Yup.string()
         .min(8)
+        .matches(
+          /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{8,})/,
+          'Пароль должен состояить минимум из 8 символов. '
+          + 'Должна быть как минимум одна большая буква, а так же минимум одна цифра.'
+        )
         .required()
         .label('Пароль'),
       cpassword: Yup.string()

@@ -9,7 +9,7 @@
           {{ initials }}
         </div>
         <div class="flex-grow-1">
-          <div class="d-flex justify-content-between align-items-start flex-wrap mb-2">
+          <div class="align-items-start d-flex flex-column flex-md-row flex-wrap justify-content-md-between mb-2">
             <div class="d-flex flex-column">
               <div class="d-flex align-items-center mb-1">
                 <h3 class="text-gray-800 mb-0 fs-2 fw-bolder me-3">
