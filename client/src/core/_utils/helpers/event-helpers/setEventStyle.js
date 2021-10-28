@@ -4,7 +4,7 @@ export default function setEventStyle(event, el, view) {
   const color = event.extendedProps.eventColor
   const statusInfo = getEventStatus(event.extendedProps.status)
   const statusEl = document.createElement('span')
-  statusEl.classList.add('badge', `badge-light-${statusInfo.color}`, 'event__status-badge', 'order-sm-1', 'mb-2', 'mb-sm-0', 'me-auto', 'me-sm-0')
+  statusEl.classList.add('badge', `badge-light-${statusInfo.color}`, 'event__status-badge', 'order-sm-1', 'mb-2', 'mb-sm-0', 'ms-0', 'ms-sm-auto')
   statusEl.textContent = statusInfo.name
   const titleEl = el.querySelector('.fc-list-event-title a')
 
@@ -16,7 +16,7 @@ export default function setEventStyle(event, el, view) {
       break
     case 'listWeek':
     case 'listDay':
-      el.querySelector('.fc-list-event-title a').classList.add('d-flex', 'flex-column', 'flex-sm-row', 'align-items-center')
+      el.querySelector('.fc-list-event-title a').classList.add('d-flex', 'flex-column', 'flex-sm-row', 'align-items-start')
       el.querySelector('.fc-list-event-dot').classList.add(`border-${color}`)
       titleEl.prepend(statusEl)
       break
