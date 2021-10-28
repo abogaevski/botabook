@@ -79,24 +79,26 @@
           </div>
         </div>
         <div class="row mb-8">
-          <div class="col-xl-3">
-            <div class="fs-6 fw-bold mt-2 mb-3">Цвет</div>
+          <div class="col-md-3">
+            <div class="fs-6 fw-bold mt-2 mb-5 mb-md-0">Цвет</div>
           </div>
-          <div class="col-xl-9 fv-row fv-plugins-icon-container">
-            <template v-for="(color, i) in colors" :key="i">
-              <Field
-                v-model.lazy="projectData.color"
-                type="radio"
-                name="color"
-                class="btn-check"
-                :value="color"
-                :id="getProjectColorInputId(color)"
-              />
-              <label
-                class="btn btn-outline me-3 h-40px w-40px symbol symbol-circle"
-                :class="badgeColor(color)"
-                :for="getProjectColorInputId(color)"/>
-            </template>
+          <div class="col-md-9 fv-row fv-plugins-icon-container">
+            <div class="d-flex flex-row justify-content-start justify-content-md-end">
+              <template v-for="(color, i) in colors" :key="i">
+                <Field
+                  v-model.lazy="projectData.color"
+                  type="radio"
+                  name="color"
+                  class="btn-check"
+                  :value="color"
+                  :id="getProjectColorInputId(color)"
+                />
+                <label
+                  class="btn btn-outline me-3 h-40px w-40px symbol symbol-circle p-2"
+                  :class="badgeColor(color)"
+                  :for="getProjectColorInputId(color)"/>
+              </template>
+            </div>
             <div class="fv-plugins-message-container invalid-feedback">
               <ErrorMessage name="color"/>
             </div>

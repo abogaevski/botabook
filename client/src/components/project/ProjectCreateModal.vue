@@ -52,6 +52,7 @@
             <div class="col-md-6 fv-row fv-plugins-icon-container">
               <label class="required fs-5 fw-bold mb-2">Цена</label>
               <Field
+                value="0"
                 type="number"
                 name="price"
                 class="form-control form-control-solid"
@@ -80,21 +81,27 @@
           </div>
 
           <div class="d-flex flex-column mb-10 fv-row fv-plugins-icon-container">
-            <label class="fs-5 fw-bold mb-2 required">Цвет</label>
-            <div class="d-flex flex-row align-self-center">
-              <template v-for="(color, i) in colors" :key="i">
-                <Field
-                  type="radio"
-                  name="color"
-                  class="btn-check"
-                  :value="color"
-                  :id="getProjectColorInputId(color)"
-                />
-                <label
-                  class="btn btn-outline me-3 h-40px w-40px symbol symbol-circle"
-                  :class="badgeColor(color)"
-                  :for="getProjectColorInputId(color)"/>
-              </template>
+            <div class="align-items-center d-flex row">
+              <div class="col-md-3">
+                <label class="fs-5 fw-bold mb-5 mb-md-0 required">Цвет</label>
+              </div>
+              <div class="col-md-9">
+                <div class="d-flex flex-row justify-content-start justify-content-md-end">
+                  <template v-for="(color, i) in colors" :key="i">
+                    <Field
+                      type="radio"
+                      name="color"
+                      class="btn-check"
+                      :value="color"
+                      :id="getProjectColorInputId(color)"
+                    />
+                    <label
+                      class="btn btn-outline me-3 h-40px w-40px symbol symbol-circle p-2"
+                      :class="badgeColor(color)"
+                      :for="getProjectColorInputId(color)"/>
+                  </template>
+                </div>
+              </div>
             </div>
             <div class="fv-plugins-message-container invalid-feedback">
               <ErrorMessage name="color"/>
@@ -160,12 +167,9 @@ export default {
         .label('Название услуги'),
       description: Yup.string()
         .label('Описание встречи'),
-      price: Yup.number().test(
-        'maxDigitsAfterDecimal',
-        'number field must have 2 digits after decimal or less',
-        (number) => /^\d+(\.\d{1,2})?$/.test(number)
-      )
-        .required()
+      price: Yup.number()
+        .typeError('Укажите пожалуйста цену, либо же 0.')
+        .required('Укажите пожалуйста цену.')
         .label('Цена'),
       timeRange: Yup.number()
         .required()
