@@ -1,5 +1,6 @@
 <template>
-  <div class="card">
+  <loader class="mb-xl-8 mb-lg-8 mb-6" v-if="loader"/>
+  <div v-else class="card">
     <div class="card-body calendar-wrapper">
       <full-calendar :options="calendarOptions" />
     </div>
@@ -25,10 +26,11 @@ import ruLocale from '@fullcalendar/core/locales/ru'
 import { useStore } from 'vuex'
 import setEventStyle from '@/core/_utils/helpers/event-helpers/setEventStyle'
 import CalendarViewEventModal from '@/components/calendar/CalendarViewEventModal'
+import Loader from '@/components/Loader'
 
 export default {
   name: 'Calendar',
-  components: { FullCalendar, CalendarViewEventModal },
+  components: { FullCalendar, CalendarViewEventModal, Loader },
   setup() {
     const store = useStore()
     const isActiveViewModal = ref(false)
@@ -37,6 +39,7 @@ export default {
     store.dispatch('project/getProjects')
     store.dispatch('customerModule/getCustomers')
     store.dispatch('setTitle', 'Календарь')
+    const loader = computed(() => store.getters.loader)
 
     const onEventClick = ({ event }) => {
       eventId.value = event.id
@@ -102,6 +105,7 @@ export default {
       onEventClick,
       closeModal,
       calendarOptions,
+      loader
     }
   },
 }

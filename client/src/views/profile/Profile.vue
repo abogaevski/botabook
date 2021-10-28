@@ -1,5 +1,6 @@
 <template>
-  <div v-if="user" class="card mb-5 mb-xl-10">
+  <loader class="mb-xl-8 mb-lg-8 mb-6" v-if="loader"/>
+  <div v-else-if="user && !loader" class="card mb-5 mb-xl-10">
     <div class="card-body pt-9 pb-0">
       <div class="d-flex flex-wrap flex-sm-nowrap mb-3">
         <div class="me-7 mb-4">
@@ -140,14 +141,17 @@
       </div>
     </div>
   </div>
-  <router-view :user="user"></router-view>
+  <loader class="mb-xl-8 mb-lg-8 mb-6" v-if="loader"/>
+  <router-view v-else :user="user"></router-view>
 </template>
 <script>
 import { useStore } from 'vuex'
 import { computed } from 'vue'
+import Loader from '@/components/Loader'
 
 export default {
   name: 'Profile',
+  components: { Loader },
   setup() {
     const store = useStore()
     store.dispatch('calendar/getEvents')
@@ -156,6 +160,7 @@ export default {
     store.dispatch('customerModule/getCustomers')
     store.dispatch('setTitle', 'Профиль')
 
+    const loader = computed(() => store.getters.loader)
     const user = computed(() => store.getters['userProfile/user'])
     const projects = computed(() => store.getters['project/projectCount'])
     const events = computed(() => store.getters['calendar/eventCount'])
@@ -174,7 +179,8 @@ export default {
       fullName,
       place,
       slug,
-      getSvgIconColor
+      getSvgIconColor,
+      loader
     }
   }
 }

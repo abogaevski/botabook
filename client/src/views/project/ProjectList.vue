@@ -1,5 +1,6 @@
 <template>
-  <template v-if="projects.length">
+  <loader class="mb-xl-8 mb-lg-8 mb-6" v-if="loader"/>
+  <template v-else-if="projects.length && !loader">
     <project-list-heading></project-list-heading>
     <div class="d-flex flex-wrap flex-stack my-5">
       <h2 class="fs-2 fw-bold my-2">
@@ -31,15 +32,8 @@
 
     </div>
   </template>
-  <project-no-data
-    v-else
-    @modal:show="showModal"
-    :is-active-create-modal="isActiveCreateModal"
-  />
-  <project-create-modal
-    :show-modal="isActiveCreateModal"
-    @modal:hide="closeModal"
-  />
+  <project-no-data v-else @modal:show="showModal" :is-active-create-modal="isActiveCreateModal"/>
+  <project-create-modal :show-modal="isActiveCreateModal" @modal:hide="closeModal"/>
 </template>
 
 <script>
@@ -50,6 +44,7 @@ import ProjectCard from '@/components/project/ProjectCard'
 import ProjectNoData from '@/components/project/ProjectNoData'
 import BtButton from '@/components/_core/buttons/BtButton'
 import ProjectCreateModal from '@/components/project/ProjectCreateModal'
+import Loader from '@/components/Loader'
 
 export default {
   name: 'ProjectList',
@@ -58,7 +53,8 @@ export default {
     ProjectCard,
     BtButton,
     ProjectNoData,
-    ProjectCreateModal
+    ProjectCreateModal,
+    Loader
   },
   setup() {
     const store = useStore()
@@ -69,12 +65,14 @@ export default {
     const closeModal = () => isActiveCreateModal.value = false
     const showModal = () => isActiveCreateModal.value = true
     const projects = computed(() => store.getters['project/projects'])
+    const loader = computed(() => store.getters.loader)
 
     return {
       isActiveCreateModal,
       closeModal,
       showModal,
-      projects
+      projects,
+      loader
     }
   }
 }

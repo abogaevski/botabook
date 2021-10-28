@@ -50,11 +50,9 @@ export const customerModule = {
         })
     },
     getBoard({ dispatch, commit }) {
-      commit(Mutation.SET_LOADER, true, { root: true })
       return CustomerService.getBoard()
         .then((columns) => {
           commit(Mutation.SET_BOARD, columns)
-          commit(Mutation.SET_LOADER, false, { root: true })
         })
         .catch((error) => {
           dispatch('setError', error, { root: true })
