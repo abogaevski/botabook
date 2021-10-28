@@ -1,6 +1,8 @@
 <template>
-  <loader v-if="loaderEnabled"></loader>
-  <div v-if="projects.length" class="d-flex flex-column flex-column-fluid pb-10">
+  <div v-if="loader" class="container">
+    <loader :logo-enabled="true" class="mt-10 mb-xl-8 mb-lg-8 mb-6"/>
+  </div>
+  <div v-else-if="projects.length && !loader" class="d-flex flex-column flex-column-fluid pb-10">
     <public-page-header />
     <div class="d-flex flex-column-fluid pt-5">
       <div class="container">
@@ -24,7 +26,6 @@
 import { computed, ref, watch } from 'vue'
 import { useStore } from 'vuex'
 import { useRoute } from 'vue-router'
-// import UserService from '@/core/services/user.service'
 import PublicPageHeader from '@/components/public/PublicPageHeader'
 import PublicProfileOverview from '@/components/public/PublicProfileOverview'
 import PublicProfileBookingWizard from '@/components/public/PublicProfileBookingWizard'
@@ -35,7 +36,7 @@ export default {
   components: { PublicProfileOverview, PublicProfileBookingWizard, PublicProfileNoData, Loader, PublicPageHeader },
   setup() {
     const store = useStore()
-    const loaderEnabled = ref(true)
+    const loader = ref(true)
     const route = useRoute()
     const slug = computed(() => route.params.slug)
 
@@ -43,13 +44,14 @@ export default {
     const projects = computed(() => store.getters['project/projects'])
     watch(projects, (val) => {
       if (val) {
+        loader.value = false
         document.body.classList.remove('page-loading')
       }
     })
     document.body.classList.remove('header-fixed', 'header-tablet-and-mobile-fixed', 'aside-enabled', 'aside-fixed')
 
     return {
-      loaderEnabled,
+      loader,
       projects
     }
   },
