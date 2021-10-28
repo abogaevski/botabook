@@ -151,9 +151,9 @@
                     </div>
                     <div class="mb-5 fv-row fv-plugins-icon-container">
                       <label class="form-label mb-3">Сообщение
-                        <div class="fs-7 fw-bold text-muted d-flex mb-3">
+                        <span class="fs-7 fw-bold text-muted d-flex mb-3">
                           Напишите что угодно, что могло бы помочь подготовиться к встрече
-                        </div>
+                        </span>
                       </label>
                       <Field
                         as="textarea"
