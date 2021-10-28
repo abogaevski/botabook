@@ -20,14 +20,23 @@
           </span>
         </template>
         <span
+          v-if="!isAvatarUpdating"
           class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow"
           data-bb-image-input-action=change
         >
           <i class="bi bi-pencil-fill fs-7"></i>
         </span>
+        <span
+          v-else
+          class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow"
+          data-bb-image-input-action=change
+        >
+          <span class="border-1 spinner-border spinner-border-sm text-primary"></span>
+        </span>
       </el-upload>
       <div class="form-text">Для лучшего отображения используйте квадратную фотографию</div>
       <div class="form-text mt-0">Расширения файлов: png, jpg, jpeg.</div>
+      <div class="form-text mt-0">Максимальный размер файла - 2Мб.</div>
     </div>
   </div>
 </template>
@@ -38,6 +47,11 @@ import { mapActions } from 'vuex'
 
 export default {
   props: ['avatar', 'id'],
+  data() {
+    return {
+      isAvatarUpdating: false
+    }
+  },
   computed: {
     isInitAvatar() {
       return this.avatar === '/media/avatars/blank.png'
@@ -48,6 +62,22 @@ export default {
 
     uploadProfileAvatar(props) {
       const avatar = props.file
+      const fileSize = avatar.size / 1024 / 1024;
+      console.log(fileSize)
+      if (fileSize >= 2) {
+        Swal.fire({
+          title: 'Ошибка.',
+          html: 'Слишком большой размер фотографии. Пожалуйста, добавьте другую.<br>Максимальный размер - 2МБ',
+          icon: 'warning',
+          buttonsStyling: false,
+          confirmButtonText: 'Попробовать еще раз',
+          customClass: {
+            confirmButton: 'btn btn-primary'
+          }
+        })
+        return
+      }
+      this.isAvatarUpdating = true
       const { id } = this
       const form = new FormData()
       form.append('avatar', avatar)
@@ -61,7 +91,7 @@ export default {
             customClass: {
               confirmButton: 'btn btn-primary'
             }
-          })
+          }).then(() => this.isAvatarUpdating = false)
         })
         .catch((e) => {
           Swal.fire({
@@ -73,7 +103,7 @@ export default {
             customClass: {
               confirmButton: 'btn btn-secondary'
             }
-          })
+          }).then(() => this.isAvatarUpdating = false)
         })
     },
     removeProfileAvatar() {

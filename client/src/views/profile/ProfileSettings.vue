@@ -263,12 +263,14 @@
                   >
                     <el-time-select
                       class="d-block"
+                      :editable="false"
+                      :clearable="false"
                       :model-value="value"
                       @update:model-value="handleChange"
                       placeholder="Start time"
                       start="00:00"
-                      step="00:30"
-                      end="23:30"
+                      step="01:00"
+                      end="22:00"
                     />
                   </Field>
                 </div>
@@ -280,13 +282,15 @@
                   >
                     <el-time-select
                       class="d-block"
+                      :editable="false"
+                      :clearable="false"
                       :min-time="profileData.startWorkHour"
                       :model-value="value"
                       @update:model-value="handleChange"
-                      placeholder="Start time"
+                      placeholder="Время конца"
                       start="00:00"
-                      step="00:30"
-                      end="23:30"
+                      step="01:00"
+                      end="22:00"
                     />
                   </Field>
                 </div>

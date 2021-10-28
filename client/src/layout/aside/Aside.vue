@@ -30,6 +30,12 @@
       <Menu></Menu>
     </div>
     <div class="aside-footer flex-column-auto pt-5 pb-7 px-5" id="bb_aside_footer">
+      <a target="_blank" href="https://t.me/botabookchat" class="btn btn-custom btn-light-primary w-100 btn-icon">
+        <span class="svg-icon svg-icon-2 me-2">
+          <inline-svg src="/media/svg/brand-logos/telegram-2.svg" />
+        </span>
+        <span class="btn-label">Помощь в чате</span>
+      </a>
     </div>
   </div>
 </template>

@@ -16,9 +16,11 @@
         <li class="menu-item">
           <router-link to="/" class="menu-link px-2">О BotaBook</router-link>
         </li>
-
         <li class="menu-item">
           <a href="#" @click.prevent="showModal" class="menu-link px-2">Связаться</a>
+        </li>
+        <li class="menu-item">
+          <a target="_blank" href="https://t.me/botabookchat" class="menu-link px-2">Botabook Community</a>
         </li>
       </ul>
     </div>

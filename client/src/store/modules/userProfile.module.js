@@ -4,6 +4,7 @@ import * as Mutation from '../mutation-types'
 const initialProfile = {
   id: '',
   email: '',
+  isVerified: true,
   profile: {
     avatar: '/media/avatars/blank.png',
   }
