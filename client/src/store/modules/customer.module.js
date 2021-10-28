@@ -103,9 +103,10 @@ export const customerModule = {
     [Mutation.DELETE_CUSTOMER_FROM_BOARD](state, customerId) {
       state.boardColumns.forEach((board) => {
         const index = board.customers.findIndex((c) => c.id === customerId)
-        if (index) {
-          return board.customers.splice(index, 1)
+        if (index === -1) {
+          return
         }
+        return board.customers.splice(index, 1)
       })
     },
     [Mutation.SET_BOARD](state, columns) {
