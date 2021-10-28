@@ -28,7 +28,8 @@
                          autocomplete="off"/>
                 </div>
               </div>
-              <div class="text-muted">Минимум 8 символов.</div>
+              <div class="text-muted fs-8 mt-1">Пароль должен состоять минимум из 8 символов.
+                <br/>Должна быть как минимум одна большая буква, а так же минимум одна цифра.</div>
               <div class="fv-plugins-message-container invalid-feedback">
                 <ErrorMessage name="password"/>
               </div>
@@ -41,7 +42,6 @@
                 <ErrorMessage name="cpassword"/>
               </div>
             </div>
-            <!--begin::Action-->
             <div class="text-center">
               <button ref="submitButton" type="submit" class="btn btn-lg btn-primary fw-bolder">
                 <span class="indicator-label">Изменить пароль</span>
@@ -107,6 +107,7 @@ export default {
       password: Yup.string()
         .min(8)
         .required()
+        .matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{8,})/, 'Пароль не соответствует требованиям')
         .label('Пароль'),
       cpassword: Yup.string()
         .min(8)

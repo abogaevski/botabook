@@ -99,6 +99,8 @@
                   name="password"
                   autocomplete="off"
                 />
+                <div class="text-muted fs-8 mt-1">Пароль должен состоять минимум из 8 символов.
+                  <br/>Должна быть как минимум одна большая буква, а так же минимум одна цифра.</div>
                 <div class="fv-plugins-message-container">
                   <div class="fv-help-block">
                     <ErrorMessage name="password"/>
@@ -109,9 +111,7 @@
           </div>
 
           <div class="fv-row mb-5">
-            <label class="form-label fw-bolder text-dark fs-6"
-            >Подтвердите пароль</label
-            >
+            <label class="form-label fw-bolder text-dark fs-6">Подтвердите пароль</label>
             <Field
               class="form-control form-control-lg form-control-solid"
               type="password"
@@ -198,11 +198,7 @@ export default {
         .label('Email'),
       password: Yup.string()
         .min(8)
-        .matches(
-          /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{8,})/,
-          'Пароль должен состояить минимум из 8 символов. '
-          + 'Должна быть как минимум одна большая буква, а так же минимум одна цифра.'
-        )
+        .matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{8,})/, 'Пароль не соответствует требованиям')
         .required()
         .label('Пароль'),
       cpassword: Yup.string()
