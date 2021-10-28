@@ -34,8 +34,11 @@ export default {
     store.dispatch('setTitle', 'Рабочий стол')
     const user = computed(() => store.getters['userProfile/user'])
     const events = computed(() => store.getters['calendar/events'])
+
     const futureEvents = computed(() => events.value
-      .filter((e) => moment(e.start).day() >= moment().day() && e.status === 1))
+      .filter((e) => moment(e.start).day() >= moment().day() && e.status === 1)
+      // eslint-disable-next-line no-nested-ternary
+      .sort((a, b) => ((moment(a.start) > moment(b.start)) ? 1 : ((b.start > a.start) ? -1 : 0))))
 
     return {
       user,
