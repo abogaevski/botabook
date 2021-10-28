@@ -1,6 +1,6 @@
 <template>
   <loader v-if="loaderEnabled"></loader>
-  <div v-if="projects.length" class="d-flex flex-column flex-column-fluid">
+  <div v-if="projects.length" class="d-flex flex-column flex-column-fluid pb-10">
     <public-page-header />
     <div class="d-flex flex-column-fluid pt-5">
       <div class="container">

@@ -57,6 +57,14 @@ export const userProfile = {
           dispatch('setError', error, { root: true })
           return Promise.reject(error)
         })
+    },
+    getPublicProfile({ dispatch, commit }, slug) {
+      return UserService.getPublicProfile(slug)
+        .then((profile) => commit(Mutation.SET_PUBLICPROFILE, profile))
+        .catch((e) => {
+          dispatch('setError', e, { root: true })
+          return Promise.reject(e)
+        })
     }
   },
   mutations: {
@@ -65,6 +73,12 @@ export const userProfile = {
         user.profile.avatar = initialProfile.profile.avatar
       }
       return state.userProfile = { ...user }
+    },
+    [Mutation.SET_PUBLICPROFILE](state, profile) {
+      if (!profile.avatar) {
+        profile.avatar = initialProfile.profile.avatar
+      }
+      return state.userProfile = { ...profile }
     },
     [Mutation.UPDATE_USERPROFILE](state, profile) {
       if (!profile.avatar) {

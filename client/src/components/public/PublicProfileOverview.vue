@@ -48,25 +48,21 @@
 </template>
 <script>
 import { useRoute } from 'vue-router'
-import { onMounted, ref, computed } from 'vue'
-import UserService from '@/core/services/user.service'
+import { useStore } from 'vuex'
+import { computed } from 'vue'
 
 export default {
   setup() {
     const route = useRoute()
-    const profile = ref([])
+    const store = useStore()
 
-    const getProfileInfo = async () => {
-      profile.value = await UserService.getPublicProfile(route.params.slug)
-        .then((p) => p)
-    }
-    onMounted(getProfileInfo)
+    store.dispatch('userProfile/getPublicProfile', route.params.slug)
+    const profile = computed(() => store.getters['userProfile/user'])
 
     const fullName = computed(() => `${profile.value.firstName} ${profile.value.lastName}`)
     const phoneLink = computed(() => `tel:${profile.value.phone}`)
 
     return {
-      getProfileInfo,
       profile,
       fullName,
       phoneLink

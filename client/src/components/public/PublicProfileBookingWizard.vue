@@ -1,12 +1,7 @@
 <template>
     <div class="card card-flush h-lg-100">
       <div class="card-body">
-        <public-page-booking-info
-          v-if="storageBookingInfo"
-          :time="storageBookingInfo.time"
-          @alert:close="closeAlert"
-        />
-        <div class="stepper stepper-links" ref="addEventFormStepper">
+        <div v-if="!bookingComplete" class="stepper stepper-links" ref="addEventFormStepper">
           <public-page-stepper-nav />
           <Form
             class="fv-plugins-bootstrap5 fv-plugins-framework"
@@ -224,6 +219,7 @@
           </Form>
 
         </div>
+        <public-page-booking-complete v-else :event-date="formData.time" :project-id="formData.projectId" />
       </div>
     </div>
 </template>
@@ -237,12 +233,12 @@ import moment from 'moment'
 import { StepperComponent } from '@/core/components/_StepperComponent'
 import EventService from '@/core/services/calendar.service'
 import { ScrollComponent } from '@/core/components/_ScrollComponent'
-import PublicPageBookingInfo from '@/components/public/wizard/PublicPageBookingInfo'
 import PublicPageStepperNav from '@/components/public/wizard/PublicPageStepperNav'
 import PublicPageProjectButton from '@/components/public/wizard/PublicPageProjectButton'
 import PublicPageWizardCalendar from '@/components/public/wizard/PublicPageWizardCalendar'
 import PublicPageProjectInfo from '@/components/public/wizard/PublicPageProjectInfo'
 import BtContentLoader from '@/components/_core/BtContentLoader'
+import PublicPageBookingComplete from '@/components/public/PublicPageBookingComplete'
 
 export default {
   components: {
@@ -250,10 +246,10 @@ export default {
     Field,
     ErrorMessage,
     PublicPageStepperNav,
-    PublicPageBookingInfo,
     PublicPageProjectButton,
     PublicPageWizardCalendar,
     PublicPageProjectInfo,
+    PublicPageBookingComplete,
     BtContentLoader
   },
   props: ['projects'],
@@ -267,6 +263,7 @@ export default {
     const currentStepIndex = ref(0)
     const labelTime = ref('')
     const submitBtn = ref()
+    const bookingComplete = ref(false)
     const eventRequestSchema = Yup.object({
       name: Yup.string()
         .required()
@@ -294,19 +291,8 @@ export default {
       return stepperObj.value.totalStepsNumber
     })
     const slug = computed(() => route.params.slug)
-    const storageBookingInfo = computed(() => {
-      const storageObj = JSON.parse(localStorage.getItem('public-booking-state'))
-      if (storageObj) {
-        if (slug.value === storageObj.slug) {
-          storageObj.time = new Date(storageObj.time).toLocaleString('ru')
-          return storageObj
-        }
-      }
-      return ''
-    })
     const isDisabledContinueButton = ref(false)
     const isWaitingForNewDates = ref(false)
-    const closeAlert = () => localStorage.removeItem('public-booking-state')
     const getProjectInputId = (id) => `project_type_${id}`
     const getEventInputId = (date) => {
       const id = getTimeOnly(date).replace(':', '_')
@@ -380,8 +366,6 @@ export default {
         .then((response) => {
           submitBtn.value.removeAttribute('data-bb-indicator')
           if (response.status === 'ok') {
-            const storageItem = { ...formData.value, slug: slug.value }
-            localStorage.setItem('public-booking-state', JSON.stringify(storageItem))
             Swal.fire({
               title: 'Ваш запрос успешно отправлен!',
               icon: 'success',
@@ -391,7 +375,7 @@ export default {
                 confirmButton: 'btn btn-primary'
               }
             }).then(() => {
-              window.location.reload()
+              bookingComplete.value = true
             })
           }
         })
@@ -417,8 +401,6 @@ export default {
 
     return {
       addEventFormStepper,
-      storageBookingInfo,
-      closeAlert,
       formSubmit,
       getProjectInputId,
       formData,
@@ -435,7 +417,8 @@ export default {
       isDisabledContinueButton,
       isWaitingForNewDates,
       labelTime,
-      submitBtn
+      submitBtn,
+      bookingComplete
     }
   }
 }
