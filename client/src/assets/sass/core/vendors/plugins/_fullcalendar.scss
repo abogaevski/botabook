@@ -278,11 +278,6 @@ body {
     .fc {
       .fc-button {
         padding: 0.5rem .75rem;
-        box-shadow: none !important;
-        border: 0 !important;
-        border-radius: $btn-border-radius;
-        vertical-align: middle;
-        font-weight: $font-weight-bold;
       }
       .fc-toolbar-title {
         font-size: 1rem;
@@ -300,6 +295,9 @@ body {
         flex-direction: column;
         align-items: center;
 
+        .fc-button {
+          padding: 0.75rem 1.25rem;
+        }
         .fc-toolbar-chunk {
           &:nth-child(1),
           &:nth-child(3) {
@@ -323,6 +321,26 @@ body {
   }
 }
 @include media-breakpoint-down(sm) {
+  .calendar-wrapper {
+    .fc {
+      .fc-button {
+        &.fc-timeGridWeek-button,
+        &.fc-dayGridMonth-button {
+          display: none;
+        }
+      }
+      .fc-button-group > .fc-button {
+        &.fc-listWeek-button {
+          border-top-right-radius: $btn-border-radius;
+          border-bottom-right-radius: $btn-border-radius;
+        }
+      }
+      .fc-list-day-cushion,
+      .fc-list-table td {
+        padding: 0.5rem .75rem;
+      }
+    }
+  }
   .event__status-badge {
     bottom: .75rem;
     left: 1rem;

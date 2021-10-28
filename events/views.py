@@ -140,10 +140,9 @@ class PublicAddEventApiView(generics.GenericAPIView):
             raise ValidationError('Клиент не создался')
 
         start_time = datetime.strptime(data['time'], '%Y-%m-%d %H:%M:%S%z')
-        title = '{}. {}'.format(customer.name, project.title)
 
         event = Event.objects.create(
-            title=title,
+            title=project.title,
             start=start_time,
             end=start_time + timedelta(minutes=project.time_range),
             user=user,

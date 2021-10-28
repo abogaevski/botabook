@@ -1,7 +1,7 @@
 <template>
   <loader class="mb-xl-8 mb-lg-8 mb-6" v-if="loader"/>
   <div v-else class="card">
-    <div class="card-body calendar-wrapper">
+    <div class="card-body calendar-wrapper px-2 px-sm-9">
       <full-calendar :options="calendarOptions" />
     </div>
   </div>
