@@ -60,13 +60,10 @@ export const project = {
           return Promise.reject(error)
         })
     },
-    getPublicProjects({ dispatch, commit }, slug) {
+    getPublicProjects({ commit }, slug) {
       return ProjectService.getPublicProjects(slug)
         .then((p) => commit(Mutation.SET_PROJECTS, p))
-        .catch((error) => {
-          dispatch('setError', error, { root: true })
-          return Promise.reject(error)
-        })
+        .catch((error) => Promise.reject(error))
     }
   },
   mutations: {

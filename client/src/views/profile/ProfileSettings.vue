@@ -405,7 +405,7 @@ export default {
           if (value) {
             return UserService
               .checkProfileSlug(value)
-              .then((status) => status || createError({ path, message: 'Ссылка уже занята другим пользователем' }))
+              .then((status) => !status.success || createError({ path, message: 'Ссылка уже занята другим пользователем' }))
           }
           return false
         })

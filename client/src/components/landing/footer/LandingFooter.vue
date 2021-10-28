@@ -45,6 +45,10 @@
                 <img src="/media/svg/brand-logos/telegram.svg" class="h-20px me-2" alt=""/>
                 <span class="text-white opacity-50 text-hover-primary fs-5 mb-6">Паблик Telegram</span>
               </a>
+              <a target="_blank" href="https://t.me/botabookchat" class="mb-6">
+                <img src="/media/svg/brand-logos/telegram.svg" class="h-20px me-2" alt=""/>
+                <span class="text-white opacity-50 text-hover-primary fs-5 mb-6">Чат Telegram</span>
+              </a>
             </div>
           </div>
         </div>

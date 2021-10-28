@@ -47,6 +47,7 @@ class ProjectService {
           const status = getErrorStatusCode(error.response)
           const redirectPath = status === 404 ? '/404' : '/500'
           router.push(redirectPath)
+          return Promise.reject(error)
         }
       })
   }

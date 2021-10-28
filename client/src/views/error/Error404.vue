@@ -14,9 +14,7 @@
         </div>
 
         <div class="text-center">
-          <router-link to="/app" class="btn btn-lg btn-primary fw-bolder"
-          >На главную</router-link
-          >
+          <router-link to="/" class="btn btn-lg btn-primary fw-bolder">На главную</router-link>
         </div>
       </div>
     </div>

@@ -53,6 +53,8 @@ export default {
     watch(loader, (l) => {
       l ? document.body.classList.add('page-loading') : document.body.classList.remove('page-loading')
     })
+    document.body.classList.add('header-fixed', 'header-tablet-and-mobile-fixed', 'aside-enabled', 'aside-fixed')
+
     DrawerComponent.bootstrap();
     DrawerComponent.updateAll();
 

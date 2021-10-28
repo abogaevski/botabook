@@ -24,6 +24,7 @@
 import { computed, ref, watch } from 'vue'
 import { useStore } from 'vuex'
 import { useRoute } from 'vue-router'
+// import UserService from '@/core/services/user.service'
 import PublicPageHeader from '@/components/public/PublicPageHeader'
 import PublicProfileOverview from '@/components/public/PublicProfileOverview'
 import PublicProfileBookingWizard from '@/components/public/PublicProfileBookingWizard'
