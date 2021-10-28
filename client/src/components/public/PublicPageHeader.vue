@@ -12,7 +12,7 @@
               <span class="menu-title">Помощь</span>
             </a>
           </div>
-          <div class="menu-item me-lg-1">
+          <div class="menu-item me-lg-1 d-none d-md-inline-block">
             <a target="_blank" class="menu-link py-3" href="/">
               <span class="menu-title">О BotaBook</span>
             </a>
