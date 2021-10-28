@@ -1,12 +1,10 @@
 server {
     listen 80;
     server_name api.botabook.com;
-    return 301 https://$host$request_uri;
 }
 
 server {
     listen 443;
-
     server_name api.botabook.com;
     location / {
         include proxy_params;
