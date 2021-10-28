@@ -141,8 +141,7 @@
       </div>
     </div>
   </div>
-  <loader class="mb-xl-8 mb-lg-8 mb-6" v-if="loader"/>
-  <router-view v-else :user="user"></router-view>
+  <router-view />
 </template>
 <script>
 import { useStore } from 'vuex'

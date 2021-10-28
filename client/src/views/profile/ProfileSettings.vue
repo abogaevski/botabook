@@ -1,5 +1,6 @@
 <template>
-  <div v-if="user" class="card mb-5 mb-xl-10">
+  <loader class="mb-xl-8 mb-lg-8 mb-6" v-if="loader"/>
+  <div v-else-if="user && !loader" class="card mb-5 mb-xl-10">
     <div class="card-header border-0 cursor-pointer">
       <div class="card-title m-0">
         <h3 class="fw-bolder m-0">Настройки профиля</h3>
@@ -362,7 +363,7 @@
   </div>
 </template>
 <script>
-import { computed, ref, toRefs, watch } from 'vue'
+import { computed, ref, watch } from 'vue'
 import { useStore } from 'vuex'
 import { tz } from 'moment-timezone'
 import { Form, Field, ErrorMessage } from 'vee-validate'
@@ -371,13 +372,12 @@ import Swal from 'sweetalert2'
 import ProfileAvatar from '@/components/profile/ProfileAvatar'
 import BtTooltip from '@/components/_core/BtTooltip'
 import UserService from '@/core/services/user.service'
+import Loader from '@/components/Loader'
 
 export default {
   name: 'ProfileSettings',
-  props: ['user'],
-  components: { Form, Field, ErrorMessage, ProfileAvatar, BtTooltip },
-  setup(props) {
-    const { user } = toRefs(props)
+  components: { Form, Field, ErrorMessage, ProfileAvatar, BtTooltip, Loader },
+  setup() {
     const store = useStore()
     const profileData = ref({
       firstName: '',
@@ -435,6 +435,8 @@ export default {
       endWorkHour: Yup.string()
         .label('Часы доступности')
     })
+    const loader = computed(() => store.getters.loader)
+    const user = computed(() => store.getters['userProfile/user'])
     const startTime = ref('')
     const endTime = ref('')
     const location = window.location.origin
@@ -446,12 +448,7 @@ export default {
       result.push(...tz.zonesForCountry('RU'))
       return result
     })
-    // TODO: Change it
-    watch(user, (newUser) => {
-      profileData.value = {
-        ...newUser.profile
-      }
-    })
+    watch(user, (newUser) => profileData.value = { ...newUser.profile })
     const submitBtn = ref()
     const profileSubmit = (values) => {
       submitBtn.value.setAttribute('data-bb-indicator', 'on')
@@ -499,7 +496,9 @@ export default {
       location,
       zones,
       profileSubmit,
-      submitBtn
+      submitBtn,
+      user,
+      loader
     }
   },
 }
