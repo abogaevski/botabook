@@ -1,8 +1,19 @@
 <template>
   <div v-if="customer" class="card mb-4 mb-xl-6" :data-card="customer.id" :data-card-order="customer.boardOrder">
     <div class="card-body">
-      <div class="mb-2">
+      <div class="mb-2 d-flex align-items-center justify-content-between">
         <span class="fs-5 fw-bolder mb-1 text-gray-900">{{ customer.name }}</span>
+        <span v-if="isCustomerDeleting" class="spinner-border spinner-border-sm align-middle text-primary me-3"></span>
+        <bt-tooltip
+          title="Удалить" placement="top">
+          <bt-button
+            @click:btn="deleteCustomer"
+            btn-class="btn-icon btn-sm btn-active-icon-danger"
+            icon-class="svg-icon-1"
+            icon-url="/media/icons/duotone/General/Trash.svg"
+            :disabled="isCustomerDeleting"
+          />
+        </bt-tooltip>
       </div>
       <a
         :href="`mailto:${customer.email}`"
@@ -51,20 +62,61 @@
   </div>
 </template>
 <script>
+import { toRefs, ref } from 'vue'
+import { useStore } from 'vuex'
 import moment from 'moment'
-import { toRefs } from 'vue'
-// import BtButton from '@/components/_core/buttons/BtButton'
+import Swal from 'sweetalert2'
+import BtButton from '@/components/_core/buttons/BtButton'
 import BtTooltip from '@/components/_core/BtTooltip'
 
 export default {
   name: 'CustomerBoardItem',
   props: ['customer'],
-  components: { BtTooltip },
+  components: { BtTooltip, BtButton },
   setup(props) {
     const { customer } = toRefs(props)
+    const store = useStore()
     const createdAt = moment(customer.value.createdAt).format('DD MMM YYYY')
+    const isCustomerDeleting = ref(false)
+    const deleteCustomer = () => {
+      Swal.fire({
+        title: 'Вы уверены?',
+        html: `Подтвердите, что хотите удалить клиента "${customer.value.name}".
+        Все встречи останутся, но информация о клиенте будет утеряна!`,
+        icon: 'question',
+        showCancelButton: true,
+        buttonsStyling: false,
+        confirmButtonText: 'Удалить',
+        cancelButtonText: 'Отмена',
+        customClass: {
+          confirmButton: 'btn btn-danger',
+          cancelButton: 'btn btn-active-light'
+        }
+      }).then((result) => {
+        if (result.value) {
+          isCustomerDeleting.value = true
+          store.dispatch('customerModule/deleteCustomer', customer.value.id)
+            .then(() => isCustomerDeleting.value = false)
+            .catch((e) => {
+              isCustomerDeleting.value = false
+              Swal.fire({
+                title: 'Произошла ошибка!',
+                html: e,
+                icon: 'error',
+                buttonsStyling: false,
+                confirmButtonText: 'Попробовать еще раз',
+                customClass: {
+                  confirmButton: 'btn btn-secondary'
+                }
+              })
+            })
+        }
+      })
+    }
     return {
-      createdAt
+      createdAt,
+      deleteCustomer,
+      isCustomerDeleting
     }
   }
 }

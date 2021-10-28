@@ -13,6 +13,13 @@ class CustomerService {
       .then((response) => response.data)
   }
 
+  deleteCustomer(customerId) {
+    return api
+      .delete(`/customers/${customerId}`)
+      .then(() => Promise.resolve())
+      .catch((e) => Promise.reject(e))
+  }
+
   getBoard() {
     return api
       .get('/customers/board')

@@ -93,11 +93,8 @@
               </div>
             </div>
           </div>
-          <div class="ms-2 w-100px">
-          </div>
         </div>
-
-        <div class="d-flex flex-stack pt-9 py-4 border-1 border-gray-300 border-top-dashed">
+        <div v-if="customer" class="d-flex flex-stack pt-9 py-4 border-1 border-gray-300 border-top-dashed">
           <Form class="form" @submit="addEventLink" :validation-schema="eventLinkSchema">
             <div class="row d-flex flex-row fv-row fv-plugins-icon-container">
               <label class="fs-5 fw-bold">Ссылка на встречу</label>

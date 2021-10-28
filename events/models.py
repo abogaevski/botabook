@@ -33,8 +33,9 @@ class Event(models.Model):
 
     customer = models.ForeignKey(
         Customer,
-        on_delete=models.PROTECT,
-        related_name='events'
+        on_delete=models.SET_NULL,
+        related_name='events',
+        null=True
     )
 
     title = models.CharField('Тема встречи', max_length=255)

@@ -38,6 +38,17 @@ export const customerModule = {
           return Promise.reject(error)
         })
     },
+    deleteCustomer({ dispatch, commit }, customerId) {
+      return CustomerService.deleteCustomer(customerId)
+        .then(() => {
+          commit(Mutation.DELETE_CUSTOMER, customerId)
+          commit(Mutation.DELETE_CUSTOMER_FROM_BOARD, customerId)
+        })
+        .catch((e) => {
+          dispatch('setError', e, { root: true })
+          return Promise.reject(e)
+        })
+    },
     getBoard({ dispatch, commit }) {
       commit(Mutation.SET_LOADER, true, { root: true })
       return CustomerService.getBoard()
@@ -81,6 +92,21 @@ export const customerModule = {
   mutations: {
     [Mutation.SET_CUSTOMERS](state, customers) {
       return state.customers = [...customers]
+    },
+    [Mutation.DELETE_CUSTOMER](state, customerId) {
+      const index = getCustomerIndexById(state, customerId)
+      if (index === -1) {
+        return
+      }
+      return state.customers.splice(index, 1)
+    },
+    [Mutation.DELETE_CUSTOMER_FROM_BOARD](state, customerId) {
+      state.boardColumns.forEach((board) => {
+        const index = board.customers.findIndex((c) => c.id === customerId)
+        if (index) {
+          return board.customers.splice(index, 1)
+        }
+      })
     },
     [Mutation.SET_BOARD](state, columns) {
       return state.boardColumns = columns.map((board) => {

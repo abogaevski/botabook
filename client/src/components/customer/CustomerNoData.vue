@@ -8,7 +8,7 @@
           <br>Если вас это утешит, можете создать еще одну продаваемую услугу!
         </p>
         <router-link
-          to="/projects/list"
+          to="/projects"
           class="btn btn-primary er fs-6 px-8 py-4"
         >Добавить еще услугу</router-link>
       </div>
