@@ -39,7 +39,7 @@
             <inline-svg src="/media/icons/duotone/Shopping/Money.svg"></inline-svg>
           </span>
           <div class="fs-6">
-            <span class="fw-bold">{{ project.price }} руб.</span>
+            <span class="fw-bold">{{ projectPrice }}</span>
           </div>
         </div>
 
@@ -76,8 +76,21 @@
               <span class="symbol-label fw-bold fs-7" :class="customerSymbolColor">{{ customer.initials }}</span>
             </div>
             <div class="ms-5">
-              <a href="#" class="fw-bolder text-gray-900 text-hover-primary mb-2">{{ customer.name }}</a>
-              <div class="fw-bold text-muted">{{ customer.email }}</div>
+              <div class="fw-bolder text-gray-900 text-hover-primary mb-1">{{ customer.name }}</div>
+              <div class="d-flex flex-column flex-md-row justify-content-md-between">
+                <a :href="`mailto:${customer.email}`" class="fw-bold text-muted mb-1 mb-md-0 me-md-5 text-hover-primary">
+                  <span class="svg-icon svg-icon-5 me-1">
+                    <inline-svg src="/media/icons/duotone/Communication/Mail-at.svg"/>
+                  </span>
+                  {{ customer.email }}
+                </a>
+                <a :href="`tel:${customer.phone}`" class="fw-bold text-muted text-hover-primary">
+                  <span class="svg-icon svg-icon-5 me-1">
+                    <inline-svg src="/media/icons/duotone/Communication/Contact1.svg"/>
+                  </span>
+                  {{ customer.phone }}
+                </a>
+              </div>
             </div>
           </div>
           <div class="ms-2 w-100px">
@@ -148,6 +161,7 @@ export default {
     const eventIconColor = computed(() => ` svg-icon-${event.value.eventColor}`)
 
     const project = computed(() => store.getters['project/projectById'](event.value.project))
+    const projectPrice = computed(() => (project.value.price > 0 ? `${project.value.price} руб` : 'Бесплатно'))
 
     const customer = computed(() => store.getters['customerModule/customerById'](event.value.customer))
     const customerSymbolColor = computed(() => `bg-light-${customer.value.eventColor} text-${customer.value.eventColor}`)
@@ -216,7 +230,8 @@ export default {
       eventLinkSchema,
       addEventLink,
       event,
-      submitLinkBtn
+      submitLinkBtn,
+      projectPrice
     }
   }
 }
