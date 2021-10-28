@@ -2,7 +2,7 @@ export const AsideMenuConfig = [
   {
     pages: [
       {
-        heading: 'Дашборд',
+        heading: 'Рабочий стол',
         route: '/dashboard',
         svgIcon: '/media/icons/duotone/Design/PenAndRuller.svg'
       },

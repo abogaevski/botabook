@@ -31,7 +31,7 @@ export default {
   setup() {
     const store = useStore()
     store.dispatch('calendar/getEvents')
-    store.dispatch('setTitle', 'Дашборд')
+    store.dispatch('setTitle', 'Рабочий стол')
     const user = computed(() => store.getters['userProfile/user'])
     const events = computed(() => store.getters['calendar/events'])
     const futureEvents = computed(() => events.value
