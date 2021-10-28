@@ -100,11 +100,14 @@ class PublicProfileApiView(generics.GenericAPIView):
 
 class CheckProfileSlugApiView(generics.GenericAPIView):
     def get(self, request, slug):
-        user = request.user
-        check_profile = Profile.objects.filter(Q(slug=slug), ~Q(user=user))
+        queryset = Q(slug=slug)
+        if request.user:
+            user = request.user
+            queryset.add(~Q(user=user), Q.AND)
+        check_profile = Profile.objects.filter(queryset)
         if check_profile:
-            return Response(False)
-        return Response(True)
+            return Response({'success': True, 'message': 'user_exists'})
+        return Response({'success': False, 'message': 'slug_clear'})
 
 
 class RequestPasswordResetApiView(generics.GenericAPIView):
