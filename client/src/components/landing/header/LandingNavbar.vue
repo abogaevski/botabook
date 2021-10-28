@@ -4,10 +4,6 @@
     <div class="container">
       <div class="d-flex align-items-center justify-content-between">
         <div class="d-flex align-items-center flex-equal">
-          <button class="btn btn-icon btn-active-color-primary me-3 d-flex d-lg-none"
-                  id="landing_menu_toggle">
-            <span class="svg-icon svg-icon-2hx"></span>
-          </button>
           <a href="#">
             <img alt="Logo" src="/media/logos/botabook.svg"
                  class="logo-default h-30px h-lg-40px"/>
@@ -42,7 +38,7 @@
 <!--        </div>-->
         <div class="flex-equal text-end ms-1">
           <router-link to="/signin" class="btn btn-text-white">Войти</router-link>
-          <router-link to="/signup" class="btn btn-success">Зарегистрироваться</router-link>
+          <router-link to="/signup" class="btn btn-success d-none d-md-inline-block">Зарегистрироваться</router-link>
         </div>
       </div>
     </div>
