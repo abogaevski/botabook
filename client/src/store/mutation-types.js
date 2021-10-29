@@ -42,3 +42,6 @@ export const SET_TITLE = 'SET_TITLE'
 
 // Loader
 export const SET_LOADER = 'SET_LOADER'
+
+// Counters
+export const SET_COUNTERS = 'SET_COUNTERS'

@@ -63,7 +63,13 @@ const routes = [
         path: '/customers',
         name: 'customers-list',
         component: () => import('@/views/customer/CustomerList.vue')
-      }
+      },
+      {
+        path: '/admin/counter',
+        name: 'admin-counter',
+        meta: { superuserOnly: true },
+        component: () => import('@/views/admin/AdminCounter.vue')
+      },
     ]
   },
   {
@@ -124,16 +130,21 @@ const router = createRouter({
 })
 
 router.beforeEach((to, from, next) => {
-  if (to.matched.some((record) => record.meta.requiresAuth)) {
+  if (to.matched.some((record) => record.meta.superuserOnly)) {
+    const user = JSON.parse(localStorage.getItem('token'))
+    if (!Object.keys(user, 'isSuperuser')) {
+      next({ name: '404' })
+    } else {
+      next()
+    }
+  } else if (to.matched.some((record) => record.meta.requiresAuth)) {
     const loggedIn = localStorage.getItem('token')
     if (!loggedIn) {
       next({ name: 'signin' })
     } else {
       next()
     }
-  } else {
-    next()
-  }
+  } else { next() }
   setTimeout(() => {
     window.scrollTo(0, 0);
   }, 0);
