@@ -1,9 +1,10 @@
 import { createStore } from 'vuex'
-import { auth } from '@/store/modules/auth.module';
-import { userProfile } from '@/store/modules/userProfile.module'
-import { calendar } from '@/store/modules/calendar.module'
-import { project } from '@/store/modules/project.module'
-import { customerModule } from '@/store/modules/customer.module'
+import { auth } from './modules/auth.module';
+import { userProfile } from './modules/userProfile.module'
+import { calendar } from './modules/calendar.module'
+import { project } from './modules/project.module'
+import { customerModule } from './modules/customer.module'
+import { adminModule } from './modules/admin.module'
 import * as Mutation from './mutation-types'
 import { errors } from '@/core/_utils/helpers/error-helpers/error-types'
 
@@ -53,7 +54,8 @@ const states = {
     userProfile,
     calendar,
     project,
-    customerModule
+    customerModule,
+    adminModule
   },
 }
 const store = createStore(states)

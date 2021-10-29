@@ -14,6 +14,8 @@ from rest_framework_simplejwt.views import TokenObtainPairView
 
 from rest_framework.parsers import MultiPartParser, FormParser
 
+from core.permissions import IsSuperUser
+from events.models import Event
 from .serializers import *
 from .tasks import send_request_password_reset_url, send_email_verification_url
 from .utils import get_tokens_for_user
@@ -165,7 +167,8 @@ class VerifyEmailApiView(generics.GenericAPIView):
                 user.save()
             return Response({'success': True, 'message': 'email_verify_success'}, status=status.HTTP_200_OK)
         except jwt.ExpiredSignatureError as e:
-            return Response({'success': False, 'message': 'activation_link_expired'}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({'success': False, 'message': 'activation_link_expired'},
+                            status=status.HTTP_400_BAD_REQUEST)
         except jwt.exceptions.DecodeError as e:
             return Response({'success': False, 'message': 'token_not_valid'}, status=status.HTTP_400_BAD_REQUEST)
 
@@ -179,3 +182,12 @@ class SendVerifyEmailMessage(generics.GenericAPIView):
         send_email_verification_url.delay(user.email, user.profile.first_name, url)
 
         return Response({'success': True, 'message': 'verify_email_sent'})
+
+
+class AdminCountersListApiView(generics.GenericAPIView):
+    permission_classes = [IsSuperUser]
+
+    def get(self, request):
+        users = user_model.objects.all().count()
+        events = Event.objects.filter(~Q(status=3)).count()
+        return Response({'users': users, 'events': events})

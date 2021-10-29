@@ -45,7 +45,8 @@
         </div>
         <div class="row mb-8">
           <div class="col-xl-3">
-            <div class="fs-6 fw-bold mt-2 mb-3">Цена</div>
+            <div class="fs-6 fw-bold mt-2">Цена</div>
+            <div class="fs-7 fw-bold text-muted d-flex mb-3">в рублях</div>
           </div>
           <div class="col-xl-9 fv-row fv-plugins-icon-container">
             <Field
@@ -122,8 +123,6 @@
         </div>
       </div>
       <div class="card-footer d-flex justify-content-end py-6 px-9">
-        <button type="reset" class="btn btn-light btn-active-light-primary me-2">Отменить изменения</button>
-
         <button ref="submitBtn" type="submit" class="btn btn-primary">
           <span class="indicator-label">Изменить</span>
           <span class="indicator-progress">Подождите...
@@ -158,11 +157,9 @@ export default {
         .label('Название услуги'),
       description: Yup.string()
         .label('Описание встречи'),
-      price: Yup.number().test(
-        'maxDigitsAfterDecimal',
-        'number field must have 2 digits after decimal or less',
-        (number) => /^\d+(\.\d{1,2})?$/.test(number)
-      )
+      price: Yup.number()
+        .typeError('Укажите пожалуйста цену, либо же 0.')
+        .required('Укажите пожалуйста цену.')
         .required()
         .label('Цена'),
       timeRange: Yup.number()

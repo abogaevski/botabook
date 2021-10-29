@@ -348,7 +348,7 @@
             ref="submitBtn"
           >
             <span class="indicator-label">
-              Сохранить изменения
+              Сохранить
             </span>
             <span class="indicator-progress">
               Подождите...

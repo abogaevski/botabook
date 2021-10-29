@@ -16,5 +16,6 @@ urlpatterns = [
     path('reset-password/<uid64>/<token>', PasswordTokenCheckApiView.as_view(), name='reset-password-confirm'),
     path('reset-password-complete', SetNewPasswordApiView.as_view(), name='reset-password-complete'),
     path('verify-email', VerifyEmailApiView.as_view(), name='verify-email'),
-    path('request-email-verification', SendVerifyEmailMessage.as_view())
+    path('request-email-verification', SendVerifyEmailMessage.as_view()),
+    path('counter', AdminCountersListApiView.as_view())
 ]

@@ -46,6 +46,8 @@ class SigninTokenObtainPairSerializer(TokenObtainPairSerializer):
         refresh = self.get_token(self.user)
         data['refresh'] = str(refresh)
         data['access'] = str(refresh.access_token)
+        if self.user.is_superuser:
+            data['is_superuser'] = self.user.is_superuser
 
         return data
 
@@ -114,7 +116,7 @@ class UserRetrieveSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = get_user_model()
-        fields = ['id', 'email', 'is_verified', 'profile']
+        fields = ['id', 'email', 'is_verified', 'is_superuser', 'profile']
 
 
 class PublicProfileRetrieveSerializer(serializers.ModelSerializer):

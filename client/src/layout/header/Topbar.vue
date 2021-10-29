@@ -1,6 +1,22 @@
 <template>
   <div class="d-flex align-items-stretch flex-shrink-0">
     <div class="d-flex align-items-center ms-1 ms-lg-3">
+      <bt-tooltip title="Открыть календарь">
+        <router-link v-slot="{ href, navigate, isActive, isExactActive }" to="/calendar">
+          <a
+            :class="[isActive && 'active', isExactActive && 'active']"
+            :href="href"
+            class="btn btn-icon btn-active-light-primary w-30px h-30px w-md-40px h-md-40px"
+            @click="navigate"
+          >
+          <span class="svg-icon svg-icon-2hx">
+            <inline-svg src="/media/icons/duotone/Interface/Calendar.svg"/>
+          </span>
+          </a>
+        </router-link>
+      </bt-tooltip>
+    </div>
+    <div class="d-flex align-items-center ms-3">
       <div
         class="cursor-pointer symbol symbol-30px symbol-md-40px"
         data-bb-menu-trigger="click"
@@ -17,12 +33,13 @@
 <script>
 import { mapGetters } from 'vuex'
 import UserMenu from './partials/UserMenu.vue'
+import BtTooltip from '@/components/_core/BtTooltip'
 
 export default {
   name: 'TopBar',
-  components: { UserMenu },
+  components: { UserMenu, BtTooltip },
   computed: {
     ...mapGetters('userProfile', ['user'])
-  },
+  }
 }
 </script>

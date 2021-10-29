@@ -100,30 +100,54 @@
           </div>
         </template>
       </template>
+      <template v-if="user">
+        <div v-if="user.isSuperuser">
+          <div class="menu-item">
+            <div class="menu-content pt-8 pb-2">
+              <span class="menu-section text-muted text-uppercase fs-8 ls-1">Типа админ</span>
+            </div>
+          </div>
+          <div class="menu-item">
+            <router-link v-slot="{ href, navigate, isActive, isExactActive }" to="/admin/counter">
+              <a :class="[isActive && 'active', isExactActive && 'active']" :href="href" class="menu-link" @click="navigate">
+              <span class="menu-icon">
+                <span class="svg-icon svg-icon-2">
+                  <inline-svg src="/media/icons/duotone/Food/Beer.svg"/>
+                </span>
+              </span>
+                <span class="menu-title">
+                Счетчики
+              </span>
+              </a>
+            </router-link>
+          </div>
+        </div>
+      </template>
     </div>
   </div>
 </template>
 
 <script>
+import { computed, onMounted } from 'vue'
+import { useStore } from 'vuex'
+import { useRoute } from 'vue-router'
 import { AsideMenuConfig } from '@/core/config/AsideMenu.config'
 import { ScrollComponent } from '@/core/components/_ScrollComponent'
 
 export default {
   name: 'AsideMenu',
-  data() {
+  setup() {
+    const route = useRoute()
+    const store = useStore()
+    const menuItems = [...AsideMenuConfig]
+    const user = computed(() => store.getters['userProfile/user'])
+    const hasActiveChildren = (match) => route.path.indexOf(match) !== -1
+    onMounted(() => setTimeout(() => ScrollComponent.reinitialization(), 0))
     return {
-      menuItems: [...AsideMenuConfig]
+      user,
+      menuItems,
+      hasActiveChildren
     }
-  },
-  methods: {
-    hasActiveChildren(match) {
-      return this.$route.path.indexOf(match) !== -1;
-    }
-  },
-  mounted() {
-    setTimeout(() => {
-      ScrollComponent.reinitialization();
-    }, 0)
   }
 }
 </script>

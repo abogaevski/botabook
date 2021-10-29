@@ -5,6 +5,7 @@ const initialProfile = {
   id: '',
   email: '',
   isVerified: true,
+  isSuperUser: false,
   profile: {
     avatar: '/media/avatars/blank.png',
   }

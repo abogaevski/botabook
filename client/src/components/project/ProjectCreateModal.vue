@@ -58,6 +58,7 @@
                 class="form-control form-control-solid"
                 placeholder="Например, 600"
               />
+              <div class="fs-7 fw-bold text-muted d-flex justify-content-end">в рублях</div>
               <div class="fv-plugins-message-container invalid-feedback">
                 <ErrorMessage name="price"/>
               </div>
