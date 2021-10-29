@@ -1,6 +1,6 @@
 <template>
     <div class="card card-flush h-lg-100">
-      <div class="card-body">
+      <div class="card-body px-2 px-sm-7">
         <div v-if="!bookingComplete" class="stepper stepper-links" ref="addEventFormStepper">
           <public-page-stepper-nav />
           <Form
@@ -177,7 +177,7 @@
               <div class="mr-2">
                 <button
                   type="button"
-                  class="btn btn-lg btn-light-primary me-3"
+                  class="btn btn-light-primary me-3"
                   @click="previousStep"
                   data-bb-stepper-action="previous"
                 >
@@ -191,25 +191,21 @@
                 <button
                   ref="submitBtn"
                   type="submit"
-                  class="btn btn-lg btn-primary me-3"
+                  class="btn btn-primary me-3"
                   v-if="currentStepIndex === totalSteps - 1"
                 >
-                  <span class="indicator-label">Отправить
-                    <span class="svg-icon svg-icon-3 ms-2 me-0">
-                      <inline-svg src="/media/icons/duotone/Navigation/Arrow-right.svg"/>
-                    </span>
-                  </span>
+                  <span class="indicator-label">Отправить</span>
                   <span class="indicator-progress">Подождите...
                     <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
                   </span>
                 </button>
                 <button
                   type="button"
-                  class="btn btn-lg btn-primary"
+                  class="btn btn-primary"
                   v-else
                   @click="handleStep"
                   :disabled="isDisabledContinueButton"
-                >Продолжить
+                >Далее
                   <span class="svg-icon svg-icon-4 ms-1 me-0">
                     <inline-svg src="/media/icons/duotone/Navigation/Arrow-right.svg"/>
                   </span>

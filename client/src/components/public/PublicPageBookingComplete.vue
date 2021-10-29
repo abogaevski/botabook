@@ -1,5 +1,5 @@
 <template>
-  <div class="card-px text-center pt-10 pb-5 mw-600px mx-auto">
+  <div class="text-center pt-10 pb-5 mw-600px mx-auto">
     <h3 class="fs-2x fw-bolder mb-0">Поздравляем!</h3>
     <p class="text-gray-400 fs-4 fw-bold py-3">
       Ваша заявка на встречу успешно отправлена!
