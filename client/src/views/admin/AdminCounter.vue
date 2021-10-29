@@ -45,7 +45,7 @@ export default {
     store.dispatch('setTitle', 'Циферки 🍺')
     const counters = computed(() => store.getters['adminModule/counters'])
     const play = () => {
-      const audio = new Audio('http://soundbible.com/grab.php?id=333&type=mp3')
+      const audio = new Audio('https://soundbible.com/grab.php?id=333&type=mp3')
       audio.play()
     }
     watch(counters, (newCounters, oldCounters) => {
