@@ -35,7 +35,11 @@
 
 <script>
 import { useStore } from 'vuex'
+<<<<<<< HEAD
 import { computed } from 'vue'
+=======
+import { computed, onMounted, watch } from 'vue'
+>>>>>>> dev
 
 export default {
   name: 'AdminCounter',
@@ -44,7 +48,23 @@ export default {
     store.dispatch('adminModule/getCounters')
     store.dispatch('setTitle', 'Циферки 🍺')
     const counters = computed(() => store.getters['adminModule/counters'])
+<<<<<<< HEAD
     return { counters }
+=======
+    const play = () => {
+      const audio = new Audio('http://soundbible.com/grab.php?id=333&type=mp3')
+      audio.play()
+    }
+    watch(counters, (newCounters, oldCounters) => {
+      if (newCounters.users !== oldCounters.users) {
+        play()
+      }
+    })
+    onMounted(() => {
+      setInterval(() => store.dispatch('adminModule/getCounters'), 10000)
+    })
+    return { counters, play }
+>>>>>>> dev
   }
 }
 </script>
