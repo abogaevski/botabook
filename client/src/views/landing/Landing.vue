@@ -4,10 +4,12 @@
       <landing-header/>
       <landing-curve-bottom/>
     </div>
-    <div class="mb-10 z-index-2">
+    <div class="mb-n10 mb-lg-n20 z-index-2">
       <landing-section-how-it-works />
+      <landing-section-video />
     </div>
-    <div class="">
+    <div class="mt-sm-n10">
+      <landing-curve-top />
       <div class="pb-15 pt-18 landing-dark-bg">
         <landing-section-achievements />
       </div>
@@ -34,6 +36,7 @@ import LandingHeader from '@/components/landing/LandingHeader'
 import LandingCurveBottom from '@/components/landing/_core/LandingCurveBottom'
 import LandingCurveTop from '@/components/landing/_core/LandingCurveTop'
 import LandingSectionHowItWorks from '@/components/landing/LandingSectionHowItWorks'
+import LandingSectionVideo from '@/components/landing/LandingSectionVideo'
 import LandingSectionAchievements from '@/components/landing/LandingSectionAchievements'
 import LandingSectionTeam from '@/components/landing/LandingSectionTeam'
 import LandingHighlight from '@/components/landing/footer/LandingHighlight'
@@ -47,6 +50,7 @@ export default {
     LandingCurveBottom,
     LandingCurveTop,
     LandingSectionHowItWorks,
+    LandingSectionVideo,
     LandingSectionAchievements,
     LandingSectionTeam,
     LandingHighlight,
