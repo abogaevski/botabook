@@ -2,6 +2,7 @@ import AuthService from '@/core/services/auth.service'
 
 import * as Mutation from '../mutation-types'
 import router from '@/router'
+import alert from '@/core/_utils/swal'
 
 const tokenInStorage = JSON.parse(localStorage.getItem('token'))
 const initialToken = {
@@ -18,32 +19,47 @@ export const auth = {
   actions: {
 
     signin({ commit, dispatch }, user) {
-      return AuthService.signin(user).then(
-        (token) => {
-          commit(Mutation.SIGNIN_SUCCESS, token)
-          dispatch('userProfile/getUserProfile', {}, { root: true })
-          return Promise.resolve(token)
+      return AuthService.signin(user)
+        .then((token) => {
+          dispatch('redirectUser', token)
         },
         (error) => {
           commit(Mutation.SIGNIN_FAILURE)
-          // commit(Mutation.SET_ERROR, error.response.data.detail, { root: true })
+          alert({
+            title: error.response ? 'Не удалось войти в систему' : 'Что-то пошло не так',
+            html: error.response.data.detail
+              ? error.response.data.detail
+              : `Произошла неизвестная ошибка, пожалуйста обратитесь в поддержку
+              <a href="mailto:support.botabook@gmail.com">сюда</a>
+            `,
+            icon: 'error'
+          })
           return Promise.reject(error)
-        }
-      )
+        })
     },
 
-    signup({ commit }, user) {
-      return AuthService.signup(user).then(
-        (token) => {
-          commit(Mutation.SIGNIN_SUCCESS, token)
-          return Promise.resolve(token)
+    signup({ dispatch, commit }, user) {
+      return AuthService.signup(user)
+        .then((token) => {
+          dispatch('redirectUser', token)
         },
         (error) => {
           commit(Mutation.SIGNIN_FAILURE)
-          // commit(Mutation.SET_ERROR, error.response.data.email[0], { root: true })
+          alert({
+            title: error.response ? 'Не удалось зарегистрироваться в систему' : 'Что-то пошло не так',
+            html: error.response.data.email
+              ? error.response.data.email
+              : `Произошла неизвестная ошибка, пожалуйста обратитесь в поддержку
+              <a href="mailto:support.botabook@gmail.com">сюда</a>
+            `,
+            icon: 'error'
+          })
           return Promise.reject(error)
-        }
-      )
+        })
+    },
+    redirectUser({ commit }, token) {
+      commit(Mutation.SIGNIN_SUCCESS, token)
+      router.push({ name: 'dashboard' }).then(() => Promise.resolve(token))
     },
 
     refreshToken({ commit }, accessToken) {
@@ -54,6 +70,7 @@ export const auth = {
       AuthService.signout()
         .then(() => {
           commit(Mutation.SIGNOUT)
+          router.push({ name: 'signin' })
         })
     }
   },
@@ -62,7 +79,6 @@ export const auth = {
     [Mutation.SIGNIN_SUCCESS](state, token) {
       state.status.isAuthenticated = true
       state.token = token
-      router.push({ name: 'dashboard' })
     },
     [Mutation.SIGNIN_FAILURE](state) {
       state.status.isAuthenticated = false
@@ -75,7 +91,6 @@ export const auth = {
     [Mutation.SIGNOUT](state) {
       state.status.isAuthenticated = false
       state.token = initialToken
-      router.push({ name: 'signin' })
     }
   }
 }

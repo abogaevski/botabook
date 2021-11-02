@@ -57,8 +57,8 @@
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { Form, Field, ErrorMessage } from 'vee-validate'
-import * as Yup from 'yup'
-import Swal from 'sweetalert2'
+import { string, object } from 'yup'
+import alert from '@/core/_utils/swal'
 import AuthService from '@/core/services/auth.service'
 import ContactModal from '@/components/common/ContactModal'
 
@@ -71,8 +71,8 @@ export default {
     const showModal = () => isActiveContactModal.value = true
     const closeModal = () => isActiveContactModal.value = false
     const submitButton = ref()
-    const requestValidationSchema = Yup.object({
-      email: Yup.string()
+    const requestValidationSchema = object().shape({
+      email: string()
         .email()
         .required()
         .label('Email')
@@ -83,28 +83,18 @@ export default {
       AuthService.requestPasswordReset(values)
         .then(() => {
           submitButton.value.removeAttribute('data-bb-indicator')
-          Swal.fire({
+          alert({
             title: 'Запрос отправлен',
             html: `Ваш запрос на сброс пароля отправлен на ${values.email}`,
-            icon: 'success',
-            buttonsStyling: false,
-            confirmButtonText: 'Хорошо',
-            customClass: {
-              confirmButton: 'btn fw-bold btn-light-primary'
-            }
+            icon: 'success'
           }).then(() => router.push('/signin'))
         })
         .catch((e) => {
           submitButton.value.removeAttribute('data-bb-indicator')
-          Swal.fire({
+          alert({
             title: 'Произошла ошибка',
             html: e,
-            icon: 'error',
-            buttonsStyling: false,
-            confirmButtonText: 'Попробовать еще раз',
-            customClass: {
-              confirmButton: 'btn fw-bold btn-light-secondary'
-            }
+            icon: 'error'
           })
         })
     }

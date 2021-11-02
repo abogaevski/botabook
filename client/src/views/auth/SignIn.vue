@@ -20,7 +20,7 @@
         </div>
         <Form
           class="form w-100"
-          :validation-schema="signInSchema"
+          :validation-schema="signinSchema"
           @submit="submitSignin"
         >
           <div class="text-center mb-10">
@@ -105,9 +105,11 @@
   />
 </template>
 <script>
+import { useStore } from 'vuex'
+import { useRouter } from 'vue-router'
+import { computed, ref } from 'vue'
 import { Form, Field, ErrorMessage } from 'vee-validate'
-import * as Yup from 'yup'
-import Swal from 'sweetalert2/dist/sweetalert2.min'
+import { string, object } from 'yup'
 import ContactModal from '@/components/common/ContactModal'
 
 export default {
@@ -117,67 +119,39 @@ export default {
     Form, Field, ErrorMessage, ContactModal
   },
   emits: ['modal:show', 'modal:close'],
-  data() {
-    const signInSchema = Yup.object().shape({
-      email: Yup.string()
+  setup() {
+    const store = useStore()
+    const router = useRouter()
+    const signinSchema = object().shape({
+      email: string()
         .required()
         .email()
         .label('Email'),
-      password: Yup.string()
+      password: string()
         .required()
-        .min(8)
-        .label('Пароль'),
+        .label('Пароль')
     })
-    return {
-      signInSchema,
-      isActiveContactModal: false
-    };
-  },
-
-  methods: {
-    showModal() {
-      this.isActiveContactModal = true
-    },
-    closeModal() {
-      this.isActiveContactModal = false
-    },
-    submitSignin(values) {
+    const isActiveContactModal = ref(false)
+    const submitButton = ref()
+    const showModal = () => isActiveContactModal.value = true
+    const closeModal = () => isActiveContactModal.value = false
+    const error = computed(() => store.getters.error)
+    const isAuthenticated = computed(() => store.state.auth.status.isAuthenticated)
+    const submitSignin = (values) => {
       values.email = values.email.toLowerCase()
-      this.$refs.submitButton.setAttribute('data-bb-indicator', 'on')
-      this.$store
-        .dispatch('auth/signin', values)
-        .catch((e) => {
-          this.$refs.submitButton.removeAttribute('data-bb-indicator')
-          const title = e.response ? 'Не удалось войти в систему' : 'Что-то пошло не так'
-          const html = e.response.data.detail
-            ? e.response.data.detail
-            : `Произошла неизвестная ошибка, пожалуйста обратитесь в поддержку
-              <a href="mailto:support.botabook@gmail.com">сюда</a>
-            `
-          Swal.fire({
-            title,
-            html,
-            icon: 'error',
-            buttonsStyling: false,
-            confirmButtonText: 'Попробуйте еще раз!',
-            customClass: {
-              confirmButton: 'btn fw-bold btn-light-danger'
-            }
-          })
-        })
+      submitButton.value.setAttribute('data-bb-indicator', 'on')
+      store.dispatch('auth/signin', values)
+        .catch(() => submitButton.value.removeAttribute('data-bb-indicator'))
     }
-  },
-  computed: {
-    error() {
-      return this.$store.getters.error
-    },
-    isAuthenticated() {
-      return this.$store.state.auth.status.isAuthenticated;
-    }
-  },
-  created() {
-    if (this.isAuthenticated) {
-      this.$router.push('/app');
+    isAuthenticated.value ? router.push({ name: 'dashboard' }) : false
+    return {
+      submitButton,
+      signinSchema,
+      showModal,
+      closeModal,
+      error,
+      submitSignin,
+      isActiveContactModal
     }
   }
 }
