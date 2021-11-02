@@ -1,7 +1,7 @@
 <template>
   <loader class="mb-xl-8 mb-lg-8 mb-6" v-if="loader"/>
   <template v-else-if="projects.length && !loader">
-    <project-list-heading></project-list-heading>
+    <project-list-heading />
     <div class="d-flex flex-wrap flex-stack my-5">
       <h2 class="fs-2 fw-bold my-2">
         Услуги
@@ -20,7 +20,7 @@
         </div>
       </div>
     </div>
-    <div class="row g-6 g-xl-9">
+    <div class="row g-6 g-xl-9" v-if="projects.length">
 
       <template v-for="(project, i) in projects" :key="i">
         <div class="col-md-6 col-xl-4">
@@ -33,7 +33,7 @@
     </div>
   </template>
   <project-no-data v-else @modal:show="showModal" :is-active-create-modal="isActiveCreateModal"/>
-  <project-create-modal :show-modal="isActiveCreateModal" @modal:hide="closeModal"/>
+  <project-create-modal :show-modal="isActiveCreateModal" @modal:close="closeModal"/>
 </template>
 
 <script>

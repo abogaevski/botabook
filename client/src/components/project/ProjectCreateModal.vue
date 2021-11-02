@@ -17,8 +17,8 @@
         <div class="modal-body py-10 px-lg-17">
           <div class="text-center mb-13">
             <h1 class="mb-3">Добавить услугу</h1>
-            <div class="text-muted fw-bold fs-5">Если вам необходимо больше информации, посмотрите
-              <a href="#" class="link-primary fw-bolder">страницу вопросов и ответов</a>.
+            <div class="text-muted fw-bold fs-5">Если вам необходимо больше информации, обратитесь
+              <a target="_blank" href="https://t.me/botabookchat" class="link-primary fw-bolder">в наш чат поддержки</a>.
             </div>
           </div>
 
@@ -149,96 +149,65 @@
   </Modal>
 </template>
 <script>
+import { ref } from 'vue'
 import { Form, Field, ErrorMessage } from 'vee-validate'
-import { mapActions } from 'vuex'
-import * as Yup from 'yup'
-import Swal from 'sweetalert2'
+import { useStore } from 'vuex'
+import { object, string, number, boolean } from 'yup'
 import Modal from '@/components/_core/Modal'
 import BtButton from '@/components/_core/buttons/BtButton'
 
 export default {
   name: 'ProjectCreateModal',
-  emits: ['modal:hide'],
+  emits: ['modal:close'],
   props: ['showModal'],
-  data() {
-    const projectSchema = Yup.object({
-      title: Yup.string()
+  components: { Modal, Form, BtButton, Field, ErrorMessage },
+  setup(_, { emit }) {
+    const store = useStore()
+    const projectSchema = object().shape({
+      title: string()
         .trim()
         .required()
         .label('Название услуги'),
-      description: Yup.string()
+      description: string()
         .label('Описание встречи'),
-      price: Yup.number()
+      price: number()
         .typeError('Укажите пожалуйста цену, либо же 0.')
         .required('Укажите пожалуйста цену.')
         .label('Цена'),
-      timeRange: Yup.number()
+      timeRange: number()
         .required()
         .label('Продолжительность'),
-      isActive: Yup.boolean()
+      isActive: boolean()
         .required(),
-      color: Yup.string()
+      color: string()
         .required()
         .label('Цвет')
     })
+    const isActiveProject = ref(true)
+    const colors = ['primary', 'success', 'danger', 'info', 'warning', 'dark']
+    const submitBtn = ref()
+    const submitProject = (values, { resetForm }) => {
+      submitBtn.value.setAttribute('data-bb-indicator', 'on')
+      store.dispatch('project/createProject', values)
+        .finally(() => {
+          submitBtn.value.removeAttribute('data-bb-indicator')
+          resetForm()
+          close()
+        })
+    }
+    const close = () => emit('modal:close')
+    const getProjectColorInputId = (color) => `project_color_${color}`
+    const badgeColor = (color) => `border-${color} btn-light-${color} btn-outline-${color}`
     return {
-      isActiveProject: true,
-      colors: [
-        'primary',
-        'success',
-        'danger',
-        'info',
-        'warning',
-        'dark',
-      ],
-      projectSchema
+      projectSchema,
+      isActiveProject,
+      colors,
+      submitBtn,
+      submitProject,
+      close,
+      getProjectColorInputId,
+      badgeColor
     }
   },
-  components: { Modal, Form, BtButton, Field, ErrorMessage },
-  methods: {
-    ...mapActions('project', ['createProject']),
-
-    submitProject(project, actions) {
-      this.$refs.submitBtn.setAttribute('data-bb-indicator', 'on')
-      this.createProject(project)
-        .then(() => {
-          this.$refs.submitBtn.removeAttribute('data-bb-indicator')
-          Swal.fire({
-            title: 'Ваша услуга успешно добавлена!',
-            icon: 'success',
-            buttonsStyling: false,
-            confirmButtonText: 'Отлично:)',
-            customClass: {
-              confirmButton: 'btn btn-primary'
-            }
-          }).then(() => {
-            actions.resetForm()
-            this.close()
-          })
-        })
-        .catch((e) => {
-          this.$refs.submitBtn.removeAttribute('data-bb-indicator')
-          Swal.fire({
-            title: 'Произошла ошибка!',
-            html: e,
-            icon: 'error',
-            buttonsStyling: false,
-            confirmButtonText: 'Попробовать еще раз',
-            customClass: {
-              confirmButton: 'btn btn-secondary'
-            }
-          })
-        })
-    },
-    close() {
-      this.$emit('modal:hide')
-    },
-    getProjectColorInputId(color) {
-      return `project_color_${color}`
-    },
-    badgeColor(color) {
-      return `border-${color} btn-light-${color} btn-outline-${color}`
-    }
-  }
 }
 </script>

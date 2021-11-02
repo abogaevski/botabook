@@ -1,5 +1,6 @@
 <template>
   <router-link
+    v-if="project"
     :to="`/project/${project.id}`"
   >
     <div class="card border border-2 border-gray-300 border-hover">
@@ -8,19 +9,19 @@
           <div class="symbol symbol-50px w-50px bg-light">
           <span
             class="symbol-label fw-bolder"
-            :class="getColorClass"
+            :class="colorClass"
           >
-            {{ getInitials }}
+            {{ initial }}
           </span>
           </div>
         </div>
         <div class="card-toolbar">
         <span
-          :class="`badge-${getStatusDataColor}`"
+          :class="`badge-${statusDataColor}`"
           class="badge fw-bolder me-auto px-4 py-3 cursor-pointer"
-          @click.prevent="toggleProjectStatus"
+          @click.prevent="toggleStatus"
         >
-          {{ getStatus }}
+          {{ statusText }}
         </span>
         </div>
       </div>
@@ -39,11 +40,11 @@
           </div>
 
           <div class="border border-gray-300 border-dashed rounded min-w-125px py-3 px-4 mb-3">
-            <div class="fs-6 text-gray-800 fw-bolder">{{ getPrice }}</div>
+            <div class="fs-6 text-gray-800 fw-bolder">{{ price }}</div>
             <div class="fw-bold text-gray-400">Стоимость</div>
           </div>
         </div>
-        <template v-if="customers">
+        <template v-if="customers.length">
           <project-customers-symbols-list :customers-id="project.customers" />
         </template>
       </div>
@@ -51,8 +52,9 @@
   </router-link>
 </template>
 <script>
-import { mapActions, mapGetters } from 'vuex'
-import Swal from 'sweetalert2'
+import { computed, toRefs } from 'vue'
+import { useStore } from 'vuex'
+import alert from '@/core/_utils/swal'
 import ProjectCustomersSymbolsList from '@/components/project/ProjectCustomersSymbolsList'
 
 export default {
@@ -61,58 +63,31 @@ export default {
   props: {
     project: Object
   },
-  computed: {
-    ...mapGetters('customerModule', ['customers']),
-    getStatusDataColor() {
-      return this.project.isActive ? 'light-success' : 'light'
-    },
-    getStatus() {
-      return this.project.isActive ? 'Активен' : 'Неактивен'
-    },
-    getInitials() {
-      return this.project.title.split('')[0].toUpperCase()
-    },
-    getColorClass() {
-      return [
-        `bg-light-${this.project.color}`,
-        `text-${this.project.color}`
-      ]
-    },
-    getPrice() {
-      return parseFloat(this.project.price) > 0 ? this.project.price : 'Бесплатно'
+  setup(props) {
+    const { project } = toRefs(props)
+    const store = useStore()
+    const customers = computed(() => store.getters['customerModule/customers'])
+    const statusDataColor = computed(() => (project.value.isActive ? 'light-success' : 'light'))
+    const statusText = computed(() => (project.value.isActive ? 'Активна' : 'Неактивна'))
+    const initial = computed(() => project.value.title.split('')[0].toUpperCase())
+    const colorClass = computed(() => [`bg-light-${project.value.color}`, `text-${project.value.color}`])
+    const price = computed(() => (parseFloat(project.value.price) > 0 ? project.value.price : 'Бесплатно'))
+    const toggleStatus = () => {
+      alert({ title: 'Подтвердите изменение статуса', icon: 'question' })
+        .then((result) => {
+          if (result.value) {
+            store.dispatch('project/toggleProject', project.value)
+          }
+        })
     }
-  },
-  methods: {
-    ...mapActions('project', ['toggleProject']),
-    toggleProjectStatus() {
-      Swal.fire({
-        title: 'Вы уверены, что хотите изменить статус услуги?',
-        icon: 'warning',
-        showCancelButton: true,
-        buttonsStyling: false,
-        confirmButtonText: 'Да!',
-        cancelButtonText: 'Отмена',
-        customClass: {
-          confirmButton: 'btn btn-warning',
-          cancelButton: 'btn btn-active-light'
-        }
-      }).then((result) => {
-        if (result.value) {
-          this.toggleProject(this.project)
-            .catch((e) => {
-              Swal.fire({
-                title: 'Произошла ошибка!',
-                html: e,
-                icon: 'error',
-                buttonsStyling: false,
-                confirmButtonText: 'Попробовать еще раз',
-                customClass: {
-                  confirmButton: 'btn btn-secondary'
-                }
-              })
-            })
-        }
-      })
+    return {
+      customers,
+      statusDataColor,
+      statusText,
+      initial,
+      colorClass,
+      price,
+      toggleStatus
     }
   }
 }

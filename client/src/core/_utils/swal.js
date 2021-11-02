@@ -25,6 +25,9 @@ export default function alert(values) {
     config.confirmButtonText = 'OK'
     config.customClass.confirmButton.push('btn-light-success')
   }
+  if ('confirmButtonText' in values) {
+    config.confirmButtonText = values.confirmButtonText
+  }
   return Swal.fire(config)
     .then((result) => Promise.resolve(result))
     .catch(() => Promise.reject())
