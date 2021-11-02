@@ -40,7 +40,6 @@ export default {
     store.dispatch('customerModule/getCustomers')
     store.dispatch('setTitle', 'Календарь')
     const loader = computed(() => store.getters.loader)
-
     const onEventClick = ({ event }) => {
       eventId.value = event.id
       showModal()

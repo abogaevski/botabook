@@ -336,13 +336,6 @@
 
         <div class="card-footer d-flex justify-content-end py-6 px-9">
           <button
-            type="reset"
-            class="btn btn-white btn-active-light-primary me-2"
-          >
-            Отмена
-          </button>
-
-          <button
             type="submit"
             class="btn btn-primary"
             ref="submitBtn"
@@ -367,8 +360,7 @@ import { computed, ref, watch } from 'vue'
 import { useStore } from 'vuex'
 import { tz } from 'moment-timezone'
 import { Form, Field, ErrorMessage } from 'vee-validate'
-import * as Yup from 'yup'
-import Swal from 'sweetalert2'
+import { string, object } from 'yup'
 import ProfileAvatar from '@/components/profile/ProfileAvatar'
 import BtTooltip from '@/components/_core/BtTooltip'
 import UserService from '@/core/services/user.service'
@@ -394,16 +386,16 @@ export default {
       startWorkHour: '',
       endWorkHour: ''
     })
-    const profileSchema = Yup.object({
-      firstName: Yup.string()
+    const profileSchema = object({
+      firstName: string()
         .required()
         .label('Имя'),
-      lastName: Yup.string()
+      lastName: string()
         .required()
         .label('Фамилия'),
-      welcomeText: Yup.string()
+      welcomeText: string()
         .label('Текст приветствия'),
-      slug: Yup.string()
+      slug: string()
         .matches('^[a-z0-9]+(?:-[a-z0-9]+)*$')
         .test('slugUnique', (value, { path, createError }) => {
           if (value) {
@@ -416,23 +408,23 @@ export default {
         .min(4, 'Минимальное количество символов - 4')
         .required()
         .label('Ссылка на страницу'),
-      title: Yup.string()
+      title: string()
         .label('Должность'),
-      company: Yup.string()
+      company: string()
         .label('Компания'),
-      phone: Yup.string()
+      phone: string()
         .label('Телефон'),
-      website: Yup.string()
+      website: string()
         .label('Вебсайт'),
-      country: Yup.string()
+      country: string()
         .label('Страна'),
-      city: Yup.string()
+      city: string()
         .label('Город'),
-      timezone: Yup.string()
+      timezone: string()
         .label('Часовой пояс'),
-      startWorkHour: Yup.string()
+      startWorkHour: string()
         .label('Часы доступности'),
-      endWorkHour: Yup.string()
+      endWorkHour: string()
         .label('Часы доступности')
     })
     const loader = computed(() => store.getters.loader)
@@ -454,38 +446,8 @@ export default {
       submitBtn.value.setAttribute('data-bb-indicator', 'on')
       const { id } = user.value
       store.dispatch('userProfile/updateUserProfile', { values, id })
-        .then(() => {
-          Swal.fire({
-            title: 'Ваш профиль успешно обновлен!',
-            icon: 'success',
-            buttonsStyling: false,
-            confirmButtonText: 'Отлично',
-            customClass: {
-              confirmButton: 'btn btn-primary'
-            }
-          })
-          submitBtn.value.removeAttribute('data-bb-indicator')
-        })
-        .catch(() => {
-          const title = this.error.status
-            ? `Ошибка: ${this.error.status}. Не удалось обновить профиль`
-            : 'Что-то пошло не так'
-          const html = this.error.statusText
-            ? this.error.statusText
-            : 'Произошла неизвестная ошибка'
-
-          Swal.fire({
-            title,
-            html: `${html}`,
-            icon: 'error',
-            buttonsStyling: false,
-            confirmButtonText: 'Попробуйте еще раз!',
-            customClass: {
-              confirmButton: 'btn fw-bold btn-light-danger'
-            }
-          })
-          submitBtn.value.removeAttribute('data-bb-indicator')
-        })
+        .then(() => submitBtn.value.removeAttribute('data-bb-indicator'))
+        .catch(() => submitBtn.value.removeAttribute('data-bb-indicator'))
     }
 
     return {

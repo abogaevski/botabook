@@ -1,19 +1,31 @@
 import Swal from 'sweetalert2'
 
 export default function alert(values) {
-  const configBtnText = values.icon === 'error' ? 'Попробовать еще раз' : 'OK'
-  const btnClass = values.icon === 'error' ? 'btn-light-danger' : 'btn-light-success'
   const config = {
-    title: values.title,
-    html: values.html,
-    icon: values.icon,
+    title: values.title || '',
+    html: values.html || '',
+    icon: values.icon || 'danger',
+    showCancelButton: false,
     buttonsStyling: false,
-    confirmButtonText: configBtnText,
+    confirmButtonText: 'OK',
+    cancelButtonText: 'Отмена',
     customClass: {
-      confirmButton: `btn fw-bold ${btnClass}`
+      confirmButton: ['btn', 'fw-bold'],
+      cancelButton: ['btn', 'btn-active-light']
     }
   }
-  Swal.fire(config)
-    .then(() => Promise.resolve())
+  if (values.icon === 'error') {
+    config.confirmButtonText = 'Попробовать еще раз'
+    config.customClass.confirmButton.push('btn-light-danger')
+  } else if (values.icon === 'question') {
+    config.confirmButtonText = 'Подтвердить'
+    config.customClass.confirmButton.push('btn-light-primary')
+    config.showCancelButton = true
+  } else if (values.icon === 'success') {
+    config.confirmButtonText = 'OK'
+    config.customClass.confirmButton.push('btn-light-success')
+  }
+  return Swal.fire(config)
+    .then((result) => Promise.resolve(result))
     .catch(() => Promise.reject())
 }

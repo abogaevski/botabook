@@ -6,7 +6,7 @@
         class="image-input image-input-outline"
         :show-file-list="false"
         action=""
-        :http-request="uploadProfileAvatar"
+        :http-request="uploadAvatar"
         :auto-upload="true"
       >
         <img :src="avatar" class="avatar image-input-wrapper" alt="avatar"/>
@@ -14,7 +14,7 @@
             <span
               class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow"
               data-bb-image-input-action="remove"
-              @click.stop="removeProfileAvatar"
+              @click.stop="removeAvatar"
             >
             <i class="bi bi-x fs-2"></i>
           </span>
@@ -41,98 +41,41 @@
   </div>
 </template>
 <script>
-
-import Swal from 'sweetalert2'
-import { mapActions } from 'vuex'
+import { computed, ref, toRefs } from 'vue'
+import { useStore } from 'vuex'
+import alert from '@/core/_utils/swal'
 
 export default {
+  name: 'ProfileAvatar',
   props: ['avatar', 'id'],
-  data() {
-    return {
-      isAvatarUpdating: false
-    }
-  },
-  computed: {
-    isInitAvatar() {
-      return this.avatar === '/media/avatars/blank.png'
-    }
-  },
-  methods: {
-    ...mapActions('userProfile', ['updateUserProfileAvatar', 'removeUserProfileAvatar']),
-
-    uploadProfileAvatar(props) {
-      const avatar = props.file
-      const fileSize = avatar.size / 1024 / 1024;
-      console.log(fileSize)
+  setup(props) {
+    const store = useStore()
+    const { avatar, id } = toRefs(props)
+    const isAvatarUpdating = ref(false)
+    const isInitAvatar = computed(() => avatar.value === '/media/avatars/blank.png')
+    const uploadAvatar = (values) => {
+      const { file } = values
+      const fileSize = file.size / 1024 / 1024
       if (fileSize >= 2) {
-        Swal.fire({
-          title: 'Ошибка.',
-          html: 'Слишком большой размер фотографии. Пожалуйста, добавьте другую.<br>Максимальный размер - 2МБ',
-          icon: 'warning',
-          buttonsStyling: false,
-          confirmButtonText: 'Попробовать еще раз',
-          customClass: {
-            confirmButton: 'btn btn-primary'
-          }
-        })
+        alert({ title: 'Ошибка.', html: 'Слишком большой размер фотографии. Пожалуйста, добавьте другую.<br>Максимальный размер - 2МБ', icon: 'warning' })
         return
       }
-      this.isAvatarUpdating = true
-      const { id } = this
+      isAvatarUpdating.value = true
       const form = new FormData()
-      form.append('avatar', avatar)
-      this.updateUserProfileAvatar({ form, id })
-        .then(() => {
-          Swal.fire({
-            title: 'Ваш аватар успешно обновлен!',
-            icon: 'success',
-            buttonsStyling: false,
-            confirmButtonText: 'Отлично',
-            customClass: {
-              confirmButton: 'btn btn-primary'
-            }
-          }).then(() => this.isAvatarUpdating = false)
-        })
-        .catch((e) => {
-          Swal.fire({
-            title: 'Произошла ошибка!',
-            html: e,
-            icon: 'error',
-            buttonsStyling: false,
-            confirmButtonText: 'Попробовать еще раз',
-            customClass: {
-              confirmButton: 'btn btn-secondary'
-            }
-          }).then(() => this.isAvatarUpdating = false)
-        })
-    },
-    removeProfileAvatar() {
-      const { id } = this
-      this.removeUserProfileAvatar(id)
-        .then(() => {
-          Swal.fire({
-            title: 'Ваш аватар успешно удален!',
-            icon: 'warning',
-            buttonsStyling: false,
-            confirmButtonText: 'ОК',
-            customClass: {
-              confirmButton: 'btn btn-warning'
-            }
-          })
-        })
-        .catch((e) => {
-          Swal.fire({
-            title: 'Произошла ошибка!',
-            html: e,
-            icon: 'error',
-            buttonsStyling: false,
-            confirmButtonText: 'Попробовать еще раз',
-            customClass: {
-              confirmButton: 'btn btn-secondary'
-            }
-          })
-        })
-    },
-  },
+      form.append('avatar', file)
+      store.dispatch('userProfile/updateUserProfileAvatar', { form, id: id.value })
+        .then(() => isAvatarUpdating.value = false)
+        .catch(() => isAvatarUpdating.value = false)
+    }
+    const removeAvatar = () => {
+      store.dispatch('userProfile/removeUserProfileAvatar', id.value)
+    }
+    return {
+      isInitAvatar,
+      isAvatarUpdating,
+      uploadAvatar,
+      removeAvatar
+    }
+  }
 }
 </script>

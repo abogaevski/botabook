@@ -1,5 +1,6 @@
 import UserService from '@/core/services/user.service'
 import * as Mutation from '../mutation-types'
+import alert from '@/core/_utils/swal'
 
 const initialProfile = {
   id: '',
@@ -31,6 +32,7 @@ export const userProfile = {
       return UserService.updateUserProfile(values, id)
         .then((newProfile) => {
           commit(Mutation.UPDATE_USERPROFILE, newProfile)
+          alert({ title: 'Ваш профиль успешно обновлен!', icon: 'success' })
           return Promise.resolve()
         })
         .catch((error) => {
@@ -43,6 +45,7 @@ export const userProfile = {
       return UserService.uploadProfileAvatar(form, id)
         .then((response) => {
           commit(Mutation.UPDATE_USERPROFILE_AVATAR, response.avatar)
+          alert({ title: 'Аватар успешно обновлен', icon: 'success' })
         })
         .catch((error) => {
           dispatch('setError', error, { root: true })
@@ -54,6 +57,7 @@ export const userProfile = {
       return UserService.removeProfileAvatar(id)
         .then(() => {
           commit(Mutation.REMOVE_USERPROFILE_AVATAR)
+          alert({ title: 'Аватар успешно удален', icon: 'success' })
         })
         .catch((error) => {
           dispatch('setError', error, { root: true })
