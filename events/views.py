@@ -74,15 +74,8 @@ class PublicAvailableTimeApiView(generics.GenericAPIView):
         profile = get_object_or_404(Profile, slug=slug)
         project_range = Project.objects.filter(pk=project_id).first().time_range
 
-        start = pd.to_datetime(
-            profile.start_work_hour,
-            format='%H:%M'
-        ).time().strftime('%H:%M:%S')
-
-        end = pd.to_datetime(
-            profile.end_work_hour,
-            format='%H:%M'
-        ).time().strftime('%H:%M:%S')
+        start = pd.to_datetime(profile.start_work_hour, format='%H:%M').time().strftime('%H:%M:%S')
+        end = pd.to_datetime(profile.end_work_hour, format='%H:%M').time().strftime('%H:%M:%S')
 
         selected_date = datetime.strptime(date, '%Y-%m-%d')
         time_range = pd.timedelta_range(
