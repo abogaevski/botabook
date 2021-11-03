@@ -7,6 +7,7 @@ import { customerModule } from './modules/customer.module'
 import { adminModule } from './modules/admin.module'
 import * as Mutation from './mutation-types'
 import { errors } from '@/core/_utils/helpers/error-helpers/error-types'
+import alert from '@/core/_utils/swal'
 
 const states = {
   state: {
@@ -46,6 +47,7 @@ const states = {
       } else {
         errorData = error.message
       }
+      alert({ title: 'Произошла ошибка', html: errorData, icon: 'error' })
       commit(Mutation.SET_ERROR, errorData)
     }
   },

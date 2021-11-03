@@ -113,7 +113,7 @@ import { useStore } from 'vuex'
 import { useRoute, useRouter } from 'vue-router'
 import { computed } from 'vue'
 import moment from 'moment'
-import Swal from 'sweetalert2'
+import alert from '@/core/_utils/swal'
 import ProjectCustomersSymbolsList from '@/components/project/ProjectCustomersSymbolsList'
 import BtButton from '@/components/_core/buttons/BtButton'
 
@@ -129,6 +129,9 @@ export default {
     store.dispatch('calendar/getEvents')
     store.dispatch('customerModule/getCustomers')
     const project = computed(() => store.getters['project/projectById'](route.params.id))
+    // const title = computed(() => (project.value ? project.value.title : ''))
+    // store.dispatch('setTitle', title)
+
     const customers = computed(() => store.getters['customerModule/customers'])
 
     const colorClass = computed(() => {
@@ -143,36 +146,17 @@ export default {
     const price = computed(() => (parseFloat(project.value.price) > 0 ? project.value.price : 'Бесплатно'))
 
     const deleteProject = () => {
-      Swal.fire({
+      alert({
         title: 'Вы уверены, что хотите удалить проект?',
         html: 'Все встречи будут также удалены (клиенты останутся)',
         icon: 'question',
-        showCancelButton: true,
-        buttonsStyling: false,
-        confirmButtonText: 'Удалить!',
-        cancelButtonText: 'Отмена',
-        customClass: {
-          confirmButton: 'btn btn-danger',
-          cancelButton: 'btn btn-active-light'
-        }
+        confirmButtonText: 'Удалить'
       }).then((result) => {
         if (result.value) {
           store.dispatch('project/deleteProject', project.value.id)
             .then(() => router.push('/projects'))
         }
       })
-        .catch((e) => {
-          Swal.fire({
-            title: 'Произошла ошибка!',
-            html: e,
-            icon: 'error',
-            buttonsStyling: false,
-            confirmButtonText: 'Попробовать еще раз',
-            customClass: {
-              confirmButton: 'btn btn-secondary'
-            }
-          })
-        })
     }
 
     return {

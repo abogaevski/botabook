@@ -32,7 +32,7 @@
 <script>
 import { useStore } from 'vuex'
 import { computed, toRefs, ref } from 'vue'
-import Swal from 'sweetalert2'
+import alert from '@/core/_utils/swal'
 import BtButton from '@/components/_core/buttons/BtButton'
 import BtTooltip from '@/components/_core/BtTooltip'
 import getEventStatus from '@/core/_utils/helpers/event-helpers/getEventStatus'
@@ -47,48 +47,18 @@ export default {
     const statusInfo = computed(() => getEventStatus(currentStatus.value))
     const isStatusUpdating = ref(false)
     const updateEventStatus = (status) => {
-      Swal.fire({
-        title: 'Вы уверены, что хотите изменить статус встречи?',
+      alert({
+        title: 'Подтвердите изменение статуса встречи',
         icon: 'question',
-        showCancelButton: true,
-        buttonsStyling: false,
-        confirmButtonText: 'Изменить!',
-        cancelButtonText: 'Отмена',
-        customClass: {
-          confirmButton: 'btn btn-primary',
-          cancelButton: 'btn btn-active-light'
-        }
       }).then((result) => {
         if (result.value) {
           isStatusUpdating.value = true
           store.dispatch('calendar/updateEvent', { id: eventId.value, status })
             .then(() => {
               isStatusUpdating.value = false
-              Swal.fire({
-                title: 'Статус изменен!',
-                icon: 'success',
-                showCancelButton: false,
-                buttonsStyling: false,
-                confirmButtonText: 'Супер!',
-                customClass: {
-                  confirmButton: 'btn btn-primary',
-                  cancelButton: 'btn btn-active-light'
-                }
-              })
+              alert({ title: 'Статус изменен!', icon: 'success', })
             })
-            .catch((e) => {
-              isStatusUpdating.value = false
-              Swal.fire({
-                title: 'Произошла ошибка!',
-                html: e,
-                icon: 'error',
-                buttonsStyling: false,
-                confirmButtonText: 'Попробовать еще раз',
-                customClass: {
-                  confirmButton: 'btn btn-secondary'
-                }
-              })
-            })
+            .catch(() => isStatusUpdating.value = false)
         }
       })
     }

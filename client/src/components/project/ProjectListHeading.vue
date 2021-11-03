@@ -49,7 +49,6 @@
           <div class="fs-6 d-flex justify-content-between my-4">
             <div class="fw-bold">Минимальная цена</div>
             <div class="d-flex fw-bolder">
-              <!--begin::Svg Icon | path: icons/duotune/arrows/arr006.svg-->
               <span class="svg-icon svg-icon-3 me-1 svg-icon-danger"></span>
               {{ priceMin }} руб
             </div>
@@ -58,7 +57,6 @@
           <div class="fs-6 d-flex justify-content-between mt-4">
             <div class="fw-bold">Максимальная цена</div>
             <div class="d-flex fw-bolder">
-              <!--begin::Svg Icon | path: icons/duotune/arrows/arr007.svg-->
               <span class="svg-icon svg-icon-3 me-1 svg-icon-success"></span>
               {{ priceMax }} руб
             </div>
@@ -72,7 +70,7 @@
           <div class="fs-2hx fw-bolder">{{ customersCount }}</div>
           <div class="fs-4 fw-bold text-gray-400 mb-7">Всего клиентов</div>
           <div class="symbol-group symbol-hover mb-9">
-            <template v-for="(k, i) of 8" :key="i">
+            <template v-for="(_, i) of 8" :key="i">
               <template v-if="customers[i]">
                 <bt-tooltip
                   tag="div"
@@ -82,9 +80,9 @@
                 >
                     <span
                       class="symbol-label fw-bolder"
-                      :class="`bg-light-${customers[i].color} text-${customers[i].color}`"
-                    >{{ customers[i].initials }}</span
-                    >
+                      :class="`bg-light-${customers[i].color} text-${customers[i].color}`">
+                      {{ customers[i].initials }}
+                    </span>
                 </bt-tooltip>
               </template>
             </template>

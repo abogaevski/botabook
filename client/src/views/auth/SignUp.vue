@@ -175,92 +175,65 @@
 </template>
 
 <script>
-import * as Yup from 'yup'
+import { useStore } from 'vuex'
+import { computed, ref } from 'vue'
+import { string, object, ref as yref } from 'yup'
 import { Form, Field, ErrorMessage } from 'vee-validate'
-import Swal from 'sweetalert2'
 import ContactModal from '@/components/common/ContactModal'
 
-// /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/
 export default {
-  data() {
-    const signupSchema = Yup.object().shape({
-      firstName: Yup.string()
+  name: 'SignUp',
+  components: { Form, Field, ErrorMessage, ContactModal },
+  setup() {
+    const store = useStore()
+    const signupSchema = object().shape({
+      firstName: string()
         .required()
         .label('Имя'),
-      lastName: Yup.string()
+      lastName: string()
         .required()
         .label('Фамилия'),
-      email: Yup.string()
+      email: string()
         .min(4)
         .required()
         .lowercase()
         .email()
         .label('Email'),
-      password: Yup.string()
+      password: string()
         .min(8)
         .matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{8,})/, 'Пароль не соответствует требованиям')
         .required()
         .label('Пароль'),
-      cpassword: Yup.string()
+      cpassword: string()
         .min(8)
         .required()
-        .oneOf([Yup.ref('password'), null], 'Пароли должны совпадать')
+        .oneOf([yref('password'), null], 'Пароли должны совпадать')
         .label('Подтверждение пароля'),
     })
-    return {
-      signupSchema,
-      isActiveContactModal: false
-
-    }
-  },
-  components: {
-    Form, Field, ErrorMessage, ContactModal
-  },
-  methods: {
-    showModal() {
-      this.isActiveContactModal = true
-    },
-    closeModal() {
-      this.isActiveContactModal = false
-    },
-    submitSignup(values) {
+    const submitButton = ref()
+    const isActiveContactModal = ref(false)
+    const showModal = () => isActiveContactModal.value = true
+    const closeModal = () => isActiveContactModal.value = false
+    const error = computed(() => store.getters.error)
+    const submitSignup = (values) => {
       values.email = values.email.toLowerCase()
-      this.$refs.submitButton.setAttribute('data-bb-indicator', 'on')
+      submitButton.value.setAttribute('data-bb-indicator', 'on')
       const userData = {
         ...values,
         timezone: Intl.DateTimeFormat().resolvedOptions().timeZone
       }
-      this.$store
-        .dispatch('auth/signup', userData)
-        .catch((e) => {
-          this.$refs.submitButton.removeAttribute('data-bb-indicator')
-          const title = e ? 'Не удалось зарегистрироваться в систему' : 'Что-то пошло не так'
-          const html = e.response.data.email[0]
-            ? e.response.data.email[0]
-            : `Произошла неизвестная ошибка, пожалуйста обратитесь в поддержку
-              <a href="mailto:antnbog@gmail.com">сюда</a>
-            `
-          Swal.fire({
-            title,
-            html,
-            icon: 'error',
-            buttonsStyling: false,
-            confirmButtonText: 'Попробуйте еще раз!',
-            customClass: {
-              confirmButton: 'btn fw-bold btn-light-danger'
-            }
-          })
-        })
+      store.dispatch('auth/signup', userData)
+        .catch(() => submitButton.value.removeAttribute('data-bb-indicator'))
+    }
+    return {
+      signupSchema,
+      submitButton,
+      isActiveContactModal,
+      showModal,
+      closeModal,
+      error,
+      submitSignup
     }
   },
-  computed: {
-    error() {
-      return this.$store.getters.error
-    },
-  }
 }
 </script>
-
-<style>
-
-</style>

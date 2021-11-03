@@ -133,8 +133,8 @@ import { computed, toRefs, ref } from 'vue'
 import { useStore } from 'vuex'
 import moment from 'moment'
 import { Form, Field, ErrorMessage } from 'vee-validate'
-import Swal from 'sweetalert2'
-import * as Yup from 'yup'
+import { object, string } from 'yup'
+import alert from '@/core/_utils/swal'
 import Modal from '@/components/_core/Modal'
 import BtButton from '@/components/_core/buttons/BtButton'
 import CalendarStatusButtons from '@/components/calendar/CalendarStatusButtons'
@@ -163,8 +163,8 @@ export default {
     const customer = computed(() => store.getters['customerModule/customerById'](event.value.customer))
     const customerSymbolColor = computed(() => `bg-light-${customer.value.eventColor} text-${customer.value.eventColor}`)
 
-    const eventLinkSchema = Yup.object({
-      link: Yup.string()
+    const eventLinkSchema = object().shape({
+      link: string()
         .url()
         .nullable()
         .label('Ссылка')
@@ -180,41 +180,11 @@ export default {
         store.dispatch('calendar/updateEvent', { ...payload })
           .then(() => {
             submitLinkBtn.value.removeAttribute('data-bb-indicator')
-            Swal.fire({
-              title: 'Ссылка успешно добавлена!',
-              html: 'Пользователь будет уведомлен о ссылке',
-              icon: 'success',
-              buttonsStyling: false,
-              confirmButtonText: 'Отлично',
-              customClass: {
-                confirmButton: 'btn btn-primary'
-              }
-            })
+            alert({ title: 'Ссылка успешно добавлена!', html: 'Пользователь будет уведомлен о ссылке', icon: 'success' })
           })
-          .catch((e) => {
-            submitLinkBtn.value.removeAttribute('data-bb-indicator')
-            Swal.fire({
-              title: 'Произошла ошибка!',
-              html: e,
-              icon: 'error',
-              buttonsStyling: false,
-              confirmButtonText: 'Попробовать еще раз',
-              customClass: {
-                confirmButton: 'btn btn-secondary'
-              }
-            })
-          })
+          .catch(() => submitLinkBtn.value.removeAttribute('data-bb-indicator'))
       } else {
-        Swal.fire({
-          title: 'Укажите ссылку!',
-          html: 'Вы не указали ссылку для встречи',
-          icon: 'error',
-          buttonsStyling: false,
-          confirmButtonText: 'Попробовать еще раз',
-          customClass: {
-            confirmButton: 'btn btn-secondary'
-          }
-        })
+        alert({ title: 'Укажите ссылку!', html: 'Вы не указали ссылку для встречи', icon: 'error' })
       }
     }
 

@@ -1,5 +1,6 @@
 import ProjectService from '@/core/services/project.service'
 import * as Mutation from '../mutation-types'
+import alert from '@/core/_utils/swal'
 
 export const getProjectIndexById = (state, projectId) => state.projects.findIndex((project) => project.id.toString() === projectId.toString())
 
@@ -25,6 +26,7 @@ export const project = {
       return ProjectService.createProject(newProject)
         .then((prj) => {
           commit(Mutation.CREATE_PROJECT, prj)
+          alert({ title: 'Услуга успешно добавлена', icon: 'success' })
           return Promise.resolve()
         })
         .catch((error) => {
@@ -37,6 +39,7 @@ export const project = {
       return ProjectService.toggleProject(toggledProject.id, toggledProject.isActive)
         .then((p) => {
           commit(Mutation.UPDATE_PROJECT, p)
+          alert({ title: 'Статус услуги изменен успешно', icon: 'success' })
         })
         .catch((error) => {
           dispatch('setError', error, { root: true })
@@ -46,7 +49,10 @@ export const project = {
     updateProject({ dispatch, commit }, updatedProject) {
       const { id } = updatedProject
       return ProjectService.updateProject(id, updatedProject)
-        .then((p) => commit(Mutation.UPDATE_PROJECT, p))
+        .then((p) => {
+          commit(Mutation.UPDATE_PROJECT, p)
+          alert({ title: 'Услуга изменена успешно', icon: 'success' })
+        })
         .catch((error) => {
           dispatch('setError', error, { root: true })
           return Promise.reject(error)

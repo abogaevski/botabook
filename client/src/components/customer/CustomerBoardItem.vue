@@ -65,7 +65,7 @@
 import { toRefs, ref } from 'vue'
 import { useStore } from 'vuex'
 import moment from 'moment'
-import Swal from 'sweetalert2'
+import alert from '@/core/_utils/swal'
 import BtButton from '@/components/_core/buttons/BtButton'
 import BtTooltip from '@/components/_core/BtTooltip'
 
@@ -79,37 +79,16 @@ export default {
     const createdAt = moment(customer.value.createdAt).format('DD MMM YYYY')
     const isCustomerDeleting = ref(false)
     const deleteCustomer = () => {
-      Swal.fire({
+      alert({
         title: 'Вы уверены?',
         html: `Подтвердите, что хотите удалить клиента "${customer.value.name}".
         Все встречи останутся, но информация о клиенте будет утеряна!`,
         icon: 'question',
-        showCancelButton: true,
-        buttonsStyling: false,
-        confirmButtonText: 'Удалить',
-        cancelButtonText: 'Отмена',
-        customClass: {
-          confirmButton: 'btn btn-danger',
-          cancelButton: 'btn btn-active-light'
-        }
       }).then((result) => {
         if (result.value) {
           isCustomerDeleting.value = true
           store.dispatch('customerModule/deleteCustomer', customer.value.id)
-            .then(() => isCustomerDeleting.value = false)
-            .catch((e) => {
-              isCustomerDeleting.value = false
-              Swal.fire({
-                title: 'Произошла ошибка!',
-                html: e,
-                icon: 'error',
-                buttonsStyling: false,
-                confirmButtonText: 'Попробовать еще раз',
-                customClass: {
-                  confirmButton: 'btn btn-secondary'
-                }
-              })
-            })
+            .finally(() => isCustomerDeleting.value = false)
         }
       })
     }

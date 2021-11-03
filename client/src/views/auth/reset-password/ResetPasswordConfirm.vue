@@ -72,8 +72,8 @@
 import { ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { Form, Field, ErrorMessage } from 'vee-validate'
-import Swal from 'sweetalert2'
-import * as Yup from 'yup'
+import { string, object, ref as yref } from 'yup'
+import alert from '@/core/_utils/swal'
 import AuthService from '@/core/services/auth.service'
 import ContactModal from '@/components/common/ContactModal'
 import BtContentLoader from '@/components/_core/BtContentLoader'
@@ -92,27 +92,22 @@ export default {
     AuthService.confirmPasswordReset(route.params.uid64, route.params.token)
       .then(() => isLoaderEnabled.value = false)
       .catch((e) => {
-        Swal.fire({
+        alert({
           title: `Ошибка: ${e.response.status}`,
           html: 'Ссылка недействительна',
           icon: 'error',
-          buttonsStyling: false,
-          confirmButtonText: 'Войти',
-          customClass: {
-            confirmButton: 'btn fw-bold btn-light-primary'
-          }
         }).then(() => router.push('/signin'))
       })
-    const resetPasswordSchema = Yup.object({
-      password: Yup.string()
+    const resetPasswordSchema = object().shape({
+      password: string()
         .min(8)
         .required()
         .matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{8,})/, 'Пароль не соответствует требованиям')
         .label('Пароль'),
-      cpassword: Yup.string()
+      cpassword: string()
         .min(8)
         .required()
-        .oneOf([Yup.ref('password'), null], 'Пароли должны совпадать')
+        .oneOf([yref('password'), null], 'Пароли должны совпадать')
         .label('Подтверждение пароля'),
     })
     const submitResetPassword = (values) => {
@@ -125,28 +120,18 @@ export default {
       AuthService.completePasswordReset(formData)
         .then(() => {
           submitButton.value.removeAttribute('data-bb-indicator')
-          Swal.fire({
+          alert({
             title: 'Пароль был изменен',
             html: 'Пожалуйста, нажмите на кнопку ниже, чтобы войти',
             icon: 'success',
-            buttonsStyling: false,
-            confirmButtonText: 'Войти',
-            customClass: {
-              confirmButton: 'btn fw-bold btn-light-primary'
-            }
           }).then(() => router.push('/signin'))
         })
         .catch((e) => {
           submitButton.value.removeAttribute('data-bb-indicator')
-          Swal.fire({
+          alert({
             title: 'Произошла ошибка',
             html: e,
             icon: 'error',
-            buttonsStyling: false,
-            confirmButtonText: 'Попробовать еще раз',
-            customClass: {
-              confirmButton: 'btn fw-bold btn-light-secondary'
-            }
           })
         })
     }

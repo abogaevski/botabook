@@ -18,7 +18,7 @@
         <bt-content-loader v-else />
         <div
           class="d-flex flex-row-auto bgi-no-repeat bgi-position-x-center bgi-size-contain bgi-position-y-bottom min-h-100px min-h-lg-350px"
-          style="background-image: url('/media/illustrations/sketchy-1/17.png'"></div>
+          style="background-image: url('/media/illustrations/sketchy-1/17.png')"></div>
       </div>
       <div class="d-flex flex-center flex-column-auto p-10">
         <div class="d-flex align-items-center fw-bold fs-6">
@@ -37,7 +37,7 @@
 <script>
 import { ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import Swal from 'sweetalert2'
+import alert from '@/core/_utils/swal'
 import AuthService from '@/core/services/auth.service'
 import ContactModal from '@/components/common/ContactModal'
 import BtContentLoader from '@/components/_core/BtContentLoader'
@@ -54,15 +54,10 @@ export default {
     const closeModal = () => isActiveContactModal.value = false
     AuthService.verifyEmail(route.params.token)
       .then(() => isLoading.value = false)
-      .catch((e) => Swal.fire({
+      .catch((e) => alert({
         title: `Ошибка: ${e.response.status}`,
         html: 'Ссылка больше недействительна',
-        icon: 'error',
-        buttonsStyling: false,
-        confirmButtonText: 'Вернуться',
-        customClass: {
-          confirmButton: 'btn fw-bold btn-light-primary'
-        }
+        icon: 'error'
       }).then(() => router.push('/app')))
     return {
       isActiveContactModal,

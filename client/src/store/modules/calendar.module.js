@@ -1,5 +1,6 @@
 import CalendarService from '@/core/services/calendar.service'
 import * as Mutation from '../mutation-types'
+import alert from '@/core/_utils/swal'
 
 export const getEventIndexById = (state, eventId) => state.events.findIndex((event) => event.id.toString() === eventId.toString())
 
@@ -36,6 +37,7 @@ export const calendar = {
           return Promise.resolve(e)
         })
         .catch((error) => {
+          alert({ title: 'Произошла ошибка!', html: error, icon: 'error' })
           dispatch('setError', error, { root: true })
           return Promise.reject(error)
         })

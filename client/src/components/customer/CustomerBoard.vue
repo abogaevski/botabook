@@ -36,7 +36,6 @@
 
 import { useStore } from 'vuex'
 import { computed, ref } from 'vue'
-import Swal from 'sweetalert2'
 import draggable from 'vuedraggable'
 import CustomerBoardSectionHeading from '@/components/customer/CustomerBoardSectionHeading'
 import CustomerBoardItem from '@/components/customer/CustomerBoardItem'
@@ -54,18 +53,6 @@ export default {
       const to = e.to.dataset.column
       const itemId = e.clone.dataset.card
       store.dispatch('customerModule/updateCustomer', { id: itemId, boardColumn: to })
-        .catch((error) => {
-          Swal.fire({
-            title: 'Произошла ошибка!',
-            html: error,
-            icon: 'error',
-            buttonsStyling: false,
-            confirmButtonText: 'Попробовать еще раз',
-            customClass: {
-              confirmButton: 'btn btn-secondary'
-            }
-          })
-        })
     }
     const isCreateNewColumn = ref(false)
     return {

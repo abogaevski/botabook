@@ -102,11 +102,8 @@ export default {
     const tabLinks = ref(null)
     // eslint-disable-next-line radix
     const currentTab = ref(parseInt(moment().format('D')) - 1)
-
     const days = computed(() => getDaysOfLastMonth())
-
     const allEvents = computed(() => store.getters['calendar/events'])
-
     const events = computed(() => allEvents.value
       .reduce((acc, current) => {
         if (eventsId.value.find((e) => e === current.id)) {
@@ -115,7 +112,6 @@ export default {
         // eslint-disable-next-line no-nested-ternary
         return acc.sort((a, b) => ((moment(a.start) > moment(b.start)) ? 1 : ((b.start > a.start) ? -1 : 0)))
       }, []))
-
     const eventsByDay = computed(() => days.value
       .reduce((acc, current) => {
         const dayEvents = events.value.filter((e) => moment(e.start)
@@ -125,19 +121,18 @@ export default {
         }
         return acc
       }, []))
-
     const checkEventCountInDay = (day) => {
       const evs = events.value
         .filter((e) => moment(e.start).format('MM-DD-YYYY') === moment(day.fullDate).format('MM-DD-YYYY'))
       return evs.length || false
     }
-
     const getDayNavId = (date) => `bb_schedule_day_${date}`
-
     const getEventStartEnd = (start, end) => `${moment(start).format('hh:mm')} - ${moment(end).format('hh:mm')}`
-
     onMounted(() => {
       const links = tabLinks.value.querySelectorAll('.nav-item a')
+      const activeLink = tabLinks.value.querySelector('.active')
+      const tab = activeLink.offsetParent
+      tab.scrollLeft = activeLink.offsetLeft - activeLink.offsetWidth
       links.forEach((l, i) => {
         const triggerEl = new Tab(l)
         l.addEventListener('click', (event) => {
@@ -147,19 +142,13 @@ export default {
         })
       })
     })
-
     const eventId = ref('')
     const isActiveViewModal = ref(false)
-
     const showModal = (event) => {
       eventId.value = event.id.toString()
       isActiveViewModal.value = true
     }
-
-    const closeModal = () => {
-      isActiveViewModal.value = false
-    }
-
+    const closeModal = () => isActiveViewModal.value = false
     return {
       events,
       eventsByDay,

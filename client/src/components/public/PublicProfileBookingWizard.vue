@@ -223,9 +223,9 @@
 import { toRefs, ref, onMounted, computed } from 'vue'
 import { Field, Form, ErrorMessage } from 'vee-validate'
 import { useRoute } from 'vue-router'
-import * as Yup from 'yup'
-import Swal from 'sweetalert2'
+import { string, object } from 'yup'
 import moment from 'moment'
+import alert from '@/core/_utils/swal'
 import { StepperComponent } from '@/core/components/_StepperComponent'
 import EventService from '@/core/services/calendar.service'
 import { ScrollComponent } from '@/core/components/_ScrollComponent'
@@ -260,15 +260,15 @@ export default {
     const labelTime = ref('')
     const submitBtn = ref()
     const bookingComplete = ref(false)
-    const eventRequestSchema = Yup.object({
-      name: Yup.string()
+    const eventRequestSchema = object().shape({
+      name: string()
         .required()
         .label('Имя'),
-      email: Yup.string()
+      email: string()
         .email()
         .required()
         .label('Email'),
-      phone: Yup.string()
+      phone: string()
         .required()
         .label('Телефон'),
     })
@@ -313,15 +313,7 @@ export default {
       }
       if (currentStepIndex.value === 1) {
         if (!formData.value.time) {
-          Swal.fire({
-            title: 'Пожалуйста, укажите дату!',
-            icon: 'warning',
-            buttonsStyling: false,
-            confirmButtonText: 'Хорошо',
-            customClass: {
-              confirmButton: 'btn btn-primary'
-            }
-          })
+          alert({ title: 'Пожалуйста, укажите дату!', icon: 'warning' })
           return
         }
       }
@@ -343,16 +335,7 @@ export default {
           return d
         })
         .catch((e) => {
-          Swal.fire({
-            title: 'Произошла ошибка!',
-            html: e,
-            icon: 'error',
-            buttonsStyling: false,
-            confirmButtonText: 'Попробовать еще раз',
-            customClass: {
-              confirmButton: 'btn btn-secondary'
-            }
-          })
+          alert({ title: 'Произошла ошибка!', html: e, icon: 'error' })
         })
     }
 
@@ -362,31 +345,15 @@ export default {
         .then((response) => {
           submitBtn.value.removeAttribute('data-bb-indicator')
           if (response.status === 'ok') {
-            Swal.fire({
-              title: 'Ваш запрос успешно отправлен!',
-              icon: 'success',
-              buttonsStyling: false,
-              confirmButtonText: 'Отлично',
-              customClass: {
-                confirmButton: 'btn btn-primary'
-              }
-            }).then(() => {
-              bookingComplete.value = true
-            })
+            alert({ title: 'Ваш запрос успешно отправлен!', icon: 'success', })
+              .then(() => {
+                bookingComplete.value = true
+              })
           }
         })
         .catch((e) => {
           submitBtn.value.removeAttribute('data-bb-indicator')
-          Swal.fire({
-            title: 'Произошла ошибка!',
-            html: e,
-            icon: 'error',
-            buttonsStyling: false,
-            confirmButtonText: 'Попробовать еще раз',
-            customClass: {
-              confirmButton: 'btn btn-secondary'
-            }
-          })
+          alert({ title: 'Произошла ошибка!', html: e, icon: 'error' })
         })
     }
 

@@ -135,50 +135,39 @@
 </template>
 <script>
 import { ErrorMessage, Field, Form } from 'vee-validate'
-import * as Yup from 'yup'
-import Swal from 'sweetalert2'
+import { object, string, number, boolean } from 'yup'
 import { computed, toRefs, ref } from 'vue'
 import { useStore } from 'vuex'
-import { useRouter } from 'vue-router'
 
 export default {
-  props: {
-    project: Object
-  },
+  props: { project: Object },
   components: { Form, Field, ErrorMessage },
   setup(props) {
-    const router = useRouter()
     const store = useStore()
     const { project } = toRefs(props)
-    const projectSchema = Yup.object({
-      title: Yup.string()
+    const projectSchema = object().shape({
+      title: string()
         .trim()
         .required()
         .label('Название услуги'),
-      description: Yup.string()
+      description: string()
+        .nullable()
         .label('Описание встречи'),
-      price: Yup.number()
+      price: number()
         .typeError('Укажите пожалуйста цену, либо же 0.')
         .required('Укажите пожалуйста цену.')
         .required()
         .label('Цена'),
-      timeRange: Yup.number()
+      timeRange: number()
         .required()
         .label('Продолжительность'),
-      isActive: Yup.boolean()
+      isActive: boolean()
         .required(),
-      color: Yup.string()
+      color: string()
         .required()
         .label('Цвет')
     })
-    const colors = [
-      'primary',
-      'success',
-      'danger',
-      'info',
-      'warning',
-      'dark'
-    ]
+    const colors = ['primary', 'success', 'danger', 'info', 'warning', 'dark']
     const getProjectColorInputId = (color) => `project_color_${color}`
     const badgeColor = (color) => `border-${color} btn-light-${color} btn-outline-${color}`
     const projectData = computed(() => ({ ...project.value }))
@@ -189,50 +178,10 @@ export default {
         id: projectData.value.id,
         ...values
       }
-      Swal.fire({
-        title: 'Вы уверены, что хотите изменить проект?',
-        icon: 'question',
-        showCancelButton: true,
-        buttonsStyling: false,
-        confirmButtonText: 'Изменить!',
-        cancelButtonText: 'Отмена',
-        customClass: {
-          confirmButton: 'btn btn-warning',
-          cancelButton: 'btn btn-active-light'
-        }
-      }).then((result) => {
-        if (result.value) {
-          submitBtn.value.setAttribute('data-bb-indicator', 'on')
-          store.dispatch('project/updateProject', projectValues)
-            .then(() => {
-              submitBtn.value.removeAttribute('data-bb-indicator')
-              Swal.fire({
-                title: 'Услуга успешно изменена!',
-                icon: 'success',
-                showCancelButton: false,
-                buttonsStyling: false,
-                confirmButtonText: 'Супер!',
-                customClass: {
-                  confirmButton: 'btn btn-success'
-                }
-              }).then(() => router.push(`/project/${project.value.id}/overview`))
-            })
-            .catch((e) => {
-              submitBtn.value.removeAttribute('data-bb-indicator')
-              Swal.fire({
-                title: 'Произошла ошибка!',
-                icon: 'error',
-                html: e,
-                showCancelButton: false,
-                buttonsStyling: false,
-                confirmButtonText: 'Супер!',
-                customClass: {
-                  confirmButton: 'btn btn-light'
-                }
-              })
-            })
-        }
-      })
+      store.dispatch('project/updateProject', projectValues)
+        .finally(() => {
+          submitBtn.value.removeAttribute('data-bb-indicator')
+        })
     }
 
     return {
