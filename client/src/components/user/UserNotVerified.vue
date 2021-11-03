@@ -12,8 +12,8 @@
 </template>
 
 <script>
-import Swal from 'sweetalert2'
 import AuthService from '@/core/services/auth.service'
+import alert from '@/core/_utils/swal'
 
 export default {
   name: 'UserNotVerified',
@@ -21,27 +21,17 @@ export default {
     const submitRequestVerify = () => {
       AuthService.requestEmailVerification()
         .then(() => {
-          Swal.fire({
+          alert({
             title: 'Письмо отправлено',
             html: 'Письмо с подтверждением отправлено. Пожалуйста, проверьте почту.',
             icon: 'success',
-            buttonsStyling: false,
-            confirmButtonText: 'Закрыть',
-            customClass: {
-              confirmButton: 'btn fw-bold btn-light-success'
-            }
           })
         })
         .catch(() => {
-          Swal.fire({
+          alert({
             title: 'Произошла ошибка!',
             html: 'Попробуйте пожалуйста еще раз!',
             icon: 'error',
-            buttonsStyling: false,
-            confirmButtonText: 'Закрыть',
-            customClass: {
-              confirmButton: 'btn fw-bold btn-light-danger'
-            }
           })
         })
     }

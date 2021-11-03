@@ -68,7 +68,7 @@
 <script>
 import { useStore } from 'vuex'
 import { toRefs, ref } from 'vue'
-import Swal from 'sweetalert2'
+import alert from '@/core/_utils/swal'
 import BtTooltip from '@/components/_core/BtTooltip'
 import BtButton from '@/components/_core/buttons/BtButton'
 
@@ -84,39 +84,14 @@ export default {
       const title = e.target.value
       isUpdating.value = true
       store.dispatch('customerModule/updateBoardColumn', { id: column.value.id, title })
-        .then(() => isUpdating.value = false)
-        .catch((error) => {
-          isUpdating.value = false
-          Swal.fire({
-            title: 'Произошла ошибка!',
-            html: error,
-            icon: 'error',
-            buttonsStyling: false,
-            confirmButtonText: 'Попробовать еще раз',
-            customClass: {
-              confirmButton: 'btn btn-secondary'
-            }
-          })
-        })
+        .finally(() => isUpdating.value = false)
       e.target.blur()
     }
     const updatePrimaryColumn = (col) => {
       if (!col.isPrimary) {
         isUpdating.value = true
         store.dispatch('customerModule/updateBoardColumn', { id: col.id, isPrimary: true })
-          .then(() => isUpdating.value = false)
-          .catch((e) => {
-            Swal.fire({
-              title: 'Произошла ошибка!',
-              html: e,
-              icon: 'error',
-              buttonsStyling: false,
-              confirmButtonText: 'Попробовать еще раз',
-              customClass: {
-                confirmButton: 'btn btn-secondary'
-              }
-            })
-          })
+          .finally(() => isUpdating.value = false)
       }
     }
     const getTooltipTitle = (primary) => (primary ? 'Основная колонка' : 'Сделать основной')
@@ -151,55 +126,21 @@ export default {
       if (column.value.color !== currentColor.value) {
         isUpdating.value = true
         store.dispatch('customerModule/updateBoardColumn', { id: column.value.id, color: currentColor.value })
-          .then(() => isUpdating.value = false)
-          .catch((e) => {
-            isUpdating.value = false
-            Swal.fire({
-              title: 'Произошла ошибка!',
-              html: e,
-              icon: 'error',
-              buttonsStyling: false,
-              confirmButtonText: 'Попробовать еще раз',
-              customClass: {
-                confirmButton: 'btn btn-secondary'
-              }
-            })
-          })
+          .finally(() => isUpdating.value = false)
         isActiveChangeColor.value = false
       }
     }
 
     const deleteColumn = () => {
-      Swal.fire({
+      alert({
         title: 'Вы уверены, что хотите удалить колонку?',
         html: 'Ваши клиенты отобразятся в основной колонке',
         icon: 'question',
-        showCancelButton: true,
-        buttonsStyling: false,
-        confirmButtonText: 'Удалить!',
-        cancelButtonText: 'Отмена',
-        customClass: {
-          confirmButton: 'btn btn-danger',
-          cancelButton: 'btn btn-active-light'
-        }
       }).then((result) => {
         if (result.value) {
           isUpdating.value = true
           store.dispatch('customerModule/deleteBoardColumn', column.value.id)
-            .then(() => isUpdating.value = false)
-            .catch((e) => {
-              isUpdating.value = false
-              Swal.fire({
-                title: 'Произошла ошибка!',
-                html: e,
-                icon: 'error',
-                buttonsStyling: false,
-                confirmButtonText: 'Попробовать еще раз',
-                customClass: {
-                  confirmButton: 'btn btn-secondary'
-                }
-              })
-            })
+            .finally(() => isUpdating.value = false)
         }
       })
     }

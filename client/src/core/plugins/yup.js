@@ -1,8 +1,8 @@
 /* eslint no-template-curly-in-string:0 */
-import * as Yup from 'yup';
+import { setLocale } from 'yup';
 
 export function initYup() {
-  Yup.setLocale({
+  setLocale({
     mixed: {
       required: '${path} - обязательное поле',
     },

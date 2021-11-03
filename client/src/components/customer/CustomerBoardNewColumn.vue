@@ -26,18 +26,17 @@
 </template>
 <script>
 import { ref } from 'vue'
-import * as Yup from 'yup'
+import { string, object } from 'yup'
 import { Form, Field, ErrorMessage } from 'vee-validate'
 import { useStore } from 'vuex'
-import Swal from 'sweetalert2'
 
 export default {
   name: 'CustomerBoardNewColumn',
   components: { Form, Field, ErrorMessage },
   setup(_, { emit }) {
     const store = useStore()
-    const columnSchema = Yup.object({
-      title: Yup.string()
+    const columnSchema = object().shape({
+      title: string()
         .required()
         .label('Название колонки')
     })
@@ -47,19 +46,6 @@ export default {
       submitButton.value.setAttribute('data-bb-indicator', 'on')
       store.dispatch('customerModule/createBoardColumn', values)
         .then(() => emit('column-create:close'))
-        .catch((e) => {
-          submitButton.value.removeAttribute('data-bb-indicator')
-          Swal.fire({
-            title: 'Произошла ошибка!',
-            html: e,
-            icon: 'error',
-            buttonsStyling: false,
-            confirmButtonText: 'Попробовать еще раз',
-            customClass: {
-              confirmButton: 'btn btn-secondary'
-            }
-          })
-        })
     }
 
     return {

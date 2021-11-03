@@ -5,7 +5,9 @@
     style="background-position: right top; background-size: 40% auto; background-image: url('/media/svg/shapes/abstract-2.svg')">
     <div class="card-body">
       <div class="card-title fw-bolder text-muted fs-4">Здравствуйте, {{ fullName }}</div>
-      <div class="fw-bolder text-primary my-3">Назначено встреч: {{ todayEvents }}</div>
+      <router-link to="/calendar" class="fw-bolder text-primary text-hover-primary my-3">
+        Назначено встреч: {{ todayEvents }}
+      </router-link>
     </div>
   </div>
 </template>

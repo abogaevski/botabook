@@ -123,8 +123,8 @@
 <script>
 import { ref } from 'vue'
 import { Form, Field, ErrorMessage } from 'vee-validate'
-import Swal from 'sweetalert2'
-import * as Yup from 'yup'
+import { object, string } from 'yup'
+import alert from '@/core/_utils/swal'
 import PublicService from '@/core/services/public.service'
 import Modal from '@/components/_core/Modal'
 import BtButton from '@/components/_core/buttons/BtButton'
@@ -136,18 +136,18 @@ export default {
   components: { Modal, Form, Field, BtButton, ErrorMessage },
   setup(_, { emit }) {
     const submitBtn = ref()
-    const contactValidationSchema = Yup.object({
-      name: Yup.string()
+    const contactValidationSchema = object().shape({
+      name: string()
         .required()
         .label('Имя'),
-      email: Yup.string()
+      email: string()
         .email()
         .required()
         .label('Email'),
-      account_type: Yup.string()
+      account_type: string()
         .required()
         .label('Тип обращения'),
-      message: Yup.string()
+      message: string()
         .required()
         .label('Сообщение')
     })
@@ -157,34 +157,14 @@ export default {
         .then((response) => {
           if (response.success) {
             submitBtn.value.removeAttribute('data-bb-indicator')
-            Swal.fire({
-              title: 'Запрос отправлен!',
-              icon: 'success',
-              showCancelButton: false,
-              buttonsStyling: false,
-              confirmButtonText: 'Супер!',
-              customClass: {
-                confirmButton: 'btn btn-primary',
-                cancelButton: 'btn btn-active-light'
-              }
-            })
+            alert({ title: 'Запрос отправлен!', icon: 'success', })
             resetForm()
             emit('modal:close')
           }
         })
         .catch((e) => {
           submitBtn.value.removeAttribute('data-bb-indicator')
-          Swal.fire({
-            title: 'Произошла ошибка!',
-            html: e,
-            icon: 'error',
-            showCancelButton: false,
-            buttonsStyling: false,
-            confirmButtonText: 'Попробовать еще раз!',
-            customClass: {
-              confirmButton: 'btn btn-light',
-            }
-          })
+          alert({ title: 'Произошла ошибка!', html: e, icon: 'error' })
         })
     }
     return {
