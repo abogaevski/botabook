@@ -136,15 +136,18 @@
 <script>
 import { ErrorMessage, Field, Form } from 'vee-validate'
 import { object, string, number, boolean } from 'yup'
-import { computed, toRefs, ref } from 'vue'
+import { computed, ref } from 'vue'
 import { useStore } from 'vuex'
+import { useRoute } from 'vue-router'
 
 export default {
-  props: { project: Object },
   components: { Form, Field, ErrorMessage },
-  setup(props) {
+  setup() {
+    const route = useRoute()
     const store = useStore()
-    const { project } = toRefs(props)
+    const { id } = route.params
+    store.dispatch('project/getProjects')
+    const project = computed(() => store.getters['project/projectById'](id))
     const projectSchema = object().shape({
       title: string()
         .trim()
@@ -191,7 +194,8 @@ export default {
       badgeColor,
       projectData,
       submitProject,
-      submitBtn
+      submitBtn,
+      project
     }
   }
 }
