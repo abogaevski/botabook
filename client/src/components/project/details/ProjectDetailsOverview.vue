@@ -19,6 +19,9 @@
   </div>
 </template>
 <script>
+import { useRoute } from 'vue-router'
+import { useStore } from 'vuex'
+import { computed } from 'vue'
 import ProjectDetailsEventsChart from './ProjectDetailsEventsChart'
 import ProjectDetailsEventsAreaByMonth from './ProjectDetailsEventsAreaByMonth'
 import ProjectDetailsEventsNav from './ProjectDetailsEventsNav'
@@ -26,15 +29,22 @@ import ProjectDetailsCustomersList from './ProjectDetailsCustomersList'
 import ProjectDetailsEventsNoData from '@/components/project/details/ProjectDetailsEventsNoData'
 
 export default {
-  props: {
-    project: Object
-  },
   components: {
     ProjectDetailsEventsChart,
     ProjectDetailsEventsAreaByMonth,
     ProjectDetailsEventsNav,
     ProjectDetailsCustomersList,
     ProjectDetailsEventsNoData
+  },
+  setup() {
+    const route = useRoute()
+    const store = useStore()
+    const { id } = route.params
+    store.dispatch('project/getProjects')
+    const project = computed(() => store.getters['project/projectById'](id))
+    return {
+      project
+    }
   }
 }
 </script>

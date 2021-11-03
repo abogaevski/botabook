@@ -15,10 +15,7 @@
                 <h3 class="text-gray-800 mb-0 fs-2 fw-bolder me-3">
                   {{ project.title }}
                 </h3>
-                <span
-                  class="badge me-auto"
-                  :class="statusColor"
-                >
+                <span class="badge me-auto" :class="statusColor">
                   {{ statusText }}
                 </span>
               </div>
@@ -105,7 +102,7 @@
       </div>
     </div>
   </div>
-  <router-view :project="project" />
+  <router-view />
 </template>
 <script>
 
