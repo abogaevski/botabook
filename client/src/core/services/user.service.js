@@ -15,6 +15,12 @@ class UserService {
       .then((response) => response.data)
   }
 
+  retrieveUserData() {
+    return api
+      .get('/account/user/retrieve')
+      .then((response) => response.data)
+  }
+
   updateUserProfile(profile, id) {
     return api
       .put(`/account/user/${id}/update`, { ...profile })

@@ -7,6 +7,9 @@ from django.contrib.auth import get_user_model
 from rest_framework.exceptions import AuthenticationFailed
 
 from accounts.models import Profile
+from events.serializers import EventSerializer
+from projects.serializers import ProjectSerializer
+from customers.serializers import CustomerSerializer, BoardColumnSerializer
 
 
 class SignupUserSerializer(serializers.ModelSerializer):
@@ -112,6 +115,18 @@ class ProfileUpdateAvatarSerializer(serializers.ModelSerializer):
 
 
 class UserRetrieveSerializer(serializers.ModelSerializer):
+    profile = ProfileSerializer()
+    projects = ProjectSerializer(many=True)
+    events = EventSerializer(many=True)
+    customers = CustomerSerializer(many=True)
+    board_columns = BoardColumnSerializer(many=True)
+
+    class Meta:
+        model = get_user_model()
+        fields = ['id', 'email', 'is_verified', 'is_superuser', 'profile', 'events', 'projects', 'customers', 'board_columns']
+
+
+class UserProfileSerializer(serializers.ModelSerializer):
     profile = ProfileSerializer()
 
     class Meta:

@@ -28,7 +28,7 @@ class BoardColumn(models.Model):
     title = models.CharField(max_length=255)
     color = models.CharField(max_length=255, choices=COLORS, default=PRIMARY)
     is_primary = models.BooleanField(default=False)
-    user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE, related_name='boards')
+    user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE, related_name='board_columns')
 
     class Meta:
         verbose_name = 'BoardColumn'

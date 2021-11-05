@@ -7,6 +7,7 @@ urlpatterns = [
     path('signin', SigninTokenObtainPairView.as_view(), name='signin_token_obtain_pair_url'),
     path('token/refresh', jwt_views.TokenRefreshView.as_view(), name='token_refresh'),
     path('user', UserApiView.as_view()),
+    path('user/retrieve', UserRetrieveApiView.as_view()),
     path('user/<int:pk>/update', ProfileUpdateApiView.as_view()),
     path('user/<int:pk>/upload-avatar', ProfileAvatarUploadApiView.as_view()),
     path('user/<int:pk>/remove-avatar', ProfileAvatarRemoveApiView.as_view()),

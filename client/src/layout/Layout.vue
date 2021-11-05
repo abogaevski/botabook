@@ -35,7 +35,7 @@ export default {
     const route = useRoute()
     const store = useStore()
     const loader = computed(() => store.getters.loader)
-    store.dispatch('userProfile/getUserProfile')
+    store.dispatch('retrieveUserData')
     onMounted(async () => {
       MenuComponent.hideDropdowns(undefined)
       MenuComponent.reinitialization()

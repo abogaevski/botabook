@@ -8,6 +8,7 @@ import { adminModule } from './modules/admin.module'
 import * as Mutation from './mutation-types'
 import { errors } from '@/core/_utils/helpers/error-helpers/error-types'
 import alert from '@/core/_utils/swal'
+import UserService from '@/core/services/user.service'
 
 const states = {
   state: {
@@ -49,6 +50,21 @@ const states = {
       }
       alert({ title: 'Произошла ошибка', html: errorData, icon: 'error' })
       commit(Mutation.SET_ERROR, errorData)
+    },
+    retrieveUserData({ commit }) {
+      return UserService.retrieveUserData()
+        .then((user) => {
+          commit(`calendar/${Mutation.GET_EVENTS}`, [...user.events])
+          commit(`customerModule/${Mutation.SET_CUSTOMERS}`, [...user.customers])
+          commit(`customerModule/${Mutation.SET_BOARD}`, [...user.boardColumns])
+          commit(`project/${Mutation.SET_PROJECTS}`, [...user.projects])
+          commit(`userProfile/${Mutation.SET_USERPROFILE}`, {
+            id: user.id,
+            isVerified: user.isVerified,
+            isSuperuser: user.isSuperuser,
+            profile: user.profile
+          })
+        })
     }
   },
   modules: {

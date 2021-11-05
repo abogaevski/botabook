@@ -6,7 +6,7 @@ const initialProfile = {
   id: '',
   email: '',
   isVerified: true,
-  isSuperUser: false,
+  isSuperuser: false,
   profile: {
     avatar: '/media/avatars/blank.png',
   }
@@ -14,7 +14,7 @@ const initialProfile = {
 export const userProfile = {
   namespaced: true,
   state: {
-    userProfile: initialProfile
+    userProfile: initialProfile,
   },
   actions: {
     getUserProfile({ dispatch, commit }) {
