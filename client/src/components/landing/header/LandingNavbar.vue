@@ -11,8 +11,8 @@
           </a>
         </div>
         <div class="flex-equal text-end ms-1">
-          <router-link to="/signin" class="btn btn-text-white">Войти</router-link>
-          <router-link to="/signup" class="btn btn-success d-none d-md-inline-block">Зарегистрироваться</router-link>
+          <router-link :to="{name: 'signin'}" class="btn btn-text-white">Войти</router-link>
+          <router-link :to="{name: 'signup'}" class="btn btn-success d-none d-md-inline-block">Зарегистрироваться</router-link>
         </div>
       </div>
     </div>

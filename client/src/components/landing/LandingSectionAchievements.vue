@@ -9,7 +9,7 @@
       </div>
     </div>
     <div class="text-center my-10">
-      <router-link to="/signup" class="btn btn-primary">Попробовать сейчас!</router-link>
+      <router-link :to="{name: 'signup'}" class="btn btn-primary">Попробовать сейчас!</router-link>
     </div>
   </div>
 </template>

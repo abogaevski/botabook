@@ -11,10 +11,7 @@
           Присоединяйтесь к BotaBook!
         </div>
       </div>
-      <router-link
-        to="signup"
-        class="btn btn-lg btn-outline border-2 btn-outline-white flex-shrink-0 my-2"
-      >
+      <router-link :to="{name: 'signup'}" class="btn btn-lg btn-outline border-2 btn-outline-white flex-shrink-0 my-2">
         Попробовать сейчас!
       </router-link>
     </div>
