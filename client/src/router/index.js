@@ -73,29 +73,36 @@ const routes = [
     ]
   },
   {
-    path: '/signin',
-    name: 'signin',
-    component: () => import('@/views/auth/SignIn.vue')
-  },
-  {
-    path: '/signup',
-    name: 'signup',
-    component: () => import('@/views/auth/SignUp.vue')
-  },
-  {
-    path: '/reset-password',
-    name: 'reset-password',
-    component: () => import('@/views/auth/reset-password/ResetPasswordRequest.vue')
-  },
-  {
-    path: '/reset-password/:uid64/:token',
-    name: 'reset-password-confirm',
-    component: () => import('@/views/auth/reset-password/ResetPasswordConfirm.vue')
-  },
-  {
-    path: '/verify-email/:token',
-    name: 'verify-email',
-    component: () => import('@/views/auth/VerifyEmail.vue')
+    path: '/auth',
+    component: () => import('@/layout/AuthLayout'),
+    redirect: { name: 'signin' },
+    children: [
+      {
+        path: 'signin',
+        name: 'signin',
+        component: () => import('@/views/auth/SignIn.vue')
+      },
+      {
+        path: 'signup',
+        name: 'signup',
+        component: () => import('@/views/auth/SignUp.vue')
+      },
+      {
+        path: 'reset-password',
+        name: 'reset-password',
+        component: () => import('@/views/auth/reset-password/ResetPasswordRequest.vue')
+      },
+      {
+        path: 'reset-password/:uid64/:token',
+        name: 'reset-password-confirm',
+        component: () => import('@/views/auth/reset-password/ResetPasswordConfirm.vue')
+      },
+      {
+        path: 'verify-email/:token',
+        name: 'verify-email',
+        component: () => import('@/views/auth/VerifyEmail.vue')
+      },
+    ]
   },
   {
     path: '/',
@@ -108,7 +115,6 @@ const routes = [
     component: () => import('@/views/public/PublicPage.vue')
   },
   {
-    // the 404 route, when none of the above matches
     path: '/404',
     name: '404',
     component: () => import('@/views/error/Error404.vue')

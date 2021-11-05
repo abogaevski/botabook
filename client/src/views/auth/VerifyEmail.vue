@@ -12,26 +12,16 @@
           <div class="fw-bold fs-3 text-muted mb-15">Ваша электронная почта была успешно подтверждена!
             <br>Можете нажать на кнопку ниже, чтобы продолжить работу.</div>
           <div class="text-center">
-            <router-link to="/app" class="btn btn-lg btn-primary fw-bolder">Вернуться в BotaBook</router-link>
+            <router-link :to="{name: 'app'}" class="btn btn-lg btn-primary fw-bolder">Вернуться в BotaBook</router-link>
           </div>
         </div>
         <bt-content-loader v-else />
         <div
           class="d-flex flex-row-auto bgi-no-repeat bgi-position-x-center bgi-size-contain bgi-position-y-bottom min-h-100px min-h-lg-350px"
-          style="background-image: url('/media/illustrations/sketchy-1/17.png')"></div>
-      </div>
-      <div class="d-flex flex-center flex-column-auto p-10">
-        <div class="d-flex align-items-center fw-bold fs-6">
-          <router-link to="/" class="text-muted text-hover-primary px-2">О Bota</router-link>
-          <a href="#" @click.prevent="showModal" class="text-muted text-hover-primary px-2">Связаться</a>
-        </div>
+          style="background-image: url('/media/illustrations/17.png')"></div>
       </div>
     </div>
   </div>
-  <contact-modal
-    :showModal="isActiveContactModal"
-    @modal:close="closeModal"
-  />
 </template>
 
 <script>
@@ -39,30 +29,25 @@ import { ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import alert from '@/core/_utils/swal'
 import AuthService from '@/core/services/auth.service'
-import ContactModal from '@/components/common/ContactModal'
 import BtContentLoader from '@/components/_core/BtContentLoader'
 
 export default {
   name: 'VerifyEmail',
-  components: { ContactModal, BtContentLoader },
+  components: { BtContentLoader },
   setup() {
     const route = useRoute()
     const router = useRouter()
-    const isActiveContactModal = ref(false)
     const isLoading = ref(true)
-    const showModal = () => isActiveContactModal.value = true
-    const closeModal = () => isActiveContactModal.value = false
     AuthService.verifyEmail(route.params.token)
-      .then(() => isLoading.value = false)
-      .catch((e) => alert({
-        title: `Ошибка: ${e.response.status}`,
-        html: 'Ссылка больше недействительна',
-        icon: 'error'
-      }).then(() => router.push('/app')))
+      .catch((e) => {
+        alert({
+          title: `Ошибка: ${e.response.status}`,
+          html: 'Ссылка больше недействительна',
+          icon: 'error'
+        }).then(() => router.push({ name: 'app' }))
+      })
+      .finally(() => isLoading.value = false)
     return {
-      isActiveContactModal,
-      showModal,
-      closeModal,
       isLoading
     }
   }

@@ -1,29 +1,15 @@
 <template>
-  <div
-    class="d-flex flex-column flex-column-fluid bgi-position-y-bottom position-x-center bgi-no-repeat bgi-size-contain bgi-attachment-fixed"
-    style="background-image: url('/media/illustrations/progress-hd.png')"
-  >
-    <div class="d-flex flex-center flex-column flex-column-fluid p-10 pb-lg-20">
-      <div class="mb-12">
-        <img alt="Logo" src="/media/logos/botabook-dark.svg" class="h-50px"/>
-      </div>
-      <div class="bg-white mw-500px mw-xl-550px mx-auto p-10 p-lg-15 rounded shadow-sm">
-        <Form
+  <Form
           class="form w-100 fv-plugins-bootstrap5 fv-plugins-framework"
           novalidate="novalidate"
           @submit="submitSignup"
           :validation-schema="signupSchema"
         >
           <div class="mb-10 text-center">
-            <h1 class="text-dark mb-3">
-              Создать аккаунт
-            </h1>
+            <h1 class="text-dark mb-3">Создать аккаунт</h1>
             <div class="text-gray-400 fw-bold fs-4">
               Уже есть аккаунт?
-
-              <router-link to="/signin" class="link-primary fw-bolder">
-                Войдите
-              </router-link>
+              <router-link :to="{name:'signin'}" class="link-primary fw-bolder">Войдите</router-link>
             </div>
           </div>
 
@@ -158,20 +144,7 @@
               </span>
             </button>
           </div>
-        </Form>
-      </div>
-    </div>
-    <div class="d-flex flex-center flex-column-auto p-10">
-      <div class="d-flex align-items-center fw-bold fs-6">
-        <router-link to="/" class="text-muted text-hover-primary px-2">О Bota</router-link>
-        <a href="#" @click.prevent="showModal" class="text-muted text-hover-primary px-2">Связаться</a>
-      </div>
-    </div>
-  </div>
-  <contact-modal
-    :showModal="isActiveContactModal"
-    @modal:close="closeModal"
-  />
+    </Form>
 </template>
 
 <script>
@@ -179,11 +152,10 @@ import { useStore } from 'vuex'
 import { computed, ref } from 'vue'
 import { string, object, ref as yref } from 'yup'
 import { Form, Field, ErrorMessage } from 'vee-validate'
-import ContactModal from '@/components/common/ContactModal'
 
 export default {
   name: 'SignUp',
-  components: { Form, Field, ErrorMessage, ContactModal },
+  components: { Form, Field, ErrorMessage },
   setup() {
     const store = useStore()
     const signupSchema = object().shape({
@@ -211,9 +183,6 @@ export default {
         .label('Подтверждение пароля'),
     })
     const submitButton = ref()
-    const isActiveContactModal = ref(false)
-    const showModal = () => isActiveContactModal.value = true
-    const closeModal = () => isActiveContactModal.value = false
     const error = computed(() => store.getters.error)
     const submitSignup = (values) => {
       values.email = values.email.toLowerCase()
@@ -228,9 +197,6 @@ export default {
     return {
       signupSchema,
       submitButton,
-      isActiveContactModal,
-      showModal,
-      closeModal,
       error,
       submitSignup
     }
