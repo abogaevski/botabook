@@ -40,6 +40,7 @@ import CustomerBoard from '@/components/customer/CustomerBoard'
 
 export default {
   name: 'CustomerTabContent',
+  props: ['isLoading'],
   components: { CustomerBoard, CustomerTableList },
   setup() {
     const store = useStore()

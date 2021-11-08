@@ -1,15 +1,15 @@
 <template>
   <div v-if="customer" class="card mb-4 mb-xl-6" :data-card="customer.id" :data-card-order="customer.boardOrder">
-    <div class="card-body">
+    <div class="card-body px-6 py-3">
       <div class="mb-2 d-flex align-items-center justify-content-between">
-        <span class="fs-5 fw-bolder mb-1 text-gray-900">{{ customer.name }}</span>
+        <span class="fs-5 fw-bolder text-gray-900">{{ customer.name }}</span>
         <span v-if="isCustomerDeleting" class="spinner-border spinner-border-sm align-middle text-primary me-3"></span>
         <bt-tooltip
           title="Удалить" placement="top">
           <bt-button
             @click:btn="deleteCustomer"
             btn-class="btn-icon btn-sm btn-active-icon-danger"
-            icon-class="svg-icon-1"
+            icon-class="svg-icon-2"
             icon-url="/media/icons/duotone/General/Trash.svg"
             :disabled="isCustomerDeleting"
           />
@@ -17,7 +17,7 @@
       </div>
       <a
         :href="`mailto:${customer.email}`"
-        class=" fs-6 d-flex align-items-center text-gray-400 text-hover-primary me-5 mb-2">
+        class=" fs-6 d-flex align-items-center text-gray-400 text-hover-primary me-5 mb-2 overflow-hidden">
         <span class="svg-icon svg-icon-5 me-1">
           <inline-svg
             src="/media/icons/duotone/Communication/Mail-at.svg"

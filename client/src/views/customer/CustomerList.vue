@@ -1,26 +1,27 @@
 <template>
-  <loader class="mb-xl-8 mb-lg-8 mb-6" v-if="loader"/>
-  <customer-tab-content v-else-if="customers.length && !loader" />
-  <customer-no-data v-else/>
+  <customer-board-skeleton v-if="isLoading" />
+  <customer-tab-content v-else-if="customers.length && !isLoading" />
+  <no-data is-large v-else/>
 </template>
 <script>
 import { useStore } from 'vuex'
-import { computed } from 'vue'
+import { computed, ref } from 'vue'
 import CustomerTabContent from '@/components/customer/CustomerTabContent'
-import CustomerNoData from '@/components/customer/CustomerNoData'
-import Loader from '@/components/Loader'
+import CustomerBoardSkeleton from '@/components/customer/CustomerBoardSkeleton'
+import NoData from '@/components/common/NoData'
 
 export default {
   name: 'CustomerList',
-  components: { CustomerNoData, CustomerTabContent, Loader },
+  components: { NoData, CustomerTabContent, CustomerBoardSkeleton },
   setup() {
     const store = useStore()
+    const isLoading = ref(true)
     store.dispatch('setTitle', 'Клиенты')
     store.dispatch('customerModule/getCustomers')
-    const loader = computed(() => store.getters.loader)
+      .finally(() => isLoading.value = false)
 
     const customers = computed(() => store.getters['customerModule/customers'])
-    return { customers, loader }
+    return { customers, isLoading }
   }
 }
 </script>

@@ -1,0 +1,37 @@
+.customer__board-content {
+  height: calc( 100% - 70px );
+}
+
+.customer-board__section-heading {
+  .form-control.form-control-solid {
+    background-color: $gray-200;
+    border-color: $gray-200;
+
+    &:focus {
+      background-color: $white;
+      border-color: $gray-400;
+    }
+  }
+  .board__column-color-picker {
+    .el-input__inner {
+      min-height: calc(1.5em + 1.1rem + 2px);
+      line-height: 1.5;
+      font-weight: 600;
+      font-size: 1.25rem;
+      padding: 0.55rem 0.75rem;
+      background-color: $gray-200;
+      border-color: transparent;
+
+      &:hover {
+      border-color: transparent;
+    }
+      &:focus {
+        background-color: $white;
+        border-color: $gray-400;
+      }
+    }
+    .el-input__icon {
+      line-height: 1.5;
+    }
+  }
+}

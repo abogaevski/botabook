@@ -1,11 +1,11 @@
 <template>
-  <div class="mb-9">
-    <div class="d-flex flex-stack">
+  <div class="mt-2 w-100 customer-board__section-heading">
+    <div class="d-flex flex-stack mb-2">
       <div class="me-2 w-100">
         <input
           v-if="!isActiveChangeColor"
           @change="updateTitle"
-          class="fw-bolder fs-4 form-control form-control-flush form-control-solid"
+          class="fw-bolder fs-4 form-control form-control-sm form-control-solid"
           type="text"
           :value="column.title"
         >
@@ -13,7 +13,7 @@
           v-else
           v-model="currentColor"
           @update:model-value="updateColor"
-          class="form-control-flush form-control-solid board__column-color-picker"
+          class="form-control-solid board__column-color-picker"
         >
           <el-option
             v-for="(color, i) in colors"
@@ -35,7 +35,7 @@
       <bt-tooltip :title="getColorPickerTooltipTitle()" placement="top">
         <bt-button
           @click="isActiveChangeColor = !isActiveChangeColor"
-          :btn-class="`btn-active-light-${column.color}`"
+          :btn-class="`btn-active-color-${column.color}`"
           class="btn btn-sm btn-icon btn-color-light-dark"
           :icon-url="getIconUrl()"
           icon-class="svg-icon-2"
@@ -46,7 +46,7 @@
       <bt-tooltip :title="getTooltipTitle(column.isPrimary)" placement="top">
         <bt-button
           @click="updatePrimaryColumn(column)"
-          class="btn btn-sm btn-icon btn-active-light-warning"
+          class="btn btn-sm btn-icon btn-active-color-warning"
           icon-url="/media/icons/duotone/General/Star.svg"
           :icon-class="['svg-icon-2', {'svg-icon-warning': column.isPrimary}]"
           :disabled="isUpdating"
@@ -56,13 +56,13 @@
         <bt-button
           :disabled="column.isPrimary || isUpdating"
           @click="deleteColumn"
-          class="btn btn-sm btn-icon btn-active-light-danger"
+          class="btn btn-sm btn-icon btn-active-color-danger"
           icon-url="/media/icons/duotone/General/Trash.svg"
           icon-class="svg-icon-2 svg-active-icon-danger"
         />
       </bt-tooltip>
     </div>
-    <div class="h-3px w-100" :class="`bg-${column.color}`"></div>
+    <div class="h-2px w-100" :class="`bg-${column.color}`"></div>
   </div>
 </template>
 <script>
@@ -91,7 +91,10 @@ export default {
       if (!col.isPrimary) {
         isUpdating.value = true
         store.dispatch('customerModule/updateBoardColumn', { id: col.id, isPrimary: true })
-          .finally(() => isUpdating.value = false)
+          .finally(() => {
+            isUpdating.value = false
+            isActiveChangeColor.value = false
+          })
       }
     }
     const getTooltipTitle = (primary) => (primary ? 'Основная колонка' : 'Сделать основной')

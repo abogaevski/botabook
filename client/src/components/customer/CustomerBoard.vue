@@ -1,21 +1,31 @@
 <template>
-  <div v-if="columns.length" class="h-100 row hover-scroll-x flex-nowrap">
+  <div v-if="columns.length" class="h-100 row hover-scroll-x flex-nowrap gx-3">
     <template v-for="(column, i) in columns" :key="i">
-      <div class="col-md-6 col-lg-6 col-xl-3 h-100">
-        <customer-board-section-heading :column="column"/>
-        <draggable
-          class="min-h-300px"
-          v-model="column.customers"
-          group="customers"
-          item-key="id"
-          @end="onCardDrop"
-          :data-column="column.id"
-          :sort="false"
-        >
-          <template #item="{ element }">
-            <customer-board-item :customer="element"/>
-          </template>
-        </draggable>
+      <div class="col-10 col-sm-6 col-md-5 col-lg-5 col-xl-3 h-100">
+        <div class="card bg-light-dark card-flush">
+          <div class="card-header px-4">
+            <customer-board-section-heading :column="column"/>
+          </div>
+          <div class="card-body px-4 py-0">
+<!--              handle=".draggable .draggable-handle"-->
+            <draggable
+              class="min-h-50px"
+              v-model="column.customers"
+              group="customers"
+              ghost-class="draggable-mirror"
+              chosen-class="draggable-chosen"
+              drag-class="draggable-drag"
+              item-key="id"
+              @end="onCardDrop"
+              :data-column="column.id"
+              :sort="false"
+            >
+              <template #item="{ element }">
+                <customer-board-item :customer="element"/>
+              </template>
+            </draggable>
+          </div>
+        </div>
       </div>
     </template>
     <div class="col-md-6 col-lg-4 col-xl-3">

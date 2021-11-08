@@ -1,15 +1,17 @@
 //
-// Draggable
+// Draggable plugin customization: https://shopify.github.io/draggable
 //
 
-.draggable {
-    transition: opacity 0.3s ease;
+[data-draggable] {
     outline: none !important;
 
     &.draggable-mirror {
-        opacity: 0.8;
-        transition: opacity 0.3s ease;
-        border: 2px dashed $gray-300 !important;
+        background-color: $black;
+        opacity: .05;
+        box-shadow: inset 0 -3px 7px -3px rgba($black, .07);
+        .card-body {
+            opacity: 0;
+        }
     }
 
     &.draggable--original {
