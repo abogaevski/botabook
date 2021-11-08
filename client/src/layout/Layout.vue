@@ -56,13 +56,10 @@ export default {
     DrawerComponent.bootstrap();
     DrawerComponent.updateAll();
 
-    watch(
-      () => route.path,
-      () => {
-        MenuComponent.hideDropdowns(undefined);
-        DrawerComponent.hideAll();
-      }
-    );
+    watch(() => route.path, () => {
+      MenuComponent.hideDropdowns(undefined);
+      DrawerComponent.hideAll();
+    })
     return {
       loader,
       user

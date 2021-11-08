@@ -22,6 +22,15 @@
     <div class="separator my-2"></div>
 
     <div class="menu-item px-5">
+      <router-link
+        :to="`/${user.profile.slug}`"
+        v-slot="{ href }"
+        target="_blank"
+      >
+        <a :href="href" target="_blank" class="menu-link px-5">Моя страница</a>
+      </router-link>
+    </div>
+    <div class="menu-item px-5">
       <router-link to="/profile" class="menu-link px-5">
         Мой профиль
       </router-link>

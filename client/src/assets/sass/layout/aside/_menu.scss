@@ -57,5 +57,27 @@
         .menu-title {
             font-weight: 500;
         }
+        .menu-sub.menu-sub-accordion {
+            background-color: #fafafa;
+        }
     }
+}
+.aside-menu .menu .menu-sub .menu-item a a.menu-link {
+    padding-left: calc(0.75rem + 25px);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    flex: 0 0 100%;
+    transition: none;
+    outline: none !important;
+}
+
+.aside-menu .menu .menu-sub .menu-sub .menu-item a a.menu-link {
+    padding-left: calc(1.5rem + 25px);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    flex: 0 0 100%;
+    transition: none;
+    outline: none !important;
 }

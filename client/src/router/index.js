@@ -42,7 +42,12 @@ const routes = [
         component: () => import('@/views/project/ProjectList')
       },
       {
-        path: '/project/:id',
+        path: '/project/create',
+        name: 'project-create',
+        component: () => import('@/views/project/ProjectCreate')
+      },
+      {
+        path: '/project/:id/',
         name: 'project-detail',
         redirect: { name: 'project-overview' },
         component: () => import('@/views/project/ProjectDetail'),
@@ -61,7 +66,7 @@ const routes = [
       },
       {
         path: '/customers',
-        name: 'customers-list',
+        name: 'customers',
         component: () => import('@/views/customer/CustomerList.vue')
       },
       {

@@ -38,12 +38,16 @@
           <span class="ms-2">Помощь в чате</span>
         </span>
       </a>
-      <a target="_blank" href="https://www.youtube.com/channel/UC-3zrq0yCjCXFFTjSf80scQ" class="btn btn-custom btn-light-youtube w-100 btn-icon">
+      <a
+        target="_blank"
+        href="https://www.youtube.com/channel/UC-3zrq0yCjCXFFTjSf80scQ"
+        class="btn btn-custom btn-light-youtube w-100 btn-icon"
+      >
         <span class="svg-icon svg-icon-2">
           <inline-svg src="/media/icons/duotone/Media/Youtube.svg" />
         </span>
         <span class="btn-label">
-          <span class="ms-2">База знаний</span>
+          <span class="ms-2">YouTube</span>
         </span>
       </a>
     </div>
