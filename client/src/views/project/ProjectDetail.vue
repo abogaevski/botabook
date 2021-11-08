@@ -103,7 +103,7 @@
       <el-skeleton v-else :rows="4" animated />
     </div>
   </div>
-  <router-view />
+  <router-view v-if="project" />
 </template>
 <script>
 

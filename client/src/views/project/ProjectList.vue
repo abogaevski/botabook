@@ -1,6 +1,5 @@
 <template>
-  <loader class="mb-xl-8 mb-lg-8 mb-6" v-if="loader"/>
-  <template v-else-if="projects.length && !loader">
+  <template v-if="!isLoading && projects.length">
     <project-list-heading />
     <div class="d-flex flex-wrap flex-stack my-5">
       <h2 class="fs-2 fw-bold my-2">
@@ -21,15 +20,23 @@
       </div>
     </div>
     <div class="row g-6 g-xl-9" v-if="projects.length">
-
       <template v-for="(project, i) in projects" :key="i">
         <div class="col-md-6 col-xl-4">
           <project-card :project="project"/>
         </div>
       </template>
-
     </div>
   </template>
+  <div v-else-if="isLoading" class="card">
+    <div class="card-body">
+      <el-skeleton :rows="6" animated />
+    </div>
+  </div>
+  <no-data
+    v-else-if="projects.length === 0"
+    is-large
+    header="Услуг не найдено"
+  />
   <project-create-modal :show-modal="isActiveCreateModal" @modal:close="closeModal"/>
 </template>
 
@@ -40,7 +47,7 @@ import ProjectListHeading from '@/components/project/ProjectListHeading'
 import ProjectCard from '@/components/project/ProjectCard'
 import BtButton from '@/components/_core/buttons/BtButton'
 import ProjectCreateModal from '@/components/project/ProjectCreateModal'
-import Loader from '@/components/Loader'
+import NoData from '@/components/common/NoData'
 
 export default {
   name: 'ProjectList',
@@ -49,25 +56,26 @@ export default {
     ProjectCard,
     BtButton,
     ProjectCreateModal,
-    Loader
+    NoData
   },
   setup() {
     const store = useStore()
     const isActiveCreateModal = ref(false)
+    const isLoading = ref(true)
     store.dispatch('project/getProjects')
+      .then(() => isLoading.value = false)
     store.dispatch('customerModule/getCustomers')
     store.dispatch('setTitle', 'Услуги')
     const closeModal = () => isActiveCreateModal.value = false
     const showModal = () => isActiveCreateModal.value = true
     const projects = computed(() => store.getters['project/projects'])
-    const loader = computed(() => store.getters.loader)
 
     return {
       isActiveCreateModal,
       closeModal,
       showModal,
       projects,
-      loader
+      isLoading
     }
   }
 }
