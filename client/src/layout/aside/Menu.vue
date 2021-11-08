@@ -98,9 +98,7 @@ export default {
             }
             links.push({ heading: p.title, route: `/project/${p.id}`, color })
           })
-      }
-      if (projects.value.length > length) {
-        links.push({ heading: 'Посмотреть все', route: '/projects', icon: '/media/icons/duotune/general/gen004.svg' })
+        links.push({ heading: 'Все услуги', route: '/projects', icon: '/media/icons/duotune/general/gen004.svg' })
       }
       return links
     })
