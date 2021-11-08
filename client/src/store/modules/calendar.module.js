@@ -71,7 +71,9 @@ export const calendar = {
     events: (state) => state.events,
     eventCount: (state) => state.events.length,
     eventById: (state) => (id) => state.events.find((e) => e.id.toString() === id.toString()),
-    eventsByStatus: (state) => (status) => state.events.filter((e) => e.status.toString() === status.toString())
+    eventsByStatus: (state) => (status) => state.events.filter((e) => e.status.toString() === status.toString()),
+    newEvents: (state) => state.events.filter((e) => e.status === 0),
+    nonCanceledEvents: (state) => state.events.filter((e) => e.status !== 3)
 
   }
 }

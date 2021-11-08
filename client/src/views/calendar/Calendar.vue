@@ -1,11 +1,18 @@
 <template>
-  <loader class="mb-xl-8 mb-lg-8 mb-6" v-if="loader"/>
-  <div v-else class="card">
+  <div class="card h-100" v-if="events.length">
     <div class="card-body calendar-wrapper px-2 px-sm-9">
-      <full-calendar :options="calendarOptions" />
+      <full-calendar v-if="events.length" :options="calendarOptions" />
     </div>
   </div>
+  <div class="card" v-else-if="!events.length">
+    <div class="card-body calendar-wrapper px-2 px-sm-9">
+      <el-skeleton :rows="5" animated />
+    </div>
+  </div>
+  <no-data v-else-if="events.length === 0" />
+
   <calendar-view-event-modal
+    v-if="events.length"
     :show-modal="isActiveViewModal"
     @modal:close="closeModal"
     :event-id="eventId"
@@ -26,11 +33,11 @@ import ruLocale from '@fullcalendar/core/locales/ru'
 import { useStore } from 'vuex'
 import setEventStyle from '@/core/_utils/helpers/event-helpers/setEventStyle'
 import CalendarViewEventModal from '@/components/calendar/CalendarViewEventModal'
-import Loader from '@/components/Loader'
+import NoData from '@/components/common/NoData'
 
 export default {
   name: 'Calendar',
-  components: { FullCalendar, CalendarViewEventModal, Loader },
+  components: { FullCalendar, CalendarViewEventModal, NoData },
   setup() {
     const store = useStore()
     const isActiveViewModal = ref(false)
@@ -44,7 +51,7 @@ export default {
       eventId.value = event.id
       showModal()
     }
-    const events = computed(() => store.getters['calendar/events'])
+    const events = computed(() => store.getters['calendar/nonCanceledEvents'])
     const user = computed(() => store.getters['userProfile/user'])
     const showModal = () => isActiveViewModal.value = true
     const closeModal = () => isActiveViewModal.value = false
@@ -89,13 +96,19 @@ export default {
       views: {
         dayGrid: {
           dayMaxEvents: 2,
-        }
+        },
       },
+      noEventsContent: { html: `<div class="text-center">
+          <h2 class="fs-1 fw-bolder mb-0">Ура или увы...</h2>
+          <p class="text-gray-600 fs-5 fw-bold py-4">Встреч на данный промежуток нет.
+            <br>Сделайте себе выходной или же придумайте новые способы привлечения клиентов!</p>
+          <img src="/media/illustrations/15.png" alt="" class="mw-100 h-150px h-sm-200px">
+        </div>` },
       eventDidMount(info) {
         const { event, el, view } = info
         setEventStyle(event, el, view)
       },
-      eventClick: onEventClick
+      eventClick: onEventClick,
     }))
 
     return {
@@ -104,7 +117,8 @@ export default {
       onEventClick,
       closeModal,
       calendarOptions,
-      loader
+      loader,
+      events
     }
   },
 }

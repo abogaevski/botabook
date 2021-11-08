@@ -49,6 +49,7 @@ export default {
     const updateEventStatus = (status) => {
       alert({
         title: 'Подтвердите изменение статуса встречи',
+        html: 'При отмене встреча не будет отображаться в календаре',
         icon: 'question',
       }).then((result) => {
         if (result.value) {
