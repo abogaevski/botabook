@@ -1,6 +1,18 @@
 <template>
   <div class="menu-item">
+    <span v-if="disabled" class="menu-link">
+      <span v-if="icon" class="w-auto me-3">
+        <span class="svg-icon svg-icon-2">
+          <inline-svg :src="icon"/>
+        </span>
+      </span>
+      <span class="menu-title text-gray-400">
+          {{ heading }}
+          <span class="badge badge-light-danger ms-auto">{{ badgeContent }}</span>
+        </span>
+    </span>
     <router-link
+      v-else
       v-slot="{ href, navigate, isActive, isExactActive }"
       :to="route"
     >
@@ -58,6 +70,11 @@ export default {
       required: false,
       type: String,
       default: ''
+    },
+    disabled: {
+      required: false,
+      type: Boolean,
+      default: false
     }
   }
 }

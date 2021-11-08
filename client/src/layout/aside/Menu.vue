@@ -43,6 +43,20 @@
         heading="Создать услугу"
         route="/project/create"
       />
+      <menu-section-title>Настройки</menu-section-title>
+      <menu-link
+        icon="/media/icons/duotune/communication/com013.svg"
+        heading="Профиль"
+        route="/profile"
+      />
+      <menu-link
+        icon="/media/icons/duotune/abstract/abs026.svg"
+        heading="Интеграции"
+        route="/"
+        :disabled="true"
+        badge-content="уже почти😅"
+
+      />
       <!--      <template v-if="user">-->
 <!--        <div v-if="user.isSuperuser">-->
 <!--          <div class="menu-item">-->
@@ -76,10 +90,11 @@ import { useStore } from 'vuex'
 import { ScrollComponent } from '@/core/components/_ScrollComponent'
 import MenuLink from './components/MenuLink'
 import MenuDropdown from './components/MenuDropdown'
+import MenuSectionTitle from './components/MenuSectionTitle'
 
 export default {
   name: 'AsideMenu',
-  components: { MenuDropdown, MenuLink },
+  components: { MenuDropdown, MenuLink, MenuSectionTitle },
   setup() {
     const store = useStore()
     const projects = computed(() => store.getters['project/projects'])
