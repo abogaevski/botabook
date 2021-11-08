@@ -1,7 +1,7 @@
 <template>
   <div class="card h-100" v-if="!isEventsLoading">
     <div class="card-body calendar-wrapper px-2 px-sm-9">
-      <full-calendar v-if="events.length" :options="calendarOptions" />
+      <full-calendar :options="calendarOptions" />
     </div>
   </div>
   <div class="card" v-else>
@@ -102,7 +102,7 @@ export default {
           <h2 class="fs-1 fw-bolder mb-0">Ура или увы...</h2>
           <p class="text-gray-600 fs-5 fw-bold py-4">Встреч на данный промежуток нет.
             <br>Сделайте себе выходной или же придумайте новые способы привлечения клиентов!</p>
-          <img src="/media/illustrations/15.png" alt="" class="mw-100 h-150px h-sm-200px">
+          <img src="/media/illustrations/4.png" alt="" class="mw-100 h-150px h-sm-200px">
         </div>` },
       eventDidMount(info) {
         const { event, el, view } = info
