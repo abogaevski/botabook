@@ -3,7 +3,7 @@
     v-if="project"
     :to="`/project/${project.id}`"
   >
-    <div class="card border border-2 border-gray-300 border-hover">
+    <div class="card border border-2 border-gray-300 border-hover h-100">
       <div class="card-header border-0 pt-9">
         <div class="card-title m-0">
           <div class="symbol symbol-50px w-50px bg-light">

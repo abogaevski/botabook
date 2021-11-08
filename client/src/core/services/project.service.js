@@ -10,6 +10,13 @@ class ProjectService {
       .catch((error) => Promise.reject(error))
   }
 
+  retrieveProject(id) {
+    return api
+      .get(`/projects/${id}`)
+      .then((response) => Promise.resolve(response.data))
+      .catch((error) => Promise.reject(error))
+  }
+
   createProject(project) {
     return api
       .post('/projects/create', { ...project })

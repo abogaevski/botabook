@@ -1,7 +1,7 @@
 <template>
-  <div class="card mb-6 mb-xl-9" v-if="project">
-    <div class="card-body pt-9 pb-0">
-      <div class="d-flex flex-wrap flex-sm-nowrap mb-6">
+  <div class="card mb-6 mb-xl-9">
+    <div class="card-body pt-9" :class="{'pb-0': project}">
+      <div v-if="project" class="d-flex flex-wrap flex-sm-nowrap mb-6">
         <div
           class="fs-5tx d-flex flex-center flex-shrink-0 rounded w-100px h-100px w-lg-150px h-lg-150px me-7 mb-4 symbol-label fw-bolder"
           :class="colorClass"
@@ -78,7 +78,7 @@
           </div>
         </div>
       </div>
-      <div class="d-flex overflow-auto h-55px">
+      <div v-if="project" class="d-flex overflow-auto h-55px">
         <ul class="nav nav-stretch nav-line-tabs nav-line-tabs-2x border-transparent fs-5 fw-bolder flex-nowrap">
           <li class="nav-item">
             <router-link
@@ -100,6 +100,7 @@
           </li>
         </ul>
       </div>
+      <el-skeleton v-else :rows="4" animated />
     </div>
   </div>
   <router-view />
@@ -107,8 +108,8 @@
 <script>
 
 import { useStore } from 'vuex'
-import { useRoute, useRouter } from 'vue-router'
-import { computed } from 'vue'
+import { onBeforeRouteLeave, useRoute, useRouter } from 'vue-router'
+import { computed, onMounted, watchEffect } from 'vue'
 import moment from 'moment'
 import alert from '@/core/_utils/swal'
 import ProjectCustomersSymbolsList from '@/components/project/ProjectCustomersSymbolsList'
@@ -122,15 +123,11 @@ export default {
     const route = useRoute()
     const router = useRouter()
 
-    store.dispatch('project/getProjects')
-    store.dispatch('calendar/getEvents')
-    store.dispatch('customerModule/getCustomers')
+    const getProjects = () => store.dispatch('project/getProjects')
     const project = computed(() => store.getters['project/projectById'](route.params.id))
-    // const title = computed(() => (project.value ? project.value.title : ''))
-    // store.dispatch('setTitle', title)
 
+    const stop = watchEffect(() => (project.value ? store.dispatch('setTitle', project.value.title) : ''))
     const customers = computed(() => store.getters['customerModule/customers'])
-
     const colorClass = computed(() => {
       const color = project.value ? project.value.color : 'primary'
       return [`bg-light-${color}`, `text-${color}`]
@@ -155,6 +152,9 @@ export default {
         }
       })
     }
+
+    onBeforeRouteLeave(stop)
+    onMounted(getProjects)
 
     return {
       project,

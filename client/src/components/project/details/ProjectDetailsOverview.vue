@@ -39,9 +39,8 @@ export default {
   setup() {
     const route = useRoute()
     const store = useStore()
-    const { id } = route.params
-    store.dispatch('project/getProjects')
-    const project = computed(() => store.getters['project/projectById'](id))
+    // store.dispatch('project/getProjects')
+    const project = computed(() => store.getters['project/projectById'](route.params.id))
     return {
       project
     }

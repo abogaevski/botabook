@@ -24,15 +24,12 @@
 
       <template v-for="(project, i) in projects" :key="i">
         <div class="col-md-6 col-xl-4">
-          <project-card
-            :project="project"
-          />
+          <project-card :project="project"/>
         </div>
       </template>
 
     </div>
   </template>
-  <project-no-data v-else @modal:show="showModal" :is-active-create-modal="isActiveCreateModal"/>
   <project-create-modal :show-modal="isActiveCreateModal" @modal:close="closeModal"/>
 </template>
 
@@ -41,7 +38,6 @@ import { useStore } from 'vuex'
 import { computed, ref } from 'vue'
 import ProjectListHeading from '@/components/project/ProjectListHeading'
 import ProjectCard from '@/components/project/ProjectCard'
-import ProjectNoData from '@/components/project/ProjectNoData'
 import BtButton from '@/components/_core/buttons/BtButton'
 import ProjectCreateModal from '@/components/project/ProjectCreateModal'
 import Loader from '@/components/Loader'
@@ -52,7 +48,6 @@ export default {
     ProjectListHeading,
     ProjectCard,
     BtButton,
-    ProjectNoData,
     ProjectCreateModal,
     Loader
   },

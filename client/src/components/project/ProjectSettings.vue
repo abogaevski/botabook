@@ -146,7 +146,6 @@ export default {
     const route = useRoute()
     const store = useStore()
     const { id } = route.params
-    store.dispatch('project/getProjects')
     const project = computed(() => store.getters['project/projectById'](id))
     const projectSchema = object().shape({
       title: string()

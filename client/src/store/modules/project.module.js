@@ -12,15 +12,20 @@ export const project = {
 
   actions: {
     getProjects({ dispatch, commit }) {
-      commit(Mutation.SET_LOADER, true, { root: true })
       return ProjectService.getProjects()
         .then((projects) => {
           commit(Mutation.SET_PROJECTS, projects)
-          commit(Mutation.SET_LOADER, false, { root: true })
         })
         .catch((error) => {
           dispatch('setError', error, { root: true })
         })
+    },
+    retrieveProject({ dispatch, commit }, id) {
+      return ProjectService.retrieveProject(id)
+        .then((prj) => {
+          commit(Mutation.SET_PROJECT, prj)
+        })
+        .catch((error) => dispatch('setError', error, { root: true }))
     },
     createProject({ dispatch, commit }, newProject) {
       return ProjectService.createProject(newProject)
@@ -76,8 +81,15 @@ export const project = {
     [Mutation.SET_PROJECTS](state, projects) {
       return state.projects = [...projects]
     },
+    [Mutation.SET_PROJECT](state, prj) {
+      const index = getProjectIndexById(state, prj.id)
+      if (index === -1) {
+        return state.projects.unshift(prj)
+      }
+      return state.projects[index] = { ...prj }
+    },
     [Mutation.CREATE_PROJECT](state, prj) {
-      return state.projects.push(prj)
+      return state.projects.unshift(prj)
     },
     [Mutation.UPDATE_PROJECT](state, updatedProject) {
       const index = getProjectIndexById(state, updatedProject.id)

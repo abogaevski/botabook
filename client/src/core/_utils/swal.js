@@ -24,6 +24,8 @@ export default function alert(values) {
   } else if (values.icon === 'success') {
     config.confirmButtonText = 'OK'
     config.customClass.confirmButton.push('btn-light-success')
+  } else if (values.icon === 'warning') {
+    config.customClass.confirmButton.push('btn-light-warning')
   }
   if ('confirmButtonText' in values) {
     config.confirmButtonText = values.confirmButtonText
