@@ -1,15 +1,14 @@
 <template>
-  <div class="card h-100" v-if="events.length">
+  <div class="card h-100" v-if="!isEventsLoading">
     <div class="card-body calendar-wrapper px-2 px-sm-9">
       <full-calendar v-if="events.length" :options="calendarOptions" />
     </div>
   </div>
-  <div class="card" v-else-if="!events.length">
+  <div class="card" v-else>
     <div class="card-body calendar-wrapper px-2 px-sm-9">
       <el-skeleton :rows="5" animated />
     </div>
   </div>
-  <no-data v-else-if="events.length === 0" />
 
   <calendar-view-event-modal
     v-if="events.length"
@@ -33,16 +32,17 @@ import ruLocale from '@fullcalendar/core/locales/ru'
 import { useStore } from 'vuex'
 import setEventStyle from '@/core/_utils/helpers/event-helpers/setEventStyle'
 import CalendarViewEventModal from '@/components/calendar/CalendarViewEventModal'
-import NoData from '@/components/common/NoData'
 
 export default {
   name: 'Calendar',
-  components: { FullCalendar, CalendarViewEventModal, NoData },
+  components: { FullCalendar, CalendarViewEventModal },
   setup() {
     const store = useStore()
     const isActiveViewModal = ref(false)
     const eventId = ref('0')
+    const isEventsLoading = ref(true)
     store.dispatch('calendar/getEvents')
+      .then(() => isEventsLoading.value = false)
     store.dispatch('project/getProjects')
     store.dispatch('customerModule/getCustomers')
     store.dispatch('setTitle', 'Календарь')
@@ -118,7 +118,8 @@ export default {
       closeModal,
       calendarOptions,
       loader,
-      events
+      events,
+      isEventsLoading
     }
   },
 }
