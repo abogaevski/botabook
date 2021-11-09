@@ -17,7 +17,7 @@
       </div>
       <a
         :href="`mailto:${customer.email}`"
-        class=" fs-6 d-flex align-items-center text-gray-400 text-hover-primary me-5 mb-2 overflow-hidden">
+        class=" fs-6 d-flex align-items-center text-gray-600 text-hover-primary me-5 mb-2 overflow-hidden">
         <span class="svg-icon svg-icon-5 me-1">
           <inline-svg
             src="/media/icons/duotone/Communication/Mail-at.svg"
@@ -27,7 +27,7 @@
       </a>
       <a
         :href="`tel:${customer.phone}`"
-        class=" fs-6 d-flex align-items-center text-gray-400 text-hover-primary me-5 mb-5">
+        class=" fs-6 d-flex align-items-center text-gray-600 text-hover-primary me-5 mb-5">
         <span class="svg-icon svg-icon-5 me-1">
           <inline-svg
             src="/media/icons/duotone/Communication/Contact1.svg"
