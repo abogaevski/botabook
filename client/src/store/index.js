@@ -6,9 +6,8 @@ import { project } from './modules/project.module'
 import { customerModule } from './modules/customer.module'
 import { adminModule } from './modules/admin.module'
 import * as Mutation from './mutation-types'
-import { errors } from '@/core/_utils/helpers/error-helpers/error-types'
-import alert from '@/core/_utils/swal'
 import UserService from '@/core/services/user.service'
+import setError from '@/core/_utils/helpers/error-helpers/setError'
 
 const states = {
   state: {
@@ -40,16 +39,8 @@ const states = {
       commit(Mutation.SET_TITLE, title)
     },
     setError({ commit }, error) {
-      let errorData = ''
-      if (error.response) {
-        errorData = errors[error.response.data.code] || 'Произошла ошибка'
-      } else if (error.request) {
-        errorData = error
-      } else {
-        errorData = error.message
-      }
-      alert({ title: 'Произошла ошибка', html: errorData, icon: 'error' })
-      commit(Mutation.SET_ERROR, errorData)
+      const e = setError(error)
+      commit(Mutation.SET_ERROR, e)
     },
     retrieveUserData({ commit }) {
       return UserService.retrieveUserData()

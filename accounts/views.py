@@ -132,7 +132,7 @@ class RequestPasswordResetApiView(generics.GenericAPIView):
             user = user_model.objects.get(email=email)
             uid64 = urlsafe_base64_encode(smart_bytes(user.id))
             token = PasswordResetTokenGenerator().make_token(user)
-            relative_link = '/reset-password/{}/{}'.format(uid64, token)
+            relative_link = '/auth/reset-password/{}/{}'.format(uid64, token)
             url = settings.FRONTEND_URL + relative_link
             send_request_password_reset_url.delay(user.email, url)
         return Response({'success': 'Confirmation link have been sent to email'})
@@ -186,7 +186,7 @@ class SendVerifyEmailMessage(generics.GenericAPIView):
         user = request.user
         token = get_tokens_for_user(user)
 
-        url = '{}/verify-email/{}'.format(settings.FRONTEND_URL, token['access'])
+        url = '{}/auth/verify-email/{}'.format(settings.FRONTEND_URL, token['access'])
         send_email_verification_url.delay(user.email, user.profile.first_name, url)
 
         return Response({'success': True, 'message': 'verify_email_sent'})

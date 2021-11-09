@@ -34,7 +34,7 @@
         <div v-if="profile.website" class="d-flex justify-content-between mb-3 mb-lg-5">
           <div class="fw-bold text-gray-600">Сайт</div>
           <div class="fw-bolder">
-            <a target="_blank" :href="profile.website" class="text-hover-primary">{{ profile.website }}</a>
+            <a target="_blank" :href="profile.website" class="text-hover-primary">{{ website }}</a>
           </div>
         </div>
       </div>
@@ -45,6 +45,7 @@
 import { useRoute } from 'vue-router'
 import { useStore } from 'vuex'
 import { computed } from 'vue'
+import truncate from '@/core/filters'
 
 export default {
   setup() {
@@ -56,11 +57,13 @@ export default {
 
     const fullName = computed(() => `${profile.value.firstName} ${profile.value.lastName}`)
     const phoneLink = computed(() => `tel:${profile.value.phone}`)
+    const website = computed(() => truncate(profile.value.website, 20))
 
     return {
       profile,
       fullName,
-      phoneLink
+      phoneLink,
+      website
     }
   }
 }

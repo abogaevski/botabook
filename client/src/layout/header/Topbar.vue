@@ -9,8 +9,8 @@
             class="btn btn-icon btn-active-light-primary w-30px h-30px w-md-40px h-md-40px"
             @click="navigate"
           >
-          <span class="svg-icon svg-icon-2hx">
-            <inline-svg src="/media/icons/duotone/Interface/Calendar.svg"/>
+          <span class="svg-icon svg-icon-2x">
+            <inline-svg src="/media/icons/duotune/general/gen014.svg"/>
           </span>
           </a>
         </router-link>

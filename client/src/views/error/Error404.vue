@@ -11,7 +11,13 @@
 
 <script>
 
+import { onBeforeUnmount } from 'vue'
+
 export default {
-  name: 'Error404'
+  name: 'Error404',
+  setup() {
+    document.body.classList.add('bg-white')
+    onBeforeUnmount(() => document.body.classList.remove('bg-white'))
+  }
 }
 </script>

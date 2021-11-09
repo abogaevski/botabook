@@ -1,6 +1,4 @@
 import api from './api'
-import router from '@/router'
-import getErrorStatusCode from '@/core/_utils/helpers/error-helpers/getErrorStatusCode'
 
 const fileUploadConfig = {
   headers: {
@@ -12,44 +10,43 @@ class UserService {
   getUserProfile() {
     return api
       .get('/account/user')
-      .then((response) => response.data)
+      .then((response) => Promise.resolve(response.data))
+      .catch((error) => Promise.reject(error))
   }
 
   retrieveUserData() {
     return api
       .get('/account/user/retrieve')
       .then((response) => response.data)
+      .catch((error) => Promise.reject(error))
   }
 
   updateUserProfile(profile, id) {
     return api
       .put(`/account/user/${id}/update`, { ...profile })
       .then((response) => response.data)
+      .catch((error) => Promise.reject(error))
   }
 
   uploadProfileAvatar(form, id) {
     return api
       .patch(`/account/user/${id}/upload-avatar`, form, fileUploadConfig)
       .then((response) => response.data)
+      .catch((error) => Promise.reject(error))
   }
 
   removeProfileAvatar(id) {
     return api
       .patch(`/account/user/${id}/remove-avatar`)
       .then((response) => response.data)
+      .catch((error) => Promise.reject(error))
   }
 
   getPublicProfile(slug) {
     return api
       .get(`/account/profile/${slug}/info`)
-      .then((response) => response.data)
-      .catch((error) => {
-        if (error.response) {
-          const status = getErrorStatusCode(error.response)
-          const redirectPath = status === 404 ? '/404' : '/500'
-          router.push(redirectPath)
-        }
-      })
+      .then((response) => Promise.resolve(response.data))
+      .catch((error) => Promise.reject(error))
   }
 
   checkProfileSlug(slug) {
