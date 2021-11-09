@@ -12,15 +12,15 @@
           BotaBook
         </router-link>
       </div>
-      <ul class="menu menu-gray-600 menu-hover-primary fw-bold order-1">
+      <ul class="menu menu-gray-600 menu-hover-primary fw-bold order-1 flex-column flex-md-row justify-content-center">
         <li class="menu-item">
-          <router-link to="/" class="menu-link px-2">О BotaBook</router-link>
+          <router-link to="/" class="menu-link px-2 flex-center">О BotaBook</router-link>
         </li>
         <li class="menu-item">
-          <a href="#" @click.prevent="showModal" class="menu-link px-2">Связаться</a>
+          <a href="#" @click.prevent="showModal" class="menu-link px-2 flex-center">Связаться</a>
         </li>
         <li class="menu-item">
-          <a target="_blank" href="https://t.me/botabookchat" class="menu-link px-2">Botabook Community</a>
+          <a target="_blank" href="https://t.me/botabookchat" class="menu-link px-2 flex-center">Botabook Community</a>
         </li>
       </ul>
     </div>
