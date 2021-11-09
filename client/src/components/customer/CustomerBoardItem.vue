@@ -10,7 +10,7 @@
             @click:btn="deleteCustomer"
             btn-class="btn-icon btn-sm btn-active-icon-danger"
             icon-class="svg-icon-2"
-            icon-url="/media/icons/duotone/General/Trash.svg"
+            icon-url="/media/icons/duotune/general/gen027.svg"
             :disabled="isCustomerDeleting"
           />
         </bt-tooltip>

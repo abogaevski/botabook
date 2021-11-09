@@ -47,7 +47,7 @@
         <bt-button
           @click="updatePrimaryColumn(column)"
           class="btn btn-sm btn-icon btn-active-color-warning"
-          icon-url="/media/icons/duotone/General/Star.svg"
+          icon-url="/media/icons/duotune/general/gen029.svg"
           :icon-class="['svg-icon-2', {'svg-icon-warning': column.isPrimary}]"
           :disabled="isUpdating"
         />
@@ -57,7 +57,7 @@
           :disabled="column.isPrimary || isUpdating"
           @click="deleteColumn"
           class="btn btn-sm btn-icon btn-active-color-danger"
-          icon-url="/media/icons/duotone/General/Trash.svg"
+          icon-url="/media/icons/duotune/general/gen027.svg"
           icon-class="svg-icon-2 svg-active-icon-danger"
         />
       </bt-tooltip>
@@ -123,7 +123,7 @@ export default {
       },
     ]
     const currentColor = ref(column.value.color)
-    const getIconUrl = () => (isActiveChangeColor.value ? '/media/icons/duotone/Navigation/Close.svg' : '/media/icons/duotone/Design/Color.svg')
+    const getIconUrl = () => (isActiveChangeColor.value ? '/media/icons/duotune/arrows/arr061.svg' : '/media/icons/duotune/art/art007.svg')
     const getColorPickerTooltipTitle = () => (isActiveChangeColor.value ? 'Закрыть' : 'Изменить цвет')
     const updateColor = () => {
       if (column.value.color !== currentColor.value) {

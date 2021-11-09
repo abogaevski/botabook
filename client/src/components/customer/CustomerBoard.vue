@@ -28,12 +28,14 @@
         </div>
       </div>
     </template>
-    <div class="col-md-6 col-lg-4 col-xl-3">
+    <div class="col-10 col-sm-6 col-md-5 col-lg-5 col-xl-3 h-100">
       <button
         v-if="!isCreateNewColumn"
         @click="isCreateNewColumn = true"
-        class="card w-100 flex-center bg-transparent bg-hover-light-primary border-primary border border-dashed">
-        <span class="text-primary fs-5 fw-bolder my-2">Добавить новую колонку</span>
+        class="card bg-light-dark bg-hover-secondary card-flush w-100 ">
+        <div class="card-header justify-content-center px-4 py-2 w-100 min-h-auto">
+          <span class="text-center text-gray-700 fs-5 fw-bolder my-2">Добавить колонку</span>
+        </div>
       </button>
       <customer-board-new-column
         v-else

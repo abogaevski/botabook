@@ -2,12 +2,12 @@
   <div class="d-flex flex-wrap flex-stack pb-8">
     <h3 class="fw-bolder my-2">Ваши клиенты</h3>
     <div class="d-flex flex-wrap my-1">
-      <ul class="nav nav-pills me-5">
+      <ul class="nav nav-pills">
         <li class="nav-item m-0">
           <a class="btn btn-sm btn-icon btn-light btn-color-muted btn-active-primary me-3 active" data-bs-toggle="tab"
              href="#customer_card_pane">
               <span class="svg-icon svg-icon-2">
-              <inline-svg src="/media/icons/duotone/Interface/Grid.svg"/>
+              <inline-svg src="/media/icons/duotune/layouts/lay007.svg"/>
             </span>
           </a>
         </li>
@@ -15,7 +15,7 @@
           <a class="btn btn-sm btn-icon btn-light btn-color-muted btn-active-primary" data-bs-toggle="tab"
              href="#customer_table_pane">
               <span class="svg-icon svg-icon-2">
-              <inline-svg src="/media/icons/duotone/Interface/Grid-Horizontal.svg"/>
+              <inline-svg src="/media/icons/duotune/layouts/lay010.svg"/>
             </span>
           </a>
         </li>
