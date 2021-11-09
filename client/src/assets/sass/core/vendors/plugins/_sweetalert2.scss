@@ -18,7 +18,7 @@ body.swal2-shown:not(.swal2-no-backdrop):not(.swal2-toast-shown):not(.modal-open
 	@include border-radius($border-radius);
 
 	.swal2-icon {
-		margin: 2rem 0 0rem 0;
+		margin: 2rem 0 0 0;
 		justify-self: center;
 	}
 
@@ -74,43 +74,43 @@ body.swal2-height-auto {
 .swal2-icon {
 	// Warning
 	&.swal2-warning {
-    	border-color: $warning;
-    	color: $warning;
+    	border-color: $warning !important;
+    	color: $warning !important;
 	}
 
 	// Error
 	&.swal2-error {
-    	border-color: $danger;
-    	color: $danger;
+    	border-color: $danger !important;
+    	color: $danger !important;
 
 		[class^=swal2-x-mark-line] {
-			background-color: rgba($danger, 0.75);
+			background-color: rgba($danger, 0.75) !important;
 		}
 	}
 
 	// Success
 	&.swal2-success {
-    	border-color: $success;
-    	color: $success;
+    	border-color: $success !important;
+    	color: $success !important;
 
 		[class^=swal2-success-line] {
-			background-color: $success;
+			background-color: $success !important;
 		}
 
 		.swal2-success-ring {
-			border-color: rgba($success, 0.3);
+			border-color: rgba($success, 0.3) !important;
 		}
 	}
 
 	// Info
 	&.swal2-info {
-    	border-color: $info;
-    	color: $info;
+    	border-color: $info !important;
+    	color: $info !important;
 	}
 
 	// Question
 	&.swal2-question {
-    	border-color: $primary;
-    	color: $primary;
+    	border-color: $primary !important;
+    	color: $primary !important;
 	}
 }

@@ -8,17 +8,15 @@ import { ElementStyleUtil } from '../_utils/_ElementStyleUtil';
 
 const defaultStepperOptions = {
   startingStepIndex: 1,
-  animation: false,
-  animationSpeed: '0.3s',
-  animationNextClass: 'animate__animated animate__slideInRight animate__fast',
-  animationPreviousClass:
-    'animate__animated animate__slideInLeft animate__fast',
-};
+  animation: true,
+  animationSpeed: '.3s',
+  animationNextClass: 'animate__animated animate__fadeInLeft',
+  animationPreviousClass: 'animate__animated animate__fadeInRight', }
 
 class StepperComponent {
   element = null
 
-  options =defaultStepperOptions;
+  options = defaultStepperOptions;
 
   instanceUid = '';
 

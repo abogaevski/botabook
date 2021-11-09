@@ -13,11 +13,11 @@
       class="menu menu-column menu-title-gray-800 menu-state-title-primary menu-state-icon-primary menu-state-bullet-primary menu-arrow-gray-500"
       data-bb-menu="true"
     >
-      <menu-link
-        icon="/media/icons/duotune/abstract/abs027.svg"
-        route="/dashboard"
-        heading="Рабочий стол"
-      />
+<!--      <menu-link-->
+<!--        icon="/media/icons/duotune/abstract/abs027.svg"-->
+<!--        route="/dashboard"-->
+<!--        heading="Рабочий стол"-->
+<!--      />-->
       <menu-link
         icon="/media/icons/duotune/general/gen014.svg"
         route="/calendar"

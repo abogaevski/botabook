@@ -5,7 +5,7 @@
 // Button
 .btn {
 	// Reset outline
-	outline: none !important;	
+	outline: none !important;
 
 	// Reset focus shadow
 	&:not(.btn-shadow):not(.shadow):not(.shadow-sm):not(.shadow-lg) {
@@ -47,7 +47,7 @@
 	}
 
 	// Flex
-	&.btn-flex {		
+	&.btn-flex {
 		display: inline-flex;
 		align-items: center;
 	}

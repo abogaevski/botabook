@@ -1,6 +1,6 @@
 <template>
-    <div class="card card-flush h-lg-100">
-      <div class="card-body px-2 px-sm-7">
+    <div class="card card-flush overflow-hidden">
+      <div class="card-body px-3 px-sm-5 p-5 pt-7">
         <div v-if="!bookingComplete" class="stepper stepper-links" ref="addEventFormStepper">
           <public-page-stepper-nav />
           <Form
@@ -9,12 +9,12 @@
             :validation-schema="eventRequestSchema"
           >
             <div class="current" data-bb-stepper-element="content">
-              <div class="w-100">
-                <div class="py-10">
+              <div class="w-100 mb-4">
+                <div class="py-7">
                   <h2 class="fw-bolder d-flex align-items-center text-dark">Выберите услугу</h2>
                 </div>
                 <div class="fv-row fv-plugins-icon-container fv-plugins-bootstrap5-row-valid">
-                  <div class="row">
+                  <div class="row g-3 g-xl-5">
                     <div
                       v-for="(project, k) in projects"
                       :key="k"
@@ -40,17 +40,17 @@
             </div>
 
             <div data-bb-stepper-element="content">
-              <div class="w-100">
-                <div class="py-10">
+              <div class="w-100 mb-4">
+                <div class="py-7">
                   <h2 class="fw-bolder d-flex align-items-center text-dark">Выберите дату и время</h2>
                 </div>
-                <div class="mb-10 fv-row fv-plugins-icon-container">
+                <div class="fv-row fv-plugins-icon-container">
                   <div class="row">
                     <div class="col-xl-3">
                       <public-page-project-info :project-id="formData.projectId" />
                     </div>
                     <div class="col-xl-6">
-                      <div class="fv-row mb-9 fv-plugins-icon-container">
+                      <div class="fv-row fv-plugins-icon-container">
                         <public-page-wizard-calendar @calendar:change-date="handleDateChange" />
                       </div>
                     </div>
@@ -77,7 +77,7 @@
                               :disabled="date.status === 'busy'"
                             />
                             <label
-                              class="d-block btn btn-outline btn-outline-dashed public-time-element"
+                              class="d-block btn public-time-element"
                               :class="getAvailableTimeClass(date.status)"
                               :for="getEventInputId(date.time)">
                               {{ getTimeOnly(date.time) }}
@@ -98,8 +98,8 @@
             </div>
 
             <div data-bb-stepper-element="content">
-              <div class="w-100">
-                <div class="py-10">
+              <div class="w-100 mb-4">
+                <div class="py-7">
                   <h2 class="fw-bolder d-flex align-items-center text-dark">Укажите ваши данные для встречи</h2>
                 </div>
                 <div class="row">
@@ -149,9 +149,9 @@
                         </div>
                       </div>
                     </div>
-                    <div class="mb-5 fv-row fv-plugins-icon-container">
+                    <div class="fv-row fv-plugins-icon-container">
                       <label class="form-label mb-3">Сообщение
-                        <span class="fs-7 fw-bold text-muted d-flex mb-3">
+                        <span class="fs-7 fw-bold text-muted d-flex">
                           Напишите что угодно, что могло бы помочь подготовиться к встрече
                         </span>
                       </label>
@@ -177,7 +177,7 @@
               <div class="mr-2">
                 <button
                   type="button"
-                  class="btn btn-light-primary me-3"
+                  class="btn btn-light-primary"
                   @click="previousStep"
                   data-bb-stepper-action="previous"
                 >
@@ -191,7 +191,7 @@
                 <button
                   ref="submitBtn"
                   type="submit"
-                  class="btn btn-primary me-3"
+                  class="btn btn-primary"
                   v-if="currentStepIndex === totalSteps - 1"
                 >
                   <span class="indicator-label">Отправить</span>
@@ -296,12 +296,18 @@ export default {
     }
     const getTimeOnly = (date) => moment(date).format('HH:mm')
     const getAvailableTimeClass = (status) => (status === 'available'
-      ? 'btn-outline-primary btn-active-light-primary'
-      : 'btn-outline-default')
+      ? 'btn-light-primary btn-active-primary'
+      : 'btn-light')
 
     const previousStep = () => {
       if (!stepperObj.value) {
         return
+      }
+      if (currentStepIndex.value === 1) {
+        if (formData.value.time) {
+          formData.value.time = ''
+          dates.value = []
+        }
       }
       currentStepIndex.value--
       stepperObj.value.goPrev()
