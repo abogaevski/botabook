@@ -1,6 +1,6 @@
 <template>
   <div v-if="project" class="card">
-    <div class="card-header p-4 p-sm-9 p-lg-4 px-xl-9">
+    <div class="card-header p-4 p-lg-4 px-xl-9">
       <div class="card-title fs-3 fw-bolder">Настройки</div>
     </div>
     <Form
@@ -8,7 +8,7 @@
       :validation-schema="projectSchema"
       @submit="submitProject"
     >
-      <div class="card-body p-4 p-sm-9 p-lg-4 px-xl-9">
+      <div class="card-body p-4 p-sm-9 p-lg-4 p-xl-9">
         <div class="row mb-3 mb-sm-6 align-items-center">
           <div class="col-sm-4 col-xl-3">
             <div class="fs-6 fw-bold mt-2 mb-3 mb-xl-0 mt-xl-0">Название</div>
@@ -126,7 +126,7 @@
           </div>
         </div>
       </div>
-      <div class="card-footer d-flex justify-content-end py-6 px-9">
+      <div class="card-footer d-flex justify-content-end p-sm-9 p-lg-4 px-xl-9">
         <button ref="submitBtn" type="submit" class="btn btn-primary">
           <span class="indicator-label">Сохранить</span>
           <span class="indicator-progress">Подождите...

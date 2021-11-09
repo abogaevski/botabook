@@ -2,7 +2,7 @@
   <div class="row g-6 g-xl-9">
     <div class="col-md-12 col-lg-12 col-xxl-4">
       <div class="card h-100">
-        <div class="card-body p-9">
+        <div class="card-body p-4 p-sm-9 p-lg-4 p-xl-9">
           <div class="fs-2hx fw-bolder">
             {{ projects.length }}
           </div>
@@ -34,7 +34,7 @@
 
     <div class="col-md-6 col-lg-6 col-xxl-4">
       <div class="card h-100">
-        <div class="card-body p-9">
+        <div class="card-body p-4 p-sm-9 p-lg-4 p-xl-9">
           <div class="fs-2hx fw-bolder">{{ priceSum }} руб</div>
           <div class="fs-4 fw-bold text-gray-400 mb-7">Сумма всех услуг</div>
           <div class="fs-6 d-flex justify-content-between mb-4">
@@ -66,7 +66,7 @@
     </div>
     <div class="col-md-6 col-lg-6 col-xxl-4">
       <div class="card h-100">
-        <div class="card-body p-9">
+        <div class="card-body p-4 p-sm-9 p-lg-4 p-xl-9">
           <div class="fs-2hx fw-bolder">{{ customersCount }}</div>
           <div class="fs-4 fw-bold text-gray-400 mb-7">Всего клиентов</div>
           <div class="symbol-group symbol-hover mb-9">

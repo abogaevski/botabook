@@ -4,7 +4,6 @@
     <div class="d-flex flex-wrap flex-stack my-5">
       <h2 class="fs-2 fw-bold my-2">
         Услуги
-        <span class="fs-6 text-gray-400 ms-1">по дате создания</span>
       </h2>
       <div class="d-flex flex-wrap my-1">
         <div class="m-0">

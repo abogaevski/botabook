@@ -1,6 +1,6 @@
 <template>
   <div class="card mb-6 mb-xl-9">
-    <div class="card-body p-4 p-sm-9 p-lg-4 px-xl-9" :class="{'pb-0 pb-sm-0 pb-lg-0 pb-xl-0': project}">
+    <div class="card-body p-4 p-sm-9 p-lg-4 p-xl-9" :class="{'pb-0 pb-sm-0 pb-lg-0 pb-xl-0': project}">
       <div v-if="project" class="d-flex flex-wrap flex-sm-nowrap mb-6 flex-center">
         <div
           class="fs-5tx d-flex flex-center flex-shrink-0 rounded w-100px h-100px w-lg-150px h-lg-150px me-sm-6 mb-4 symbol-label fw-bolder"

@@ -4,7 +4,7 @@
     :to="`/project/${project.id}`"
   >
     <div class="card border border-2 border-gray-300 border-hover h-100">
-      <div class="card-header border-0 pt-9">
+      <div class="card-header border-0 p-4 p-sm-9 p-lg-4 p-xl-9">
         <div class="card-title m-0">
           <div class="symbol symbol-50px w-50px bg-light">
           <span
@@ -25,7 +25,7 @@
         </span>
         </div>
       </div>
-      <div class="card-body p-9">
+      <div class="card-body p-4 p-sm-9 p-lg-4 p-xl-9">
         <div class="fs-3 fw-bolder text-dark">
           {{ project.title }}
         </div>

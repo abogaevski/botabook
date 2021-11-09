@@ -1,7 +1,6 @@
 <template>
-  <loader class="mb-xl-8 mb-lg-8 mb-6" v-if="loader"/>
-  <div v-else-if="user && !loader" class="card mb-5 mb-xl-10">
-    <div class="card-header border-0 cursor-pointer">
+  <div v-if="user" class="card mb-5 mb-xl-10">
+    <div class="card-header border-0 cursor-pointer p-4 p-sm-9 p-lg-4 px-xl-9">
       <div class="card-title m-0">
         <h3 class="fw-bolder m-0">Настройки профиля</h3>
       </div>
@@ -13,16 +12,19 @@
         :validation-schema="profileSchema"
         @submit="profileSubmit"
       >
-        <div class="card-body border-top p-9">
+        <div class="card-body border-top p-4 p-sm-9 p-lg-4 px-xl-9">
 
           <profile-avatar :id="user.id" :avatar="user.profile.avatar"></profile-avatar>
 
-          <div class="row mb-4 mb-lg-6">
-            <label class="col-lg-4 col-form-label fw-bold fs-6">
-              Ссылка на страницу
-            </label>
+          <div class="row mb-3 mb-lg-6">
+            <div class="col-lg-4">
+              <div class="d-flex flex-row flex-sm-column justify-content-between justify-content-sm-start align-items-center align-items-sm-start">
+                <div class="fs-6 fw-bold mt-2 mb-1">Ссылка</div>
+                <div class="fs-7 fw-bold text-muted">{{ location }}</div>
+              </div>
+            </div>
             <div class="col-lg-8 fv-row">
-              <div class="form-text mb-3">{{ location }}</div>
+              <div class="form-text mb-3"></div>
               <Field
                 type="text"
                 rows="3"
@@ -38,8 +40,8 @@
             </div>
           </div>
 
-          <div class="row mb-4 mb-lg-6">
-            <label class="col-lg-4 col-form-label required fw-bold fs-6">
+          <div class="row mb-3 mb-lg-6">
+            <label class="col-lg-4 col-form-label fw-bold fs-6">
               Полное имя
             </label>
             <div class="col-lg-8">
@@ -76,15 +78,9 @@
             </div>
           </div>
 
-          <div class="row mb-4 mb-lg-6">
+          <div class="row mb-3 mb-lg-6">
             <label class="col-lg-4 col-form-label fw-bold fs-6">
               Текст приветствия
-              <bt-tooltip
-                tag="i"
-                tooltipClass="fas fa-exclamation-circle ms-1 fs-7"
-                title="Отобразится на Вашей публичной странице"
-                placement="right"
-              />
             </label>
             <div class="col-lg-8 fv-row">
               <Field
@@ -102,7 +98,7 @@
             </div>
           </div>
 
-          <div class="row mb-4 mb-lg-6">
+          <div class="row mb-3 mb-lg-6">
             <label class="col-lg-4 col-form-label fw-bold fs-6">
               Должность / специализация
             </label>
@@ -122,7 +118,7 @@
             </div>
           </div>
 
-          <div class="row mb-4 mb-lg-6">
+          <div class="row mb-3 mb-lg-6">
             <label class="col-lg-4 col-form-label fw-bold fs-6">
               Компания
             </label>
@@ -142,15 +138,9 @@
             </div>
           </div>
 
-          <div class="row mb-4 mb-lg-6">
+          <div class="row mb-3 mb-lg-6">
             <label class="col-lg-4 col-form-label fw-bold fs-6">
               <span>Телефон</span>
-              <bt-tooltip
-                tag="i"
-                tooltipClass="fas fa-exclamation-circle ms-1 fs-7"
-                title="Телефон должен быть активен"
-                placement="right"
-              />
             </label>
 
             <div class="col-lg-8 fv-row">
@@ -169,7 +159,7 @@
             </div>
           </div>
 
-          <div class="row mb-4 mb-lg-6">
+          <div class="row mb-3 mb-lg-6">
             <label class="col-lg-4 col-form-label fw-bold fs-6">
               Вебсайт
             </label
@@ -190,16 +180,9 @@
             </div>
           </div>
 
-          <div class="row mb-4 mb-lg-6">
+          <div class="row mb-3 mb-lg-6">
             <label class="col-lg-4 col-form-label fw-bold fs-6">
               <span>Страна</span>
-
-              <bt-tooltip
-                tag="i"
-                tooltipClass="fas fa-exclamation-circle ms-1 fs-7"
-                title="Страна нахождения"
-                placement="right"
-              />
             </label>
             <div class="col-lg-8 fv-row">
               <Field
@@ -217,16 +200,9 @@
             </div>
           </div>
 
-          <div class="row mb-4 mb-lg-6">
+          <div class="row mb-3 mb-lg-6">
             <label class="col-lg-4 col-form-label fw-bold fs-6">
               <span>Город</span>
-
-              <bt-tooltip
-                tag="i"
-                tooltipClass="fas fa-exclamation-circle ms-1 fs-7"
-                title="Город проживания"
-                placement="right"
-              />
             </label>
             <div class="col-lg-8 fv-row">
               <Field
@@ -243,16 +219,9 @@
               </div>
             </div>
           </div>
-          <div class="row mb-4 mb-lg-6">
+          <div class="row mb-3 mb-lg-6">
             <label class="col-lg-4 col-form-label fw-bold fs-6">
               <span>График работы</span>
-
-              <bt-tooltip
-                tag="i"
-                tooltipClass="fas fa-exclamation-circle ms-1 fs-7"
-                title="График работы в формате. например 08:00:00-17:00:00"
-                placement="right"
-              />
             </label>
             <div class="col-lg-8 fv-row profile__time-picker">
               <div class="row">
@@ -304,16 +273,9 @@
               </div>
             </div>
           </div>
-          <div class="row mb-4 mb-lg-6">
+          <div class="row mb-3 mb-lg-6">
             <label class="col-lg-4 col-form-label fw-bold fs-6">
               <span>Часовой пояс</span>
-
-              <bt-tooltip
-                tag="i"
-                tooltipClass="fas fa-exclamation-circle ms-1 fs-7"
-                title="Город проживания"
-                placement="right"
-              />
             </label>
             <div class="col-lg-8 fv-row">
               <Field
@@ -334,20 +296,14 @@
 
         </div>
 
-        <div class="card-footer d-flex justify-content-end py-6 px-9">
+        <div class="card-footer d-flex justify-content-end p-sm-9 p-lg-4 px-xl-9">
           <button
             type="submit"
             class="btn btn-primary"
             ref="submitBtn"
           >
-            <span class="indicator-label">
-              Сохранить
-            </span>
-            <span class="indicator-progress">
-              Подождите...
-              <span
-                class="spinner-border spinner-border-sm align-middle ms-2"
-              ></span>
+            <span class="indicator-label">Сохранить</span>
+            <span class="indicator-progress">Подождите...<span class="spinner-border spinner-border-sm align-middle ms-2"></span>
             </span>
           </button>
         </div>
@@ -362,13 +318,11 @@ import { tz } from 'moment-timezone'
 import { Form, Field, ErrorMessage } from 'vee-validate'
 import { string, object } from 'yup'
 import ProfileAvatar from '@/components/profile/ProfileAvatar'
-import BtTooltip from '@/components/_core/BtTooltip'
 import UserService from '@/core/services/user.service'
-import Loader from '@/components/Loader'
 
 export default {
   name: 'ProfileSettings',
-  components: { Form, Field, ErrorMessage, ProfileAvatar, BtTooltip, Loader },
+  components: { Form, Field, ErrorMessage, ProfileAvatar },
   setup() {
     const store = useStore()
     const profileData = ref({
@@ -427,7 +381,6 @@ export default {
       endWorkHour: string()
         .label('Часы доступности')
     })
-    const loader = computed(() => store.getters.loader)
     const user = computed(() => store.getters['userProfile/user'])
     const startTime = ref('')
     const endTime = ref('')
@@ -438,6 +391,8 @@ export default {
       result.push(...tz.zonesForCountry('GE'))
       result.push(...tz.zonesForCountry('UA'))
       result.push(...tz.zonesForCountry('RU'))
+      result.push(...tz.zonesForCountry('UZ'))
+      result.push(...tz.zonesForCountry('KZ'))
       return result
     })
     watch(user, (newUser) => profileData.value = { ...newUser.profile })
@@ -459,8 +414,7 @@ export default {
       zones,
       profileSubmit,
       submitBtn,
-      user,
-      loader
+      user
     }
   },
 }
