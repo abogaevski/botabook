@@ -40,6 +40,8 @@
             </div>
           </div>
 
+          <div class="separator my-3 my-lg-6"></div>
+
           <div class="row mb-3 mb-lg-6">
             <label class="col-lg-4 col-form-label fw-bold fs-6">
               Полное имя
@@ -98,6 +100,8 @@
             </div>
           </div>
 
+          <div class="separator my-3 my-lg-6"></div>
+
           <div class="row mb-3 mb-lg-6">
             <label class="col-lg-4 col-form-label fw-bold fs-6">
               Должность / специализация
@@ -137,6 +141,8 @@
               </div>
             </div>
           </div>
+
+          <div class="separator my-3 my-lg-6"></div>
 
           <div class="row mb-3 mb-lg-6">
             <label class="col-lg-4 col-form-label fw-bold fs-6">
@@ -219,6 +225,9 @@
               </div>
             </div>
           </div>
+
+          <div class="separator my-3 my-lg-6"></div>
+
           <div class="row mb-3 mb-lg-6">
             <label class="col-lg-4 col-form-label fw-bold fs-6">
               <span>График работы</span>
