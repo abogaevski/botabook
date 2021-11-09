@@ -1,6 +1,6 @@
 <template>
   <div v-if="project" class="card">
-    <div class="card-header">
+    <div class="card-header p-4 p-sm-9 p-lg-4 px-xl-9">
       <div class="card-title fs-3 fw-bolder">Настройки</div>
     </div>
     <Form
@@ -8,12 +8,12 @@
       :validation-schema="projectSchema"
       @submit="submitProject"
     >
-      <div class="card-body p-9">
-        <div class="row mb-8">
-          <div class="col-xl-3">
-            <div class="fs-6 fw-bold mt-2 mb-3">Название</div>
+      <div class="card-body p-4 p-sm-9 p-lg-4 px-xl-9">
+        <div class="row mb-3 mb-sm-6 align-items-center">
+          <div class="col-sm-4 col-xl-3">
+            <div class="fs-6 fw-bold mt-2 mb-3 mb-xl-0 mt-xl-0">Название</div>
           </div>
-          <div class="col-xl-9 fv-row fv-plugins-icon-container">
+          <div class="col-sm-8 col-xl-9 fv-row fv-plugins-icon-container">
             <Field
               v-model.lazy="projectData.title"
               type="text"
@@ -26,11 +26,11 @@
             </div>
           </div>
         </div>
-        <div class="row mb-8">
-          <div class="col-xl-3">
+        <div class="row mb-3 mb-sm-6">
+          <div class="col-sm-4 col-xl-3">
             <div class="fs-6 fw-bold mt-2 mb-3">Описание</div>
           </div>
-          <div class="col-xl-9 fv-row fv-plugins-icon-container">
+          <div class="col-sm-8 col-xl-9 fv-row fv-plugins-icon-container">
             <Field
               v-model.lazy="projectData.description"
               as="textarea"
@@ -43,12 +43,14 @@
             </div>
           </div>
         </div>
-        <div class="row mb-8">
-          <div class="col-xl-3">
-            <div class="fs-6 fw-bold mt-2">Цена</div>
-            <div class="fs-7 fw-bold text-muted d-flex mb-3">в рублях</div>
+        <div class="row mb-3 mb-sm-6">
+          <div class="col-sm-4 col-xl-3">
+            <div class="d-flex flex-row flex-sm-column justify-content-between justify-content-sm-start align-items-center align-items-sm-start">
+              <div class="fs-6 fw-bold mt-2 mb-1">Цена</div>
+              <div class="fs-7 fw-bold text-muted">в рублях</div>
+            </div>
           </div>
-          <div class="col-xl-9 fv-row fv-plugins-icon-container">
+          <div class="col-sm-8 col-xl-9 fv-row fv-plugins-icon-container">
             <Field
               v-model.lazy="projectData.price"
               type="number"
@@ -61,12 +63,14 @@
             </div>
           </div>
         </div>
-        <div class="row mb-8">
-          <div class="col-xl-3">
-            <div class="fs-6 fw-bold mt-2">Продолжительность</div>
-            <div class="fs-7 fw-bold text-muted d-flex mb-3">в минутах</div>
+        <div class="row mb-3 mb-sm-6">
+          <div class="col-sm-4 col-xl-3">
+            <div class="d-flex flex-row flex-sm-column justify-content-between justify-content-sm-start align-items-center align-items-sm-start">
+              <div class="fs-6 fw-bold mt-2 mb-1">Продолжительность</div>
+              <div class="fs-7 fw-bold text-muted">в минутах</div>
+            </div>
           </div>
-          <div class="col-xl-9 fv-row fv-plugins-icon-container">
+          <div class="col-sm-8 col-xl-9 fv-row fv-plugins-icon-container">
             <Field
               v-model.lazy="projectData.timeRange"
               type="number"
@@ -79,12 +83,12 @@
             </div>
           </div>
         </div>
-        <div class="row mb-8">
-          <div class="col-md-3">
-            <div class="fs-6 fw-bold mt-2 mb-5 mb-md-0">Цвет</div>
+        <div class="row mb-3 mb-sm-6">
+          <div class="col-sm-4 col-xl-3">
+            <div class="fs-6 fw-bold mt-2 mb-3 mb-md-0">Цвет</div>
           </div>
-          <div class="col-md-9 fv-row fv-plugins-icon-container">
-            <div class="d-flex flex-row justify-content-start justify-content-md-end">
+          <div class="col-sm-8 col-xl-9 fv-row fv-plugins-icon-container">
+            <div class="d-flex flex-wrap justify-content-between justify-content-sm-end">
               <template v-for="(color, i) in colors" :key="i">
                 <Field
                   v-model.lazy="projectData.color"
@@ -105,11 +109,11 @@
             </div>
           </div>
         </div>
-        <div class="row mb-15">
-          <div class="col-xl-3">
+        <div class="row">
+          <div class="col-6 col-sm-4 col-xl-3">
             <label class="fs-6 fw-bold mt-2 mb-3">Услуга активна?</label>
           </div>
-          <div class="col-xl-9 fv-row fv-plugins-icon-container">
+          <div class="col-6 col-sm-8 col-xl-9 fv-row fv-plugins-icon-container">
             <label class="form-check form-check-custom form-check-solid mt-2 mb-3">
               <Field name="isActive" v-model="projectData.isActive" v-slot="{ value, field }">
                 <el-switch
@@ -124,7 +128,7 @@
       </div>
       <div class="card-footer d-flex justify-content-end py-6 px-9">
         <button ref="submitBtn" type="submit" class="btn btn-primary">
-          <span class="indicator-label">Изменить</span>
+          <span class="indicator-label">Сохранить</span>
           <span class="indicator-progress">Подождите...
                 <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
               </span>
@@ -153,6 +157,7 @@ export default {
         .required()
         .label('Название услуги'),
       description: string()
+        .trim()
         .nullable()
         .label('Описание встречи'),
       price: number()
@@ -176,6 +181,7 @@ export default {
     const submitBtn = ref()
 
     const submitProject = (values) => {
+      submitBtn.value.setAttribute('data-bb-indicator', 'on')
       const projectValues = {
         id: projectData.value.id,
         ...values

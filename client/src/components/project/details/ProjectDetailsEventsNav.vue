@@ -1,12 +1,12 @@
 <template>
   <div class="card card-flush h-lg-100">
-    <div class="card-header mt-6">
+    <div class="card-header p-4 p-sm-9 p-lg-4 px-xl-9">
       <div class="card-title flex-column">
         <h3 class="fw-bolder mb-1">Навигация по встречам</h3>
         <div class="fs-6 text-gray-400">Последний месяц</div>
       </div>
     </div>
-    <div class="card-body p-9 pt-4">
+    <div class="card-body p-4 p-sm-9 p-lg-4 px-xl-9">
       <div class="nav nav-pills d-flex flex-nowrap hover-scroll-x py-2" ref="tabLinks">
         <template v-for="(day, i) in days" :key="i">
           <li class="nav-item me-1">

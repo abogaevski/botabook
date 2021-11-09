@@ -1,12 +1,12 @@
 <template>
   <div class="card card-flush">
-    <div class="card-header mt-6">
+    <div class="card-header p-4 p-sm-9 p-lg-4 px-xl-9">
       <div class="card-title flex-column">
         <h3 class="fw-bolder mb-1">Последние 5 клиентов</h3>
         <div class="fs-6 text-gray-400">Клиенты, подписанные на услугу</div>
       </div>
     </div>
-    <div class="card-body pt-2">
+    <div class="card-body p-4 p-sm-9 p-lg-4 px-xl-9">
         <template v-for="(customer, i) in customers" :key="i">
           <div class="d-flex align-items-center mb-7">
             <div class="symbol symbol-50px me-5">

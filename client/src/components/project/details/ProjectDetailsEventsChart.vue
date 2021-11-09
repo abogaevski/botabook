@@ -1,6 +1,6 @@
 <template>
   <div class="card card-flush h-lg-100">
-    <div class="card-header mt-6">
+    <div class="card-header p-4 p-sm-9 p-lg-4 px-xl-9">
       <div class="card-title flex-column">
         <h3 class="fw-bolder mb-1">
           Встречи
@@ -10,7 +10,7 @@
         </div>
       </div>
     </div>
-    <div class="card-body p-9 pt-5">
+    <div class="card-body p-4 p-sm-9 p-lg-4 px-xl-9">
       <div class="align-items-center d-flex flex-center flex-column flex-lg-column flex-md-row flex-wrap">
         <div class="d-flex flex-center h-175px mb-7 me-0 me-lg-0 me-md-15 position-relative w-175px">
           <DoughnutChart ref="doughnutRef" :chartData="datasets" :options="doughnutOptions"/>

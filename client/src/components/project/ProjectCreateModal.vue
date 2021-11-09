@@ -6,7 +6,7 @@
         :validation-schema="projectSchema"
         @submit="submitProject"
       >
-        <div class="modal-header pb-0 border-0 justify-content-end">
+        <div class="modal-header border-0 justify-content-end py-4 py-sm-7 pb-0 px-4 px-sm-7">
           <bt-button
             btn-class="btn-icon btn-sm btn-active-icon-primary"
             @click:btn="close"
@@ -14,7 +14,7 @@
             icon-url="/media/icons/duotone/Navigation/Close.svg"
           />
         </div>
-        <div class="modal-body py-10 px-lg-17">
+        <div class="modal-body px-4 px-sm-17">
           <div class="text-center mb-13">
             <h1 class="mb-3">Добавить услугу</h1>
             <div class="text-muted fw-bold fs-5">Если вам необходимо больше информации, обратитесь

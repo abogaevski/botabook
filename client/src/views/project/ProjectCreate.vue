@@ -1,7 +1,7 @@
 <template>
   <div class="card">
     <div class="card-body pb-0">
-      <div class="card-px text-center pt-15 pb-5">
+      <div class="text-center pt-15 pb-5">
         <h2 class="fs-2x fw-bolder mb-0">Создать новую услугу</h2>
         <p class="text-gray-400 fs-4 fw-bold py-7">Нажмите на кнопку ниже,
           <br>чтобы открыть окно создания услуги.</p>
@@ -28,7 +28,7 @@ export default {
     const isActiveCreateModal = ref(false)
     const closeModal = () => isActiveCreateModal.value = false
     const showModal = () => isActiveCreateModal.value = true
-    store.dispatch('setTitle', 'Создать новую услугу')
+    store.dispatch('setTitle', 'Новая услуга')
     return {
       isActiveCreateModal,
       closeModal,

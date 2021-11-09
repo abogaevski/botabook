@@ -1,6 +1,6 @@
 <template>
   <div class="card card-flush h-lg-100">
-    <div class="card-header mt-6">
+    <div class="card-header p-4 p-sm-9 p-lg-4 px-xl-9">
       <div class="card-title flex-column">
         <h3 class="fw-bolder mb-1">
           Запись на услугу
@@ -21,7 +21,7 @@
         </div>
       </div>
     </div>
-    <div class="card-body pt-10 pb-0 px-xl-5 px-0">
+    <div class="card-body p-4 p-sm-9 p-lg-4 px-xl-9">
       <apexchart type="area" :options="options" :series="series"/>
     </div>
   </div>

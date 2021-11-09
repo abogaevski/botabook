@@ -1,17 +1,17 @@
 <template>
   <div class="card mb-6 mb-xl-9">
-    <div class="card-body pt-9" :class="{'pb-0': project}">
-      <div v-if="project" class="d-flex flex-wrap flex-sm-nowrap mb-6">
+    <div class="card-body p-4 p-sm-9 p-lg-4 px-xl-9" :class="{'pb-0 pb-sm-0 pb-lg-0 pb-xl-0': project}">
+      <div v-if="project" class="d-flex flex-wrap flex-sm-nowrap mb-6 flex-center">
         <div
-          class="fs-5tx d-flex flex-center flex-shrink-0 rounded w-100px h-100px w-lg-150px h-lg-150px me-7 mb-4 symbol-label fw-bolder"
+          class="fs-5tx d-flex flex-center flex-shrink-0 rounded w-100px h-100px w-lg-150px h-lg-150px me-sm-6 mb-4 symbol-label fw-bolder"
           :class="colorClass"
         >
           {{ initials }}
         </div>
         <div class="flex-grow-1">
-          <div class="align-items-start d-flex flex-column flex-md-row flex-wrap justify-content-md-between mb-2">
+          <div class="flex-center d-flex flex-column flex-sm-row flex-wrap justify-content-sm-between mb-2">
             <div class="d-flex flex-column">
-              <div class="d-flex align-items-center mb-1">
+              <div class="d-flex align-items-center mb-4">
                 <h3 class="text-gray-800 mb-0 fs-2 fw-bolder me-3">
                   {{ project.title }}
                 </h3>
@@ -19,11 +19,11 @@
                   {{ statusText }}
                 </span>
               </div>
-              <div class="d-flex flex-wrap fw-bold mb-4 fs-5 text-gray-400">
+              <div v-if="project.description" class="d-flex flex-wrap fw-bold mb-4 fs-5 text-gray-400">
                 {{ project.description }}
               </div>
             </div>
-            <div class="d-flex mb-4">
+            <div class="d-flex flex-end mb-4">
               <router-link
                 to="settings"
                 class="btn btn-sm btn-primary me-3">
@@ -41,7 +41,7 @@
           </div>
           <div class="d-flex flex-wrap justify-content-start">
             <div class="d-flex flex-wrap">
-              <div class="border border-gray-300 border-dashed rounded min-w-125px py-3 px-4 me-6 mb-3">
+              <div class="border border-gray-300 border-dashed rounded min-w-125px p-3 px-sm-4 me-sm-4 me-3 mb-3">
                 <div class="d-flex align-items-center">
                   <div class="fs-4 fw-bolder">
                     {{ createdAt }}
@@ -51,7 +51,7 @@
                   Дата создания
                 </div>
               </div>
-              <div class="border border-gray-300 border-dashed rounded min-w-125px py-3 px-4 me-6 mb-3">
+              <div class="border border-gray-300 border-dashed rounded min-w-125px p-3 px-sm-4 me-sm-4 me-3 mb-3">
                 <div class="d-flex align-items-center">
                   <div class="fs-4 fw-bolder">
                     {{ price }}
@@ -61,7 +61,7 @@
                   Цена
                 </div>
               </div>
-              <div class="border border-gray-300 border-dashed rounded min-w-125px py-3 px-4 me-6 mb-3">
+              <div class="border border-gray-300 border-dashed rounded min-w-125px p-3 px-sm-4 me-sm-4 me-3 mb-3">
                 <div class="d-flex align-items-center">
                   <div class="fs-4 fw-bolder">
                     {{ project.events.length }}
