@@ -34,6 +34,7 @@ class BoardColumn(models.Model):
         verbose_name = 'BoardColumn'
         verbose_name_plural = 'BoardColumns'
         db_table = 'user_customers_boards'
+        ordering = ['pk']
         # constraints = [
         #     UniqueConstraint(
         #         fields=['is_primary'],
