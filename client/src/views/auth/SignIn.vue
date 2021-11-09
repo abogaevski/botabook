@@ -18,7 +18,7 @@
     </div>
 
     <div class="fv-row mb-10">
-      <label class="form-label fs-6 fw-bolder text-dark">Email</label>
+      <label class="form-label fs-6 fw-bolder text-dark">E-mail</label>
 
       <Field
         class="form-control form-control-lg form-control-solid"
@@ -92,7 +92,7 @@ export default {
       email: string()
         .required()
         .email()
-        .label('Email'),
+        .label('E-mail'),
       password: string()
         .required()
         .label('Пароль')
@@ -109,7 +109,7 @@ export default {
       store.dispatch('auth/signin', values)
         .catch(() => submitButton.value.removeAttribute('data-bb-indicator'))
     }
-    isAuthenticated.value ? router.push({ name: 'dashboard' }) : false
+    isAuthenticated.value ? router.push({ name: 'calendar' }) : false
     return {
       submitButton,
       signinSchema,

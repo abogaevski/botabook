@@ -32,6 +32,7 @@
                 class="form-control form-control-lg form-control-solid"
                 v-model="profileData.slug"
               />
+              <div class="form-text mt-0">Формат: латинские буквы в нижнем регистре. Для разделения слов изпользуйте дефис.</div>
               <div class="fv-plugins-message-container">
                 <div class="fv-help-block">
                   <ErrorMessage name="slug"/>
@@ -351,9 +352,13 @@ export default {
     })
     const profileSchema = object({
       firstName: string()
+        .trim()
         .required()
+        .max(50)
         .label('Имя'),
       lastName: string()
+        .trim()
+        .max(50)
         .required()
         .label('Фамилия'),
       welcomeText: string()
@@ -372,16 +377,28 @@ export default {
         .required()
         .label('Ссылка на страницу'),
       title: string()
+        .trim()
+        .max(50)
         .label('Должность'),
       company: string()
+        .trim()
+        .max(50)
         .label('Компания'),
       phone: string()
+        .trim()
+        .max(32)
         .label('Телефон'),
       website: string()
+        .trim()
+        .max(50)
         .label('Вебсайт'),
       country: string()
+        .trim()
+        .max(32)
         .label('Страна'),
       city: string()
+        .trim()
+        .max(32)
         .label('Город'),
       timezone: string()
         .label('Часовой пояс'),

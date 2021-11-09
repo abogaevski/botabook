@@ -5,7 +5,9 @@
   >
     <div class="d-flex flex-center flex-column flex-column-fluid p-10 pb-lg-20">
       <div class="mb-12">
-        <img alt="BotaBook Logo" src="/media/logos/botabook-dark.svg" class="h-50px"/>
+        <router-link to="/">
+          <img alt="BotaBook Logo" src="/media/logos/botabook-dark.svg" class="h-50px"/>
+        </router-link>
       </div>
       <div class="bg-white mw-500px mw-xl-550px min-w-xl-450px  mx-auto p-10 p-lg-15 rounded shadow-sm">
         <router-view/>

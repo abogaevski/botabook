@@ -1,13 +1,15 @@
 <template>
-  <div class="alert alert-danger d-flex align-items-center p-5 mb-10">
+  <div class="alert alert-white d-flex align-items-center p-4 mb-7">
     <span class="svg-icon svg-icon-2hx svg-icon-danger me-4">
       <inline-svg src="/media/icons/duotone/General/Shield-protected.svg"/>
     </span>
     <div class="d-flex flex-column">
       <h4 class="mb-1 text-danger">Email адрес не подтвержден</h4>
-      <span>Письмо со ссылкой на подтверждение адреса электронной почты было отправлено. Проверьте пожалуйста почту!</span>
+      <span class="fw-bolder text-gray-500">Письмо со ссылкой на подтверждение адреса электронной почты было отправлено. Проверьте пожалуйста почту!
+      <br> Если письмо не было доставлено, пожалуйста нажмите на кнопка справа, чтобы отправить сообщение еще раз.
+      </span>
     </div>
-    <button @click="submitRequestVerify" class="btn btn-outline btn-outline-danger btn-active-danger ms-auto">Отправить еще раз</button>
+    <button @click="submitRequestVerify" class="btn btn-light-danger ms-auto">Отправить еще раз</button>
   </div>
 </template>
 

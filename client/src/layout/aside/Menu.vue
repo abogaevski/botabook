@@ -54,7 +54,7 @@
         heading="Интеграции"
         route="/"
         :disabled="true"
-        badge-content="уже почти😅"
+        badge-content="уже скоро😉"
 
       />
       <!--      <template v-if="user">-->

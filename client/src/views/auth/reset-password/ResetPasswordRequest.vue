@@ -6,10 +6,10 @@
   >
     <div class="text-center mb-10">
       <h1 class="text-dark mb-3">Забыли пароль?</h1>
-      <div class="text-gray-400 fw-bold fs-4">Укажите свой email для сброса пароля.</div>
+      <div class="text-gray-400 fw-bold fs-4">Укажите свой e-mail для сброса пароля.</div>
     </div>
     <div class="fv-row mb-10 fv-plugins-icon-container">
-      <label class="form-label fw-bolder text-gray-900 fs-6">Email</label>
+      <label class="form-label fw-bolder text-gray-900 fs-6">E-mail</label>
       <Field class="form-control form-control-solid" type="email" name="email"
              autocomplete="off"/>
       <div class="fv-plugins-message-container invalid-feedback">
@@ -48,7 +48,7 @@ export default {
       email: string()
         .email()
         .required()
-        .label('Email')
+        .label('E-mail')
     })
     const submitRequest = (values) => {
       values.email = values.email.toLowerCase()

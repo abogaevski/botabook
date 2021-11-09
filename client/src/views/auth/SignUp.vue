@@ -57,7 +57,7 @@
           </div>
 
           <div class="fv-row mb-7">
-            <label class="form-label fw-bolder text-dark fs-6">Email</label>
+            <label class="form-label fw-bolder text-dark fs-6">E-mail</label>
             <Field
               class="form-control form-control-lg form-control-solid"
               type="email"
@@ -86,7 +86,7 @@
                   autocomplete="off"
                 />
                 <div class="text-muted fs-8 mt-1">Пароль должен состоять минимум из 8 символов.
-                  <br/>Должна быть как минимум одна большая буква, а так же минимум одна цифра.</div>
+                  <br/>Должна быть как минимум одна большая буква, а также минимум одна цифра.</div>
                 <div class="fv-plugins-message-container">
                   <div class="fv-help-block">
                     <ErrorMessage name="password"/>
@@ -160,23 +160,29 @@ export default {
     const store = useStore()
     const signupSchema = object().shape({
       firstName: string()
+        .max(50)
+        .trim()
         .required()
         .label('Имя'),
       lastName: string()
+        .max(50)
+        .trim()
         .required()
         .label('Фамилия'),
       email: string()
+        .trim()
         .min(4)
         .required()
         .lowercase()
         .email()
-        .label('Email'),
+        .label('E-mail'),
       password: string()
-        .min(8)
-        .matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{8,})/, 'Пароль не соответствует требованиям')
+        .trim()
+        .matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)\S{8,}\S$/, 'Пароль не соответствует требованиям')
         .required()
         .label('Пароль'),
       cpassword: string()
+        .trim()
         .min(8)
         .required()
         .oneOf([yref('password'), null], 'Пароли должны совпадать')

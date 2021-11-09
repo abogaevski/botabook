@@ -49,15 +49,15 @@ class User(AbstractUser):
 class Profile(models.Model):
     user = models.OneToOneField(User, related_name="profile", on_delete=models.CASCADE)
 
-    first_name = models.CharField(_('first name'), max_length=150, blank=True)
-    last_name = models.CharField(_('last name'), max_length=150, blank=True)
+    first_name = models.CharField(_('first name'), max_length=50, blank=True)
+    last_name = models.CharField(_('last name'), max_length=50, blank=True)
     avatar = models.ImageField(upload_to='users/profiles/avatars/', null=True, blank=True)
-    title = models.CharField(max_length=255, blank=True, default='')
+    title = models.CharField(max_length=50, blank=True, default='')
     phone = models.CharField(max_length=32, blank=True, default='')
     welcome_text = models.TextField(blank=True, null=True, default='')
 
-    company = models.CharField(max_length=255, blank=True, default='')
-    website = models.CharField(max_length=32, blank=True, default='')
+    company = models.CharField(max_length=50, blank=True, default='')
+    website = models.CharField(max_length=50, blank=True, default='')
 
     city = models.CharField(max_length=32, blank=True, default='')
     country = models.CharField(max_length=32, blank=True, default='')

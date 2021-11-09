@@ -59,7 +59,7 @@ export const auth = {
     },
     redirectUser({ commit }, token) {
       commit(Mutation.SIGNIN_SUCCESS, token)
-      router.push({ name: 'dashboard' }).then(() => Promise.resolve(token))
+      router.push({ name: 'calendar' }).then(() => Promise.resolve(token))
     },
 
     refreshToken({ commit }, accessToken) {

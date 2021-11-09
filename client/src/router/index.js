@@ -4,7 +4,7 @@ const routes = [
   {
     path: '/app',
     name: 'app',
-    redirect: { name: 'dashboard' },
+    redirect: { name: 'calendar' },
     component: () => import('@/layout/Layout.vue'),
     meta: { requiresAuth: true },
     children: [

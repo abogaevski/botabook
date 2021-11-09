@@ -1,7 +1,7 @@
 <template>
   <div class="text-center pt-10 pb-5 mw-600px mx-auto">
     <h3 class="fs-2x fw-bolder mb-0">Поздравляем!</h3>
-    <p class="text-gray-400 fs-4 fw-bold py-3">
+    <p class="text-gray-600 fs-4 fw-bold py-3">
       Ваша заявка на встречу успешно отправлена!
       <br/> {{ profile.firstName }} {{ profile.lastName }} в ближайшее время просмотрит заявку и подтвердит свое присутствие.
     </p>
@@ -10,7 +10,7 @@
         <div class="symbol symbol-25px w-25px bg-light me-5">
           <span class="symbol-label fw-bolder" :class="`bg-light-${project.color} text-${project.color}`">{{ projectInitial }}</span>
         </div>
-        <div class="fs-5 fw-bolder text-muted">{{ project.title }}</div>
+        <div class="fs-5 fw-bolder text-gray-600">{{ project.title }}</div>
       </div>
 
       <div class="d-flex align-items-center mb-3">
@@ -18,7 +18,7 @@
             <inline-svg src="/media/icons/duotone/Interface/Calendar.svg"></inline-svg>
           </span>
         <div class="fs-5">
-          <span class="fw-bolder text-muted">{{ time }}</span>
+          <span class="fw-bolder text-gray-600">{{ time }}</span>
         </div>
       </div>
 
@@ -27,12 +27,12 @@
             <inline-svg src="/media/icons/duotone/Home/Earth.svg"></inline-svg>
           </span>
         <div class="fs-5">
-          <span class="fw-bolder text-muted">{{ profile.timezone }}</span>
+          <span class="fw-bolder text-gray-600">{{ profile.timezone }}</span>
         </div>
       </div>
       <div class="d-flex align-items-center">
         <div class="fs-5">
-          <span class="fw-bolder text-muted">
+          <span class="fw-bolder text-gray-600">
             В ближайшее время Вам придет уведомление на email с подробностями!
           </span>
         </div>
@@ -40,7 +40,10 @@
     </div>
 
     <h4 class="fw-bolder mb-0 pt-6">Понравился BotaBook?</h4>
-    <router-link to="/signup" class="btn btn-lg btn-primary fs-6 fw-bolder mt-5 px-8 py-4 text-uppercase">Попробуй сейчас!</router-link>
+    <router-link :to="{name: 'signup'}" class="btn btn-lg btn-primary fs-6 fw-bolder mt-5 px-8 py-4 text-uppercase">Попробуй сейчас!</router-link>
+    <div class="text-center px-5 pt-10">
+      <img class="mw-100 h-100px h-sm-200px" src="/media/illustrations/17.png" alt="">
+    </div>
   </div>
 </template>
 
