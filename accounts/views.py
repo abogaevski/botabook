@@ -32,7 +32,7 @@ class SignUpApiView(generics.GenericAPIView):
         user = serializer.save()
         token = get_tokens_for_user(user)
 
-        url = '{}/verify-email/{}'.format(settings.FRONTEND_URL, token['access'])
+        url = '{}/auth/verify-email/{}'.format(settings.FRONTEND_URL, token['access'])
         send_email_verification_url.delay(user.email, user.profile.first_name, url)
 
         return Response({'access': token['access'], 'refresh': token['refresh']})

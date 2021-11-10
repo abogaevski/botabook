@@ -57,7 +57,7 @@ class Profile(models.Model):
     welcome_text = models.TextField(blank=True, null=True, default='')
 
     company = models.CharField(max_length=255, blank=True, default='')
-    website = models.CharField(max_length=32, blank=True, default='')
+    website = models.CharField(max_length=50, blank=True, default='')
 
     city = models.CharField(max_length=32, blank=True, default='')
     country = models.CharField(max_length=32, blank=True, default='')

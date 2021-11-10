@@ -4,7 +4,10 @@ import alert from '@/core/_utils/swal'
 
 export default function setError(error) {
   if (error.response) {
-    // TODO: Check all errors
+    // const status = error.response.status
+    // const statusText = error.response.statusText
+    // const data = error.response.data
+    // console.log(error.response)
     if (errors[error.response.data.code]) {
       alert({ title: 'Произошла ошибка', html: errors[error.response.data.code], icon: 'error' })
       return errors[error.response.data.code]
