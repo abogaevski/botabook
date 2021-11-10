@@ -20,8 +20,6 @@ import '@/core/plugins/theme'
 import 'bootstrap'
 import initMoment from '@/core/plugins/moment'
 
-Chart.register(...registerables)
-
 Chart.register(...registerables);
 
 const app = createApp(App)

@@ -10,8 +10,7 @@
         icon-class="svg-icon-1"
         icon-url="/media/icons/duotone/Navigation/Check.svg"
         :disabled="isStatusUpdating"
-      >
-      </bt-button>
+      />
     </bt-tooltip>
     <bt-tooltip
       v-if="currentStatus < 1"
