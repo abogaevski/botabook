@@ -1,5 +1,5 @@
 <template>
-  <div v-if="columns.length" class="h-100 row hover-scroll-x flex-nowrap gx-3">
+  <div v-if="columns.length" class="h-100 row hover-scroll-x flex-nowrap gx-3 pb-6">
     <template v-for="(column, i) in columns" :key="i">
       <div class="col-10 col-sm-6 col-md-5 col-lg-5 col-xl-3 h-100">
         <div class="card bg-light-dark card-flush">

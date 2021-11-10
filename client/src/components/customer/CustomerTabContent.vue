@@ -1,5 +1,5 @@
 <template>
-  <div class="d-flex flex-wrap flex-stack pb-8">
+  <div class="d-flex flex-wrap flex-stack pb-6">
     <h3 class="fw-bolder my-2">Ваши клиенты</h3>
     <div class="d-flex flex-wrap my-1">
       <ul class="nav nav-pills">
