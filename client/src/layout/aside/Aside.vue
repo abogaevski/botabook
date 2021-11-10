@@ -5,7 +5,7 @@
     data-bb-drawer-name="aside"
     data-bb-drawer-activate="{default: true, lg: false}"
     data-bb-drawer-overlay="true"
-    data-bb-drawer-width="{default:'320px'}"
+    data-bb-drawer-width="{default:'85%'}"
     data-bb-drawer-direction="start"
     data-bb-drawer-toggle="#bb_aside_mobile_toggle"
   >
