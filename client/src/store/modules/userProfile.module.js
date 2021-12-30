@@ -2,6 +2,8 @@ import UserService from '@/core/services/user.service'
 import * as Mutation from '../mutation-types'
 import alert from '@/core/_utils/swal'
 
+export const getWhIndexById = (state, whId) => state.userProfile.workHours.findIndex((wh) => wh.id.toString() === whId.toString())
+
 const initialProfile = {
   id: '',
   email: '',
@@ -9,7 +11,8 @@ const initialProfile = {
   isSuperuser: false,
   profile: {
     avatar: '/media/avatars/blank.png',
-  }
+  },
+  workHours: []
 }
 export const userProfile = {
   namespaced: true,
@@ -71,6 +74,18 @@ export const userProfile = {
           dispatch('setError', e, { root: true })
           return Promise.reject(e)
         })
+    },
+    updateWorkHour({ dispatch, commit }, { wh, profileId }) {
+      return UserService.updateWorkHour(wh, profileId)
+        .then((workHour) => {
+          commit(Mutation.UPDATE_WORKHOUR, workHour)
+          return Promise.resolve(workHour)
+        })
+        .catch((error) => {
+          alert({ title: 'Произошла ошибка!', html: error, icon: 'error' })
+          dispatch('setError', error, { root: true })
+          return Promise.reject(error)
+        })
     }
   },
   mutations: {
@@ -97,12 +112,24 @@ export const userProfile = {
     },
     [Mutation.REMOVE_USERPROFILE_AVATAR](state) {
       return state.userProfile.profile.avatar = initialProfile.profile.avatar
+    },
+    [Mutation.UPDATE_WORKHOUR](state, wh) {
+      const index = getWhIndexById(state, wh.id)
+      if (index === -1) {
+        return
+      }
+      return state.userProfile.workHours.splice(index, 1, {
+        ...state.userProfile.workHours[index],
+        ...wh
+      })
     }
 
   },
   getters: {
     user: (state) => state.userProfile,
+    id: (state) => state.userProfile.id,
     avatar: (state) => state.userProfile.profile.avatar,
     timezone: (state) => state.userProfile.profile.timezone,
+    workHours: (state) => state.userProfile.workHours,
   }
 }

@@ -55,9 +55,9 @@
                       </div>
                     </div>
                     <div class="col-xl-3 mh-xl-300px">
-                      <template v-if="dates.length">
                         <label class="form-label mb-3">{{ labelTime }}</label>
                         <div
+                          v-if="dates.length"
                           data-bb-scroll="true"
                           data-bb-scroll-activate="{default: false, lg: true}"
                           data-bb-scroll-height="340px"
@@ -84,13 +84,15 @@
                             </label>
                           </template>
                         </div>
-                      </template>
-                      <bt-content-loader v-if="isWaitingForNewDates" />
-                      <div class="fv-plugins-message-container">
-                        <div class="fv-help-block">
-                          <ErrorMessage name="selectedTime"/>
+                        <div v-else-if="dayOff" class="hover-scroll-overlay-y p-3 border-top border-bottom border-2 border-gray-300">
+                          <span class="fs-4 fw-bolder text-gray-700">Выходной</span>
                         </div>
-                      </div>
+                        <bt-content-loader v-if="isWaitingForNewDates" />
+                        <div class="fv-plugins-message-container">
+                          <div class="fv-help-block">
+                            <ErrorMessage name="selectedTime"/>
+                          </div>
+                        </div>
                     </div>
                   </div>
                 </div>
@@ -255,6 +257,7 @@ export default {
     const { projects } = toRefs(props)
     const addEventFormStepper = ref()
     const dates = ref([])
+    const dayOff = ref(false)
     const stepperObj = ref()
     const currentStepIndex = ref(0)
     const labelTime = ref('')
@@ -332,13 +335,18 @@ export default {
       formData.value.time = ''
       labelTime.value = moment(date.date).format('DD MMM YYYY')
       dates.value = []
-      dates.value = await EventService.getAvailableDates(slug.value, date.id, formData.value.projectId)
-        .then((d) => {
+      await EventService.getAvailableDates(slug.value, date.id, formData.value.projectId)
+        .then((r) => {
           setTimeout(() => {
             ScrollComponent.reinitialization()
             isWaitingForNewDates.value = false
           }, 0)
-          return d
+          if (r.status === 'dayOff') {
+            dayOff.value = true
+            return false
+          }
+          dayOff.value = false
+          dates.value = r
         })
         .catch((e) => {
           alert({ title: 'Произошла ошибка!', html: e, icon: 'error' })
@@ -387,7 +395,8 @@ export default {
       isWaitingForNewDates,
       labelTime,
       submitBtn,
-      bookingComplete
+      bookingComplete,
+      dayOff
     }
   }
 }

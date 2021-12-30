@@ -2,6 +2,7 @@ from django.contrib.auth.hashers import make_password
 from django.contrib.auth.models import AbstractUser, UserManager
 from django.db import models
 from django.utils.translation import gettext_lazy as _
+from core.constants import DOW_CHOICES
 
 
 class AccountUserManager(UserManager):
@@ -66,9 +67,6 @@ class Profile(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     slug = models.SlugField(unique=True)
-
-    start_work_hour = models.CharField(max_length=20, default='09:00')
-    end_work_hour = models.CharField(max_length=20, default='18:00')
     timezone = models.CharField(max_length=255, blank=True, null=True)
 
     def save(self, *args, **kwargs):
@@ -84,3 +82,20 @@ class Profile(models.Model):
         verbose_name = _('profile')
         verbose_name_plural = _('profiles')
         db_table = 'user_profiles'
+
+
+class WorkHour(models.Model):
+    user = models.ForeignKey(User, related_name='work_hours', on_delete=models.CASCADE)
+    day = models.PositiveBigIntegerField(choices=DOW_CHOICES,
+                                         verbose_name=_('Day of week'))
+    start_time = models.CharField(max_length=20, default='09:00', blank=True, null=True)
+    end_time = models.CharField(max_length=20, default='18:00', blank=True, null=True)
+    day_off = models.BooleanField(default=False)
+
+    def __str__(self):
+        return self.get_day_display()
+
+    class Meta:
+        verbose_name = 'Work hour'
+        verbose_name_plural = 'Work hours'
+        db_table = 'user_work_hours'

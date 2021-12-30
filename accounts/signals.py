@@ -1,11 +1,10 @@
 from django.db.models.signals import post_save
 from django.dispatch import receiver
-from django.template.defaultfilters import slugify
 from rest_framework.authtoken.models import Token
 
 from projects.models import Project
-from .models import User, Profile
-from core.constants import PRIMARY
+from .models import User, Profile, WorkHour
+from core.constants import PRIMARY, DOW_CHOICES
 
 
 @receiver(post_save, sender=User, dispatch_uid='save_new_user_profile')
@@ -26,6 +25,25 @@ def save_profile(sender, instance, created, **kwargs):
             timezone=instance.timezone
         )
         profile.save()
+
+
+@receiver(post_save, sender=User, dispatch_uid='save_work_hour')
+def save_work_hour(sender, instance, created, **kwargs):
+    if created:
+        for day in DOW_CHOICES:
+            day_wh = WorkHour(
+                user=instance,
+                day=day[0],
+                start_time='09:00',
+                end_time='18:00',
+                day_off=False
+            )
+            if day[0] >= 5:
+                day_wh.start_time = None
+                day_wh.end_time = None
+                day_wh.day_off = True
+
+            day_wh.save()
 
 
 @receiver(post_save, sender=User)

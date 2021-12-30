@@ -28,6 +28,17 @@ class UserService {
       .catch((error) => Promise.reject(error))
   }
 
+  updateWorkHour(wh, id) {
+    if (wh.dayOff) {
+      wh.startTime = null
+      wh.endTime = null
+    }
+    return api
+      .patch(`/account/user/${id}/work-hour/update`, { ...wh })
+      .then((response) => response.data)
+      .catch((error) => Promise.reject(error))
+  }
+
   uploadProfileAvatar(form, id) {
     return api
       .patch(`/account/user/${id}/upload-avatar`, form, fileUploadConfig)

@@ -6,7 +6,7 @@ from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from django.contrib.auth import get_user_model
 from rest_framework.exceptions import AuthenticationFailed
 
-from accounts.models import Profile
+from accounts.models import Profile, WorkHour
 from events.serializers import EventSerializer
 from projects.serializers import ProjectSerializer
 from customers.serializers import CustomerSerializer, BoardColumnSerializer
@@ -72,8 +72,6 @@ class ProfileSerializer(serializers.ModelSerializer):
             'city',
             'country',
             'welcome_text',
-            'start_work_hour',
-            'end_work_hour',
             'timezone',
             'created_at',
             'updated_at'
@@ -100,8 +98,6 @@ class ProfileUpdateSerializer(serializers.ModelSerializer):
             'city',
             'country',
             'welcome_text',
-            'start_work_hour',
-            'end_work_hour',
             'timezone'
         ]
 
@@ -114,8 +110,26 @@ class ProfileUpdateAvatarSerializer(serializers.ModelSerializer):
         ]
 
 
+class ProfileWorkHourSerializer(serializers.ModelSerializer):
+    title = serializers.CharField(
+        source='get_day_display'
+    )
+
+    class Meta:
+        model = WorkHour
+        fields = ['id', 'day', 'title', 'start_time', 'end_time', 'day_off']
+
+
+class ProfileWorkHourUpdateSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = WorkHour
+        fields = ['start_time', 'end_time', 'day_off']
+
+
 class UserRetrieveSerializer(serializers.ModelSerializer):
     profile = ProfileSerializer()
+    work_hours = ProfileWorkHourSerializer(many=True)
     projects = ProjectSerializer(many=True)
     events = EventSerializer(many=True)
     customers = CustomerSerializer(many=True)
@@ -123,15 +137,27 @@ class UserRetrieveSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = get_user_model()
-        fields = ['id', 'email', 'is_verified', 'is_superuser', 'profile', 'events', 'projects', 'customers', 'board_columns']
+        fields = [
+            'id',
+            'email',
+            'is_verified',
+            'is_superuser',
+            'profile',
+            'work_hours',
+            'events',
+            'projects',
+            'customers',
+            'board_columns',
+        ]
 
 
 class UserProfileSerializer(serializers.ModelSerializer):
     profile = ProfileSerializer()
+    work_hours = ProfileWorkHourSerializer(many=True)
 
     class Meta:
         model = get_user_model()
-        fields = ['id', 'email', 'is_verified', 'is_superuser', 'profile']
+        fields = ['id', 'email', 'is_verified', 'is_superuser', 'profile', 'work_hours']
 
 
 class PublicProfileRetrieveSerializer(serializers.ModelSerializer):
@@ -149,8 +175,6 @@ class PublicProfileRetrieveSerializer(serializers.ModelSerializer):
             'city',
             'country',
             'welcome_text',
-            'start_work_hour',
-            'end_work_hour',
             'timezone'
         ]
 

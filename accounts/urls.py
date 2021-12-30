@@ -11,6 +11,8 @@ urlpatterns = [
     path('user/<int:pk>/update', ProfileUpdateApiView.as_view()),
     path('user/<int:pk>/upload-avatar', ProfileAvatarUploadApiView.as_view()),
     path('user/<int:pk>/remove-avatar', ProfileAvatarRemoveApiView.as_view()),
+    path('user/<int:pk>/work-hour', ProfileWorkHourListApiView.as_view()),
+    path('user/<int:pk>/work-hour/update', ProfileWorkHourUpdateApiView.as_view()),
     path('profile/<str:slug>/info', PublicProfileApiView.as_view()),
     path('profile/check-slug/<str:slug>', CheckProfileSlugApiView.as_view()),
     path('request-reset-password', RequestPasswordResetApiView.as_view(), name='request-reset-password'),
@@ -18,5 +20,5 @@ urlpatterns = [
     path('reset-password-complete', SetNewPasswordApiView.as_view(), name='reset-password-complete'),
     path('verify-email', VerifyEmailApiView.as_view(), name='verify-email'),
     path('request-email-verification', SendVerifyEmailMessage.as_view()),
-    path('counter', AdminCountersListApiView.as_view())
+    path('counter', AdminCountersListApiView.as_view()),
 ]

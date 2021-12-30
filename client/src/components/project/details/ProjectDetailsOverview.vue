@@ -5,7 +5,6 @@
       <no-data v-else header="Нет встреч" content="По услуге пока нет встреч, либо они были отменены!"/>
     </div>
     <div class="col-lg-6">
-      <!-- <project-details-events-area-by-month v-if="project.events.length" :project-start="project.createdAt" :events-id="project.events" /> -->
       <no-data header="Скоро" content="Статистика по услугам скоро появится!"/>
     </div>
     <div class="col-xl-8">
@@ -29,7 +28,6 @@ import { useRoute } from 'vue-router'
 import { useStore } from 'vuex'
 import { computed } from 'vue'
 import ProjectDetailsEventsChart from './ProjectDetailsEventsChart'
-// import ProjectDetailsEventsAreaByMonth from './ProjectDetailsEventsAreaByMonth'
 import ProjectDetailsEventsNav from './ProjectDetailsEventsNav'
 import ProjectDetailsCustomersList from './ProjectDetailsCustomersList'
 import NoData from '@/components/common/NoData'
@@ -37,7 +35,6 @@ import NoData from '@/components/common/NoData'
 export default {
   components: {
     ProjectDetailsEventsChart,
-    // ProjectDetailsEventsAreaByMonth,
     ProjectDetailsEventsNav,
     ProjectDetailsCustomersList,
     NoData

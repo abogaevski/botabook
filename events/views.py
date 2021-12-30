@@ -72,26 +72,43 @@ class PublicAvailableTimeApiView(generics.GenericAPIView):
 
     def get(self, request, slug, date, project_id):
         profile = get_object_or_404(Profile, slug=slug)
+        user = profile.user
+        user_work_hours = user.work_hours
+
+        #  Get project duration
         project_range = Project.objects.filter(pk=project_id).first().time_range
 
-        start = pd.to_datetime(profile.start_work_hour, format='%H:%M').time().strftime('%H:%M:%S')
-        end = pd.to_datetime(profile.end_work_hour, format='%H:%M').time().strftime('%H:%M:%S')
-
         selected_date = datetime.strptime(date, '%Y-%m-%d')
+        # Get dayofweek id
+        selected_day_of_week = pd.to_datetime(selected_date).dayofweek
+        user_wh_on_selected_date = user_work_hours.filter(day=selected_day_of_week).first()
+
+        if user_wh_on_selected_date.day_off:
+            return Response({'status': 'dayOff'})
+
+        # Get start and end work hour
+        start = pd.to_datetime(user_wh_on_selected_date.start_time, format='%H:%M').time().strftime('%H:%M:%S')
+        end = pd.to_datetime(user_wh_on_selected_date.end_time, format='%H:%M').time().strftime('%H:%M:%S')
+
         time_range = pd.timedelta_range(
             start=start,
             end=end,
             freq='{}min'.format(project_range)).tolist()
 
-        events = profile.user.events.filter(Q(start__gte=selected_date), Q(status=APPROVED))
+        # Remove last time which equal work hour end time
+        time_range.pop()
+
+        events = Event.objects.filter(Q(user=user), Q(start__gte=selected_date), Q(status=APPROVED))
 
         time_result = []
         timezone = pytz.timezone(profile.timezone)
 
+        # Create a available time list
         for time in time_range:
             current_time = timezone.localize(selected_date + time)
             time_result.append({'time': current_time, 'status': 'available'})
 
+        # Change time statuses
         for event in events:
             for (index, item) in enumerate(time_result):
                 if event.start <= item['time'] < event.end:
@@ -148,4 +165,4 @@ class PublicAddEventApiView(generics.GenericAPIView):
             raise ValidationError('Событие не создалось')
         send_successful_booking_notification.delay(event.id)
 
-        return Response({'status': 'ok'})
+        return Response({'status': 'ok', 'event_id': event.id})

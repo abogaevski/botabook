@@ -53,12 +53,30 @@ export default {
     }
     const events = computed(() => store.getters['calendar/nonCanceledEvents'])
     const user = computed(() => store.getters['userProfile/user'])
+    const workHours = computed(() => store.getters['userProfile/workHours'])
     const showModal = () => isActiveViewModal.value = true
     const closeModal = () => isActiveViewModal.value = false
-    const slotMin = computed(() => moment(user.value.profile.startWorkHour, 'HH:mm')
-      .subtract(1, 'hours'))
-    const slotMax = computed(() => moment(user.value.profile.endWorkHour, 'HH:mm')
-      .add(1, 'hours'))
+
+    const slotMin = computed(() => {
+      if (workHours.value.length) {
+        const wh = workHours.value.filter((d) => !d.dayOff).reduce((prev, curr) => (moment(prev.startTime, 'HH:mm') < moment(curr.startTime, 'HH:mm') ? prev : curr))
+        return moment(wh.startTime, 'HH:mm').subtract('1', 'hour')
+      }
+      return moment('09:00', 'HH:mm')
+    })
+    const slotMax = computed(() => {
+      if (workHours.value.length) {
+        const wh = workHours.value.filter((d) => !d.dayOff).reduce((prev, curr) => (moment(prev.endTime, 'HH:mm') > moment(curr.endTime, 'HH:mm') ? prev : curr))
+        return moment(wh.endTime, 'HH:mm').add('1', 'hour')
+      }
+      return moment('18:00', 'HH:mm')
+    })
+
+    const businessHours = user.value.workHours.map((wh) => ({
+      daysOfWeek: [wh.day + 1],
+      startTime: wh.startTime || '23:00',
+      endTime: wh.endTime || '00:00'
+    }))
     const calendarOptions = computed(() => ({
       plugins: [dayGridPlugin, timeGridPlugin, listPlugin, momentTimezonePlugin],
       initialView: 'listDay',
@@ -81,11 +99,7 @@ export default {
       },
       locale: ruLocale,
       timeZone: user.value.profile.timezone,
-      businessHours: {
-        daysOfWeek: [0, 1, 2, 3, 4, 5, 6, 7],
-        startTime: user.value.profile.startWorkHour,
-        endTime: user.value.profile.endWorkHour
-      },
+      businessHours,
       slotMinTime: slotMin.value.format('HH:mm'),
       slotMaxTime: slotMax.value.format('HH:mm'),
       firstDay: '1',
@@ -95,20 +109,22 @@ export default {
       height: 'auto',
       views: {
         dayGrid: {
-          dayMaxEvents: 2,
-        },
+          dayMaxEvents: 2
+        }
       },
-      noEventsContent: { html: `<div class="text-center">
+      noEventsContent: {
+        html: `<div class="text-center">
           <h2 class="fs-1 fw-bolder mb-0">Ура или увы...</h2>
           <p class="text-gray-600 fs-5 fw-bold py-4">Встреч на данный промежуток нет.
             <br>Сделайте себе выходной или же придумайте новые способы привлечения клиентов!</p>
           <img src="/media/illustrations/4.png" alt="" class="mw-100 h-150px h-sm-200px">
-        </div>` },
+        </div>`
+      },
       eventDidMount(info) {
         const { event, el, view } = info
         setEventStyle(event, el, view)
       },
-      eventClick: onEventClick,
+      eventClick: onEventClick
     }))
 
     return {
@@ -119,8 +135,10 @@ export default {
       calendarOptions,
       loader,
       events,
-      isEventsLoading
+      isEventsLoading,
+      slotMin,
+      slotMax
     }
-  },
+  }
 }
 </script>

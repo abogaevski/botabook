@@ -199,3 +199,22 @@ class AdminCountersListApiView(generics.GenericAPIView):
         users = user_model.objects.all().count()
         events = Event.objects.filter(~Q(status=3)).count()
         return Response({'users': users, 'events': events})
+
+
+class ProfileWorkHourListApiView(generics.ListAPIView):
+    serializer_class = ProfileWorkHourSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        user = self.request.user
+        return WorkHour.objects.filter(user=user)
+
+
+class ProfileWorkHourUpdateApiView(generics.UpdateAPIView):
+    serializer_class = ProfileWorkHourSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_object(self):
+        user = self.request.user
+        data = self.request.data
+        return get_object_or_404(WorkHour, user=user, id=data['id'])

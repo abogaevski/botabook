@@ -53,7 +53,8 @@ const states = {
             id: user.id,
             isVerified: user.isVerified,
             isSuperuser: user.isSuperuser,
-            profile: user.profile
+            profile: user.profile,
+            workHours: user.workHours
           })
         })
     }
