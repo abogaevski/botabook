@@ -99,4 +99,4 @@ class WorkHour(models.Model):
         verbose_name = 'Work hour'
         verbose_name_plural = 'Work hours'
         db_table = 'user_work_hours'
-        ordering = ['-day']
+        ordering = ['day']
